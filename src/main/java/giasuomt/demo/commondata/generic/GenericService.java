@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
+import giasuomt.demo.location.dto.UpdateAreaDTO;
+import giasuomt.demo.location.model.Area;
 
 public abstract class GenericService<T extends AbstractEntity, ID> implements IGenericService<T, ID> {
 	@Autowired 
@@ -35,5 +37,10 @@ public abstract class GenericService<T extends AbstractEntity, ID> implements IG
 	@Override
 	public void deleteById(ID id) {
 		repository.deleteById(id);
+	}
+
+	public Area update(UpdateAreaDTO dto) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
