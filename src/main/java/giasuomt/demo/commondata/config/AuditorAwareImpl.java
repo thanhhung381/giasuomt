@@ -2,9 +2,10 @@ package giasuomt.demo.commondata.config;
 
 import java.util.Optional;
 
+
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.core.context.SecurityContext;
+//import org.springframework.security.core.context.SecurityContextHolder;
 
 
 
