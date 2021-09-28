@@ -21,7 +21,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "area")
 public class Area extends AbstractEntity {
-	
 	protected String nation;
 	
 	protected String state;
