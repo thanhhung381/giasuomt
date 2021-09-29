@@ -2,17 +2,17 @@ package giasuomt.demo.location.dto;
 
 import javax.validation.constraints.NotBlank;
 
+
 import giasuomt.demo.location.Validation.CheckDuplicateProvincialLevelAnđistrictAndCommune;
-import giasuomt.demo.location.Validation.CheckIfNationAndStateCanBeNULL;
-import giasuomt.demo.location.Validation.CheckIfNationWithBasicInfo;
+
+import giasuomt.demo.location.Validation.CheckIfNationIsVietnam;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@CheckIfNationAndStateCanBeNULL
-@CheckIfNationWithBasicInfo
-@CheckDuplicateProvincialLevelAnđistrictAndCommune
+@CheckIfNationIsVietnam
 public class CreateAreaDTO {
 	
 	protected String nation;

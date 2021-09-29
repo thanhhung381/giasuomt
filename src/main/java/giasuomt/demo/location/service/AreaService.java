@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.deser.impl.ReadableObjectId;
 import com.google.common.util.concurrent.ExecutionError;
 
 import giasuomt.demo.commondata.generic.GenericService;
@@ -24,7 +25,7 @@ import giasuomt.demo.location.repository.AreaRepository;
 
 
 @Service
-public class AreaService extends GenericService<Area, Long> implements IareaService {
+public class AreaService extends GenericService<Area, Long> implements IAreaService {
 	@Autowired
 	private AreaRepository repository;
 	@Autowired
@@ -100,8 +101,37 @@ public class AreaService extends GenericService<Area, Long> implements IareaServ
 	@Override 
 	public List<Area> findByNationAndProvincialLevelAndDistrictAndCommune(FindingDtoArea dtoArea) {
 		// TODO Auto-generated method stub
-		return repository.findByNationAndProvincialLevelAndDistrictAndCommune(dtoArea.getNation(), 
-				dtoArea.getProvincialLevel(),dtoArea.getDistrict(), dtoArea.getCommune());
+		String nation=dtoArea.getNation();
+		String state=dtoArea.getState();
+		String provincialLevel=dtoArea.getProvincialLevel();
+		String district=dtoArea.getDistrict();
+		String commune=dtoArea.getCommune();
+		
+	
+		if(nation!=null)
+		{
+			if ( state != null && provincialLevel != null && district != null && commune != null) {
+				return repository.findByNationAndProvincialLevelAndDistrictAndCommune(nation, provincialLevel, district,
+						commune, state);
+			}
+			if ( state != null && provincialLevel != null && district != null) {
+				return repository.findByNationAndProvincialLevelAndStateAndDistrict(nation, provincialLevel, state,
+						district);
+			}
+			if (state != null && provincialLevel != null) {
+				return repository.findByNationAndProvincialLevelAndState(nation, provincialLevel, state);
+			}
+			else if (state != null) {
+				return repository.findByNationAndState(nation, state);
+			}
+			else 
+				return repository.findByNation(nation);
+		}
+		else
+		
+		
+			return null;
+		
 	}
 	
 	
@@ -109,6 +139,24 @@ public class AreaService extends GenericService<Area, Long> implements IareaServ
 		Optional<Area> areas = repository.findById(areaId);
 		Set<LearnerAndRegister> learnerAndRegisters = areas.get().getLearnerAndRegisters();
 		return learnerAndRegisters;
+	}
+
+	@Override
+	public boolean checkExistProvincialLevel(String provincialLevel) {
+		// TODO Auto-generated method stub
+		return repository.countByProvincialLevel(provincialLevel)>=1;
+	}
+
+	@Override
+	public boolean checkExistDistrict(String district) {
+		// TODO Auto-generated method stub
+		return repository.countByDistrict(district)>=1;
+	}
+
+	@Override
+	public boolean checkExistCommune(String commune) {
+		// TODO Auto-generated method stub
+		return repository.countByCommune(commune)>=1;
 	}
 
 	
