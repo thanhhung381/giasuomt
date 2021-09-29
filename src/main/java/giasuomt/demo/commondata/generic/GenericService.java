@@ -40,7 +40,6 @@ public abstract class GenericService<T extends AbstractEntity, ID> implements IG
 	}
 
 	public Area update(UpdateAreaDTO dto) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

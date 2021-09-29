@@ -20,6 +20,7 @@ import lombok.Setter;
 @Entity
 @Table(name="registered_user")
 public class RegisteredUser extends AbstractEntity {
+<<<<<<< Updated upstream
 	@Size(min = 3, max = 50, message = "{user.username.size}")
 	@Column(unique = true) //để các giá trị username ko được trùng nhau
 	private String username;
@@ -34,4 +35,20 @@ public class RegisteredUser extends AbstractEntity {
 	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "tutor_id", referencedColumnName = "id")
 	private Tutor tutor;
+=======
+        @Size(min = 3, max = 50, message = "{user.username.size}")
+        @Column(unique = true) //để các giá trị username ko được trùng nhau
+        private String username;
+        
+        private String password;
+        
+//        @NotNull  //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
+        @Enumerated(EnumType.STRING) //phải dùng Enumerated để database biết là nó phải tạo cái cột kiểu là gì (vd nếu Enum mình để là số thì type là Interger, ở đây Enum mình là chữ nên Type là STRING)
+        private RegisteredUserStatus status; //UserStatus là 1 enum (xem trong UserStatus.java) //enum giống như là 1 kiểu dữ liệu do mình tự định nghĩa nhưng nó gọn hơn Object
+
+
+        @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+        @JoinColumn(name = "tutor_id", referencedColumnName = "id")
+        private Tutor tutor;
+>>>>>>> Stashed changes
 }

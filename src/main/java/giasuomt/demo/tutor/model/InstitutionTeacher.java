@@ -13,6 +13,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "institution_teacher")
+<<<<<<< Updated upstream
 public class InstitutionTeacher extends AbstractEntity {	
 	private String confirmImgs;
 	
@@ -26,3 +27,18 @@ public class InstitutionTeacher extends AbstractEntity {
 	@JoinColumn(name = "tutor_id")
 	private Tutor tutor;
 }
+=======
+public class InstitutionTeacher extends AbstractEntity {        
+        private String confirmImgs;
+        
+        private String institutionType;
+        
+        private String institutionName;
+        
+        private String subject;
+        
+        @ManyToOne
+        @JoinColumn(name = "tutor_id")
+        private Tutor tutor;
+}
+>>>>>>> Stashed changes

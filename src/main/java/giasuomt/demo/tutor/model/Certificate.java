@@ -23,6 +23,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "certificate")
 public class Certificate extends AbstractEntity {
+<<<<<<< Updated upstream
 	@Id //Quy định khoá chính
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //Sinh ra các giá trị là độc lập cho các model khác nhau
 	@Column(updatable = false) //Column này ko update được
@@ -40,3 +41,22 @@ public class Certificate extends AbstractEntity {
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
 	private Set<Tutor> tutor = new HashSet<>();
 }
+=======
+        @Id //Quy định khoá chính
+        @GeneratedValue(strategy = GenerationType.IDENTITY) //Sinh ra các giá trị là độc lập cho các model khác nhau
+        @Column(updatable = false) //Column này ko update được
+        private Long id; //(khai báo là protected để các lớp con có thể truy cập vô để kế thừa)
+        
+        private String certificateName;
+        
+        private String certificateGroup;
+        
+        private String description;
+        
+        private String certificateImgs;
+        
+        @ManyToMany(mappedBy = "certificates", fetch = FetchType.LAZY)
+        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+        private Set<Tutor> tutor = new HashSet<>();
+}
+>>>>>>> Stashed changes

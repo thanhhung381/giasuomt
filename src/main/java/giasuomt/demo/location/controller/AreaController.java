@@ -26,51 +26,64 @@ import giasuomt.demo.location.dto.UpdateAreaDTO;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.service.AreaService;
 
-@RestController //Tức là server sẽ trả JSON về client
-@RequestMapping("/api/area") //Ghi nhận yêu cầu gọi api của Client
+@RestController // Tức là server sẽ trả JSON về client
+@RequestMapping("/api/area") // Ghi nhận yêu cầu gọi api của Client
 public class AreaController {
 	@Autowired
 	private AreaService service;
-	
-	//Show list of Area
+
+	// Show list of Area
 	@GetMapping("")
-	public ResponseEntity<Object> findAll(){
+	public ResponseEntity<Object> findAll() {
 		List<Area> areas = service.findAll();
-		if(areas.isEmpty())
-			
-			return ResponseHandler.getResponse("There is no data.",HttpStatus.OK);		
-		
+		if (areas.isEmpty())
+
+			return ResponseHandler.getResponse("There is no data.", HttpStatus.OK);
+
 		return ResponseHandler.getResponse(areas, HttpStatus.OK);
 	}
-	//Save Area
-	@PostMapping("") 
-	public ResponseEntity<Object> save(@Valid @RequestBody CreateAreaDTO dto,BindingResult errors){ 
-		if(errors.hasErrors())
-			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST); //Trả về các messages lỗi, kèm theo HttpStatus BAD REQUEST [xem trong ResponsHandler.java]
+
+	//Save new Area
+	@PostMapping("")
+	public ResponseEntity<Object> save(@Valid @RequestBody CreateAreaDTO dto, BindingResult errors) {
+		if (errors.hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST); // Trả về các messages lỗi, kèm theo
+																				// HttpStatus BAD REQUEST [xem trong
+																				// ResponsHandler.java]
 		Area addedArea = service.save(dto);
-		return ResponseHandler.getResponse(addedArea, HttpStatus.CREATED); //Trả về http status là đã thành công
-	}  
-	//delete area
-	@DeleteMapping("/delete/{area_id}")
-	public ResponseEntity<Object> deleteByIdOfArea(@PathVariable("area_id") Long area_id)
-	{
-			if(!service.checkExistIdofArea(area_id))
-				return ResponseHandler.getResponse("Don't have any Area id", HttpStatus.BAD_REQUEST);
-			
-			service.deleteById(area_id);
-			return ResponseHandler.getResponse("Delete Successfully",HttpStatus.OK);
+		return ResponseHandler.getResponse(addedArea, HttpStatus.CREATED); // Trả về http status là đã thành công
 	}
-	//update area
+
+	// Delete Area by Id
+	@DeleteMapping("/delete/{area_id}")
+	public ResponseEntity<Object> deleteByIdOfArea(@PathVariable("area_id") Long area_id) {
+		if (!service.checkExistIdofArea(area_id))
+			return ResponseHandler.getResponse("Don't have any Area id", HttpStatus.BAD_REQUEST);
+		service.deleteById(area_id);
+		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
+	}
+
+	// Update Area 
 	@PutMapping("/update")
+<<<<<<< Updated upstream
 	public ResponseEntity<Object> updateArea(@Valid @RequestBody UpdateAreaDTO updateDto,BindingResult errors)
 	{
 		if(errors.hasErrors()  )
 			return ResponseHandler.getResponse(errors,HttpStatus.BAD_REQUEST);
 		Area areaUpdate=service.update(updateDto);
 		return ResponseHandler.getResponse(areaUpdate, HttpStatus.OK);
+=======
+	public ResponseEntity<Object> updateArea(@Valid @RequestBody UpdateAreaDTO updateDto, BindingResult errors) {
+		if (errors.hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		Area updatedArea = service.update(updateDto);
+		return ResponseHandler.getResponse(updatedArea, HttpStatus.OK);
+>>>>>>> Stashed changes
 	}
-	//findByNationAndProvincialLevelAndDistrictAndCommune
+
+	// findByNationAndProvincialLevelAndDistrictAndCommune
 	@PostMapping("/findByBasicLocationInArea")
+<<<<<<< Updated upstream
 	public ResponseEntity<Object> findByNationAndProvincialLevelAndDistrictAndCommune(@Valid @RequestBody FindingDtoArea dtoFinding,BindingResult errors)
 	{
 		
@@ -78,18 +91,24 @@ public class AreaController {
 				return ResponseHandler.getResponse(errors,HttpStatus.BAD_REQUEST);
 		 
 		List<Area> areas=service.findByNationAndProvincialLevelAndDistrictAndCommune(dtoFinding);
+=======
+	public ResponseEntity<Object> findByNationAndProvincialLevelAndDistrictAndCommune(
+			@Valid @RequestBody FindingDtoArea dtoFinding, BindingResult errors) {
+		List<Area> areas = service.findByNationAndProvincialLevelAndDistrictAndCommune(dtoFinding);
+		if (areas == null)
+			return ResponseHandler.getResponse("Do not exist Area", HttpStatus.BAD_REQUEST);
+>>>>>>> Stashed changes
 		return ResponseHandler.getResponse(areas, HttpStatus.OK);
 	}
-	
-	
+
 	@GetMapping("/findLearnerAndRegistersById/{area-id}")
-	public ResponseEntity<Object> findLearnerAndRegistersById(@PathVariable("area-id") Long areaId){
+	public ResponseEntity<Object> findLearnerAndRegistersById(@PathVariable("area-id") Long areaId) {
 		Set<LearnerAndRegister> learnerAndRegisters = service.findLearnerAndRegistersById(areaId);
-		if(learnerAndRegisters == null)
-			return ResponseHandler.getResponse("There is no data.",HttpStatus.OK);
-		return  ResponseHandler.getResponse(learnerAndRegisters, HttpStatus.OK); //Trả về roles, kèm theo HttpStatus OK
+		if (learnerAndRegisters == null)
+			return ResponseHandler.getResponse("There is no data.", HttpStatus.OK);
+		return ResponseHandler.getResponse(learnerAndRegisters, HttpStatus.OK); // Trả về roles, kèm theo HttpStatus OK
 	}
-	
-	//code
-	
+
+	// code
+
 }

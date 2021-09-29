@@ -23,6 +23,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "institution")
 public class Institution extends AbstractEntity {
+<<<<<<< Updated upstream
 	private String name;
 	
 	private String nameAbbr;
@@ -51,3 +52,33 @@ public class Institution extends AbstractEntity {
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
 	private Set<LearnerAndRegister> learnerAndRegisters = new HashSet<>();
 }
+=======
+        private String name;
+        
+        private String nameAbbr;
+        
+        private String code;
+        
+        private String institutionTypes;
+        
+        @OneToMany(mappedBy = "institution", fetch = FetchType.EAGER)
+        private Set<InstitutionAddress> addresses;
+        
+        
+        @OneToMany(mappedBy = "institution", fetch = FetchType.EAGER)
+        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+        Set<Major> majors;        
+        
+        @OneToMany(mappedBy = "institution", fetch = FetchType.LAZY)
+        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+        Set<Student> students;
+
+        @OneToMany(mappedBy = "institution", fetch = FetchType.LAZY)
+        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+        Set<GraduatedStudent> graduatedStudents;
+        
+        @ManyToMany(mappedBy = "institutions", fetch = FetchType.LAZY)
+        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+        private Set<LearnerAndRegister> learnerAndRegisters = new HashSet<>();
+}
+>>>>>>> Stashed changes
