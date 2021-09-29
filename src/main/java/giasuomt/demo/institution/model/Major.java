@@ -14,7 +14,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.tutor.model.GraduatedStudent;
 import giasuomt.demo.tutor.model.Student;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "major")
 public class Major extends AbstractEntity {	
@@ -33,57 +37,4 @@ public class Major extends AbstractEntity {
 	@OneToMany(mappedBy = "major", fetch = FetchType.LAZY)
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
 	Set<GraduatedStudent> graduatedStudents;
-	
-	
-	
-	
-	//getter,setter
-	
-	public Set<GraduatedStudent> getGraduatedStudent() {
-		return graduatedStudents;
-	}
-
-	public Institution getInstitution() {
-		return institution;
-	}
-
-	public void setInstitution(Institution institution) {
-		this.institution = institution;
-	}
-
-	public Set<GraduatedStudent> getGraduatedStudents() {
-		return graduatedStudents;
-	}
-
-	public void setGraduatedStudents(Set<GraduatedStudent> graduatedStudents) {
-		this.graduatedStudents = graduatedStudents;
-	}
-
-	public void setGraduatedStudent(Set<GraduatedStudent> graduatedStudents) {
-		this.graduatedStudents = graduatedStudents;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public Set<Student> getStudents() {
-		return students;
-	}
-
-	public void setStudents(Set<Student> students) {
-		this.students = students;
-	}
 }

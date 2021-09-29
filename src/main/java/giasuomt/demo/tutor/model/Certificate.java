@@ -15,7 +15,11 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "certificate")
 public class Certificate extends AbstractEntity {
@@ -30,51 +34,9 @@ public class Certificate extends AbstractEntity {
 	
 	private String description;
 	
+	private String certificateImgs;
+	
 	@ManyToMany(mappedBy = "certificates", fetch = FetchType.LAZY)
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
 	private Set<Tutor> tutor = new HashSet<>();
-
-	
-	//getter,setter
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getCertificateName() {
-		return certificateName;
-	}
-
-	public void setCertificateName(String certificateName) {
-		this.certificateName = certificateName;
-	}
-
-	public String getCertificateGroup() {
-		return certificateGroup;
-	}
-
-	public void setCertificateGroup(String certificateGroup) {
-		this.certificateGroup = certificateGroup;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Set<Tutor> getTutor() {
-		return tutor;
-	}
-
-	public void setTutor(Set<Tutor> tutor) {
-		this.tutor = tutor;
-	}
-	
-	
 }
