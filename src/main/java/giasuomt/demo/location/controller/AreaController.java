@@ -66,18 +66,23 @@ public class AreaController {
 	{
 		if(errors.hasErrors()  )
 			return ResponseHandler.getResponse(errors,HttpStatus.BAD_REQUEST);
-		Area areaUpdate=service.update(updateDto);
-		return ResponseHandler.getResponse(areaUpdate, HttpStatus.OK);
+		Area  updatedArea=service.update(updateDto);
+		return ResponseHandler.getResponse(updatedArea, HttpStatus.OK);
 	}
 	//findByNationAndProvincialLevelAndDistrictAndCommune
 	@PostMapping("/findByBasicLocationInArea")
 	public ResponseEntity<Object> findByNationAndProvincialLevelAndDistrictAndCommune(@Valid @RequestBody FindingDtoArea dtoFinding,BindingResult errors)
 	{
-		
-		  if(errors.hasErrors()) 
-				return ResponseHandler.getResponse(errors,HttpStatus.BAD_REQUEST);
-		 
 		List<Area> areas=service.findByNationAndProvincialLevelAndDistrictAndCommune(dtoFinding);
+		
+		  
+		  if(areas==null)
+			  return ResponseHandler.getResponse("Do not exist Area", HttpStatus.BAD_REQUEST);
+		
+		
+		
+		
+		
 		return ResponseHandler.getResponse(areas, HttpStatus.OK);
 	}
 	

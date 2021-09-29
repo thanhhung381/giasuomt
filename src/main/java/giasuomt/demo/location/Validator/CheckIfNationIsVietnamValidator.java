@@ -5,31 +5,34 @@ import java.lang.reflect.InvocationTargetException;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.annotations.Nationalized;
 
-import giasuomt.demo.location.Validation.CheckDuplicateProvincialLevelAnđistrictAndCommune;
-import giasuomt.demo.location.service.IAreaService;
+import giasuomt.demo.location.Validation.CheckIfNationIsVietnam;
 
-public class CheckDuplicateProvincialLevelAnđistrictAndCommunevalidator implements ConstraintValidator<CheckDuplicateProvincialLevelAnđistrictAndCommune, Object> {
+public class CheckIfNationIsVietnamValidator implements ConstraintValidator<CheckIfNationIsVietnam, Object> {
 
 	
-	private String getMessage;
+	private String message;
+	private String getNation;
 	private String getProvincialLevel;
 	private String getDistrict;
 	private String getCommune;
-	
-	@Autowired
-	private IAreaService service;
+	private String getState;
 	
 	
 	@Override
-	public void initialize(CheckDuplicateProvincialLevelAnđistrictAndCommune constraintAnnotation) {
+	public void initialize(CheckIfNationIsVietnam constraintAnnotation) {
 		// TODO Auto-generated method stub
-		this.getMessage=constraintAnnotation.message();
+		this.message=constraintAnnotation.message();
+		this.getNation=constraintAnnotation.getNation();
 		this.getProvincialLevel=constraintAnnotation.getProvincialLevel();
 		this.getDistrict=constraintAnnotation.getDistrict();
+		this.getState=constraintAnnotation.getState();
 		this.getCommune=constraintAnnotation.getCommune();
+		
 	}
+	
+	
 	
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
@@ -39,15 +42,41 @@ public class CheckDuplicateProvincialLevelAnđistrictAndCommunevalidator impleme
 			String district=(String)value.getClass().getMethod(getDistrict).invoke(value);
 			String provinceLevel=(String)value.getClass().getMethod(getProvincialLevel).invoke(value);
 			String commune=(String)value.getClass().getMethod(getCommune).invoke(value);
+			String state=(String)value.getClass().getMethod(getState).invoke(value);
+			String nation=(String)value.getClass().getMethod(getNation).invoke(value);
 			
-			
-			if(!service.checkExistCommune(commune) || !service.checkExistDistrict(district) || !service.checkExistProvincialLevel(provinceLevel))
+			switch (nation) 
+			{
+				case "Việt Nam":
+				{
+					
+					if(district!=null && provinceLevel!=null && commune!=null )
+						return true;
+					
+					
+					context.buildConstraintViolationWithTemplate(message)
+					.addConstraintViolation()
+					.disableDefaultConstraintViolation();
 				
-				return true;
+				
+					break;
+				}
+				default:
+				{
+					if(state!=null)
+						return true;
+					context.buildConstraintViolationWithTemplate(message)
+					.addConstraintViolation()
+					.disableDefaultConstraintViolation();
+				
+						
+					break;
+				}
+				
+			}
 			
-			context.buildConstraintViolationWithTemplate(getMessage)
-			.addConstraintViolation()
-			.disableDefaultConstraintViolation();
+			
+			
 			
 		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
@@ -65,6 +94,7 @@ public class CheckDuplicateProvincialLevelAnđistrictAndCommunevalidator impleme
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 		
 		

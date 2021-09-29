@@ -15,7 +15,7 @@ import giasuomt.demo.location.Validator.CheckDuplicateProvincialLevelAnđistrict
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CheckDuplicateProvincialLevelAnđistrictAndCommune {
 
-	public  String getState() default "getState";
+	
 	
 	public  String getProvincialLevel() default "getProvincialLevel";
 	
@@ -23,7 +23,7 @@ public @interface CheckDuplicateProvincialLevelAnđistrictAndCommune {
 	
 	public  String getCommune() default "getCommune";
 	
-	public String message() default "Commune,District,ProvincialLevel,State Can't be duplicate";
+	public String message() default "Commune,District,ProvincialLevel,State can't be duplicate after updating";
 	
 	public Class<?>[] groups() default {};
 	
