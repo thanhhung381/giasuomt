@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import giasuomt.demo.location.Validator.CheckIfNationWithBasicInfoValidator;
 import giasuomt.demo.location.Validator.ExistIdAreaValidator;
 
 @Constraint(validatedBy = ExistIdAreaValidator.class)

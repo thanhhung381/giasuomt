@@ -13,12 +13,33 @@ import giasuomt.demo.location.model.Area;
 @Repository
 public interface AreaRepository extends JpaRepository<Area, Long> {
 	
-	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.provincialLevel=:provincialLevel AND a.district=:district AND a.commune=:commune ")
+	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.provincialLevel=:provincialLevel AND a.district=:district AND a.commune=:commune AND a.state=:state ")
 	List<Area> findByNationAndProvincialLevelAndDistrictAndCommune(@Param("nation") String nation,@Param("provincialLevel") String provincialLevel
-			,@Param("district") String district,@Param("commune") String commune);
-
+			,@Param("district") String district,@Param("commune") String commune,@Param("state") String state);
+	
+	@Query("SELECT a FROM Area a WHERE a.nation=:nation")
+	List<Area> findByNation(@Param("nation") String nation);
+	
+	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.state=:state")
+	List<Area> findByNationAndState(@Param("nation") String nation,@Param("state") String state);
+	
+	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.provincialLevel=:provincialLevel  AND a.state=:state")
+	List<Area> findByNationAndProvincialLevelAndState(@Param("nation") String nation,@Param("provincialLevel") String provincialLevel,
+			@Param("state") String state);
+	
+	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.provincialLevel=:provincialLevel  AND a.state=:state AND a.district=:district")
+	List<Area> findByNationAndProvincialLevelAndStateAndDistrict(@Param("nation") String nation,@Param("provincialLevel") String provincialLevel,
+			@Param("state") String state,@Param("district") String district);
+	
+	
+	
 	
 	int countById(Long id);
+	
+	int countByDistrict(String district);
+	int countByProvincialLevel(String provincialLevel);
+	int countByCommune(String commune);
+	
 	
 	Optional<Area> findById(Long areaId);
 }

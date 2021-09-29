@@ -10,11 +10,14 @@ public class FindingDtoArea {
 	
 	private String nation;
 	
-	//protected String state;
+	private String state;
 	
 	private String provincialLevel;
 	
 	private String district;
 	
 	private String commune;
+	
+	
+	
 }

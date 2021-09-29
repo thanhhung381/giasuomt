@@ -10,11 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< Updated upstream
-import com.google.common.util.concurrent.ExecutionError;
-
-=======
->>>>>>> Stashed changes
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
@@ -25,7 +20,7 @@ import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.AreaRepository;
 
 @Service
-public class AreaService extends GenericService<Area, Long> implements IareaService {
+public class AreaService extends GenericService<Area, Long> implements IAreaService {
 	@Autowired
 	private AreaRepository repository;
 	@Autowired
@@ -89,11 +84,7 @@ public class AreaService extends GenericService<Area, Long> implements IareaServ
 	// findByNationAndProvincialLevelAndDistrictAndCommune
 	@Override
 	public List<Area> findByNationAndProvincialLevelAndDistrictAndCommune(FindingDtoArea dtoArea) {
-		// TODO Auto-generated method stub
-<<<<<<< Updated upstream
-		return repository.findByNationAndProvincialLevelAndDistrictAndCommune(dtoArea.getNation(), 
-				dtoArea.getProvincialLevel(),dtoArea.getDistrict(), dtoArea.getCommune());
-=======
+		
 		String nation = dtoArea.getNation();
 		String state = dtoArea.getState();
 		String provincialLevel = dtoArea.getProvincialLevel();
@@ -118,8 +109,6 @@ public class AreaService extends GenericService<Area, Long> implements IareaServ
 		} else
 
 			return null;
-
->>>>>>> Stashed changes
 	}
 
 	public Set<LearnerAndRegister> findLearnerAndRegistersById(Long areaId) {
@@ -128,10 +117,7 @@ public class AreaService extends GenericService<Area, Long> implements IareaServ
 		return learnerAndRegisters;
 	}
 
-<<<<<<< Updated upstream
-	
-	
-=======
+
 	// Check If Exist
 	@Override
 	public boolean checkExistIdofArea(Long id) {
@@ -152,6 +138,4 @@ public class AreaService extends GenericService<Area, Long> implements IareaServ
 	public boolean checkExistCommune(String commune) {
 		return repository.countByCommune(commune) >= 1;
 	}
->>>>>>> Stashed changes
-
 }

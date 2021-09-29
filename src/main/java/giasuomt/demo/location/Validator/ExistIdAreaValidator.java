@@ -6,13 +6,13 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import giasuomt.demo.location.Validation.ExistIdArea;
-import giasuomt.demo.location.service.IareaService;
+import giasuomt.demo.location.service.IAreaService;
 
 public class ExistIdAreaValidator implements ConstraintValidator<ExistIdArea, Long> {
 
 	
 	@Autowired
-	private IareaService service;
+	private IAreaService service;
 	
 	private String message;
 	

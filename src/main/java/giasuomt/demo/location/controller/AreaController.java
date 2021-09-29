@@ -43,7 +43,7 @@ public class AreaController {
 		return ResponseHandler.getResponse(areas, HttpStatus.OK);
 	}
 
-	//Save new Area
+	// Save Area
 	@PostMapping("")
 	public ResponseEntity<Object> save(@Valid @RequestBody CreateAreaDTO dto, BindingResult errors) {
 		if (errors.hasErrors())
@@ -54,7 +54,7 @@ public class AreaController {
 		return ResponseHandler.getResponse(addedArea, HttpStatus.CREATED); // Trả về http status là đã thành công
 	}
 
-	// Delete Area by Id
+	// delete area
 	@DeleteMapping("/delete/{area_id}")
 	public ResponseEntity<Object> deleteByIdOfArea(@PathVariable("area_id") Long area_id) {
 		if (!service.checkExistIdofArea(area_id))
@@ -63,41 +63,22 @@ public class AreaController {
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 
-	// Update Area 
+	// update area
 	@PutMapping("/update")
-<<<<<<< Updated upstream
-	public ResponseEntity<Object> updateArea(@Valid @RequestBody UpdateAreaDTO updateDto,BindingResult errors)
-	{
-		if(errors.hasErrors()  )
-			return ResponseHandler.getResponse(errors,HttpStatus.BAD_REQUEST);
-		Area areaUpdate=service.update(updateDto);
-		return ResponseHandler.getResponse(areaUpdate, HttpStatus.OK);
-=======
 	public ResponseEntity<Object> updateArea(@Valid @RequestBody UpdateAreaDTO updateDto, BindingResult errors) {
 		if (errors.hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
 		Area updatedArea = service.update(updateDto);
 		return ResponseHandler.getResponse(updatedArea, HttpStatus.OK);
->>>>>>> Stashed changes
 	}
 
 	// findByNationAndProvincialLevelAndDistrictAndCommune
 	@PostMapping("/findByBasicLocationInArea")
-<<<<<<< Updated upstream
-	public ResponseEntity<Object> findByNationAndProvincialLevelAndDistrictAndCommune(@Valid @RequestBody FindingDtoArea dtoFinding,BindingResult errors)
-	{
-		
-		  if(errors.hasErrors()) 
-				return ResponseHandler.getResponse(errors,HttpStatus.BAD_REQUEST);
-		 
-		List<Area> areas=service.findByNationAndProvincialLevelAndDistrictAndCommune(dtoFinding);
-=======
 	public ResponseEntity<Object> findByNationAndProvincialLevelAndDistrictAndCommune(
 			@Valid @RequestBody FindingDtoArea dtoFinding, BindingResult errors) {
 		List<Area> areas = service.findByNationAndProvincialLevelAndDistrictAndCommune(dtoFinding);
 		if (areas == null)
 			return ResponseHandler.getResponse("Do not exist Area", HttpStatus.BAD_REQUEST);
->>>>>>> Stashed changes
 		return ResponseHandler.getResponse(areas, HttpStatus.OK);
 	}
 
