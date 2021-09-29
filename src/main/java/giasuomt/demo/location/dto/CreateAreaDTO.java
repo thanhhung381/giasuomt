@@ -13,6 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @CheckIfNationIsVietnam
+@CheckDuplicateProvincialLevelAnđistrictAndCommune
 public class CreateAreaDTO {
 	
 	protected String nation;
