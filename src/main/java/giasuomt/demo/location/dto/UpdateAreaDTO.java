@@ -9,7 +9,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@CheckDuplicateProvincialLevelAnđistrictAndCommune
 public class UpdateAreaDTO {
 	
 	@ExistIdArea
