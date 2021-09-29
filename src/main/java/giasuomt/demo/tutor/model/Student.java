@@ -22,30 +22,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "student")
 public class Student extends AbstractEntity {
-<<<<<<< Updated upstream
-	private String confirmImgs;
-	
-	private String nowLevel;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_TIME_FORMAT) //Quy định date format khi nó add đối tượng thành Json để trả về Clients
-	@DateTimeFormat(pattern = DateTimeUtils.DATE_TIME_FORMAT) //Quy định date format để lưu xuống database
-	private LocalDateTime nowLevelUpdatedAt;
-	
-	@ManyToOne
-	@JoinColumn(name = "university_id")
-	private Institution institution;
-	
-	@ManyToOne
-	@JoinColumn(name = "major_id")
-	private Major major;
-	
-	private String anotherMajor;
-	
-	@ManyToOne
-	@JoinColumn(name = "tutor_id")
-	private Tutor tutor;
-}
-=======
         private String confirmImgs;
         
         private String nowLevel;
@@ -68,4 +44,3 @@ public class Student extends AbstractEntity {
         @JoinColumn(name = "tutor_id")
         private Tutor tutor;
 }
->>>>>>> Stashed changes

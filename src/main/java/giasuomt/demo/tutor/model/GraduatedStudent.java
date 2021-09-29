@@ -16,26 +16,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "graduated_student")
 public class GraduatedStudent extends AbstractEntity {
-<<<<<<< Updated upstream
-	private String diplomaImgs;
-	
-	private String graduatedYear;
-	
-	@ManyToOne
-	@JoinColumn(name = "university_id")
-	private Institution institution;
-	
-	@ManyToOne
-	@JoinColumn(name = "major_id")
-	private Major major;
-	
-	private String anotherMajor;
-	
-	@ManyToOne
-	@JoinColumn(name = "tutor_id")
-	private Tutor tutor;
-}
-=======
         private String diplomaImgs;
         
         private String graduatedYear;
@@ -54,4 +34,3 @@ public class GraduatedStudent extends AbstractEntity {
         @JoinColumn(name = "tutor_id")
         private Tutor tutor;
 }
->>>>>>> Stashed changes

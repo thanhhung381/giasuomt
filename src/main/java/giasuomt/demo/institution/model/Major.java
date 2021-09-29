@@ -21,25 +21,6 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "major")
-<<<<<<< Updated upstream
-public class Major extends AbstractEntity {	
-	private String name;
-	
-	private String code;
-	
-	@ManyToOne
-	@JoinColumn(name = "university_id")
-	private Institution institution;
-	
-	@OneToMany(mappedBy = "major", fetch = FetchType.LAZY)
-	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	Set<Student> students;
-
-	@OneToMany(mappedBy = "major", fetch = FetchType.LAZY)
-	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	Set<GraduatedStudent> graduatedStudents;
-}
-=======
 public class Major extends AbstractEntity {        
         private String name;
         
@@ -57,4 +38,3 @@ public class Major extends AbstractEntity {
         @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
         Set<GraduatedStudent> graduatedStudents;
 }
->>>>>>> Stashed changes
