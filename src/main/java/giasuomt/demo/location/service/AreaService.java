@@ -33,58 +33,74 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 		return repository.findAll();
 	}
 
-	// Save new Area
+	// POST
 	public Area save(CreateAreaDTO dto) {
-		Area area = new Area();
 
 		try {
+			Area area = new Area();
 			area = (Area) mapper.map(dto, area);
-			logger.info(String.format("New Area is added"));
+			logger.info(String.format("Area is saved"));
+
+			return repository.save(area);
+
 		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
+
 		}
 
-		return repository.save(area);
+		return null;
 
 	}
 
 	// Delete
 	@Override
 	public void deleteById(Long id) {
+		// TODO Auto-generated method stub
 		try {
 			repository.deleteById(id);
 			logger.info(String.format("Area is deleted"));
 
 		} catch (Exception e) {
+			// TODO: handle exception
 			e.printStackTrace();
 			logger.debug("Don't have any Id in your Data ");
 		}
 
 	}
 
+	// check id exits
+	@Override
+	public boolean checkExistIdofArea(Long id) {
+		// TODO Auto-generated method stub
+		return repository.countById(id) >= 1;
+	}
+
 	// Update
 	@Override
 	public Area update(UpdateAreaDTO dto) {
-		Area areaUpdate = repository.getOne(dto.getIdArea());
+		// TODO Auto-generated method stub
+
 		try {
 
+			Area areaUpdate = repository.getOne(dto.getIdArea());
 			areaUpdate = (Area) mapper.map(dto, areaUpdate);
 
 			logger.info(String.format("Area is updated"));
-
+			return repository.save(areaUpdate);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 
-		return repository.save(areaUpdate);
+		return null;
 
 	}
 
 	// findByNationAndProvincialLevelAndDistrictAndCommune
 	@Override
 	public List<Area> findByNationAndProvincialLevelAndDistrictAndCommune(FindingDtoArea dtoArea) {
-		
+		// TODO Auto-generated method stub
 		String nation = dtoArea.getNation();
 		String state = dtoArea.getState();
 		String provincialLevel = dtoArea.getProvincialLevel();
@@ -109,6 +125,7 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 		} else
 
 			return null;
+
 	}
 
 	public Set<LearnerAndRegister> findLearnerAndRegistersById(Long areaId) {
@@ -117,25 +134,22 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 		return learnerAndRegisters;
 	}
 
-
-	// Check If Exist
-	@Override
-	public boolean checkExistIdofArea(Long id) {
-		return repository.countById(id) >= 1;
-	}
-
 	@Override
 	public boolean checkExistProvincialLevel(String provincialLevel) {
+		// TODO Auto-generated method stub
 		return repository.countByProvincialLevel(provincialLevel) >= 1;
 	}
 
 	@Override
 	public boolean checkExistDistrict(String district) {
+		// TODO Auto-generated method stub
 		return repository.countByDistrict(district) >= 1;
 	}
 
 	@Override
 	public boolean checkExistCommune(String commune) {
+		// TODO Auto-generated method stub
 		return repository.countByCommune(commune) >= 1;
 	}
+
 }
