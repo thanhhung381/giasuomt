@@ -41,19 +41,24 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 	
 	//POST
 	public Area save(CreateAreaDTO dto) {
-		Area area=new Area();
+		
 		
 		try {
+			Area area=new Area();
 			area=(Area) mapper.map(dto, area);
 			logger.info(String.format("Area is saved"));
+			
+			return repository.save(area);
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 			
 		}
 		
+		return null;
 		
-		return repository.save(area);
+		
 		
 	}
 	//Delete
@@ -81,20 +86,20 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 	@Override
 	public Area update(UpdateAreaDTO dto) {
 		// TODO Auto-generated method stub
-		Area areaUpdate=repository.getOne(dto.getIdArea());
+		
 		try {
 			
-			
+			Area areaUpdate=repository.getOne(dto.getIdArea());
 			areaUpdate=(Area)mapper.map(dto, areaUpdate);
 			
 			logger.info(String.format("Area is updated"));
-			
+			return repository.save(areaUpdate);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 		
-		return repository.save(areaUpdate);
+		return null;
 		
 	}
 	//findByNationAndProvincialLevelAndDistrictAndCommune
