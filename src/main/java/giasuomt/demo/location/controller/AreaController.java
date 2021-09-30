@@ -25,12 +25,13 @@ import giasuomt.demo.location.dto.FindingDtoArea;
 import giasuomt.demo.location.dto.UpdateAreaDTO;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.service.AreaService;
+import giasuomt.demo.location.service.IAreaService;
 
 @RestController //Tức là server sẽ trả JSON về client
 @RequestMapping("/api/area") //Ghi nhận yêu cầu gọi api của Client
 public class AreaController {
 	@Autowired
-	private AreaService service;
+	private IAreaService service;
 	
 	//Show list of Area
 	@GetMapping("")
