@@ -1,5 +1,6 @@
 package giasuomt.demo.location.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -38,24 +39,24 @@ public class Area extends AbstractEntity {
 
 	@OneToMany(mappedBy = "tempArea", fetch = FetchType.LAZY)
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	Set<Tutor> tutorsWithTempArea;
+	private Set<Tutor> tutorsWithTempArea=new HashSet<>();
 
 	@OneToMany(mappedBy = "perArea", fetch = FetchType.LAZY)
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	Set<Tutor> tutorsWithPerArea;
+	private Set<Tutor> tutorsWithPerArea=new HashSet<>();
 
 	@OneToMany(mappedBy = "relArea", fetch = FetchType.LAZY)
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	Set<Tutor> tutorsWithRelArea;	
+	private Set<Tutor> tutorsWithRelArea=new HashSet<>();	
 
 	
-	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
-	@JsonIgnore  
-	Set<LearnerAndRegister> learnerAndRegisters;
+//	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
+//	@JsonIgnore  
+//	Set<LearnerAndRegister> learnerAndRegisters;
 	
-	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
-	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	Set<TaskAddress> taskAddress;	
+//	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
+//	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+//	Set<TaskAddress> taskAddress;	
 	
 	
 	

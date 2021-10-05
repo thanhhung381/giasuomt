@@ -19,7 +19,6 @@ public @interface CheckIfNationIsVietnam {
 	
 	public  String getState() default "getState";
 	
-		
 	
 	public  String getProvincialLevel() default "getProvincialLevel";
 	

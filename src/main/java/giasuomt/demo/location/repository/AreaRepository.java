@@ -33,7 +33,6 @@ public interface AreaRepository extends JpaRepository<Area, Long> {
 	
 	
 	
-	
 	int countById(Long id);
 	
 	int countByDistrict(String district);

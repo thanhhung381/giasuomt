@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,15 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 	@Autowired
 	private AreaRepository repository;
 	@Autowired
-	private MapDtoToModel mapper;
+	private ModelMapper mapper;
 
 	private Logger logger = LoggerFactory.getLogger(AreaService.class);
 
 	// API TRẢ VỀ LIST TẤT CẢ ((Ignore List Account))
 	public List<Area> findAll() {
+		
 		return repository.findAll();
+		
 	}
 
 	// POST
@@ -38,7 +41,7 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 
 		try {
 			Area area = new Area();
-			area = (Area) mapper.map(dto, area);
+			area =  mapper.map(dto, area.getClass());
 			logger.info(String.format("Area is saved"));
 
 			return repository.save(area);
@@ -84,7 +87,7 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 		try {
 
 			Area areaUpdate = repository.getOne(dto.getIdArea());
-			areaUpdate = (Area) mapper.map(dto, areaUpdate);
+			areaUpdate =  mapper.map(dto, areaUpdate.getClass());
 
 			logger.info(String.format("Area is updated"));
 			return repository.save(areaUpdate);
@@ -129,9 +132,12 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 	}
 
 	public Set<LearnerAndRegister> findLearnerAndRegistersById(Long areaId) {
-		Optional<Area> areas = repository.findById(areaId);
-		Set<LearnerAndRegister> learnerAndRegisters = areas.get().getLearnerAndRegisters();
-		return learnerAndRegisters;
+		/*
+		 * Optional<Area> areas = repository.findById(areaId); Set<LearnerAndRegister>
+		 * learnerAndRegisters = areas.get().getLearnerAndRegisters(); return
+		 * learnerAndRegisters;
+		 */
+		return null;
 	}
 
 	@Override

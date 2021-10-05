@@ -71,7 +71,9 @@ public class LearnerAndRegisterService extends GenericService<LearnerAndRegister
 //		repository.save(learnerAndRegister); //Hàm save nếu chưa có thì nó tạo mới, nếu có rồi thì nó cập nhật
 //		}
 		LearnerAndRegister learnerAndRegister = new LearnerAndRegister();
-		learnerAndRegister = (LearnerAndRegister) mapDtoToModel.map(learnerAndRegisterDto, learnerAndRegister);
+		
+			learnerAndRegister = (LearnerAndRegister) mapDtoToModel.map(learnerAndRegisterDto, learnerAndRegister);
+		
 //		learnerAndRegister.fullName(learnerAndRegisterDto.getFullName())
 //						  .gender(learnerAndRegisterDto.getGender())
 //						  .phones(learnerAndRegisterDto.getPhones())
