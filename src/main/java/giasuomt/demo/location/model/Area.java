@@ -40,13 +40,13 @@ public class Area extends AbstractEntity {
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
 	Set<Tutor> tutorsWithTempArea;
 
-	@OneToMany(mappedBy = "perArea", fetch = FetchType.LAZY)
-	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	Set<Tutor> tutorsWithPerArea;
-
-	@OneToMany(mappedBy = "relArea", fetch = FetchType.LAZY)
-	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	Set<Tutor> tutorsWithRelArea;	
+//	@OneToMany(mappedBy = "perArea", fetch = FetchType.LAZY)
+//	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+//	Set<Tutor> tutorsWithPerArea;
+//
+//	@OneToMany(mappedBy = "relArea", fetch = FetchType.LAZY)
+//	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+//	Set<Tutor> tutorsWithRelArea;	
 
 	
 	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)

@@ -22,7 +22,7 @@ public class InstitutionTeacher extends AbstractEntity {
         
         private String subject;
         
-        @ManyToOne
-        @JoinColumn(name = "tutor_id")
-        private Tutor tutor;
+//        @ManyToOne
+//        @JoinColumn(name = "tutor_id")
+//        private Tutor tutor;
 }

@@ -32,6 +32,7 @@ public class Institution extends AbstractEntity {
         private String institutionTypes;
         
         @OneToMany(mappedBy = "institution", fetch = FetchType.EAGER)
+        @JsonIgnore
         private Set<InstitutionAddress> addresses;
         
         
@@ -39,9 +40,9 @@ public class Institution extends AbstractEntity {
         @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
         Set<Major> majors;        
         
-        @OneToMany(mappedBy = "institution", fetch = FetchType.LAZY)
-        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-        Set<Student> students;
+//        @OneToMany(mappedBy = "institution", fetch = FetchType.LAZY)
+//        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+//        Set<Student> students;
 
         @OneToMany(mappedBy = "institution", fetch = FetchType.LAZY)
         @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận

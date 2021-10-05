@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.util.DateTimeUtils;
@@ -42,5 +43,26 @@ public class Student extends AbstractEntity {
         
         @ManyToOne
         @JoinColumn(name = "tutor_id")
+        @JsonIgnore
         private Tutor tutor;
+
+        
+		public Student addInstitutionById(Long institutionId) {
+    		if(institutionId != null) {
+    			Institution institution = new Institution();
+    			institution.setId(institutionId);
+    			this.institution = institution; 
+    		}
+    		return this;
+		}
+
+
+		public Student addMajorById(Long majorId) {
+    		if(majorId != null) {
+    			Major major = new Major();
+    			major.setId(majorId);
+    			this.major = major; 
+    		}
+    		return this;
+		}
 }

@@ -30,7 +30,7 @@ public class GraduatedStudent extends AbstractEntity {
         
         private String anotherMajor;
         
-        @ManyToOne
-        @JoinColumn(name = "tutor_id")
-        private Tutor tutor;
+//        @ManyToOne
+//        @JoinColumn(name = "tutor_id")
+//        private Tutor tutor;
 }
