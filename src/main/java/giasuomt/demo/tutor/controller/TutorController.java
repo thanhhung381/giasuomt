@@ -69,7 +69,7 @@ public class TutorController {
 		
 		
 		
-		//Show Tutor With Difference infor
+		//Show Tutor With Difference information
 		@GetMapping("/showTutorWithDifferInfo")
 		public ResponseEntity<Object> ShowTutorFull() {
 			List<TutorWithStudent> lists=iTutorService.findalll();
