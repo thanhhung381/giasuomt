@@ -1,0 +1,36 @@
+package giasuomt.demo.tutor.repository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import giasuomt.demo.tutor.model.Student;
+@Repository
+public interface StudentRepository extends JpaRepository<Student, Long> {
+	
+	
+	@Query("SELECT s FROM Student s WHERE s.tutor.tutorCode=:tutorCode ")
+	Set<Student> findByallStudent(@Param("tutorCode") String tutorCode);
+	
+	@Query("SELECT s.id FROM Student s WHERE s.id=:id")
+	Long findByNad(@Param("id") Long id);
+
+	@Query("SELECT s FROM Student s WHERE s.tutor.tutorCode=:code")
+	Optional<Student> findByTutorCode(@Param("code") String code);
+	
+	
+	//
+	//@Override
+	//@EntityGraph(attributePaths="tutor.students",type=EntityGraphType.FETCH)
+	//public  List<Student> findAll();
+	
+	
+	
+}

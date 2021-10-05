@@ -33,7 +33,7 @@ public class CheckIfNationIsVietnamValidator implements ConstraintValidator<Chec
 			String commune = (String) value.getClass().getMethod(getCommune).invoke(value);
 			String nation = (String) value.getClass().getMethod(getNation).invoke(value);
 
-			if (nation == "Việt Nam") {
+			if (nation.equals("Việt Nam") ){
 				if (district != null && !district.trim().isEmpty() && provinceLevel != null
 						&& !provinceLevel.trim().isEmpty() && commune != null && !commune.trim().isEmpty()) {
 					context.buildConstraintViolationWithTemplate(message).addConstraintViolation()

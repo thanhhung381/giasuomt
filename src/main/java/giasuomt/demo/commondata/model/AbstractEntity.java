@@ -1,5 +1,6 @@
 package giasuomt.demo.commondata.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -31,7 +32,7 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass //để các lớp con có thể kế thừa lại được các annotation của lớp này
 @EntityListeners(AuditingEntityListener.class) //để model này lấy được @EnableJpaAuditing đã Config ở bên JpaConfig.java để @CreatedDate,@LastModifiedDate có hiệu lực
-public class AbstractEntity {
+public class AbstractEntity  implements Serializable  {
 	@Id //Quy định khoá chính
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //Sinh ra các giá trị là độc lập cho các model khác nhau
 	@Column(updatable = false) //Column này ko update được

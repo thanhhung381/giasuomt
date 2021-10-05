@@ -30,9 +30,9 @@ public class Major extends AbstractEntity {
         @JoinColumn(name = "university_id")
         private Institution institution;
         
-        @OneToMany(mappedBy = "major", fetch = FetchType.LAZY)
-        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-        Set<Student> students;
+   //     @OneToMany(mappedBy = "major", fetch = FetchType.LAZY)
+   //     @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+    //    Set<Student> students;
 
         @OneToMany(mappedBy = "major", fetch = FetchType.LAZY)
         @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận

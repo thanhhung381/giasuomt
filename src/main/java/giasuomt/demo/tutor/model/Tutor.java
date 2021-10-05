@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -20,6 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import giasuomt.demo.commondata.model.RegisteredUser;
 import giasuomt.demo.commondata.model.User;
@@ -27,16 +29,20 @@ import giasuomt.demo.commondata.util.DateUtils;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.task.model.Application;
+import giasuomt.demo.tutor.dto.CreateStudentDto;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+
 @Entity
 @Table(name = "tutor")
+@Getter
+@Setter
+@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
 public class Tutor extends User {
         //@Unique
         @NotBlank
+       // @Column(unique = true)
         private String tutorCode; //Cần viết tự generate theo dạng 8 số
         
         
@@ -47,7 +53,9 @@ public class Tutor extends User {
         
         private String tempAddNote;
         
-        @ManyToOne
+      
+       
+        @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "temp_area_id")
         private Area tempArea;
 
@@ -57,7 +65,7 @@ public class Tutor extends User {
         
         private String perAddNote;
         
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "per_area_id")
         private Area perArea;
         
@@ -71,30 +79,31 @@ public class Tutor extends User {
         
         
 //HIỆN ĐANG LÀ
-        @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "tutor")
         @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-        private Set<Student> students;
+        private Set<Student> students=new HashSet<>();
         
-        @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
-        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-        private Set<GraduatedStudent> graduatedStudents;
+     //   @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
+     //   @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+   //     private Set<GraduatedStudent> graduatedStudents;
         
-        @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
-        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-        private Set<InstitutionTeacher> institutionTeachers;        
+  //      @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
+   //     @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+  //      private Set<InstitutionTeacher> institutionTeachers;        
         
-        @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
-        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-        private Set<SchoolTeacher> schoolTeachers;        
+//        @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
+ //       @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+   //     private Set<SchoolTeacher> schoolTeachers;        
+//   
         
 //NĂNG LỰC:
         private String voices;
         
-        @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-        @JoinTable(name = "tutor_certificate",
-                   joinColumns = @JoinColumn(name = "tutor_id"),
-                   inverseJoinColumns = @JoinColumn(name = "certificate_id"))
-        private Set<Certificate> certificates = new HashSet<>();
+  //      @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+  //      @JoinTable(name = "tutor_certificate",
+ //                  joinColumns = @JoinColumn(name = "tutor_id"),
+  //                 inverseJoinColumns = @JoinColumn(name = "certificate_id"))
+  //      private Set<Certificate> certificates = new HashSet<>();
         
         private String tutorNotices;        
         
@@ -102,12 +111,12 @@ public class Tutor extends User {
         
 
 //ĐĂNG KÝ NHẬN LỚP
-        @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
-        private Set<Application> applications;
+     //   @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
+   //     private Set<Application> applications;
         
 //NHẬN LỚP
-        @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
-        private Set<Job> jobs;
+   //     @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
+    //    private Set<Job> jobs;
         
 
         
@@ -116,12 +125,46 @@ public class Tutor extends User {
                 
         private String yRelCoo;
                 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "rel_area_id")
         private Area relArea;                
         
         
 //RegisteredUser
-        @OneToOne(mappedBy = "tutor")
-        private RegisteredUser registeredUser;
+      //  @OneToOne(mappedBy = "tutor")
+      //  private RegisteredUser registeredUser;
+        
+        //getter setter cho dto
+        public Tutor addTempArea(Area tempArea)
+        {
+        	
+        	this.tempArea=tempArea;
+        	
+        	return this;
+        }
+        
+        public Tutor addRelArea(Area relArea)
+        {
+        	this.relArea=relArea;
+        	return this;
+        }
+        
+        public Tutor addPerArea(Area perArea)
+        {
+        	this.perArea=perArea;
+        	return this;
+        }
+      
+        public  Tutor addStudent(Student student)
+        {
+        	Student newStudent=new Student();
+        	Set<Student> students=new HashSet<>();
+        	
+        	newStudent.setNowLevel(student.getNowLevel());
+        	students.add(newStudent);
+        	this.setStudents(students);
+        	return this;
+        	
+        }
+        
 }

@@ -36,7 +36,7 @@ public class Certificate extends AbstractEntity {
         
         private String certificateImgs;
         
-        @ManyToMany(mappedBy = "certificates", fetch = FetchType.LAZY)
-        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-        private Set<Tutor> tutor = new HashSet<>();
+   //     @ManyToMany(mappedBy = "certificates", fetch = FetchType.LAZY)
+    //    @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+    //    private Set<Tutor> tutor = new HashSet<>();
 }
