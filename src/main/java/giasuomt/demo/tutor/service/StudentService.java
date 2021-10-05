@@ -86,11 +86,12 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 	public Student update(UpdateStudentDto dto, Long id) {
 		try {
 
-			Student studentUpdate = studentRepository.getOne(id);
+			Student studentUpdate = studentRepository.getOne(id)
+					.updateConfirm(dto.getConfirmImgs())
+					.updateNowLevel(dto.getNowLevel())
+					.updateNowLevelUpdateAt(dto.getNowLevelUpdatedAt());
 
-			studentUpdate = mapper.map(dto, studentUpdate.getClass());
-
-			studentUpdate.setId(dto.getIdTutor());
+			
 
 			return super.save(studentUpdate);
 

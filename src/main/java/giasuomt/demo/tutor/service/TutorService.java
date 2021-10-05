@@ -11,17 +11,20 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.location.dto.FindingDtoArea;
+import giasuomt.demo.location.dto.UpdateAreaDTO;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.AreaRepository;
 import giasuomt.demo.location.service.IAreaService;
 import giasuomt.demo.tutor.dto.CreateStudentDto;
 import giasuomt.demo.tutor.dto.CreateTutorDto;
 import giasuomt.demo.tutor.dto.TutorWithStudent;
+import giasuomt.demo.tutor.dto.UpdateTutorDto;
 import giasuomt.demo.tutor.model.Student;
 import giasuomt.demo.tutor.model.Tutor;
 import giasuomt.demo.tutor.repository.StudentRepository;
@@ -44,7 +47,8 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 
 	@Autowired
 	private ModelMapper mapper2;
-
+	@Autowired
+	private MapDtoToModel model;
 	
 	private Logger logger=LoggerFactory.getLogger(TutorService.class);
 	
@@ -65,15 +69,15 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 			tutor = mapper2.map(dto, tutor.getClass());
 			
 			
-			Optional<Area> tempArea = Optional.ofNullable(areaRepository.getOne(dto.getTempArea()));
+			Optional<Area> tempArea = Optional.ofNullable(areaRepository.getOne(dto.getTempAreaId()));
 				if(tempArea.isPresent())
 					tutor.setTempArea(tempArea.get());
 				
-			Optional<Area> perArea = Optional.ofNullable(areaRepository.getOne(dto.getPerArea()));
+			Optional<Area> perArea = Optional.ofNullable(areaRepository.getOne(dto.getPerAreaId()));
 				if(perArea.isPresent())
 					tutor.setPerArea(perArea.get());
 
-			Optional<Area> relArea = Optional.ofNullable(areaRepository.getOne(dto.getRelArea()));
+			Optional<Area> relArea = Optional.ofNullable(areaRepository.getOne(dto.getRelAreaId()));
 					if(perArea.isPresent())
 						tutor.setRelArea(relArea.get());
 			
@@ -94,8 +98,6 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 	//DELETE 
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
-		
 		
 		try {
 			
@@ -112,7 +114,40 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 	}
 	
 	//Update
-	
+	@Override
+	public Tutor update(UpdateTutorDto dto,Long id) {
+		// TODO Auto-generated method stub
+		try {
+			
+			Tutor updateTutor=tutorRepository.getOne(id);
+			
+				updateTutor=(Tutor)model.map(dto, updateTutor);
+				
+				
+				Optional<Area> tempArea = Optional.ofNullable(areaRepository.getOne(dto.getTempAreaId()));
+				if(tempArea.isPresent())
+					updateTutor.setTempArea(tempArea.get());
+				
+			Optional<Area> perArea = Optional.ofNullable(areaRepository.getOne(dto.getPerAreaId()));
+				if(perArea.isPresent())
+					updateTutor.setPerArea(perArea.get());
+
+			Optional<Area> relArea = Optional.ofNullable(areaRepository.getOne(dto.getRelAreaId()));
+					if(perArea.isPresent())
+						updateTutor.setRelArea(relArea.get());
+			
+			
+			return tutorRepository.save(updateTutor);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+		
+		
+	}
 	
 	
 	

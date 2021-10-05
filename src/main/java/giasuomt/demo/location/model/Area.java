@@ -9,6 +9,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
@@ -21,6 +22,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "area")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
 public class Area extends AbstractEntity {
 	
 	protected String nation;

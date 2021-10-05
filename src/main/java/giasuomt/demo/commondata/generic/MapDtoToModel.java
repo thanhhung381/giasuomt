@@ -29,15 +29,13 @@ public class MapDtoToModel<E extends Object, T extends Object> {  //map từ th�
 				Object dtoPropertyValue = dto.getClass().getMethod(dtoGetterName).invoke(dto); //invoke(dto) là mình truyền vô đối tượng mà mình muốn thực hiện phương thức (là dto)
 				//parse dto getter to model setter
 				String modelSetterName = dtoGetterName.replaceFirst("get","set"); //Đặt Setter cho model với đk tên các thuộc tính của dto phải giống với thuộc tính đó ở model. HOẶC: Nếu dto có thuộc tính nào khác name với model, thì ở model tự viết 1 setter giống với name của thuộc tính đó ở dto.
-				//get properties type
-//				Class<?>[] modelSetterPropertyTypeClasses = model.getClass().getMethod(modelSetterName, dtoPropertyValue.getClass()).getParameterTypes();
-				//Class<?> modelSetterPropertyType = modelSetterPropertyTypeClasses[0]; //Do mình biết setter nào đó nó sẽ chỉ có 1 tham số.
-				Class<?> modelSetterPropertyType = dtoPropertyValue.getClass();
-				//map dto property value to the same name of model property
-				Set<String> a = new HashSet<>();
-				if(modelSetterPropertyType != a.getClass()) {
+				if(dtoPropertyValue.getClass() != new HashSet<>().getClass()) {
+					//get properties type
+					Class<?>[] modelSetterPropertyTypeClasses = model.getClass().getMethod(modelSetterName, dtoPropertyValue.getClass()).getParameterTypes();
+					Class<?> modelSetterPropertyType = modelSetterPropertyTypeClasses[0]; //Do mình biết setter nào đó nó sẽ chỉ có 1 tham số.
+					//map dto property value to the same name of model property
 					model.getClass().getMethod(modelSetterName, modelSetterPropertyType).invoke(model, modelSetterPropertyType.cast(dtoPropertyValue)); //invoke(dto, dtoValue) là mình truyền vô đối tượng mà mình muốn thực hiện phương thức (là dto) và giá trị muốn truyền vào phương thức (là dtoPropertyValue). modelSetterPropertyType.cast là ép về kiểu modelSetterPropertyType
-				}
+				};
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException 
 					| NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
