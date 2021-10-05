@@ -67,7 +67,7 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 		return null;
 
 	}
-
+	//delete
 	@Override
 	public void deleteById(Long id) {
 		// TODO Auto-generated method stub
@@ -81,7 +81,7 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 		}
 		return;
 	}
-
+	//update
 	@Override
 	public Student update(UpdateStudentDto dto, Long id) {
 		try {
