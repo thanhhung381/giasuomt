@@ -63,4 +63,23 @@ public class Student extends AbstractEntity {
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "id_tutor")
         private Tutor tutor;
+        
+        public Student updateConfirm(String conString)
+        {
+        	this.confirmImgs=conString;
+        	return this;
+        }
+        public Student updateNowLevel(String nowlevel)
+        {
+        	this.nowLevel=nowlevel;
+        	return this;
+        }
+        public Student updateNowLevelUpdateAt(LocalDateTime  NewLevelUpdateAt)
+        {
+        	this.nowLevelUpdatedAt=NewLevelUpdateAt;
+        	return this;
+        }
+        
+        
+        
 }

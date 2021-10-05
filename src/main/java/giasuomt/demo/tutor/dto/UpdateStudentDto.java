@@ -10,9 +10,11 @@ public class UpdateStudentDto {
 	
    private String confirmImgs;
     
-    private String nowLevel;
-    
-    private Long idTutor;
-    
-    private LocalDateTime nowLevelUpdatedAt;
+	
+	  private String nowLevel;
+	  
+	
+	 
+	  private LocalDateTime nowLevelUpdatedAt;
+	
 }
