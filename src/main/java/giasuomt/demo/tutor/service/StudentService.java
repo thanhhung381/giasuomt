@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,12 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 	@Autowired
 	private TutorRepository tutorRepository;
 
+	@Autowired
+	private MapDtoToModel mapDtoToModel;
+	
+	
+	private Logger logger=LoggerFactory.getLogger(StudentService.class);
+	
 	@Override
 	public List<Student> findAll() {
 		// TODO Auto-generated method stub
@@ -56,12 +64,16 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 			Optional<Tutor> tutor = Optional.ofNullable(tutorRepository.getOne(dto.getIdTutor()));
 			if (tutor.isPresent())
 				student.setTutor(tutor.get());
-
+			
+			logger.info("Student is saved");
+			
 			return super.save(student);
 
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			
+			logger.info("Have something wrong :(");
 		}
 
 		return null;
@@ -74,10 +86,12 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 		try {
 
 			studentRepository.deleteById(id);
-
+			logger.info("Student is deleted");
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			logger.info("Have something wrong :(");
 		}
 		return;
 	}
@@ -86,17 +100,24 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 	public Student update(UpdateStudentDto dto, Long id) {
 		try {
 
-			Student studentUpdate = studentRepository.getOne(id)
-					.updateConfirm(dto.getConfirmImgs())
-					.updateNowLevel(dto.getNowLevel())
-					.updateNowLevelUpdateAt(dto.getNowLevelUpdatedAt());
-
+			Student studentUpdate = studentRepository.getOne(id);
+			
+			studentUpdate=(Student)mapDtoToModel.map(dto, studentUpdate);
+			
+			
+			Optional<Tutor> tutor=Optional.ofNullable(tutorRepository.getOne(dto.getIdTutor()));
+			if(tutor.isPresent())
+				studentUpdate.setTutor(tutor.get());
+					
+			
+			logger.info("Student is updated");
 			
 
 			return super.save(studentUpdate);
 
 		} catch (Exception e) { // TODO: handle exception
 			e.printStackTrace();
+			logger.info("Have something wrong :(");
 		}
 
 		return null;

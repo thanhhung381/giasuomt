@@ -33,6 +33,8 @@ import giasuomt.demo.tutor.repository.TutorRepository;
 @Service
 public class TutorService extends GenericService<Tutor, Long> implements ITutorService {
 
+	private Logger logger = LoggerFactory.getLogger(TutorService.class);
+
 	@Autowired
 	private TutorRepository tutorRepository;
 
@@ -46,12 +48,11 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 	private IStudentService iStudentService;
 
 	@Autowired
-	private ModelMapper mapper2;
+	private ModelMapper mapper;
+
 	@Autowired
-	private MapDtoToModel model;
-	
-	private Logger logger=LoggerFactory.getLogger(TutorService.class);
-	
+	private MapDtoToModel mapDtoToModel;
+
 	@Override
 	public List<Tutor> findAll() {
 		// TODO Auto-generated method stub
@@ -66,104 +67,102 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 		try {
 
 			Tutor tutor = new Tutor();
-			tutor = mapper2.map(dto, tutor.getClass());
-			
-			
+			tutor = mapper.map(dto, tutor.getClass());
+
 			Optional<Area> tempArea = Optional.ofNullable(areaRepository.getOne(dto.getTempAreaId()));
-				if(tempArea.isPresent())
-					tutor.setTempArea(tempArea.get());
-				
+			if (tempArea.isPresent())
+				tutor.setTempArea(tempArea.get());
+
 			Optional<Area> perArea = Optional.ofNullable(areaRepository.getOne(dto.getPerAreaId()));
-				if(perArea.isPresent())
-					tutor.setPerArea(perArea.get());
+			if (perArea.isPresent())
+				tutor.setPerArea(perArea.get());
 
 			Optional<Area> relArea = Optional.ofNullable(areaRepository.getOne(dto.getRelAreaId()));
-					if(perArea.isPresent())
-						tutor.setRelArea(relArea.get());
-			
-					
-					logger.debug("Tutor is saved");
-					
+			if (perArea.isPresent())
+				tutor.setRelArea(relArea.get());
+
+			logger.info("Tutor is saved");
+
 			return tutorRepository.save(tutor);
 
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			
+			logger.info("Have something wrong :(");
+
 		}
-		
+
 		return null;
 
 	}
-	//DELETE 
+
+	// DELETE
 	@Override
 	public void deleteById(Long id) {
-		
+
 		try {
-			
+
 			tutorRepository.deleteById(id);
-			
-			logger.debug("Tutor is  deleted");
-		
+
+			logger.info("Tutor is  deleted");
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			logger.info("Have something wrong :(");
 		}
 		return;
-		
+
 	}
-	
-	//Update
+
+	// Update
 	@Override
-	public Tutor update(UpdateTutorDto dto,Long id) {
+	public Tutor update(UpdateTutorDto dto, Long id) {
 		// TODO Auto-generated method stub
 		try {
-			
-			Tutor updateTutor=tutorRepository.getOne(id);
-			
-				updateTutor=(Tutor)model.map(dto, updateTutor);
-				
-				
-				Optional<Area> tempArea = Optional.ofNullable(areaRepository.getOne(dto.getTempAreaId()));
-				if(tempArea.isPresent())
-					updateTutor.setTempArea(tempArea.get());
-				
+
+			Tutor updateTutor = tutorRepository.getOne(id);
+
+			updateTutor = (Tutor) mapDtoToModel.map(dto, updateTutor);
+
+			Optional<Area> tempArea = Optional.ofNullable(areaRepository.getOne(dto.getTempAreaId()));
+			if (tempArea.isPresent())
+				updateTutor.setTempArea(tempArea.get());
+
 			Optional<Area> perArea = Optional.ofNullable(areaRepository.getOne(dto.getPerAreaId()));
-				if(perArea.isPresent())
-					updateTutor.setPerArea(perArea.get());
+			if (perArea.isPresent())
+				updateTutor.setPerArea(perArea.get());
 
 			Optional<Area> relArea = Optional.ofNullable(areaRepository.getOne(dto.getRelAreaId()));
-					if(perArea.isPresent())
-						updateTutor.setRelArea(relArea.get());
-			
+			if (perArea.isPresent())
+				updateTutor.setRelArea(relArea.get());
+
+			logger.info("Tutor is updated");
 			
 			return tutorRepository.save(updateTutor);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			logger.info("Have something wrong :(");
 		}
-		
+
 		return null;
-		
-		
-		
+
 	}
-	
-	
-	
-	
+
 	// StudentWithDto
 
 	private void ModelToDto(Tutor tutor, TutorWithStudent tutorWithStudent) {
-		
-		
-	//	Set<Student> students = studentRepository.findByallStudent(tutor.getTutorCode());
-		mapper2.map(tutor, tutorWithStudent);
-		//tutorWithStudent.setStudents(null);
+
+		// Set<Student> students =
+		// studentRepository.findByallStudent(tutor.getTutorCode());
+		mapper.map(tutor, tutorWithStudent);
+		// tutorWithStudent.setStudents(null);
 
 	}
 
 	private List<TutorWithStudent> MaptoList(List<Tutor> students) {
+		
 		List<TutorWithStudent> tutorWithStudents = new LinkedList<>();
 		for (Tutor tutor : students) {
 			TutorWithStudent student = new TutorWithStudent();
