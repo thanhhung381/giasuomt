@@ -62,6 +62,7 @@ public class Student extends AbstractEntity {
         
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "id_tutor")
+        @JsonIgnore
         private Tutor tutor;
         
         public Student updateConfirm(String conString)

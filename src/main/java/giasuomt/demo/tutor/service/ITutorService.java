@@ -15,4 +15,5 @@ public interface ITutorService extends IGenericService<Tutor, Long>  {
 	public Tutor save(CreateTutorDto dto);
 	public List<TutorWithStudent> findalll();
 	Tutor update(UpdateTutorDto dto, Long id);
+	void deleteById(Long idTutor,Long idStudent);
 }

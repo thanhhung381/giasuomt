@@ -67,7 +67,7 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 			
 			logger.info("Student is saved");
 			
-			return super.save(student);
+			return studentRepository.save(student);
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -113,7 +113,7 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 			logger.info("Student is updated");
 			
 
-			return super.save(studentUpdate);
+			return studentRepository.save(studentUpdate);
 
 		} catch (Exception e) { // TODO: handle exception
 			e.printStackTrace();
