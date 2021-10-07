@@ -1,9 +1,13 @@
 package giasuomt.demo.tutor.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
 import lombok.Getter;
@@ -13,6 +17,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "institution_teacher")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
 public class InstitutionTeacher extends AbstractEntity {        
         private String confirmImgs;
         
@@ -22,8 +27,9 @@ public class InstitutionTeacher extends AbstractEntity {
         
         private String subject;
         
- //       @ManyToOne
-  //      @JoinColumn(name = "tutor_id")
-  //      private Tutor tutor;
+        @ManyToOne(fetch = FetchType.EAGER)
+        @JoinColumn(name = "tutor_id")
+        @JsonIgnore
+        private Tutor tutor;
 
 }

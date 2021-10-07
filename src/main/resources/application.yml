@@ -13,4 +13,3 @@ spring:
     generate-ddl: true #để thằng Hibernate tự nhìn Object và tạo database được
     hibernate:
       ddl-auto: update
-
