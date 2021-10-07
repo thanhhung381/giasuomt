@@ -8,12 +8,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateStudentDto {
-
+	
+	
+	
 	private String confirmImgs;
 
 	private String nowLevel;
 
-	private Long idTutor;
+	private Long idTutor; //Phải giống nhau với Tutor đang quan hệ .
 
 	private LocalDateTime nowLevelUpdatedAt;
 

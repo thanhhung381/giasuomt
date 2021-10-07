@@ -69,7 +69,8 @@ public class CreateTutorDto {
 	    	
 	    	
 	    	                
-	 
+	 //Lưu Student 
+	private Set<CreateStudentDto> createStudentDtos=new HashSet<>();
 	        
 	//RegisteredUser
 }

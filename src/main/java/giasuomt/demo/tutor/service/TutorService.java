@@ -24,6 +24,7 @@ import giasuomt.demo.location.service.IAreaService;
 import giasuomt.demo.tutor.dto.CreateStudentDto;
 import giasuomt.demo.tutor.dto.CreateTutorDto;
 import giasuomt.demo.tutor.dto.TutorWithStudent;
+import giasuomt.demo.tutor.dto.UpdateStudentDto;
 import giasuomt.demo.tutor.dto.UpdateTutorDto;
 import giasuomt.demo.tutor.model.Student;
 import giasuomt.demo.tutor.model.Tutor;
@@ -83,7 +84,17 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 
 			logger.info("Tutor is saved");
 
-			return tutorRepository.save(tutor);
+			tutor = tutorRepository.save(tutor);
+
+			Set<CreateStudentDto> createStudentDtos = dto.getCreateStudentDtos();
+			for (CreateStudentDto student : createStudentDtos) {
+				student.setIdTutor(tutor.getId());
+				dto.getCreateStudentDtos().add(student);
+				iStudentService.save(student);
+
+			}
+
+			return tutor;
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -98,11 +109,13 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 
 	// DELETE
 	@Override
-	public void deleteById(Long id) {
+	public void deleteById(Long idTutor, Long idStudent) {
 
 		try {
 
-			tutorRepository.deleteById(id);
+			studentRepository.deleteById(idStudent);
+
+			tutorRepository.deleteById(idTutor);
 
 			logger.info("Tutor is  deleted");
 
@@ -121,6 +134,14 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 		// TODO Auto-generated method stub
 		try {
 
+			Set<UpdateStudentDto> updateStudentDtos = dto.getUpdateStudentDtos();
+			for (UpdateStudentDto updateStudentDto : updateStudentDtos) {
+
+				Student studentpdate = iStudentService.update(updateStudentDto, dto.getIdStudentUpdate());
+
+				updateStudentDtos.add(updateStudentDto);
+			}
+
 			Tutor updateTutor = tutorRepository.getOne(id);
 
 			updateTutor = (Tutor) mapDtoToModel.map(dto, updateTutor);
@@ -136,10 +157,10 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 			Optional<Area> relArea = Optional.ofNullable(areaRepository.getOne(dto.getRelAreaId()));
 			if (perArea.isPresent())
 				updateTutor.setRelArea(relArea.get());
-
+			updateTutor = tutorRepository.save(updateTutor);
 			logger.info("Tutor is updated");
-			
-			return tutorRepository.save(updateTutor);
+
+			return updateTutor;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -162,7 +183,7 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 	}
 
 	private List<TutorWithStudent> MaptoList(List<Tutor> students) {
-		
+
 		List<TutorWithStudent> tutorWithStudents = new LinkedList<>();
 		for (Tutor tutor : students) {
 			TutorWithStudent student = new TutorWithStudent();

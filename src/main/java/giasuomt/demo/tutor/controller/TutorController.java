@@ -38,8 +38,6 @@ public class TutorController {
 	@Autowired
 	private ITutorService iTutorService;
 	
-	@Autowired
-	private IStudentService iStudentService;
 	
 	//Show List of Tutor
 	@GetMapping("/showTutor")
@@ -61,87 +59,33 @@ public class TutorController {
 																					// ResponsHandler.java]
 			Tutor addedTutor =iTutorService.save(dto);
 			
-			//List<TutorWithStudent> lists=iTutorService.findalll();
+			
 			
 			return ResponseHandler.getResponse(addedTutor, HttpStatus.CREATED); // Trả về http status là đã thành công
 		}
 		//Delete Tutor
-		@DeleteMapping("/deleteTutor/{id}")
-		public ResponseEntity<Object> deleteByIdofTutor(@PathVariable("id") Long id)
+		@DeleteMapping("/deleteTutor/{idStudent}/{idTutor}")
+		public ResponseEntity<Object> deleteByIdofTutor(@PathVariable("idStudent") Long idStudent,@PathVariable("idTutor") Long idTutor)
 		{
 			
-			  iTutorService.deleteById(id);
+			  iTutorService.deleteById(idTutor,idStudent);
 			
 			
 			
 			return ResponseHandler.getResponse("ok", HttpStatus.BAD_REQUEST);
 		}
 		//UpdateTutor
-		@PutMapping("/updateTutor/{id}")
-		public ResponseEntity<Object> updateTutor(@Valid @RequestBody UpdateTutorDto dto,Long id)
+		@PutMapping("/updateTutor/{idTutor}")
+		public ResponseEntity<Object> updateTutor(@Valid @RequestBody UpdateTutorDto dto,@PathVariable("idTutor") Long idTutor)
 		{
 			
-			Tutor updateTutor=iTutorService.update(dto, id);
+			Tutor updateTutor=iTutorService.update(dto, idTutor);
 			
 			return ResponseHandler.getResponse(updateTutor, HttpStatus.OK) ;
 		}
 		
 		
 		
-		// Controller Student
-		
-		//Show List of Tutor
-		@GetMapping("/Student/showStudent")
-		public ResponseEntity<Object> findAllStudent() {
-			List<Student> students = iStudentService.findAll();
-			if (students.isEmpty())
-
-				return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
-
-			return ResponseHandler.getResponse(students, HttpStatus.OK);
-		}
-		
-		// Save Student
-			@PostMapping("/Student/saveStudent")
-			public ResponseEntity<Object> saveStudent(@Valid @RequestBody CreateStudentDto dto, BindingResult errors) {
-				if (errors.hasErrors())
-					return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST); // Trả về các messages lỗi, kèm theo
-																						// HttpStatus BAD REQUEST [xem trong
-																						// ResponsHandler.java]
-				Student addedStudent =iStudentService.save(dto);
-				return ResponseHandler.getResponse(addedStudent , HttpStatus.CREATED); // Trả về http status là đã thành công
-			}
-		//delete student	
-			@DeleteMapping("/Student/deleteStudent/{id}")
-			public ResponseEntity<Object> deleteByIdInStudent(@PathVariable("id") Long id)
-			{
-			    	iStudentService.deleteById(id);
-				
-				return ResponseHandler.getResponse("delete successfully", HttpStatus.OK);
-			}
-		//Update student
-			@PutMapping("/Student/updateStudent/{id}")
-			public ResponseEntity<Object> updateByIdInStudent(@PathVariable("id") Long id,@RequestBody UpdateStudentDto dto,BindingResult errors)
-			{
-				if(errors.hasErrors())
-					return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-				Student studentUpdate=iStudentService.update(dto, id);
-				return ResponseHandler.getResponse(studentUpdate,HttpStatus.OK);
-			}
-		
-			
-
-			
-			//
-			@GetMapping("/showTutorWithDifferInfo")
-			public ResponseEntity<Object> ShowTutorWithBasicInfo() {
-				List<TutorWithStudent> lists=iTutorService.findalll();
-				if (lists.isEmpty())
-
-					return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
-
-				return ResponseHandler.getResponse(lists, HttpStatus.OK);
-			}
-			
+	
 	
 }

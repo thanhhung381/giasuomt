@@ -1,6 +1,8 @@
 package giasuomt.demo.tutor.dto;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -54,8 +56,10 @@ public class UpdateTutorDto {
 	private Long relAreaId;
 	    	
 	    	
-	    	                
+	Set<UpdateStudentDto> updateStudentDtos=new HashSet<>();    	                
 	 
+	private Long idStudentUpdate;
+	
 	        
 	//RegisteredUser
 }

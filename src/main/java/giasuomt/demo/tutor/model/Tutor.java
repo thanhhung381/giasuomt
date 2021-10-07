@@ -80,7 +80,7 @@ public class Tutor extends User {
         
 //HIỆN ĐANG LÀ
         @OneToMany(mappedBy = "tutor")
-        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+        //@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
         private Set<Student> students=new HashSet<>();
         
      //   @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
@@ -155,16 +155,6 @@ public class Tutor extends User {
         	return this;
         }
       
-        public  Tutor addStudent(Student student)
-        {
-        	Student newStudent=new Student();
-        	Set<Student> students=new HashSet<>();
-        	
-        	newStudent.setNowLevel(student.getNowLevel());
-        	students.add(newStudent);
-        	this.setStudents(students);
-        	return this;
-        	
-        }
+     
         
 }
