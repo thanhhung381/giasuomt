@@ -61,7 +61,7 @@ public class Student extends AbstractEntity {
         
         
         @ManyToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "id_tutor")
+        @JoinColumn(name = "tutor_id")
         @JsonIgnore
         private Tutor tutor;
         

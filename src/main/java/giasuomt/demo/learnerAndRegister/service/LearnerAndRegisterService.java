@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
-import giasuomt.demo.commondata.util.UserGender;
 import giasuomt.demo.learnerAndRegister.dto.SaveLearnerAndRegisterDTO_Staff;
 import giasuomt.demo.learnerAndRegister.dto.SaveLearnerAndRegistersDTO_Staff;
 import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
@@ -106,8 +105,7 @@ public class LearnerAndRegisterService extends GenericService<LearnerAndRegister
 
 	@Override
 	public List<LearnerAndRegister> findByFullNameAnd(String fullNameAnd) {
-		UserGender gender = UserGender.MALE;
-		return repository.findByFullNameContainingAndBirthYearAndGenderAndAddNoAndAddSt(fullNameAnd,"string",gender,"string","string");
+		return repository.findByFullNameContainingAndBirthYearAndGenderAndAddNoAndAddSt(fullNameAnd,"string","string","string","string");
 	}
 
 	

@@ -3,21 +3,13 @@ package giasuomt.demo.tutor.dto;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import giasuomt.demo.location.dto.CreateAreaDTO;
-import giasuomt.demo.location.dto.FindingDtoArea;
-import giasuomt.demo.location.model.Area;
-import giasuomt.demo.tutor.model.Student;
+import giasuomt.demo.commondata.dto.CreateUserDto;
 import lombok.Getter;
 import lombok.Setter;
+
 @Getter
 @Setter
-public class CreateTutorDto {
+public class CreateTutorDto extends CreateUserDto{
 	
 	private String tutorCode; // Cần viết tự generate theo dạng 8 số
 

@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import giasuomt.demo.commondata.util.DateUtils;
-import giasuomt.demo.commondata.util.UserGender;
 
 @MappedSuperclass
 public class SaveUserDTO_Staff {
@@ -16,7 +15,7 @@ public class SaveUserDTO_Staff {
 //	@Length(min = 4, max = 50, message = "{role.description.size}")
 	private String fullName;
 	
-	private UserGender gender;
+	private String gender;
 	
 	private String phones;
 	
@@ -77,12 +76,6 @@ public class SaveUserDTO_Staff {
 		this.fbs = fbs;
 	}
 
-	public UserGender getGender() {
-		return gender;
-	}
-	public void setGender(UserGender gender) {
-		this.gender = gender;
-	}
 	public LocalDate getBirthDate() {
 		return birthDate;
 	}

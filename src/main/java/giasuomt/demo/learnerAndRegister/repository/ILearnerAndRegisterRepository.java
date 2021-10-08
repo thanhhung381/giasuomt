@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import giasuomt.demo.commondata.util.UserGender;
 import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
 
 @Repository
@@ -18,6 +16,6 @@ public interface ILearnerAndRegisterRepository extends JpaRepository<LearnerAndR
 	List<LearnerAndRegister> findByFullNameContaining(String fullName);
 
 	List<LearnerAndRegister> findByFullNameContainingAndBirthYearAndGenderAndAddNoAndAddSt(String fullNameAnd,
-			String string1, UserGender gender, String string3, String string4); 
+			String string1, String gender, String string3, String string4); 
 
 }

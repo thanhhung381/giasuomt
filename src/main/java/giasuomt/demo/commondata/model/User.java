@@ -1,9 +1,6 @@
 package giasuomt.demo.commondata.model;
 
 import java.time.LocalDate;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import giasuomt.demo.commondata.util.DateUtils;
-import giasuomt.demo.commondata.util.UserGender;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,8 +33,7 @@ public class User extends AbstractEntity {
         private String fullName;
         
 //        @NotNull  //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
-        @Enumerated(EnumType.STRING) //phải dùng Enumerated để database biết là nó phải tạo cái cột kiểu là gì (vd nếu Enum mình để là số thì type là Interger, ở đây Enum mình là chữ nên Type là STRING)
-        private UserGender gender;        
+        private String gender;        
         
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateUtils.DATE_FORMAT) //Quy định date format khi nó add đối tượng thành Json để trả về Clients
         @DateTimeFormat(pattern = DateUtils.DATE_FORMAT) //Quy định date format để lưu xuống database
@@ -70,10 +65,6 @@ public class User extends AbstractEntity {
         }
         public User fullName(String fullName) {
                 this.fullName = fullName;
-                return this;
-        }
-        public User gender(UserGender gender) {
-                this.gender = gender;
                 return this;
         }
         public User birthDate(LocalDate birthDate) {
