@@ -34,7 +34,7 @@ public class Major extends AbstractEntity {
    //     @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
     //    Set<Student> students;
 
-        @OneToMany(mappedBy = "major", fetch = FetchType.LAZY)
-        @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-        Set<GraduatedStudent> graduatedStudents;
+    //    @OneToMany(mappedBy = "major", fetch = FetchType.LAZY)
+     //   @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+      //  Set<GraduatedStudent> graduatedStudents;
 }

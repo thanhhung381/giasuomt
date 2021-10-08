@@ -1,6 +1,7 @@
 package giasuomt.demo.tutor.controller;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -64,17 +65,14 @@ public class TutorController {
 			return ResponseHandler.getResponse(addedTutor, HttpStatus.CREATED); // Trả về http status là đã thành công
 		}
 		//Delete Tutor
-		@DeleteMapping("/deleteTutor/{idStudent}/{idTutor}")
-		public ResponseEntity<Object> deleteByIdofTutor(@PathVariable("idStudent") Long idStudent,@PathVariable("idTutor") Long idTutor)
+		@DeleteMapping("/deleteTutor/{id}")
+		public ResponseEntity<Object> deleteById(@PathVariable("id") Long id)
 		{
-			
-			  iTutorService.deleteById(idTutor,idStudent);
-			
-			
+			iTutorService.deleteById(id);
 			
 			return ResponseHandler.getResponse("ok", HttpStatus.BAD_REQUEST);
 		}
-		//UpdateTutor
+
 		@PutMapping("/updateTutor/{idTutor}")
 		public ResponseEntity<Object> updateTutor(@Valid @RequestBody UpdateTutorDto dto,@PathVariable("idTutor") Long idTutor)
 		{
@@ -85,7 +83,7 @@ public class TutorController {
 		}
 		
 		
-		
+	
 	
 	
 }

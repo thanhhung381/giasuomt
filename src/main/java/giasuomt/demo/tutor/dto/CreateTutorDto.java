@@ -66,11 +66,18 @@ public class CreateTutorDto {
 	private String yRelCoo;
 
 	private Long relAreaId;
-	    	
+	
+	
+	
 	    	
 	    	                
 	 //Lưu Student 
 	private Set<CreateStudentDto> createStudentDtos=new HashSet<>();
-	        
+	//Lưu GraduatedStudent
+	private Set<CreateGraduatedStudentDto> createGraduatedStudentDtos=new HashSet<>();
+	//luu Institution Teacher        
+	private Set<CreateInstitutionTeacherDto> createInstitutionTeacherDtos=new HashSet<>();
+	//luu School Teacher
+	private Set<CreateSchoolTeacherDto> createSchoolTeacherDtos=new HashSet<>();
 	//RegisteredUser
 }

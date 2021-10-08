@@ -83,17 +83,17 @@ public class Tutor extends User {
         //@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
         private Set<Student> students=new HashSet<>();
         
-     //   @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
-     //   @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-   //     private Set<GraduatedStudent> graduatedStudents;
+        @OneToMany(mappedBy = "tutor")
+       // @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+        private Set<GraduatedStudent> graduatedStudents=new HashSet<>();
         
-  //      @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
-   //     @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-  //      private Set<InstitutionTeacher> institutionTeachers;        
+       @OneToMany(mappedBy = "tutor")
+      // @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+        private Set<InstitutionTeacher> institutionTeachers=new HashSet<>();        
         
-//        @OneToMany(mappedBy = "tutor", fetch = FetchType.EAGER)
- //       @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-   //     private Set<SchoolTeacher> schoolTeachers;        
+        @OneToMany(mappedBy = "tutor")
+        //@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+        private Set<SchoolTeacher> schoolTeachers=new HashSet<>();        
 //   
         
 //NĂNG LỰC:
@@ -135,25 +135,7 @@ public class Tutor extends User {
       //  private RegisteredUser registeredUser;
         
         //getter setter cho dto
-        public Tutor addTempArea(Area tempArea)
-        {
-        	
-        	this.tempArea=tempArea;
-        	
-        	return this;
-        }
-        
-        public Tutor addRelArea(Area relArea)
-        {
-        	this.relArea=relArea;
-        	return this;
-        }
-        
-        public Tutor addPerArea(Area perArea)
-        {
-        	this.perArea=perArea;
-        	return this;
-        }
+       
       
      
         

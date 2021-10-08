@@ -19,12 +19,15 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	@Query("SELECT s FROM Student s WHERE s.tutor.tutorCode=:tutorCode ")
 	Set<Student> findByallStudent(@Param("tutorCode") String tutorCode);
 	
-	@Query("SELECT s.id FROM Student s WHERE s.id=:id")
-	Long findByNad(@Param("id") Long id);
+	@Query("SELECT s FROM Student s WHERE s.tutor.id=:id")
+	Set<Student> findByStudentByIdTutors(@Param("id") Long id);
 
 	@Query("SELECT s FROM Student s WHERE s.tutor.tutorCode=:code")
 	Optional<Student> findByTutorCode(@Param("code") String code);
 	
+	
+	@Query("SELECT s.id FROM Student s WHERE s.tutor.id=:id")
+	Set<Long> findStudentIdByTutorId(@Param("id") Long id);
 	
 	//
 	//@Override
