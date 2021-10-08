@@ -17,29 +17,26 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "graduated_student")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class GraduatedStudent extends AbstractEntity {
-        private String diplomaImgs;
-        
-        private String graduatedYear;
-        
-		
-        String institutionName;
-        
-        String institutionAbbrName;
-        
-        String institutionCode;
-        
-        String institutionType;
-        
-        
-        String majorName;
-        
-        String majorCode;
-		 
-        
-	        @ManyToOne(fetch = FetchType.LAZY)
-	        @JoinColumn(name = "tutor_id")
-	        @JsonIgnore
-	        private Tutor tutor;
+	private String diplomaImgs;
+
+	private String graduatedYear;
+
+	String institutionName;
+
+	String institutionAbbrName;
+
+	String institutionCode;
+
+	String institutionType;
+
+	String majorName;
+
+	String majorCode;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "tutor_id")
+	@JsonIgnore
+	private Tutor tutor;
 }

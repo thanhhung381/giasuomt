@@ -10,33 +10,39 @@ import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.tutor.dto.CreateInstitutionTeacherDto;
 import giasuomt.demo.tutor.model.InstitutionTeacher;
 import giasuomt.demo.tutor.model.Tutor;
-import giasuomt.demo.tutor.repository.InstitutionTeacherRepository;
-import giasuomt.demo.tutor.repository.TutorRepository;
+import giasuomt.demo.tutor.repository.IInstitutionTeacherRepository;
+import giasuomt.demo.tutor.repository.ITutorRepository;
+import lombok.AllArgsConstructor;
 
 @Service
-public class InsitutionTeacherService extends GenericService<InstitutionTeacher, Long> implements IInsitutionTeacherService {
-	@Autowired
-	private InstitutionTeacherRepository insitutionTeacherRepository;
-	@Autowired
+@AllArgsConstructor
+public class InsitutionTeacherService extends GenericService<InstitutionTeacher, Long>
+		implements IInsitutionTeacherService {
+
+	private IInstitutionTeacherRepository iInsitutionTeacherRepository;
+
+	private ITutorRepository iTutorRepository;
+
 	private MapDtoToModel mapper;
-	@Autowired
-	private TutorRepository tutorRepository;
-	
-	
+
+	// save institution Teacher
 	@Override
 	public InstitutionTeacher save(CreateInstitutionTeacherDto dto) {
-		// TODO Auto-generated method stub
-		
-		InstitutionTeacher institutionTeacher=new InstitutionTeacher();
-		institutionTeacher=(InstitutionTeacher)mapper.map(dto, institutionTeacher);
-			
-			Optional<Tutor> tutor=Optional.ofNullable(tutorRepository.getOne(dto.getTutorId()));
-				if(tutor.isPresent())
-					institutionTeacher.setTutor(tutor.get());
-		
-		return insitutionTeacherRepository.save(institutionTeacher);
+
+		try {
+			InstitutionTeacher institutionTeacher = new InstitutionTeacher();
+			institutionTeacher = (InstitutionTeacher) mapper.map(dto, institutionTeacher);
+
+			Optional<Tutor> tutor = Optional.ofNullable(iTutorRepository.getOne(dto.getTutorId()));
+			if (tutor.isPresent())
+				institutionTeacher.setTutor(tutor.get());
+
+			return iInsitutionTeacherRepository.save(institutionTeacher);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return null;
 	}
-	
-	
-	
+
 }

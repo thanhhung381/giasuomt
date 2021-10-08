@@ -10,39 +10,37 @@ import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.tutor.dto.CreateSchoolTeacherDto;
 import giasuomt.demo.tutor.model.SchoolTeacher;
 import giasuomt.demo.tutor.model.Tutor;
-import giasuomt.demo.tutor.repository.InstitutionTeacherRepository;
-import giasuomt.demo.tutor.repository.SchoolTeacherRepository;
-import giasuomt.demo.tutor.repository.TutorRepository;
+import giasuomt.demo.tutor.repository.IInstitutionTeacherRepository;
+import giasuomt.demo.tutor.repository.ISchoolTeacherRepository;
+import giasuomt.demo.tutor.repository.ITutorRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class SchoolTeacherService extends GenericService<SchoolTeacher, Long> implements ISchoolTeacherService {
-	
-	@Autowired
-	private SchoolTeacherRepository schoolTeacherRepository;
-	@Autowired
+
+	private ISchoolTeacherRepository schoolTeacherRepository;
+
+	private ITutorRepository tutorRepository;
+
 	private MapDtoToModel mapper;
-	@Autowired
-	private TutorRepository tutorRepository;
-	
 
 	@Override
 	public SchoolTeacher save(CreateSchoolTeacherDto dto) {
-		// TODO Auto-generated method stub
-		 SchoolTeacher schoolTeacher=new SchoolTeacher();
-		 schoolTeacher=(SchoolTeacher)mapper.map(dto, schoolTeacher);
-		 	Optional<Tutor> tutor=Optional.ofNullable(tutorRepository.getOne(dto.getTutorId()));
-		 	if(tutor.isPresent())
-		 		schoolTeacher.setTutor(tutor.get());
-		 
-		 
-		 
-		 
-		return super.save(schoolTeacher);
-		
+
+		try {
+			SchoolTeacher schoolTeacher = new SchoolTeacher();
+			schoolTeacher = (SchoolTeacher) mapper.map(dto, schoolTeacher);
+			Optional<Tutor> tutor = Optional.ofNullable(tutorRepository.getOne(dto.getTutorId()));
+			if (tutor.isPresent())
+				schoolTeacher.setTutor(tutor.get());
+
+			return super.save(schoolTeacher);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return null;
 	}
-	
-	
-	
-	
-	
+
 }

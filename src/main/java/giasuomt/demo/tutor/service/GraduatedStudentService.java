@@ -10,33 +10,40 @@ import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.tutor.dto.CreateGraduatedStudentDto;
 import giasuomt.demo.tutor.model.GraduatedStudent;
 import giasuomt.demo.tutor.model.Tutor;
-import giasuomt.demo.tutor.repository.GraduatedStudentRepository;
-import giasuomt.demo.tutor.repository.TutorRepository;
+import giasuomt.demo.tutor.repository.IGraduatedStudentRepository;
+import giasuomt.demo.tutor.repository.ITutorRepository;
+import lombok.AllArgsConstructor;
 
 @Service
-public class GraduatedStudentService extends GenericService<GraduatedStudent, Long> implements IGraduatedStudentService {
+@AllArgsConstructor
+public class GraduatedStudentService extends GenericService<GraduatedStudent, Long>
+		implements IGraduatedStudentService {
+	// repository
+	private IGraduatedStudentRepository iGraduatedStudentRepository;
 	
-	@Autowired
-	private GraduatedStudentRepository graduatedStudentRepository;
-	@Autowired
+	private ITutorRepository iTutorRepository;
+	// mapper
 	private MapDtoToModel mapper;
-	@Autowired
-	private TutorRepository tutorRepository;
+
 	
+
 	@Override
 	public GraduatedStudent save(CreateGraduatedStudentDto dto) {
-		// TODO Auto-generated method stub
-		
-		GraduatedStudent graduatedStudent=new GraduatedStudent();
-		graduatedStudent=(GraduatedStudent)mapper.map(dto, graduatedStudent);
-		
-		Optional<Tutor> tutor= Optional.ofNullable(tutorRepository.getOne(dto.getTutorId()));
-		if(tutor.isPresent())
-			graduatedStudent.setTutor(tutor.get());
-		
-		
-		return super.save(graduatedStudent);
+
+		try {
+			GraduatedStudent graduatedStudent = new GraduatedStudent();
+			graduatedStudent = (GraduatedStudent) mapper.map(dto, graduatedStudent);
+
+			Optional<Tutor> tutor = Optional.ofNullable(iTutorRepository.getOne(dto.getTutorId()));
+			if (tutor.isPresent())
+				graduatedStudent.setTutor(tutor.get());
+
+			return super.save(graduatedStudent);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return null;
 	}
-	
-	
+
 }

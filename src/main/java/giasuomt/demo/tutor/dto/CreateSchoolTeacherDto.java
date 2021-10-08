@@ -5,12 +5,19 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateSchoolTeacherDto {
-	 
+public class CreateSchoolTeacherDto  {
+
 	private Long tutorId;
-	
+
 	private String confirmImgs;
-	 
-	private String subject; 
-	 
+
+	private String subject;
+
+	String institutionName;
+
+	String institutionAbbrName;
+
+	String institutionCode;
+
+	String institutionType;
 }

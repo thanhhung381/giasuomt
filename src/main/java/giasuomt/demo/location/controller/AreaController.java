@@ -25,17 +25,19 @@ import giasuomt.demo.location.dto.FindingDtoArea;
 import giasuomt.demo.location.dto.UpdateAreaDTO;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.service.IAreaService;
+import lombok.AllArgsConstructor;
 
 @RestController // Tức là server sẽ trả JSON về client
 @RequestMapping("/api/area") // Ghi nhận yêu cầu gọi api của Client
+@AllArgsConstructor
 public class AreaController {
-	@Autowired
-	private IAreaService service;
+
+	private IAreaService iAreaService;
 
 	// Show list of Area
-	@GetMapping("")
+	@GetMapping("/showArea")
 	public ResponseEntity<Object> findAll() {
-		List<Area> areas = service.findAll();
+		List<Area> areas = iAreaService.findAll();
 		if (areas.isEmpty())
 
 			return ResponseHandler.getResponse("There is no data.", HttpStatus.OK);
@@ -44,31 +46,31 @@ public class AreaController {
 	}
 
 	// Save Area
-	@PostMapping("")
+	@PostMapping("/saveArea")
 	public ResponseEntity<Object> save(@Valid @RequestBody CreateAreaDTO dto, BindingResult errors) {
 		if (errors.hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST); // Trả về các messages lỗi, kèm theo
 																				// HttpStatus BAD REQUEST [xem trong
 																				// ResponsHandler.java]
-		Area addedArea = service.save(dto);
+		Area addedArea = iAreaService.save(dto);
 		return ResponseHandler.getResponse(addedArea, HttpStatus.CREATED); // Trả về http status là đã thành công
 	}
 
 	// delete area
-	@DeleteMapping("/delete/{area_id}")
+	@DeleteMapping("/deleteArea/{area_id}")
 	public ResponseEntity<Object> deleteByIdOfArea(@PathVariable("area_id") Long area_id) {
-		if (!service.checkExistIdofArea(area_id))
+		if (!iAreaService.checkExistIdofArea(area_id))
 			return ResponseHandler.getResponse("Don't have any Area id", HttpStatus.BAD_REQUEST);
-		service.deleteById(area_id);
+		iAreaService.deleteById(area_id);
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 
 	// update area
-	@PutMapping("/update")
+	@PutMapping("/updateArea")
 	public ResponseEntity<Object> updateArea(@Valid @RequestBody UpdateAreaDTO updateDto, BindingResult errors) {
 		if (errors.hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-		Area updatedArea = service.update(updateDto);
+		Area updatedArea = iAreaService.update(updateDto);
 		return ResponseHandler.getResponse(updatedArea, HttpStatus.OK);
 	}
 
@@ -76,7 +78,7 @@ public class AreaController {
 	@PostMapping("/findByBasicLocationInArea")
 	public ResponseEntity<Object> findByNationAndProvincialLevelAndDistrictAndCommune(
 			@Valid @RequestBody FindingDtoArea dtoFinding, BindingResult errors) {
-		List<Area> areas = service.findByNationAndProvincialLevelAndDistrictAndCommune(dtoFinding);
+		List<Area> areas = iAreaService.findByNationAndProvincialLevelAndDistrictAndCommune(dtoFinding);
 		if (areas == null)
 			return ResponseHandler.getResponse("Do not exist Area", HttpStatus.BAD_REQUEST);
 		return ResponseHandler.getResponse(areas, HttpStatus.OK);
@@ -84,7 +86,7 @@ public class AreaController {
 
 	@GetMapping("/findLearnerAndRegistersById/{area-id}")
 	public ResponseEntity<Object> findLearnerAndRegistersById(@PathVariable("area-id") Long areaId) {
-		Set<LearnerAndRegister> learnerAndRegisters = service.findLearnerAndRegistersById(areaId);
+		Set<LearnerAndRegister> learnerAndRegisters = iAreaService.findLearnerAndRegistersById(areaId);
 		if (learnerAndRegisters == null)
 			return ResponseHandler.getResponse("There is no data.", HttpStatus.OK);
 		return ResponseHandler.getResponse(learnerAndRegisters, HttpStatus.OK); // Trả về roles, kèm theo HttpStatus OK

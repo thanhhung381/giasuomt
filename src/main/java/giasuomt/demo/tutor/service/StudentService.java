@@ -20,42 +20,42 @@ import giasuomt.demo.location.dto.CreateAreaDTO;
 import giasuomt.demo.location.dto.FindingDtoArea;
 import giasuomt.demo.location.dto.UpdateAreaDTO;
 import giasuomt.demo.location.model.Area;
+import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.location.service.IAreaService;
 import giasuomt.demo.tutor.dto.CreateStudentDto;
 import giasuomt.demo.tutor.dto.UpdateStudentDto;
 import giasuomt.demo.tutor.model.Student;
 import giasuomt.demo.tutor.model.Tutor;
-import giasuomt.demo.tutor.repository.StudentRepository;
-import giasuomt.demo.tutor.repository.TutorRepository;
+import giasuomt.demo.tutor.repository.IGraduatedStudentRepository;
+import giasuomt.demo.tutor.repository.IInstitutionTeacherRepository;
+import giasuomt.demo.tutor.repository.ISchoolTeacherRepository;
+import giasuomt.demo.tutor.repository.IStudentRepository;
+import giasuomt.demo.tutor.repository.ITutorRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class StudentService extends GenericService<Student, Long> implements IStudentService {
 
-	@Autowired
-	private StudentRepository studentRepository;
+	// Repository
+	private IStudentRepository studentRepository;
 
-	@Autowired
+	private ITutorRepository tutorRepository;
+
+	// model mapper
 	private ModelMapper mapper;
 
-	@Autowired
-	private TutorRepository tutorRepository;
-
-	@Autowired
 	private MapDtoToModel mapDtoToModel;
-	
-	
-	private Logger logger=LoggerFactory.getLogger(StudentService.class);
-	
+
 	@Override
 	public List<Student> findAll() {
-		// TODO Auto-generated method stub
+
 		return studentRepository.findAll();
 	}
 
-	// SAVE TUTOR
+	// Save Student
 	@Override
 	public Student save(CreateStudentDto dto) {
-		// TODO Auto-generated method stub
 
 		try {
 			Student student = new Student();
@@ -64,60 +64,53 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 			Optional<Tutor> tutor = Optional.ofNullable(tutorRepository.getOne(dto.getTutorId()));
 			if (tutor.isPresent())
 				student.setTutor(tutor.get());
-			
-			logger.info("Student is saved");
-			
+
 			return studentRepository.save(student);
 
 		} catch (Exception e) {
-			// TODO: handle exception
+
 			e.printStackTrace();
-			
-			logger.info("Have something wrong :(");
+
 		}
 
 		return null;
 
 	}
 
+	// Delete Student
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
+
 		try {
 
 			studentRepository.deleteById(id);
-			logger.info("Student is deleted");
-			
+
 		} catch (Exception e) {
-			// TODO: handle exception
+
 			e.printStackTrace();
-			logger.info("Have something wrong :(");
+
 		}
 		return;
 	}
 
+	// Update Student
 	@Override
 	public Student update(UpdateStudentDto dto, Long id) {
 		try {
 
 			Student studentUpdate = studentRepository.getOne(id);
-			
-			studentUpdate=(Student)mapDtoToModel.map(dto, studentUpdate);
-			
-			
-			Optional<Tutor> tutor=Optional.ofNullable(tutorRepository.getOne(dto.getIdTutor()));
-			if(tutor.isPresent())
+
+			studentUpdate = (Student) mapDtoToModel.map(dto, studentUpdate);
+
+			Optional<Tutor> tutor = Optional.ofNullable(tutorRepository.getOne(dto.getIdTutor()));
+			if (tutor.isPresent())
 				studentUpdate.setTutor(tutor.get());
-					
-			
-			logger.info("Student is updated");
-			
 
 			return studentRepository.save(studentUpdate);
 
-		} catch (Exception e) { // TODO: handle exception
+		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("Have something wrong :(");
+
 		}
 
 		return null;
