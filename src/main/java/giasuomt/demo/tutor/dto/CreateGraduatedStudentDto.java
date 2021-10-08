@@ -13,5 +13,16 @@ public class CreateGraduatedStudentDto {
      
      private String graduatedYear;
      
+     String institutionName;
      
+     String institutionAbbrName;
+     
+     String institutionCode;
+     
+     String institutionType;
+     
+     
+     String majorName;
+     
+     String majorCode;
 }

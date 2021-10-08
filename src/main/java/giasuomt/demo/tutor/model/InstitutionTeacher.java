@@ -17,21 +17,21 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "institution_teacher")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
-public class InstitutionTeacher extends AbstractEntity {        
-        private String confirmImgs;
-        
-        String institutionName;
-        
-        String institutionAbbrName;
-        
-        String institutionType;
-        
-        private String subject;
-        
-        @ManyToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "tutor_id")
-        @JsonIgnore
-        private Tutor tutor;
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
+public class InstitutionTeacher extends AbstractEntity {
+	private String confirmImgs;
+
+	String institutionName;
+
+	String institutionAbbrName;
+
+	String institutionType;
+
+	private String subject;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "tutor_id")
+	@JsonIgnore
+	private Tutor tutor;
 
 }

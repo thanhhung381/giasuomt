@@ -19,7 +19,7 @@ import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.location.dto.FindingDtoArea;
 import giasuomt.demo.location.dto.UpdateAreaDTO;
 import giasuomt.demo.location.model.Area;
-import giasuomt.demo.location.repository.AreaRepository;
+import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.location.service.IAreaService;
 import giasuomt.demo.tutor.dto.CreateGraduatedStudentDto;
 import giasuomt.demo.tutor.dto.CreateInstitutionTeacherDto;
@@ -34,144 +34,117 @@ import giasuomt.demo.tutor.model.InstitutionTeacher;
 import giasuomt.demo.tutor.model.SchoolTeacher;
 import giasuomt.demo.tutor.model.Student;
 import giasuomt.demo.tutor.model.Tutor;
-import giasuomt.demo.tutor.repository.GraduatedStudentRepository;
-import giasuomt.demo.tutor.repository.InstitutionTeacherRepository;
-import giasuomt.demo.tutor.repository.SchoolTeacherRepository;
-import giasuomt.demo.tutor.repository.StudentRepository;
-import giasuomt.demo.tutor.repository.TutorRepository;
+import giasuomt.demo.tutor.repository.IGraduatedStudentRepository;
+import giasuomt.demo.tutor.repository.IInstitutionTeacherRepository;
+import giasuomt.demo.tutor.repository.ISchoolTeacherRepository;
+import giasuomt.demo.tutor.repository.IStudentRepository;
+import giasuomt.demo.tutor.repository.ITutorRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class TutorService extends GenericService<Tutor, Long> implements ITutorService {
 
-	private Logger logger = LoggerFactory.getLogger(TutorService.class);
+	
 
-	@Autowired
-	private TutorRepository tutorRepository;
+	private ITutorRepository tutorRepository;
 
-	@Autowired
 	private MapDtoToModel mapDtoToModel;
 
 	// Service
-	@Autowired
-	private IGraduatedStudentService graduatedStudentService;
 
-	@Autowired
+	private IGraduatedStudentService iGraduatedStudentService;
+
 	private IInsitutionTeacherService iInsitutionTeacherService;
 
-	@Autowired
 	private ISchoolTeacherService iSchoolTeacherService;
 
-	@Autowired
 	private IStudentService iStudentService;
 
-	@Autowired
 	private ModelMapper modelMapper;
 
 	// Repository
-	@Autowired
-	private AreaRepository areaRepository;
 
-	@Autowired
-	private StudentRepository studentRepository;
+	private IAreaRepository iAreaRepository;
 
-	@Autowired
-	private SchoolTeacherRepository schoolTeacherRepository;
-	
-	@Autowired
-	private InstitutionTeacherRepository insitutionTeacherRepository;
-	
-	@Autowired
-	private GraduatedStudentRepository graduatedStudentRepository;
-	
-	
-	
+	private IStudentRepository iStudentRepository;
+
+	private ISchoolTeacherRepository iSchoolTeacherRepository;
+
+	private IInstitutionTeacherRepository iInsitutionTeacherRepository;
+
+	private IGraduatedStudentRepository iGraduatedStudentRepository;
+
 	@Override
 	public List<Tutor> findAll() {
-		// TODO Auto-generated method stub
+
 		return tutorRepository.findAll();
 	}
 
 	// luu
 	@Override
 	public Tutor save(CreateTutorDto dto) {
-		// TODO Auto-generated method stub
 
 		try {
 
 			Tutor tutor = new Tutor();
 			tutor = (Tutor) mapDtoToModel.map(dto, tutor);
 
-			Optional<Area> tempArea = Optional.ofNullable(areaRepository.getOne(dto.getTempAreaId()));
+			Optional<Area> tempArea = Optional.ofNullable(iAreaRepository.getOne(dto.getTempAreaId()));
 			if (tempArea.isPresent())
 				tutor.setTempArea(tempArea.get());
 
-			Optional<Area> perArea = Optional.ofNullable(areaRepository.getOne(dto.getPerAreaId()));
+			Optional<Area> perArea = Optional.ofNullable(iAreaRepository.getOne(dto.getPerAreaId()));
 			if (perArea.isPresent())
 				tutor.setPerArea(perArea.get());
 
-			Optional<Area> relArea = Optional.ofNullable(areaRepository.getOne(dto.getRelAreaId()));
+			Optional<Area> relArea = Optional.ofNullable(iAreaRepository.getOne(dto.getRelAreaId()));
 			if (perArea.isPresent())
 				tutor.setRelArea(relArea.get());
 
-			logger.info("Tutor is saved");
+			
 
 			tutor = tutorRepository.save(tutor);
 
 			// Graduated Student
 			Set<CreateGraduatedStudentDto> graduatedStudents = dto.getCreateGraduatedStudentDtos();
 			for (CreateGraduatedStudentDto createGraduatedStudentDto : graduatedStudents) {
-				GraduatedStudent graduatedStudent = new GraduatedStudent();
-				graduatedStudent = (GraduatedStudent) mapDtoToModel.map(createGraduatedStudentDto, graduatedStudent);
-				graduatedStudent.setTutor(tutor);
-				graduatedStudentService.save(graduatedStudent);
-//				createGraduatedStudentDto.setTutorId(tutor.getId());
-//				graduatedStudents.add(createGraduatedStudentDto);
-//				graduatedStudentService.save(createGraduatedStudentDto);
+
+				graduatedStudents.add(createGraduatedStudentDto);
+				iGraduatedStudentService.save(createGraduatedStudentDto);
 			}
 
 			// Student
 			Set<CreateStudentDto> createStudentDtos = dto.getCreateStudentDtos();
 			for (CreateStudentDto createStudentDto : createStudentDtos) {
-				Student student = new Student();
-				student = (Student) mapDtoToModel.map(createStudentDto, student);
-				student.setTutor(tutor);
-				iStudentService.save(student);
-//				createStudentDto.setTutorId(tutor.getId());
-//				createStudentDtos.add(createStudentDto);
-//				iStudentService.save(createStudentDto);
+
+				createStudentDtos.add(createStudentDto);
+				iStudentService.save(createStudentDto);
 			}
 
 			// Institution Teacher
 			Set<CreateInstitutionTeacherDto> institutionTeachers = dto.getCreateInstitutionTeacherDtos();
 			for (CreateInstitutionTeacherDto createInstitutionTeacherDto : institutionTeachers) {
-				InstitutionTeacher institutionTeacher = new InstitutionTeacher();
-				institutionTeacher = (InstitutionTeacher) mapDtoToModel.map(createInstitutionTeacherDto, institutionTeacher);
-				institutionTeacher.setTutor(tutor);
-				iInsitutionTeacherService.save(institutionTeacher);
-//				createInstitutionTeacherDto.setTutorId(tutor.getId());
-//				institutionTeachers.add(createInstitutionTeacherDto);
-//				iInsitutionTeacherService.save(createInstitutionTeacherDto);
+
+				institutionTeachers.add(createInstitutionTeacherDto);
+				iInsitutionTeacherService.save(createInstitutionTeacherDto);
 			}
 
 			// School Teacher
 			Set<CreateSchoolTeacherDto> schoolTeachers = dto.getCreateSchoolTeacherDtos();
 			for (CreateSchoolTeacherDto createSchoolTeacherDto : schoolTeachers) {
-				SchoolTeacher schoolTeacher = new SchoolTeacher();
-				schoolTeacher = (SchoolTeacher) mapDtoToModel.map(createSchoolTeacherDto, schoolTeacher);
-				schoolTeacher.setTutor(tutor);
-				iSchoolTeacherService.save(schoolTeacher);
-//				createSchoolTeacherDto.setTutorId(tutor.getId());
-//				schoolTeachers.add(createSchoolTeacherDto);
-//				iSchoolTeacherService.save(createSchoolTeacherDto);
+
+				schoolTeachers.add(createSchoolTeacherDto);
+				iSchoolTeacherService.save(createSchoolTeacherDto);
 
 			}
 
 			return tutor;
 
 		} catch (Exception e) {
-			// TODO: handle exception
+
 			e.printStackTrace();
-			logger.info("Have something wrong :(");
+		
 
 		}
 
@@ -184,43 +157,39 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 	public void deleteById(Long idTutor) {
 
 		try {
-			
+
 			// Student ID
-			Set<Long> studentIds = studentRepository.findStudentIdByTutorId(idTutor);
+			Set<Long> studentIds = iStudentRepository.findStudentIdByTutorId(idTutor);
 			for (Long studentId : studentIds) {
-				studentRepository.deleteById(studentId);
+				iStudentRepository.deleteById(studentId);
 
 			}
-			
+
 			// School Teacher Id
-			Set<Long> schoolTeacherIds=schoolTeacherRepository.findSchoolTeacherIdByTutorId(idTutor);
+			Set<Long> schoolTeacherIds = iSchoolTeacherRepository.findSchoolTeacherIdByTutorId(idTutor);
 			for (Long schoolTeacherId : schoolTeacherIds) {
-					schoolTeacherRepository.deleteById(idTutor);
+				iSchoolTeacherRepository.deleteById(schoolTeacherId);
 			}
-			
+
 			// Graduated Student
-			Set<Long> graduatedStudentIds=graduatedStudentRepository.findGraduatedStudentIdByTutorId(idTutor);
+			Set<Long> graduatedStudentIds = iGraduatedStudentRepository.findGraduatedStudentIdByTutorId(idTutor);
 			for (Long graduatedStudentId : graduatedStudentIds) {
-				graduatedStudentRepository.deleteById(idTutor);
+				iGraduatedStudentRepository.deleteById(graduatedStudentId);
 			}
-			
-			// Institution Teacher 
-			Set<Long> institutionTeacherIds=insitutionTeacherRepository.findInstitutionTeacherIdByTutorId(idTutor);
+
+			// Institution Teacher
+			Set<Long> institutionTeacherIds = iInsitutionTeacherRepository.findInstitutionTeacherIdByTutorId(idTutor);
 			for (Long institutionTeacherId : institutionTeacherIds) {
-				insitutionTeacherRepository.deleteById(idTutor);
+				iInsitutionTeacherRepository.deleteById(institutionTeacherId);
 			}
-			
-			
-			
 
 			tutorRepository.deleteById(idTutor);
 
-			logger.info("Tutor is  deleted");
-
+	
 		} catch (Exception e) {
-			// TODO: handle exception
+
 			e.printStackTrace();
-			logger.info("Have something wrong :(");
+			
 		}
 		return;
 
@@ -229,47 +198,44 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 	// Update
 	@Override
 	public Tutor update(UpdateTutorDto dto, Long id) {
-		// TODO Auto-generated method stub
+
 		try {
 
-			
 			// Update Student
-			Set<Long> studentIds=studentRepository.findStudentIdByTutorId(id);
-			Set<UpdateStudentDto> studentDtos=dto.getUpdateStudentDtos();
-			
+			Set<Long> studentIds = iStudentRepository.findStudentIdByTutorId(id);
+			Set<UpdateStudentDto> studentDtos = dto.getUpdateStudentDtos();
+
 			for (UpdateStudentDto updateStudentDto : studentDtos) {
 				for (Long studentId : studentIds) {
-					
+
 					iStudentService.update(updateStudentDto, studentId);
-					
+
 				}
 			}
-			
-			
-			
+
 			Tutor updateTutor = tutorRepository.getOne(id);
 
 			updateTutor = (Tutor) mapDtoToModel.map(dto, updateTutor);
 
-			Optional<Area> tempArea = Optional.ofNullable(areaRepository.getOne(dto.getTempAreaId()));
+			Optional<Area> tempArea = Optional.ofNullable(iAreaRepository.getOne(dto.getTempAreaId()));
 			if (tempArea.isPresent())
 				updateTutor.setTempArea(tempArea.get());
 
-			Optional<Area> perArea = Optional.ofNullable(areaRepository.getOne(dto.getPerAreaId()));
+			Optional<Area> perArea = Optional.ofNullable(iAreaRepository.getOne(dto.getPerAreaId()));
 			if (perArea.isPresent())
 				updateTutor.setPerArea(perArea.get());
 
-			Optional<Area> relArea = Optional.ofNullable(areaRepository.getOne(dto.getRelAreaId()));
+			Optional<Area> relArea = Optional.ofNullable(iAreaRepository.getOne(dto.getRelAreaId()));
 			if (perArea.isPresent())
 				updateTutor.setRelArea(relArea.get());
 			updateTutor = tutorRepository.save(updateTutor);
-			logger.info("Tutor is updated");
+			
 
 			return updateTutor;
 		} catch (Exception e) {
-			// TODO: handle exception
+
 			e.printStackTrace();
-			logger.info("Have something wrong :(");
+			
 		}
 
 		return null;

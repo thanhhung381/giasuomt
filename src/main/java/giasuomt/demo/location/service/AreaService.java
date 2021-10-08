@@ -2,6 +2,7 @@ package giasuomt.demo.location.service;
 
 import java.util.List;
 
+
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,22 +19,26 @@ import giasuomt.demo.location.dto.CreateAreaDTO;
 import giasuomt.demo.location.dto.FindingDtoArea;
 import giasuomt.demo.location.dto.UpdateAreaDTO;
 import giasuomt.demo.location.model.Area;
-import giasuomt.demo.location.repository.AreaRepository;
+import giasuomt.demo.location.repository.IAreaRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class AreaService extends GenericService<Area, Long> implements IAreaService {
-	@Autowired
-	private AreaRepository repository;
-	@Autowired
+	
+	
+	
+	private IAreaRepository repository;
+
 	private ModelMapper mapper;
 
-	private Logger logger = LoggerFactory.getLogger(AreaService.class);
+	
 
 	// API TRẢ VỀ LIST TẤT CẢ ((Ignore List Account))
 	public List<Area> findAll() {
-		
+
 		return repository.findAll();
-		
+
 	}
 
 	// POST
@@ -41,13 +46,13 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 
 		try {
 			Area area = new Area();
-			area =  mapper.map(dto, area.getClass());
-			logger.info(String.format("Area is saved"));
+			area = mapper.map(dto, area.getClass());
+		
 
 			return repository.save(area);
 
 		} catch (Exception e) {
-			// TODO: handle exception
+
 			e.printStackTrace();
 
 		}
@@ -59,15 +64,15 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 	// Delete
 	@Override
 	public void deleteById(Long id) {
-		// TODO Auto-generated method stub
+
 		try {
 			repository.deleteById(id);
-			logger.info(String.format("Area is deleted"));
+			
 
 		} catch (Exception e) {
-			// TODO: handle exception
+
 			e.printStackTrace();
-			logger.debug("Don't have any Id in your Data ");
+		
 		}
 
 	}
@@ -75,24 +80,23 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 	// check id exits
 	@Override
 	public boolean checkExistIdofArea(Long id) {
-		// TODO Auto-generated method stub
+
 		return repository.countById(id) >= 1;
 	}
 
 	// Update
 	@Override
 	public Area update(UpdateAreaDTO dto) {
-		// TODO Auto-generated method stub
 
 		try {
 
 			Area areaUpdate = repository.getOne(dto.getIdArea());
-			areaUpdate =  mapper.map(dto, areaUpdate.getClass());
+			areaUpdate = mapper.map(dto, areaUpdate.getClass());
 
-			logger.info(String.format("Area is updated"));
+		
 			return repository.save(areaUpdate);
 		} catch (Exception e) {
-			// TODO: handle exception
+
 			e.printStackTrace();
 		}
 
@@ -103,7 +107,7 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 	// findByNationAndProvincialLevelAndDistrictAndCommune
 	@Override
 	public List<Area> findByNationAndProvincialLevelAndDistrictAndCommune(FindingDtoArea dtoArea) {
-		// TODO Auto-generated method stub
+
 		String nation = dtoArea.getNation();
 		String state = dtoArea.getState();
 		String provincialLevel = dtoArea.getProvincialLevel();
@@ -142,19 +146,19 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 
 	@Override
 	public boolean checkExistProvincialLevel(String provincialLevel) {
-		// TODO Auto-generated method stub
+
 		return repository.countByProvincialLevel(provincialLevel) >= 1;
 	}
 
 	@Override
 	public boolean checkExistDistrict(String district) {
-		// TODO Auto-generated method stub
+
 		return repository.countByDistrict(district) >= 1;
 	}
 
 	@Override
 	public boolean checkExistCommune(String commune) {
-		// TODO Auto-generated method stub
+
 		return repository.countByCommune(commune) >= 1;
 	}
 

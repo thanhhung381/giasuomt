@@ -13,6 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateStudentDto {
+	
 	private String confirmImgs;
     
     private String nowLevel;
@@ -20,5 +21,18 @@ public class CreateStudentDto {
     private Long tutorId;
     
     private LocalDateTime nowLevelUpdatedAt;
+    
+    String institutionName;
+    
+    String institutionAbbrName;
+    
+    String institutionCode;
+    
+    String institutionType;
+    
+    
+    String majorName;
+    
+    String majorCode;
     
 }

@@ -6,13 +6,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateInstitutionTeacherDto {
-	  private String confirmImgs;
-      
-      private String institutionType;
-      
-      private String institutionName;
-      
-      private String subject;
-      
-      private Long tutorId;
+	
+	private String confirmImgs;
+
+	private String institutionType;
+
+	private String institutionName;
+
+	private String institutionAbbrName;
+
+	private String subject;
+
+	private Long tutorId;
+
 }

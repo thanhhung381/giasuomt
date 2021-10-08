@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import giasuomt.demo.location.model.Area;
 
 @Repository
-public interface AreaRepository extends JpaRepository<Area, Long> {
+public interface IAreaRepository extends JpaRepository<Area, Long> {
 	
 	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.provincialLevel=:provincialLevel AND a.district=:district AND a.commune=:commune AND a.state=:state ")
 	List<Area> findByNationAndProvincialLevelAndDistrictAndCommune(@Param("nation") String nation,@Param("provincialLevel") String provincialLevel

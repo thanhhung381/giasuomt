@@ -31,18 +31,18 @@ import giasuomt.demo.tutor.model.Student;
 import giasuomt.demo.tutor.model.Tutor;
 import giasuomt.demo.tutor.service.IStudentService;
 import giasuomt.demo.tutor.service.ITutorService;
+import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/Tutor")
+@RequestMapping("/api/tutor")
+@AllArgsConstructor
 public class TutorController {
-	
-	@Autowired
+
 	private ITutorService iTutorService;
-	
-	
-	//Show List of Tutor
+
+	// Show List of Tutor
 	@GetMapping("/showTutor")
-	public ResponseEntity<Object> findAllTutor() {
+	public ResponseEntity<Object> findAll() {
 		List<Tutor> tutors = iTutorService.findAll();
 		if (tutors.isEmpty())
 
@@ -50,40 +50,35 @@ public class TutorController {
 
 		return ResponseHandler.getResponse(tutors, HttpStatus.OK);
 	}
-	
-	// Save Tutor
-		@PostMapping("/saveTutor")
-		public ResponseEntity<Object> save(@Valid @RequestBody CreateTutorDto dto, BindingResult errors) {
-			if (errors.hasErrors())
-				return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST); // Trả về các messages lỗi, kèm theo
-																					// HttpStatus BAD REQUEST [xem trong
-																					// ResponsHandler.java]
-			Tutor addedTutor =iTutorService.save(dto);
-			
-			
-			
-			return ResponseHandler.getResponse(addedTutor, HttpStatus.CREATED); // Trả về http status là đã thành công
-		}
-		//Delete Tutor
-		@DeleteMapping("/deleteTutor/{id}")
-		public ResponseEntity<Object> deleteById(@PathVariable("id") Long id)
-		{
-			iTutorService.deleteById(id);
-			
-			return ResponseHandler.getResponse("ok", HttpStatus.BAD_REQUEST);
-		}
 
-		@PutMapping("/updateTutor/{idTutor}")
-		public ResponseEntity<Object> updateTutor(@Valid @RequestBody UpdateTutorDto dto,@PathVariable("idTutor") Long idTutor)
-		{
-			
-			Tutor updateTutor=iTutorService.update(dto, idTutor);
-			
-			return ResponseHandler.getResponse(updateTutor, HttpStatus.OK) ;
-		}
-		
-		
-	
-	
-	
+	// Save Tutor
+	@PostMapping("/saveTutor")
+	public ResponseEntity<Object> save(@Valid @RequestBody CreateTutorDto dto, BindingResult errors) {
+		if (errors.hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST); // Trả về các messages lỗi, kèm theo
+																				// HttpStatus BAD REQUEST [xem trong
+																				// ResponsHandler.java]
+		Tutor addedTutor = iTutorService.save(dto);
+
+		return ResponseHandler.getResponse(addedTutor, HttpStatus.CREATED); // Trả về http status là đã thành công
+	}
+
+	// Delete Tutor
+	@DeleteMapping("/deleteTutor/{id}")
+	public ResponseEntity<Object> deleteTutorById(@PathVariable("id") Long id) {
+
+		iTutorService.deleteById(id);
+
+		return ResponseHandler.getResponse("ok", HttpStatus.BAD_REQUEST);
+	}
+
+	@PutMapping("/updateTutor/{idTutor}")
+	public ResponseEntity<Object> updateTutor(@Valid @RequestBody UpdateTutorDto dto,
+			@PathVariable("idTutor") Long idTutor) {
+
+		Tutor updateTutor = iTutorService.update(dto, idTutor);
+
+		return ResponseHandler.getResponse(updateTutor, HttpStatus.OK);
+	}
+
 }

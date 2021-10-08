@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import giasuomt.demo.tutor.model.Student;
 @Repository
-public interface StudentRepository extends JpaRepository<Student, Long> {
+public interface IStudentRepository extends JpaRepository<Student, Long> {
 	
 	
 	@Query("SELECT s FROM Student s WHERE s.tutor.tutorCode=:tutorCode ")

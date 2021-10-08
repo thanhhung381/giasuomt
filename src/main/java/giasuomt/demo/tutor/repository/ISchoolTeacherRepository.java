@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import giasuomt.demo.tutor.model.GraduatedStudent;
+import giasuomt.demo.tutor.model.SchoolTeacher;
+
 @Repository
-public interface GraduatedStudentRepository extends JpaRepository<GraduatedStudent, Long> {
-	@Query("SELECT s.id FROM GraduatedStudent s WHERE s.tutor.id=:id")
-	Set<Long> findGraduatedStudentIdByTutorId(@Param("id") Long id);
+public interface ISchoolTeacherRepository extends JpaRepository<SchoolTeacher, Long> {
+	@Query("SELECT s.id FROM SchoolTeacher s WHERE s.tutor.id=:id")
+	Set<Long> findSchoolTeacherIdByTutorId(@Param("id") Long id);
 }
