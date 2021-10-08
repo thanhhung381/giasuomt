@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class CreateSchoolTeacherDto {
 	 
-	private Long idTutor;
+	private Long tutorId;
 	
 	private String confirmImgs;
 	 

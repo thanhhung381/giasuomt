@@ -61,7 +61,7 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 			Student student = new Student();
 			student = mapper.map(dto, student.getClass());
 
-			Optional<Tutor> tutor = Optional.ofNullable(tutorRepository.getOne(dto.getIdTutor()));
+			Optional<Tutor> tutor = Optional.ofNullable(tutorRepository.getOne(dto.getTutorId()));
 			if (tutor.isPresent())
 				student.setTutor(tutor.get());
 			

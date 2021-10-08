@@ -17,7 +17,7 @@ public class CreateStudentDto {
     
     private String nowLevel;
     
-    private Long idTutor;
+    private Long tutorId;
     
     private LocalDateTime nowLevelUpdatedAt;
     

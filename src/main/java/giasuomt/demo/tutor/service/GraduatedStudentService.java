@@ -30,7 +30,7 @@ public class GraduatedStudentService extends GenericService<GraduatedStudent, Lo
 		GraduatedStudent graduatedStudent=new GraduatedStudent();
 		graduatedStudent=(GraduatedStudent)mapper.map(dto, graduatedStudent);
 		
-		Optional<Tutor> tutor= Optional.ofNullable(tutorRepository.getOne(dto.getIdTutor()));
+		Optional<Tutor> tutor= Optional.ofNullable(tutorRepository.getOne(dto.getTutorId()));
 		if(tutor.isPresent())
 			graduatedStudent.setTutor(tutor.get());
 		

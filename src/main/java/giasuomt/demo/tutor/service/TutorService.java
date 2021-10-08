@@ -30,6 +30,8 @@ import giasuomt.demo.tutor.dto.TutorWithStudent;
 import giasuomt.demo.tutor.dto.UpdateStudentDto;
 import giasuomt.demo.tutor.dto.UpdateTutorDto;
 import giasuomt.demo.tutor.model.GraduatedStudent;
+import giasuomt.demo.tutor.model.InstitutionTeacher;
+import giasuomt.demo.tutor.model.SchoolTeacher;
 import giasuomt.demo.tutor.model.Student;
 import giasuomt.demo.tutor.model.Tutor;
 import giasuomt.demo.tutor.repository.GraduatedStudentRepository;
@@ -118,33 +120,49 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 			// Graduated Student
 			Set<CreateGraduatedStudentDto> graduatedStudents = dto.getCreateGraduatedStudentDtos();
 			for (CreateGraduatedStudentDto createGraduatedStudentDto : graduatedStudents) {
-				createGraduatedStudentDto.setIdTutor(tutor.getId());
-				graduatedStudents.add(createGraduatedStudentDto);
-				graduatedStudentService.save(createGraduatedStudentDto);
+				GraduatedStudent graduatedStudent = new GraduatedStudent();
+				graduatedStudent = (GraduatedStudent) mapDtoToModel.map(createGraduatedStudentDto, graduatedStudent);
+				graduatedStudent.setTutor(tutor);
+				graduatedStudentService.save(graduatedStudent);
+//				createGraduatedStudentDto.setTutorId(tutor.getId());
+//				graduatedStudents.add(createGraduatedStudentDto);
+//				graduatedStudentService.save(createGraduatedStudentDto);
 			}
 
 			// Student
 			Set<CreateStudentDto> createStudentDtos = dto.getCreateStudentDtos();
-			for (CreateStudentDto student : createStudentDtos) {
-				student.setIdTutor(tutor.getId());
-				dto.getCreateStudentDtos().add(student);
+			for (CreateStudentDto createStudentDto : createStudentDtos) {
+				Student student = new Student();
+				student = (Student) mapDtoToModel.map(createStudentDto, student);
+				student.setTutor(tutor);
 				iStudentService.save(student);
+//				createStudentDto.setTutorId(tutor.getId());
+//				createStudentDtos.add(createStudentDto);
+//				iStudentService.save(createStudentDto);
 			}
 
 			// Institution Teacher
 			Set<CreateInstitutionTeacherDto> institutionTeachers = dto.getCreateInstitutionTeacherDtos();
 			for (CreateInstitutionTeacherDto createInstitutionTeacherDto : institutionTeachers) {
-				createInstitutionTeacherDto.setIdTutor(tutor.getId());
-				institutionTeachers.add(createInstitutionTeacherDto);
-				iInsitutionTeacherService.save(createInstitutionTeacherDto);
+				InstitutionTeacher institutionTeacher = new InstitutionTeacher();
+				institutionTeacher = (InstitutionTeacher) mapDtoToModel.map(createInstitutionTeacherDto, institutionTeacher);
+				institutionTeacher.setTutor(tutor);
+				iInsitutionTeacherService.save(institutionTeacher);
+//				createInstitutionTeacherDto.setTutorId(tutor.getId());
+//				institutionTeachers.add(createInstitutionTeacherDto);
+//				iInsitutionTeacherService.save(createInstitutionTeacherDto);
 			}
 
 			// School Teacher
 			Set<CreateSchoolTeacherDto> schoolTeachers = dto.getCreateSchoolTeacherDtos();
 			for (CreateSchoolTeacherDto createSchoolTeacherDto : schoolTeachers) {
-				createSchoolTeacherDto.setIdTutor(tutor.getId());
-				schoolTeachers.add(createSchoolTeacherDto);
-				iSchoolTeacherService.save(createSchoolTeacherDto);
+				SchoolTeacher schoolTeacher = new SchoolTeacher();
+				schoolTeacher = (SchoolTeacher) mapDtoToModel.map(createSchoolTeacherDto, schoolTeacher);
+				schoolTeacher.setTutor(tutor);
+				iSchoolTeacherService.save(schoolTeacher);
+//				createSchoolTeacherDto.setTutorId(tutor.getId());
+//				schoolTeachers.add(createSchoolTeacherDto);
+//				iSchoolTeacherService.save(createSchoolTeacherDto);
 
 			}
 

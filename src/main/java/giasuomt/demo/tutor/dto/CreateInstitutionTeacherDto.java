@@ -14,5 +14,5 @@ public class CreateInstitutionTeacherDto {
       
       private String subject;
       
-      private Long idTutor;
+      private Long tutorId;
 }

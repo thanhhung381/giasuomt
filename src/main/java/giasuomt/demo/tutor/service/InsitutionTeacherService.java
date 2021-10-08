@@ -30,7 +30,7 @@ public class InsitutionTeacherService extends GenericService<InstitutionTeacher,
 		InstitutionTeacher institutionTeacher=new InstitutionTeacher();
 		institutionTeacher=(InstitutionTeacher)mapper.map(dto, institutionTeacher);
 			
-			Optional<Tutor> tutor=Optional.ofNullable(tutorRepository.getOne(dto.getIdTutor()));
+			Optional<Tutor> tutor=Optional.ofNullable(tutorRepository.getOne(dto.getTutorId()));
 				if(tutor.isPresent())
 					institutionTeacher.setTutor(tutor.get());
 		

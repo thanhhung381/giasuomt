@@ -30,7 +30,7 @@ public class SchoolTeacherService extends GenericService<SchoolTeacher, Long> im
 		// TODO Auto-generated method stub
 		 SchoolTeacher schoolTeacher=new SchoolTeacher();
 		 schoolTeacher=(SchoolTeacher)mapper.map(dto, schoolTeacher);
-		 	Optional<Tutor> tutor=Optional.ofNullable(tutorRepository.getOne(dto.getIdTutor()));
+		 	Optional<Tutor> tutor=Optional.ofNullable(tutorRepository.getOne(dto.getTutorId()));
 		 	if(tutor.isPresent())
 		 		schoolTeacher.setTutor(tutor.get());
 		 
