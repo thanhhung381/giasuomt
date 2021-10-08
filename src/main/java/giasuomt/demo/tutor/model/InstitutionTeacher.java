@@ -21,9 +21,11 @@ import lombok.Setter;
 public class InstitutionTeacher extends AbstractEntity {        
         private String confirmImgs;
         
-        private String institutionType;
+        String institutionName;
         
-        private String institutionName;
+        String institutionAbbrName;
+        
+        String institutionType;
         
         private String subject;
         

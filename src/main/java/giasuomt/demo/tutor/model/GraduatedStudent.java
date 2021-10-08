@@ -10,8 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
-import giasuomt.demo.institution.model.Institution;
-import giasuomt.demo.institution.model.Major;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,16 +24,18 @@ public class GraduatedStudent extends AbstractEntity {
         private String graduatedYear;
         
 		
-//		  @ManyToOne
-//		  @JoinColumn(name = "university_id") 
-//		  private Institution institution;
-		  
-		  
-//		  @ManyToOne
-//		  @JoinColumn(name = "major_id") 
-//		  private Major major;
-		  
-//		  private String anotherMajor;
+        String institutionName;
+        
+        String institutionAbbrName;
+        
+        String institutionCode;
+        
+        String institutionType;
+        
+        
+        String majorName;
+        
+        String majorCode;
 		 
         
 	        @ManyToOne(fetch = FetchType.LAZY)

@@ -25,8 +25,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.util.DateTimeUtils;
-import giasuomt.demo.institution.model.Institution;
-import giasuomt.demo.institution.model.Major;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -48,18 +46,21 @@ public class Student extends AbstractEntity {
         @DateTimeFormat(pattern = DateTimeUtils.DATE_TIME_FORMAT) //Quy định date format để lưu xuống database
         private LocalDateTime nowLevelUpdatedAt;
         
-       // @ManyToOne
-       // @JoinColumn(name = "university_id")
-       // private Institution institution;
         
-       // @ManyToOne
-       // @JoinColumn(name = "major_id")
-       // private Major major;
+        String institutionName;
         
-       // private String anotherMajor;
+        String institutionAbbrName;
         
+        String institutionCode;
+        
+        String institutionType;
         
         
+        String majorName;
+        
+        String majorCode;
+        
+
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "tutor_id")
         @JsonIgnore
