@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class SaveGraduatedStudentDto {
 
-	private Long graduatedStudentId;
+	private Long id;
 	
 	private String diplomaImgs;
 

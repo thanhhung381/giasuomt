@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class SaveStudentDto {
 	
-	private Long studentId;
+	private Long id;
 	
 	private String confirmImgs;
 

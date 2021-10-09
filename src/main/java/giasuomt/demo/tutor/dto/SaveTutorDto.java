@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class SaveTutorDto extends SaveUserDto {
 	
-	private Long tutorId;
+	private Long id;
 	
 	// THÔNG TIN CÁ NHÂN
 	private String tempAddNo;
@@ -47,10 +47,7 @@ public class SaveTutorDto extends SaveUserDto {
 
 	// NHẬN LỚP
 
-	// VỊ TRÍ TƯƠNG ĐỐI CỦA GIA SƯ - vị trí này được xác định theo: vị trí các lớp
-	// đã nhận (trọng số theo thời gian và số lớp), các lớp đã đăng ký (trọng số
-	// theo thời gian và số lớp), nơi ở hiện tại mà gia sư khai báo (trọng số theo
-	// thời gian và nơi ở là tạm trú hay thường trú)
+	// VỊ TRÍ TƯƠNG ĐỐI CỦA GIA SƯ 
 	private String xRelCoo;
 
 	private String yRelCoo;

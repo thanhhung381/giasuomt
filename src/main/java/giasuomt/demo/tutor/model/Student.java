@@ -1,5 +1,4 @@
 package giasuomt.demo.tutor.model;
-
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,11 +6,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.util.DateTimeUtils;
 import lombok.Getter;
@@ -45,7 +42,7 @@ public class Student extends AbstractEntity {
 
 	String majorCode;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "tutor_id")
 	@JsonIgnore
 	private Tutor tutor;

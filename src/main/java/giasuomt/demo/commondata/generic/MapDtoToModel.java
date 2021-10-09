@@ -1,12 +1,9 @@
 package giasuomt.demo.commondata.generic;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-
 import org.springframework.stereotype.Component;
 
 //MAP DTO TO MODEL VỚI ĐIỀU KIỆN: TÊN CÁC THUỘC TÍNH CỦA DTO PHẢI GIỐNG VỚI CÁC THUỘC TÍNH ĐÓ Ở MODEL. HOẶC: Nếu dto có thuộc tính nào khác name với model, thì ở model tự viết 1 setter giống với name của thuộc tính đó ở dto.

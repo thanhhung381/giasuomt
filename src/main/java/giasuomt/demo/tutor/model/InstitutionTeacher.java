@@ -21,15 +21,15 @@ import lombok.Setter;
 public class InstitutionTeacher extends AbstractEntity {
 	private String confirmImgs;
 
-	String institutionName;
+	private String institutionName;
 
-	String institutionAbbrName;
+	private String institutionAbbrName;
 
-	String institutionType;
+	private String institutionType;
 
 	private String subject;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "tutor_id")
 	@JsonIgnore
 	private Tutor tutor;

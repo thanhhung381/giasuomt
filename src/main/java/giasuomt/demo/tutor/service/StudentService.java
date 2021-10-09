@@ -1,13 +1,10 @@
 package giasuomt.demo.tutor.service;
-
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.tutor.dto.SaveStudentDto;
 import giasuomt.demo.tutor.model.Student;
-import giasuomt.demo.tutor.model.Tutor;
 import giasuomt.demo.tutor.repository.IStudentRepository;
 import giasuomt.demo.tutor.repository.ITutorRepository;
 import lombok.AllArgsConstructor;
@@ -40,10 +37,7 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 
 	@Override
 	public Student update(SaveStudentDto dto) {
-		Student student = iStudentRepository.getOne(dto.getStudentId());
-
-		if (student == null)
-			return null;
+		Student student = iStudentRepository.getOne(dto.getId());
 
 		return save(dto, student);
 	}
@@ -58,11 +52,7 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 			// CREATE/UPDATE XUỐNG DB
 			return iStudentRepository.save(student);
 
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
+		} catch (Exception e) {e.printStackTrace();}
 
 		return null;
 
@@ -70,16 +60,12 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 
 	@Override
 	public void delete(Long id) {
-
 		try {
-
+			
 			iStudentRepository.deleteById(id);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
+			
+		} catch (Exception e) {e.printStackTrace();}
+		
 		return;
 	}
 

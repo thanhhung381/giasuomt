@@ -28,6 +28,7 @@ import giasuomt.demo.commondata.util.DateUtils;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.task.model.Application;
+import giasuomt.demo.tutor.dto.SaveStudentDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -88,7 +89,7 @@ public class Tutor extends User {
 
 	@OneToMany(mappedBy = "tutor")
 	// @JsonIgnore //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	private Set<SchoolTeacher> schoolTeachers = new HashSet<>();   
+	private Set<SchoolTeacher> schoolTeachers = new HashSet<>();
 
 //NĂNG LỰC:
 	private String voices;

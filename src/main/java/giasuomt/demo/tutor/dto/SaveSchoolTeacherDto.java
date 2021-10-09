@@ -7,19 +7,19 @@ import lombok.Setter;
 @Setter
 public class SaveSchoolTeacherDto  {
 	
-	private Long schoolTeacherId;
-	
-	private Long tutorId;
+	private Long id;
 
 	private String confirmImgs;
 
 	private String subject;
 
-	String institutionName;
+	private String institutionName;
 
-	String institutionAbbrName;
+	private String institutionAbbrName;
 
-	String institutionCode;
+	private String institutionCode;
 
-	String institutionType;
+	private String institutionType;
+	
+	private Long tutorId;
 }

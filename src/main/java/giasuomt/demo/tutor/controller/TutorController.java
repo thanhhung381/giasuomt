@@ -1,6 +1,8 @@
 package giasuomt.demo.tutor.controller;
 
 import java.util.List;
+import java.util.Optional;
+
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,9 +45,9 @@ public class TutorController {
 		if (errors.hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
 
-		Tutor addedTutor = iTutorService.create(dto);
+		Tutor createdTutor = iTutorService.create(dto);
 
-		return ResponseHandler.getResponse(addedTutor, HttpStatus.CREATED); // Trả về http status là đã thành công
+		return ResponseHandler.getResponse(createdTutor, HttpStatus.CREATED); // Trả về http status là đã thành công
 	}
 
 	// Update Tutor
@@ -65,5 +67,17 @@ public class TutorController {
 		iTutorService.deleteById(id);
 
 		return ResponseHandler.getResponse("ok", HttpStatus.BAD_REQUEST);
+	}
+	
+	
+	// Find Tutor By Id
+	@GetMapping("/findById/{id}")
+	public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
+		Optional<Tutor> tutor = iTutorService.findById(id);
+
+		if (tutor.isEmpty())
+			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
+
+		return ResponseHandler.getResponse(tutor, HttpStatus.OK);
 	}
 }

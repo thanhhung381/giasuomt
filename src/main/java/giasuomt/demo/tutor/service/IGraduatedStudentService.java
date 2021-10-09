@@ -6,6 +6,12 @@ import giasuomt.demo.tutor.model.GraduatedStudent;
 
 public interface IGraduatedStudentService  extends IGenericService<GraduatedStudent, Long> {
 
-	GraduatedStudent save(SaveGraduatedStudentDto dto);
+	GraduatedStudent create(SaveGraduatedStudentDto dto);
+
+	GraduatedStudent update(SaveGraduatedStudentDto dto);
+
+	GraduatedStudent save(SaveGraduatedStudentDto dto, GraduatedStudent graduatedStudent);
+
+	void delete(Long id);
 
 }

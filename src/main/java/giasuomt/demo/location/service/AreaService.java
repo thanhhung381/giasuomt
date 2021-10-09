@@ -1,23 +1,16 @@
 package giasuomt.demo.location.service;
 
 import java.util.List;
-
-
-import java.util.Optional;
 import java.util.Set;
 
-import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import javax.validation.Valid;
 
+import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
-import giasuomt.demo.location.dto.CreateAreaDTO;
 import giasuomt.demo.location.dto.FindingDtoArea;
-import giasuomt.demo.location.dto.UpdateAreaDTO;
+import giasuomt.demo.location.dto.SaveAreaDTO;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
 import lombok.AllArgsConstructor;
@@ -25,83 +18,63 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class AreaService extends GenericService<Area, Long> implements IAreaService {
-	
-	
-	
-	private IAreaRepository repository;
+
+	private IAreaRepository iAreaRepository;
 
 	private MapDtoToModel mapper;
 
-	
-
-	// API TRẢ VỀ LIST TẤT CẢ ((Ignore List Account))
+	@Override
 	public List<Area> findAll() {
-
-		return repository.findAll();
-
+		return iAreaRepository.findAll();
 	}
 
-	// POST
-	public Area save(CreateAreaDTO dto) {
+	@Override
+	public Area create(@Valid SaveAreaDTO dto) {
+		Area area = new Area();
 
+		return save(dto, area);
+	}
+
+	@Override
+	public Area update(SaveAreaDTO dto) {
+		Area area = iAreaRepository.getOne(dto.getId());
+
+		return save(dto, area);
+	}
+
+	@Override
+	public Area save(SaveAreaDTO dto, Area area) {
 		try {
-			Area area = new Area();
+			// MAP DTO TO MODEL
 			area = (Area) mapper.map(dto, area);
-		
 
-			return repository.save(area);
+			return iAreaRepository.save(area);
 
-		} catch (Exception e) {
-
-			e.printStackTrace();
-
-		}
+		} catch (Exception e) {e.printStackTrace();}
 
 		return null;
-
 	}
 
-	// Delete
 	@Override
 	public void deleteById(Long id) {
-
 		try {
-			repository.deleteById(id);
-			
+			iAreaRepository.deleteById(id);
 
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		
-		}
-
+		} catch (Exception e) {e.printStackTrace();}
 	}
 
+	
+	
+	
+	
+	
+	
+	
 	// check id exits
 	@Override
 	public boolean checkExistIdofArea(Long id) {
 
-		return repository.countById(id) >= 1;
-	}
-
-	// Update
-	@Override
-	public Area update(UpdateAreaDTO dto) {
-
-		try {
-
-			Area areaUpdate = repository.getOne(dto.getIdArea());
-			areaUpdate = (Area) mapper.map(dto, areaUpdate);
-
-		
-			return repository.save(areaUpdate);
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
-		return null;
-
+		return iAreaRepository.countById(id) >= 1;
 	}
 
 	// findByNationAndProvincialLevelAndDistrictAndCommune
@@ -116,19 +89,19 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 
 		if (nation != null) {
 			if (state != null && provincialLevel != null && district != null && commune != null) {
-				return repository.findByNationAndProvincialLevelAndDistrictAndCommune(nation, provincialLevel, district,
-						commune, state);
+				return iAreaRepository.findByNationAndProvincialLevelAndDistrictAndCommune(nation, provincialLevel,
+						district, commune, state);
 			}
 			if (state != null && provincialLevel != null && district != null) {
-				return repository.findByNationAndProvincialLevelAndStateAndDistrict(nation, provincialLevel, state,
+				return iAreaRepository.findByNationAndProvincialLevelAndStateAndDistrict(nation, provincialLevel, state,
 						district);
 			}
 			if (state != null && provincialLevel != null) {
-				return repository.findByNationAndProvincialLevelAndState(nation, provincialLevel, state);
+				return iAreaRepository.findByNationAndProvincialLevelAndState(nation, provincialLevel, state);
 			} else if (state != null) {
-				return repository.findByNationAndState(nation, state);
+				return iAreaRepository.findByNationAndState(nation, state);
 			} else
-				return repository.findByNation(nation);
+				return iAreaRepository.findByNation(nation);
 		} else
 
 			return null;
@@ -147,19 +120,21 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 	@Override
 	public boolean checkExistProvincialLevel(String provincialLevel) {
 
-		return repository.countByProvincialLevel(provincialLevel) >= 1;
+		return iAreaRepository.countByProvincialLevel(provincialLevel) >= 1;
 	}
 
 	@Override
 	public boolean checkExistDistrict(String district) {
 
-		return repository.countByDistrict(district) >= 1;
+		return iAreaRepository.countByDistrict(district) >= 1;
 	}
 
 	@Override
 	public boolean checkExistCommune(String commune) {
 
-		return repository.countByCommune(commune) >= 1;
+		return iAreaRepository.countByCommune(commune) >= 1;
 	}
+
+
 
 }

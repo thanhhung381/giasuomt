@@ -6,6 +6,12 @@ import giasuomt.demo.tutor.model.SchoolTeacher;
 
 public interface ISchoolTeacherService extends IGenericService<SchoolTeacher, Long> {
 
-	SchoolTeacher save(SaveSchoolTeacherDto dto);
+	SchoolTeacher create(SaveSchoolTeacherDto dto);
+
+	SchoolTeacher update(SaveSchoolTeacherDto dto);
+
+	SchoolTeacher save(SaveSchoolTeacherDto dto, SchoolTeacher schoolTeacher);
+
+	void delete(Long id);
 
 }
