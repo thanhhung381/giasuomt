@@ -30,7 +30,7 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 	
 	private IAreaRepository repository;
 
-	private ModelMapper mapper;
+	private MapDtoToModel mapper;
 
 	
 
@@ -46,7 +46,7 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 
 		try {
 			Area area = new Area();
-			area = mapper.map(dto, area.getClass());
+			area = (Area) mapper.map(dto, area);
 		
 
 			return repository.save(area);
@@ -91,7 +91,7 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 		try {
 
 			Area areaUpdate = repository.getOne(dto.getIdArea());
-			areaUpdate = mapper.map(dto, areaUpdate.getClass());
+			areaUpdate = (Area) mapper.map(dto, areaUpdate);
 
 		
 			return repository.save(areaUpdate);

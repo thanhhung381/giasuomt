@@ -1,13 +1,9 @@
 package giasuomt.demo.tutor.service;
-
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
-import giasuomt.demo.tutor.dto.CreateGraduatedStudentDto;
+import giasuomt.demo.tutor.dto.SaveGraduatedStudentDto;
 import giasuomt.demo.tutor.model.GraduatedStudent;
 import giasuomt.demo.tutor.model.Tutor;
 import giasuomt.demo.tutor.repository.IGraduatedStudentRepository;
@@ -28,7 +24,7 @@ public class GraduatedStudentService extends GenericService<GraduatedStudent, Lo
 	
 
 	@Override
-	public GraduatedStudent save(CreateGraduatedStudentDto dto) {
+	public GraduatedStudent save(SaveGraduatedStudentDto dto) {
 
 		try {
 			GraduatedStudent graduatedStudent = new GraduatedStudent();

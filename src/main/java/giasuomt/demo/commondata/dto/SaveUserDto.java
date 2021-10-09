@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
-public class CreateUserDto {
+public class SaveUserDto {
 //  @Email
   private String emails;
   

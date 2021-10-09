@@ -5,7 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateInstitutionTeacherDto {
+public class SaveInstitutionTeacherDto {
+	
+	private Long institutionTeacherId;
 	
 	private String confirmImgs;
 

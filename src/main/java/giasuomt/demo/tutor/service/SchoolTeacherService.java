@@ -1,16 +1,11 @@
 package giasuomt.demo.tutor.service;
-
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
-import giasuomt.demo.tutor.dto.CreateSchoolTeacherDto;
+import giasuomt.demo.tutor.dto.SaveSchoolTeacherDto;
 import giasuomt.demo.tutor.model.SchoolTeacher;
 import giasuomt.demo.tutor.model.Tutor;
-import giasuomt.demo.tutor.repository.IInstitutionTeacherRepository;
 import giasuomt.demo.tutor.repository.ISchoolTeacherRepository;
 import giasuomt.demo.tutor.repository.ITutorRepository;
 import lombok.AllArgsConstructor;
@@ -26,7 +21,7 @@ public class SchoolTeacherService extends GenericService<SchoolTeacher, Long> im
 	private MapDtoToModel mapper;
 
 	@Override
-	public SchoolTeacher save(CreateSchoolTeacherDto dto) {
+	public SchoolTeacher save(SaveSchoolTeacherDto dto) {
 
 		try {
 			SchoolTeacher schoolTeacher = new SchoolTeacher();

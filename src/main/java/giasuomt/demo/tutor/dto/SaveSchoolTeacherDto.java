@@ -5,8 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateSchoolTeacherDto  {
-
+public class SaveSchoolTeacherDto  {
+	
+	private Long schoolTeacherId;
+	
 	private Long tutorId;
 
 	private String confirmImgs;

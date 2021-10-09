@@ -21,56 +21,33 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "student")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) //chống báo lỗi 
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer" }) // chống báo lỗi
 //@NamedEntityGraph(name = "student-tutor",attributeNodes = {@NamedAttributeNode("tutor.students")})
 public class Student extends AbstractEntity {
-		
-		
-	
-        private String confirmImgs;
-        
-        private String nowLevel;
-        
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_TIME_FORMAT) //Quy định date format khi nó add đối tượng thành Json để trả về Clients
-        @DateTimeFormat(pattern = DateTimeUtils.DATE_TIME_FORMAT) //Quy định date format để lưu xuống database
-        private LocalDateTime nowLevelUpdatedAt;
-        
-        
-        String institutionName;
-        
-        String institutionAbbrName;
-        
-        String institutionCode;
-        
-        String institutionType;
-        
-        
-        String majorName;
-        
-        String majorCode;
-        
 
-        @ManyToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "tutor_id")
-        @JsonIgnore
-        private Tutor tutor;
-        
-        public Student updateConfirm(String conString)
-        {
-        	this.confirmImgs=conString;
-        	return this;
-        }
-        public Student updateNowLevel(String nowlevel)
-        {
-        	this.nowLevel=nowlevel;
-        	return this;
-        }
-        public Student updateNowLevelUpdateAt(LocalDateTime  NewLevelUpdateAt)
-        {
-        	this.nowLevelUpdatedAt=NewLevelUpdateAt;
-        	return this;
-        }
-        
-        
-        
+	private String confirmImgs;
+
+	private String nowLevel;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_TIME_FORMAT) // Quy định date format khi nó add đối tượng thành Json để trả về Clients
+	@DateTimeFormat(pattern = DateTimeUtils.DATE_TIME_FORMAT) // Quy định date format để lưu xuống database
+	private LocalDateTime nowLevelUpdatedAt;
+
+	String institutionName;
+
+	String institutionAbbrName;
+
+	String institutionCode;
+
+	String institutionType;
+
+	String majorName;
+
+	String majorCode;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "tutor_id")
+	@JsonIgnore
+	private Tutor tutor;
+
 }

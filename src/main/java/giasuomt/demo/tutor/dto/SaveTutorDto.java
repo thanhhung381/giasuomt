@@ -3,16 +3,16 @@ package giasuomt.demo.tutor.dto;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import giasuomt.demo.commondata.dto.CreateUserDto;
+import giasuomt.demo.commondata.dto.SaveUserDto;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateTutorDto extends CreateUserDto{
+public class SaveTutorDto extends SaveUserDto {
 	
-	private String tutorCode; // Cần viết tự generate theo dạng 8 số
-
+	private Long tutorId;
+	
 	// THÔNG TIN CÁ NHÂN
 	private String tempAddNo;
 
@@ -36,8 +36,6 @@ public class CreateTutorDto extends CreateUserDto{
 
 	private String infoImgs;
 
-	// HIỆN ĐANG LÀ
-
 	// NĂNG LỰC:
 	private String voices;
 
@@ -59,17 +57,18 @@ public class CreateTutorDto extends CreateUserDto{
 
 	private Long relAreaId;
 	
+	// HIỆN ĐANG LÀ
+	// Lưu Student
+	private Set<SaveStudentDto> saveStudentDtos = new HashSet<>();
 	
+	// Lưu GraduatedStudent
+	private Set<SaveGraduatedStudentDto> saveGraduatedStudentDtos = new HashSet<>();
 	
-	    	
-	    	                
-	 //Lưu Student 
-	private Set<CreateStudentDto> createStudentDtos=new HashSet<>();
-	//Lưu GraduatedStudent
-	private Set<CreateGraduatedStudentDto> createGraduatedStudentDtos=new HashSet<>();
-	//luu Institution Teacher        
-	private Set<CreateInstitutionTeacherDto> createInstitutionTeacherDtos=new HashSet<>();
-	//luu School Teacher
-	private Set<CreateSchoolTeacherDto> createSchoolTeacherDtos=new HashSet<>();
-	//RegisteredUser
+	// luu Institution Teacher
+	private Set<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = new HashSet<>();
+	
+	// luu School Teacher
+	private Set<SaveSchoolTeacherDto> saveSchoolTeacherDtos = new HashSet<>();
+	
+	// RegisteredUser
 }

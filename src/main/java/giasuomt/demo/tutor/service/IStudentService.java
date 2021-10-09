@@ -1,16 +1,15 @@
 package giasuomt.demo.tutor.service;
 
 import giasuomt.demo.commondata.generic.IGenericService;
-import giasuomt.demo.location.dto.UpdateAreaDTO;
-import giasuomt.demo.location.model.Area;
-import giasuomt.demo.tutor.dto.CreateStudentDto;
-import giasuomt.demo.tutor.dto.UpdateStudentDto;
+import giasuomt.demo.tutor.dto.SaveStudentDto;
 import giasuomt.demo.tutor.model.Student;
 
 public interface IStudentService extends IGenericService<Student, Long>  {
-	public Student save(CreateStudentDto dto);
+	public void delete(Long id);
 
-	
+	public Student create(SaveStudentDto dto);
 
-	Student update(UpdateStudentDto dto, Long id);
+	public Student update(SaveStudentDto dto);
+
+	Student save(SaveStudentDto dto, Student student);
 }
