@@ -124,7 +124,7 @@ public class Tutor extends User {
 	// @OneToOne(mappedBy = "tutor")
 	// private RegisteredUser registeredUser;
 
-	// getter setter cho dto
+
 
 
 

@@ -87,7 +87,7 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 				}
 				if(deleteThis) {
 					tutor.removeStudent(tutor.getStudents().get(i));                      //Delete 
-					i--;
+					i--; //Vì nó đã remove 1 element trong array lên phải trừ đi
 				}	                 			
 			}
 			for(int i = 0; i < saveStudentDtos.size(); i++) {
@@ -113,7 +113,7 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 				}
 				if(deleteThis) {
 					tutor.removeGraduatedStudent(tutor.getGraduatedStudents().get(i));                      //Delete 
-					i--;
+					i--; //Vì nó đã remove 1 element trong array lên phải trừ đi
 				}	                 			
 			}
 			for(int i = 0; i < saveGraduatedStudentDtos.size(); i++) {
@@ -139,7 +139,7 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 				}
 				if(deleteThis) {
 					tutor.removeInstitutionTeacher(tutor.getInstitutionTeachers().get(i));                      //Delete 
-					i--;
+					i--; //Vì nó đã remove 1 element trong array lên phải trừ đi
 				}	                 			
 			}
 			for(int i = 0; i < saveInstitutionTeacherDtos.size(); i++) {
@@ -165,7 +165,7 @@ public class TutorService extends GenericService<Tutor, Long> implements ITutorS
 				}
 				if(deleteThis) {
 					tutor.removeSchoolTeacher(tutor.getSchoolTeachers().get(i));                      //Delete 
-					i--;
+					i--; //Vì nó đã remove 1 element trong array lên phải trừ đi
 				}	                 			
 			}
 			for(int i = 0; i < saveSchoolTeacherDtos.size(); i++) {
