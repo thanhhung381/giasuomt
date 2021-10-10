@@ -1,6 +1,7 @@
 package giasuomt.demo.commondata.generic;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class MapDtoToModel<E extends Object, T extends Object> {  //map từ th�
 				Object dtoPropertyValue = dto.getClass().getMethod(dtoGetterName).invoke(dto); //invoke(dto) là mình truyền vô đối tượng mà mình muốn thực hiện phương thức (là dto)
 				//parse dto getter to model setter
 				String modelSetterName = dtoGetterName.replaceFirst("get","set"); //Đặt Setter cho model với đk tên các thuộc tính của dto phải giống với thuộc tính đó ở model. HOẶC: Nếu dto có thuộc tính nào khác name với model, thì ở model tự viết 1 setter giống với name của thuộc tính đó ở dto.
-				if(dtoPropertyValue.getClass() != new HashSet<>().getClass() && dtoPropertyValue.getClass() != Long.class) {
+				if(dtoPropertyValue.getClass() != new HashSet<>().getClass() && dtoPropertyValue.getClass() != new ArrayList<>().getClass() && dtoPropertyValue.getClass() != Long.class) {
 					//get properties type
 					Class<?>[] modelSetterPropertyTypeClasses = model.getClass().getMethod(modelSetterName, dtoPropertyValue.getClass()).getParameterTypes();
 					Class<?> modelSetterPropertyType = modelSetterPropertyTypeClasses[0]; //Do mình biết setter nào đó nó sẽ chỉ có 1 tham số.
