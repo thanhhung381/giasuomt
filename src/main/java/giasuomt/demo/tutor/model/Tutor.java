@@ -1,7 +1,10 @@
 package giasuomt.demo.tutor.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -75,21 +78,17 @@ public class Tutor extends User {
 	private String infoImgs;
 
 //HIỆN ĐANG LÀ
-	@OneToMany(mappedBy = "tutor")
-	// @JsonIgnore //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	private Set<Student> students = new HashSet<>();
+	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<Student> students = new ArrayList<>();
 
-	@OneToMany(mappedBy = "tutor")
-	// @JsonIgnore //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	private Set<GraduatedStudent> graduatedStudents = new HashSet<>();
+	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<GraduatedStudent> graduatedStudents = new ArrayList<>();
 
-	@OneToMany(mappedBy = "tutor")
-	// @JsonIgnore //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	private Set<InstitutionTeacher> institutionTeachers = new HashSet<>();
+	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<InstitutionTeacher> institutionTeachers = new ArrayList<>();
 
-	@OneToMany(mappedBy = "tutor")
-	// @JsonIgnore //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	private Set<SchoolTeacher> schoolTeachers = new HashSet<>();
+	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<SchoolTeacher> schoolTeachers = new ArrayList<>();
 
 //NĂNG LỰC:
 	private String voices;
@@ -127,4 +126,42 @@ public class Tutor extends User {
 
 	// getter setter cho dto
 
+
+
+	
+	public void addStudent (Student student) {
+		student.setTutor(this);
+		this.students.add(student);
+	}
+
+	public void removeStudent(Student student) {
+		this.students.remove(student);
+	}
+	
+	public void addGraduatedStudent (GraduatedStudent graduatedStudent) {
+		graduatedStudent.setTutor(this);
+		this.graduatedStudents.add(graduatedStudent);
+	}
+
+	public void removeGraduatedStudent(GraduatedStudent graduatedStudent) {
+		this.graduatedStudents.remove(graduatedStudent);
+	}
+	
+	public void addInstitutionTeacher (InstitutionTeacher institutionTeacher) {
+		institutionTeacher.setTutor(this);
+		this.institutionTeachers.add(institutionTeacher);
+	}
+
+	public void removeInstitutionTeacher(InstitutionTeacher institutionTeacher) {
+		this.institutionTeachers.remove(institutionTeacher);
+	}
+	
+	public void addSchoolTeacher (SchoolTeacher schoolTeacher) {
+		schoolTeacher.setTutor(this);
+		this.schoolTeachers.add(schoolTeacher);
+	}
+
+	public void removeSchoolTeacher(SchoolTeacher schoolTeacher) {
+		this.schoolTeachers.remove(schoolTeacher);
+	}
 }

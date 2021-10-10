@@ -19,6 +19,4 @@ public class SaveInstitutionTeacherDto {
 
 	private String subject;
 
-	private Long tutorId;
-
 }

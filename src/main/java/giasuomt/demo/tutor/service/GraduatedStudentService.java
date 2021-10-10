@@ -30,7 +30,7 @@ public class GraduatedStudentService extends GenericService<GraduatedStudent, Lo
 	public GraduatedStudent create(SaveGraduatedStudentDto dto) {
 		GraduatedStudent graduatedStudent = new GraduatedStudent();
 
-		graduatedStudent.setTutor(iTutorRepository.getOne(dto.getTutorId()));
+		graduatedStudent.setTutor(iTutorRepository.getOne(dto.getId()));
 
 		return save(dto, graduatedStudent);
 	}

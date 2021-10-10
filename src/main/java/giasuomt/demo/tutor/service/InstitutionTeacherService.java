@@ -30,7 +30,7 @@ public class InstitutionTeacherService extends GenericService<InstitutionTeacher
 	public InstitutionTeacher create(SaveInstitutionTeacherDto dto) {
 		InstitutionTeacher institutionTeacher = new InstitutionTeacher();
 
-		institutionTeacher.setTutor(iTutorRepository.getOne(dto.getTutorId()));
+		institutionTeacher.setTutor(iTutorRepository.getOne(dto.getId()));
 
 		return save(dto, institutionTeacher);
 	}

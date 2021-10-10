@@ -1,7 +1,10 @@
 package giasuomt.demo.tutor.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import giasuomt.demo.commondata.dto.SaveUserDto;
 import lombok.Getter;
@@ -56,16 +59,16 @@ public class SaveTutorDto extends SaveUserDto {
 	
 	// HIỆN ĐANG LÀ
 	// Lưu Student
-	private Set<SaveStudentDto> saveStudentDtos = new HashSet<>();
+	private List<SaveStudentDto> saveStudentDtos = new ArrayList<>();
 	
 	// Lưu GraduatedStudent
-	private Set<SaveGraduatedStudentDto> saveGraduatedStudentDtos = new HashSet<>();
+	private List<SaveGraduatedStudentDto> saveGraduatedStudentDtos = new ArrayList<>();
 	
 	// luu Institution Teacher
-	private Set<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = new HashSet<>();
+	private List<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = new ArrayList<>();
 	
 	// luu School Teacher
-	private Set<SaveSchoolTeacherDto> saveSchoolTeacherDtos = new HashSet<>();
+	private List<SaveSchoolTeacherDto> saveSchoolTeacherDtos = new ArrayList<>();
 	
 	// RegisteredUser
 }

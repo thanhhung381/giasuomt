@@ -20,6 +20,4 @@ public class SaveSchoolTeacherDto  {
 	private String institutionCode;
 
 	private String institutionType;
-	
-	private Long tutorId;
 }

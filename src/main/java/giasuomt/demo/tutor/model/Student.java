@@ -30,21 +30,20 @@ public class Student extends AbstractEntity {
 	@DateTimeFormat(pattern = DateTimeUtils.DATE_TIME_FORMAT) // Quy định date format để lưu xuống database
 	private LocalDateTime nowLevelUpdatedAt;
 
-	String institutionName;
+	private String institutionName;
 
-	String institutionAbbrName;
+	private String institutionAbbrName;
 
-	String institutionCode;
+	private String institutionCode;
 
-	String institutionType;
+	private String institutionType;
 
-	String majorName;
+	private String majorName;
 
-	String majorCode;
+	private String majorCode;
 
 	@ManyToOne
 	@JoinColumn(name = "tutor_id")
 	@JsonIgnore
 	private Tutor tutor;
-
 }

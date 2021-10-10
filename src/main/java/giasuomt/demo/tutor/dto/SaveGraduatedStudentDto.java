@@ -24,6 +24,5 @@ public class SaveGraduatedStudentDto {
 	private String majorName;
 
 	private String majorCode;
-	
-	private Long tutorId;
+
 }

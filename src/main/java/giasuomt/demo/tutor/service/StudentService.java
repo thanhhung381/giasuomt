@@ -30,7 +30,7 @@ public class StudentService extends GenericService<Student, Long> implements ISt
 	public Student create(SaveStudentDto dto) {
 		Student student = new Student();
 
-		student.setTutor(iTutorRepository.getOne(dto.getTutorId()));
+//		student.setTutor(iTutorRepository.getOne(dto.getTutorId()));
 
 		return save(dto, student);
 	}

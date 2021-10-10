@@ -30,7 +30,7 @@ public class SchoolTeacherService extends GenericService<SchoolTeacher, Long> im
 	public SchoolTeacher create(SaveSchoolTeacherDto dto) {
 		SchoolTeacher schoolTeacher = new SchoolTeacher();
 
-		schoolTeacher.setTutor(iTutorRepository.getOne(dto.getTutorId()));
+		schoolTeacher.setTutor(iTutorRepository.getOne(dto.getId()));
 
 		return save(dto, schoolTeacher);
 	}
