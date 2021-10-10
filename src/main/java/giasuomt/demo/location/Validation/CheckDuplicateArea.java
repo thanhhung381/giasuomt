@@ -14,13 +14,6 @@ import giasuomt.demo.location.Validator.CheckDuplicateAreaValidator;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CheckDuplicateArea {
-
-	public String getProvincialLevel() default "getProvincialLevel";
-
-	public String getDistrict() default "getDistrict";
-
-	public String getCommune() default "getCommune";
-
 	public String message() default "This Area is exist!";
 
 	public Class<?>[] groups() default {};

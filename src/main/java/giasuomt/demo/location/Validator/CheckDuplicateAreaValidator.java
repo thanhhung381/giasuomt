@@ -13,9 +13,6 @@ import giasuomt.demo.location.service.IAreaService;
 public class CheckDuplicateAreaValidator implements ConstraintValidator<CheckDuplicateArea, Object> {
 
 	private String getMessage;
-	private String getProvincialLevel;
-	private String getDistrict;
-	private String getCommune;
 
 	@Autowired
 	private IAreaService service;
@@ -23,9 +20,6 @@ public class CheckDuplicateAreaValidator implements ConstraintValidator<CheckDup
 	@Override
 	public void initialize(CheckDuplicateArea constraintAnnotation) {
 		this.getMessage = constraintAnnotation.message();
-		this.getProvincialLevel = constraintAnnotation.getProvincialLevel();
-		this.getDistrict = constraintAnnotation.getDistrict();
-		this.getCommune = constraintAnnotation.getCommune();
 	}
 
 	@Override
@@ -33,9 +27,9 @@ public class CheckDuplicateAreaValidator implements ConstraintValidator<CheckDup
 		// TODO Auto-generated method stub
 
 		try {
-			String district = (String) value.getClass().getMethod(getDistrict).invoke(value);
-			String provinceLevel = (String) value.getClass().getMethod(getProvincialLevel).invoke(value);
-			String commune = (String) value.getClass().getMethod(getCommune).invoke(value);
+			String district = (String) value.getClass().getMethod("getDistrict").invoke(value);
+			String provinceLevel = (String) value.getClass().getMethod("getProvincialLevel").invoke(value);
+			String commune = (String) value.getClass().getMethod("getCommune").invoke(value);
 
 			if (!service.checkExistCommune(commune) || !service.checkExistDistrict(district)
 					|| !service.checkExistProvincialLevel(provinceLevel))

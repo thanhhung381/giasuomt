@@ -46,9 +46,9 @@ public class AreaController {
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST); // Trả về các messages lỗi, kèm theo
 																				// HttpStatus BAD REQUEST [xem trong
 																				// ResponsHandler.java]
-		Area addedArea = iAreaService.create(dto);
+		Area createdArea = iAreaService.create(dto);
 		
-		return ResponseHandler.getResponse(addedArea, HttpStatus.CREATED); // Trả về http status là đã thành công
+		return ResponseHandler.getResponse(createdArea, HttpStatus.CREATED); // Trả về http status là đã thành công
 	}
 
 	// update area
