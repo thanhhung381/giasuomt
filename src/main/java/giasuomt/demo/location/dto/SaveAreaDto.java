@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @CheckIfNationIsVietnam //Nếu nation là Việt Nam thì provincialLevel, district, commune ko được null hoặc blank hoặc Empty.
 @CheckDuplicateArea
-public class SaveAreaDTO {
+public class SaveAreaDto {
 	protected Long id;
 	
 	protected String nation;

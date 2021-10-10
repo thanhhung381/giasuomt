@@ -1,16 +1,13 @@
 package giasuomt.demo.location.service;
-
 import java.util.List;
 import java.util.Set;
-
 import javax.validation.Valid;
-
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
 import giasuomt.demo.location.dto.FindingDtoArea;
-import giasuomt.demo.location.dto.SaveAreaDTO;
+import giasuomt.demo.location.dto.SaveAreaDto;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
 import lombok.AllArgsConstructor;
@@ -29,21 +26,21 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 	}
 
 	@Override
-	public Area create(@Valid SaveAreaDTO dto) {
+	public Area create(@Valid SaveAreaDto dto) {
 		Area area = new Area();
 
 		return save(dto, area);
 	}
 
 	@Override
-	public Area update(SaveAreaDTO dto) {
+	public Area update(SaveAreaDto dto) {
 		Area area = iAreaRepository.getOne(dto.getId());
 
 		return save(dto, area);
 	}
 
 	@Override
-	public Area save(SaveAreaDTO dto, Area area) {
+	public Area save(SaveAreaDto dto, Area area) {
 		try {
 			// MAP DTO TO MODEL
 			area = (Area) mapper.map(dto, area);

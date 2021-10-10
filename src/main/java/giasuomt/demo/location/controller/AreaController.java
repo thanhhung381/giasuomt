@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
 import giasuomt.demo.location.dto.FindingDtoArea;
-import giasuomt.demo.location.dto.SaveAreaDTO;
+import giasuomt.demo.location.dto.SaveAreaDto;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.service.IAreaService;
 import lombok.AllArgsConstructor;
@@ -41,7 +41,7 @@ public class AreaController {
 
 	// Save Area
 	@PostMapping("/create")
-	public ResponseEntity<Object> create(@Valid @RequestBody SaveAreaDTO dto, BindingResult errors) {
+	public ResponseEntity<Object> create(@Valid @RequestBody SaveAreaDto dto, BindingResult errors) {
 		if (errors.hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST); // Trả về các messages lỗi, kèm theo
 																				// HttpStatus BAD REQUEST [xem trong
@@ -53,7 +53,7 @@ public class AreaController {
 
 	// update area
 	@PutMapping("/update")
-	public ResponseEntity<Object> update(@Valid @RequestBody SaveAreaDTO dto, BindingResult errors) {
+	public ResponseEntity<Object> update(@Valid @RequestBody SaveAreaDto dto, BindingResult errors) {
 		if (errors.hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
 		
