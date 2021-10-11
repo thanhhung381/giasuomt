@@ -1,5 +1,6 @@
 package giasuomt.demo.person.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
@@ -12,6 +13,7 @@ import giasuomt.demo.person.dto.SaveSchoolTeacherDto;
 import giasuomt.demo.person.dto.SaveSchoolerDto;
 import giasuomt.demo.person.dto.SaveStudentDto;
 import giasuomt.demo.person.dto.SaveWorkerDto;
+import giasuomt.demo.person.model.Certificate;
 import giasuomt.demo.person.model.GraduatedStudent;
 import giasuomt.demo.person.model.InstitutionTeacher;
 import giasuomt.demo.person.model.Person;
@@ -19,6 +21,7 @@ import giasuomt.demo.person.model.SchoolTeacher;
 import giasuomt.demo.person.model.Schooler;
 import giasuomt.demo.person.model.Student;
 import giasuomt.demo.person.model.Worker;
+import giasuomt.demo.person.repository.ICertificateRepository;
 import giasuomt.demo.person.repository.IGraduatedStudentRepository;
 import giasuomt.demo.person.repository.IInstitutionTeacherRepository;
 import giasuomt.demo.person.repository.IPersonRepository;
@@ -51,6 +54,8 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 	private ISchoolerRepository iSchoolerRepository;
 
 	private IWorkerRepository iWorkerRepository;
+	
+	private ICertificateRepository iCertificateRepository;
 
 	@Override
 	public List<Person> findAll() {
@@ -85,6 +90,15 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 
 			person.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
 
+            //Certificate
+            List<Long> certificateIds = dto.getCertificateIds();
+            List<Certificate> certificates = new ArrayList<>();
+            for(int i = 0; i< certificateIds.size(); i++) {
+            	Certificate certificate = iCertificateRepository.getOne(certificateIds.get(i));
+            	certificates.add(certificate);
+            }
+            person.setCertificates(certificates);			
+			
 			List<SaveStudentDto> saveStudentDtos = dto.getSaveStudentDtos();
 			for (int i = 0; i < person.getStudents().size(); i++) {
 				Boolean deleteThis = true;
