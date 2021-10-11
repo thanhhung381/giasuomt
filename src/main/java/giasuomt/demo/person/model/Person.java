@@ -132,11 +132,6 @@ public class Person extends AbstractEntity {
 	private List<Worker> workers = new ArrayList<>();
 
 //PERSONAL RELATIONSHIP:
-	// @Unique
-	@NotBlank
-	// @Column(unique = true)
-	private String tutorCode; // Cần viết tự generate theo dạng 8 số
-
 	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL)
 	private Set<Relationship> relationshipWith;
 
@@ -144,13 +139,18 @@ public class Person extends AbstractEntity {
 	private Set<Relationship> relationshipBy;
 
 //TUTOR:
+	// @Unique
+	@NotBlank
+	// @Column(unique = true)
+	private String tutorCode; // Cần viết tự generate theo dạng 8 số
+	
 	private String voices;
 
-	 @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	 @JoinTable(name = "tutor_certificate",
-	 joinColumns = @JoinColumn(name = "tutor_id"),
-	inverseJoinColumns = @JoinColumn(name = "certificate_id"))
-	 private List<Certificate> certificates = new ArrayList<>();
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinTable(name = "tutor_certificate",
+	 		   joinColumns = @JoinColumn(name = "person_id"),
+	 		   inverseJoinColumns = @JoinColumn(name = "certificate_id"))
+	private List<Certificate> certificates = new ArrayList<>();
 
 	private String tutorNotices;
 

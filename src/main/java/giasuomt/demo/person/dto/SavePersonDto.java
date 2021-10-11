@@ -75,7 +75,7 @@ public class SavePersonDto extends SaveUserDto {
 	private List<SaveWorkerDto> saveWorkerDtos = new ArrayList<>();
 	
 	//load Certificate vì có sẵn
-	private List<Long> idCertificate=new ArrayList<>();
+	private List<Long> certificateIds = new ArrayList<>();
 	
 	
 	// RegisteredUser
