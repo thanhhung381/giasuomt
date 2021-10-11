@@ -5,7 +5,6 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
-import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
 import giasuomt.demo.location.dto.FindingDtoArea;
 import giasuomt.demo.location.dto.SaveAreaDto;
 import giasuomt.demo.location.model.Area;
@@ -105,14 +104,7 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 
 	}
 
-	public Set<LearnerAndRegister> findLearnerAndRegistersById(Long areaId) {
-		/*
-		 * Optional<Area> areas = repository.findById(areaId); Set<LearnerAndRegister>
-		 * learnerAndRegisters = areas.get().getLearnerAndRegisters(); return
-		 * learnerAndRegisters;
-		 */
-		return null;
-	}
+
 
 	@Override
 	public boolean checkExistProvincialLevel(String provincialLevel) {

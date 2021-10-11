@@ -3,7 +3,6 @@ import java.util.List;
 import java.util.Set;
 import javax.validation.Valid;
 import giasuomt.demo.commondata.generic.IGenericService;
-import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
 import giasuomt.demo.location.dto.FindingDtoArea;
 import giasuomt.demo.location.dto.SaveAreaDto;
 import giasuomt.demo.location.model.Area;
@@ -24,6 +23,5 @@ public interface IAreaService extends IGenericService<Area, Long> {
 
 	Area save(SaveAreaDto dto, Area area);
 
-	Set<LearnerAndRegister> findLearnerAndRegistersById(Long areaId);
 
 }

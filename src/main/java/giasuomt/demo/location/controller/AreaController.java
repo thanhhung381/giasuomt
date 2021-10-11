@@ -1,6 +1,5 @@
 package giasuomt.demo.location.controller;
 import java.util.List;
-import java.util.Set;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
-import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
 import giasuomt.demo.location.dto.FindingDtoArea;
 import giasuomt.demo.location.dto.SaveAreaDto;
 import giasuomt.demo.location.model.Area;
@@ -87,13 +85,7 @@ public class AreaController {
 		return ResponseHandler.getResponse(areas, HttpStatus.OK);
 	}
 
-	@GetMapping("/findLearnerAndRegistersById/{area-id}")
-	public ResponseEntity<Object> findLearnerAndRegistersById(@PathVariable("area-id") Long areaId) {
-		Set<LearnerAndRegister> learnerAndRegisters = iAreaService.findLearnerAndRegistersById(areaId);
-		if (learnerAndRegisters == null)
-			return ResponseHandler.getResponse("There is no data.", HttpStatus.OK);
-		return ResponseHandler.getResponse(learnerAndRegisters, HttpStatus.OK); // Trả về roles, kèm theo HttpStatus OK
-	}
+
 
 	// code
 

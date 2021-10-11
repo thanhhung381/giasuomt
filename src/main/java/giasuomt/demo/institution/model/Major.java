@@ -12,8 +12,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
-import giasuomt.demo.tutor.model.GraduatedStudent;
-import giasuomt.demo.tutor.model.Student;
+import giasuomt.demo.person.model.GraduatedStudent;
+import giasuomt.demo.person.model.Student;
 import lombok.Getter;
 import lombok.Setter;
 

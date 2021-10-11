@@ -1,20 +1,15 @@
 package giasuomt.demo.institution.model;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import giasuomt.demo.commondata.model.AbstractEntity;
-import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
-import giasuomt.demo.tutor.model.GraduatedStudent;
-import giasuomt.demo.tutor.model.Student;
+import giasuomt.demo.person.model.GraduatedStudent;
+import giasuomt.demo.person.model.Student;
 import lombok.Getter;
 import lombok.Setter;
 
