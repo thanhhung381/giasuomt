@@ -36,7 +36,7 @@ public class Worker extends AbstractEntity {
 	
 
 	@ManyToOne
-	@JoinColumn(name = "tutor_id")
+	@JoinColumn(name = "person_id")
 	@JsonIgnore
 	private Person person;
 }

@@ -33,7 +33,7 @@ public class SchoolTeacher extends AbstractEntity {
         
         
         @ManyToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "tutor_id")
+        @JoinColumn(name = "person_id")
         @JsonIgnore
         private Person person;
 }

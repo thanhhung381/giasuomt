@@ -112,22 +112,22 @@ public class Person extends AbstractEntity {
 	private String privateImgs;
 
 //HIỆN ĐANG LÀ
-	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Student> students = new ArrayList<>();
 
-	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<GraduatedStudent> graduatedStudents = new ArrayList<>();
 
-	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<InstitutionTeacher> institutionTeachers = new ArrayList<>();
 
-	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<SchoolTeacher> schoolTeachers = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Schooler> schoolers = new ArrayList<>();
 	
-	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Worker> workers = new ArrayList<>();
 
 //PERSONAL RELATIONSHIP:
@@ -164,13 +164,13 @@ public class Person extends AbstractEntity {
 //LEARNER/REGISTER
 	private String learnerNotices;
 	
-    @OneToMany(mappedBy = "register", fetch = FetchType.LAZY)
-    @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-    private Set<Task> registeredTasks;
-    
-    @ManyToMany(mappedBy = "learners", fetch = FetchType.LAZY)
-    @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-    private Set<Task> learnedTasks = new HashSet<>();
+//    @OneToMany(mappedBy = "register", fetch = FetchType.LAZY)
+//    @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+//    private Set<Task> registeredTasks;
+//    
+//    @ManyToMany(mappedBy = "learners", fetch = FetchType.LAZY)
+//    @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+//    private Set<Task> learnedTasks = new HashSet<>();
 
     
 
