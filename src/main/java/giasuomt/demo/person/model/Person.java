@@ -165,13 +165,15 @@ public class Person extends AbstractEntity {
 //LEARNER/REGISTER
 	private String learnerNotices;
 
-//    @OneToMany(mappedBy = "register", fetch = FetchType.LAZY)
-//    @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-//    private Set<Task> registeredTasks;
-//    
-//    @ManyToMany(mappedBy = "learners", fetch = FetchType.LAZY)
-//    @JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-//    private Set<Task> learnedTasks = new HashSet<>();
+    @OneToMany(mappedBy = "register")
+    @JsonIgnore  
+    private List<Task> registerOfTasks = new ArrayList<>();;
+    
+    @ManyToMany(mappedBy = "learners")
+    @JsonIgnore  
+    private List<Task> learnerOfTasks = new ArrayList<>();
+    
+    
 // FOR API SAVE
 
 	public void addSchooler(Schooler schooler) {
