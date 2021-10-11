@@ -1,5 +1,4 @@
 package giasuomt.demo.commondata.model;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,9 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-
 import giasuomt.demo.commondata.util.RegisteredUserStatus;
-import giasuomt.demo.tutor.model.Tutor;
+import giasuomt.demo.person.model.Person;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,6 +30,6 @@ public class RegisteredUser extends AbstractEntity {
 
 
         @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-        @JoinColumn(name = "tutor_id", referencedColumnName = "id")
-        private Tutor tutor;
+        @JoinColumn(name = "person_id", referencedColumnName = "id")
+        private Person person;
 }

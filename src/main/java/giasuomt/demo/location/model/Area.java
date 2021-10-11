@@ -1,18 +1,15 @@
 package giasuomt.demo.location.model;
-
+import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
-import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
+import giasuomt.demo.person.model.Person;
 import giasuomt.demo.task.model.TaskAddress;
-import giasuomt.demo.tutor.model.Tutor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +17,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "area")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
 public class Area extends AbstractEntity {
 	
 	protected String nation;
@@ -38,24 +36,24 @@ public class Area extends AbstractEntity {
 
 	@OneToMany(mappedBy = "tempArea", fetch = FetchType.LAZY)
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	Set<Tutor> tutorsWithTempArea;
+	private Set<Person> personsWithTempArea=new HashSet<>();
 
 	@OneToMany(mappedBy = "perArea", fetch = FetchType.LAZY)
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	Set<Tutor> tutorsWithPerArea;
+	private Set<Person> personsWithPerArea=new HashSet<>();
 
 	@OneToMany(mappedBy = "relArea", fetch = FetchType.LAZY)
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	Set<Tutor> tutorsWithRelArea;	
+	private Set<Person> personsWithRelArea=new HashSet<>();	
 
 	
-	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
-	@JsonIgnore  
-	Set<LearnerAndRegister> learnerAndRegisters;
+//	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
+//	@JsonIgnore  
+//	Set<LearnerAndRegister> learnerAndRegisters;
 	
-	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
-	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	Set<TaskAddress> taskAddress;	
+//	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
+//	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+//	Set<TaskAddress> taskAddress;	
 	
 	
 	

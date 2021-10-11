@@ -1,9 +1,7 @@
 package giasuomt.demo.task.model;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,11 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import giasuomt.demo.comment.model.Comment;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.model.Require;
@@ -33,7 +28,6 @@ import giasuomt.demo.finance.util.TypeOfFee;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.institution.model.Subject;
 import giasuomt.demo.job.model.Job;
-import giasuomt.demo.learnerAndRegister.model.LearnerAndRegister;
 import giasuomt.demo.task.util.TaskStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,15 +42,15 @@ public class Task extends AbstractEntity {
 	private String taskCode; //Cần viết tự generate theo dạng MB1991
 
 //NGƯỜI ĐĂNG KÝ và HỌC VIÊN
-	@ManyToOne
-	@JoinColumn(name = "register_id")
-	private LearnerAndRegister register;
-
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinTable(name = "task_learner",
-	                   joinColumns = @JoinColumn(name = "task_id"),
-	                   inverseJoinColumns = @JoinColumn(name = "learner_id"))
-	private Set<LearnerAndRegister> learners = new HashSet<>();
+//	@ManyToOne
+//	@JoinColumn(name = "register_id")
+//	private LearnerAndRegister register;
+//
+//	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+//	@JoinTable(name = "task_learner",
+//	                   joinColumns = @JoinColumn(name = "task_id"),
+//	                   inverseJoinColumns = @JoinColumn(name = "learner_id"))
+//	private Set<LearnerAndRegister> learners = new HashSet<>();
 	
 //TÌNH TRẠNG LỚP
 	@Enumerated(EnumType.STRING) 

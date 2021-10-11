@@ -1,10 +1,10 @@
 package giasuomt.demo.commondata.generic;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 //MAP DTO TO MODEL VỚI ĐIỀU KIỆN: TÊN CÁC THUỘC TÍNH CỦA DTO PHẢI GIỐNG VỚI CÁC THUỘC TÍNH ĐÓ Ở MODEL. HOẶC: Nếu dto có thuộc tính nào khác name với model, thì ở model tự viết 1 setter giống với name của thuộc tính đó ở dto.
@@ -23,18 +23,19 @@ public class MapDtoToModel<E extends Object, T extends Object> {  //map từ th�
 		//Map dto property value to the same name of model property
 		for(String dtoGetterName: dtoGetterNames) {
 			 try { //Try catch là để nếu nó ko map đc (có lỗi) thì bỏ qua làm tiếp chứ ko báo lỗi. (Để phòng TH dto có những property ko cùng name với model thì generic này bỏ qua, để mình tự map manually sau).
-				 //get dto property value
+				 //get dto property value - lấy giá trị của thuộc tính của dto
 				Object dtoPropertyValue = dto.getClass().getMethod(dtoGetterName).invoke(dto); //invoke(dto) là mình truyền vô đối tượng mà mình muốn thực hiện phương thức (là dto)
 				//parse dto getter to model setter
 				String modelSetterName = dtoGetterName.replaceFirst("get","set"); //Đặt Setter cho model với đk tên các thuộc tính của dto phải giống với thuộc tính đó ở model. HOẶC: Nếu dto có thuộc tính nào khác name với model, thì ở model tự viết 1 setter giống với name của thuộc tính đó ở dto.
-				//get properties type
-				Class<?>[] modelSetterPropertyTypeClasses = model.getClass().getMethod(modelSetterName, dtoPropertyValue.getClass()).getParameterTypes();
-				Class<?> modelSetterPropertyType = modelSetterPropertyTypeClasses[0]; //Do mình biết setter nào đó nó sẽ chỉ có 1 tham số.
-				//map dto property value to the same name of model property
-				model.getClass().getMethod(modelSetterName, modelSetterPropertyType).invoke(model, modelSetterPropertyType.cast(dtoPropertyValue)); //invoke(dto, dtoValue) là mình truyền vô đối tượng mà mình muốn thực hiện phương thức (là dto) và giá trị muốn truyền vào phương thức (là dtoPropertyValue). modelSetterPropertyType.cast là ép về kiểu modelSetterPropertyType
+				if(dtoPropertyValue.getClass() != new HashSet<>().getClass() && dtoPropertyValue.getClass() != new ArrayList<>().getClass() && dtoPropertyValue.getClass() != Long.class) {
+					//get properties type
+					Class<?>[] modelSetterPropertyTypeClasses = model.getClass().getMethod(modelSetterName, dtoPropertyValue.getClass()).getParameterTypes();
+					Class<?> modelSetterPropertyType = modelSetterPropertyTypeClasses[0]; //Do mình biết setter nào đó nó sẽ chỉ có 1 tham số.
+					//map dto property value to the same name of model property
+					model.getClass().getMethod(modelSetterName, modelSetterPropertyType).invoke(model, modelSetterPropertyType.cast(dtoPropertyValue)); //invoke(dto, dtoValue) là mình truyền vô đối tượng mà mình muốn thực hiện phương thức (là dto) và giá trị muốn truyền vào phương thức (là dtoPropertyValue). modelSetterPropertyType.cast là ép về kiểu modelSetterPropertyType
+				};
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException 
 					| NoSuchMethodException | SecurityException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
