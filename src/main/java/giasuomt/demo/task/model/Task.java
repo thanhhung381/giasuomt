@@ -28,6 +28,7 @@ import giasuomt.demo.finance.util.TypeOfFee;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.institution.model.Subject;
 import giasuomt.demo.job.model.Job;
+import giasuomt.demo.person.model.Person;
 import giasuomt.demo.task.util.TaskStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,15 +43,24 @@ public class Task extends AbstractEntity {
 	private String taskCode; //Cần viết tự generate theo dạng MB1991
 
 //NGƯỜI ĐĂNG KÝ và HỌC VIÊN
-//	@ManyToOne
-//	@JoinColumn(name = "register_id")
-//	private LearnerAndRegister register;
-//
-//	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-//	@JoinTable(name = "task_learner",
-//	                   joinColumns = @JoinColumn(name = "task_id"),
-//	                   inverseJoinColumns = @JoinColumn(name = "learner_id"))
-//	private Set<LearnerAndRegister> learners = new HashSet<>();
+	@ManyToOne
+	@JoinColumn(name = "register_id")
+	private Person register;
+
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinTable(name = "task_learner",
+	           joinColumns = @JoinColumn(name = "task_id"),
+	           inverseJoinColumns = @JoinColumn(name = "learner_id"))
+	private Set<Person> learners = new HashSet<>();
+
+//ỨNG VIÊN ĐĂNG KÝ
+	@OneToMany(mappedBy = "task")
+	private Set<Application> applications;
+
+//GIAO JOB
+	@OneToMany(mappedBy = "task")
+	private Set<Job> jobs;
+	
 	
 //TÌNH TRẠNG LỚP
 	@Enumerated(EnumType.STRING) 
@@ -146,13 +156,5 @@ public class Task extends AbstractEntity {
 	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
 	private Set<TaskSign> taskSigns;
 
-	
-//ỨNG VIÊN
-	@OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
-	private Set<Application> applications;
-
-//GIAO LỚP
-	@OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
-	private Set<Job> jobs;
 
 }

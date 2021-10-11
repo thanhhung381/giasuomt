@@ -89,16 +89,16 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 			person.setPerArea(iAreaRepository.getOne(dto.getPerAreaId()));
 
 			person.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
+
+            //Certificate
+            List<Long> certificateIds = dto.getCertificateIds();
+            List<Certificate> certificates = new ArrayList<>();
+            for(int i = 0; i< certificateIds.size(); i++) {
+            	Certificate certificate = iCertificateRepository.getOne(certificateIds.get(i));
+            	certificates.add(certificate);
+            }
+            person.setCertificates(certificates);			
 			
-			//Certificate
-			List<Long> certificateIds = dto.getCertificateIds();
-			List<Certificate> certificates=new ArrayList<>();
-			for(int i = 0; i< certificateIds.size(); i++) {
-				Certificate certificate = iCertificateRepository.getOne(certificateIds.get(i));
-				certificates.add(certificate);
-			}
-			person.setCertificates(certificates);
-					
 			List<SaveStudentDto> saveStudentDtos = dto.getSaveStudentDtos();
 			for (int i = 0; i < person.getStudents().size(); i++) {
 				Boolean deleteThis = true;
@@ -123,7 +123,7 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 					person.addStudent(student);
 				}
 			}
-			
+
 			List<SaveGraduatedStudentDto> saveGraduatedStudentDtos = dto.getSaveGraduatedStudentDtos();
 			for (int i = 0; i < person.getGraduatedStudents().size(); i++) {
 				Boolean deleteThis = true;
