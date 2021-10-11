@@ -37,8 +37,8 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class Person extends AbstractEntity {
-	@Size(min = 3, max = 50, message = "{user.username.size}")
-	@Column(unique = true) // để các giá trị username ko được trùng nhau
+//	@Size(min = 3, max = 50, message = "{user.username.size}")
+//	@Column(unique = true) // để các giá trị username ko được trùng nhau
 	private String username;
 
 	private String password;
@@ -146,11 +146,11 @@ public class Person extends AbstractEntity {
 //TUTOR:
 	private String voices;
 
-	// @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	// @JoinTable(name = "tutor_certificate",
-	// joinColumns = @JoinColumn(name = "tutor_id"),
-	// inverseJoinColumns = @JoinColumn(name = "certificate_id"))
-	// private Set<Certificate> certificates = new HashSet<>();
+	 @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	 @JoinTable(name = "tutor_certificate",
+	 joinColumns = @JoinColumn(name = "tutor_id"),
+	inverseJoinColumns = @JoinColumn(name = "certificate_id"))
+	 private List<Certificate> certificates = new ArrayList<>();
 
 	private String tutorNotices;
 
@@ -174,6 +174,12 @@ public class Person extends AbstractEntity {
 //    private Set<Task> learnedTasks = new HashSet<>();
 // FOR API SAVE
 
+	
+	public void addCertificate(Certificate certificate)
+	{
+		this.certificates.add(certificate);
+	}
+	
 	public void addSchooler(Schooler schooler) {
 		schooler.setPerson(this);
 		this.schoolers.add(schooler);
