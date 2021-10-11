@@ -6,20 +6,25 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.util.DateUtils;
+import giasuomt.demo.commondata.util.RegisteredUserStatus;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.task.model.Task;
 import lombok.Getter;
@@ -31,10 +36,13 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class Person extends AbstractEntity {
-	// @Unique
-	@NotBlank
-	// @Column(unique = true)
-	private String tutorCode; // Cần viết tự generate theo dạng 8 số
+    @Size(min = 3, max = 50, message = "{user.username.size}")
+    @Column(unique = true) //để các giá trị username ko được trùng nhau
+    private String username;
+    
+    private String password;
+    
+    private String registeredStatus;
 
 //THÔNG TIN CÁ NHÂN
 	// @NotBlank
@@ -122,6 +130,18 @@ public class Person extends AbstractEntity {
 	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Worker> workers = new ArrayList<>();
 
+//PERSONAL RELATIONSHIP:
+	// @Unique
+	@NotBlank
+	// @Column(unique = true)
+	private String tutorCode; // Cần viết tự generate theo dạng 8 số
+	
+	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL)
+	private Set<Relationship> relationshipWith;
+		
+	@OneToMany(mappedBy = "personB", cascade = CascadeType.ALL)
+	private Set<Relationship> relationshipBy;
+		
 //TUTOR:
 	private String voices;
 
@@ -153,13 +173,8 @@ public class Person extends AbstractEntity {
     private Set<Task> learnedTasks = new HashSet<>();
 
     
-//RELATIONAL PERSON:
-//	@ManyToMany(mappedBy = "learnerAndRegister", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	private Set<LearnerAndRegisterRelationship> learnerAndRegisterRelationships;
-	
-//RegisteredUser
-	// @OneToOne(mappedBy = "tutor")
-	// private RegisteredUser registeredUser;
+
+
 
     
     
