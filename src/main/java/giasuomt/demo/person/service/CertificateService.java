@@ -23,7 +23,7 @@ public class CertificateService extends GenericService<Certificate, Long> implem
 		return iCertificateRepository.findAll();
 	}
 
-	public Certificate create(@Valid SaveCertificateDto dto) {
+	public Certificate create(SaveCertificateDto dto) {
 		Certificate certificate = new Certificate();
 
 		return save(dto, certificate);
