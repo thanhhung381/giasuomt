@@ -31,7 +31,4 @@ public class Relationship extends AbstractEntity {
 	@JoinColumn(name = "person_b_id")
 	private Person personB;
 
-//	public void addPersonB(Person person) {
-//		this.personB = person;
-//	}
 }

@@ -1,5 +1,4 @@
 package giasuomt.demo.person.service;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -104,7 +103,6 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 						deleteThis = false;
 				}
 				if (deleteThis) {
-
 					person.removeRelationshipWith(person.getRelationshipWith().get(i)); // Delete
 					i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
 				}
@@ -112,22 +110,14 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 			for (int i = 0; i < saveRelationshipDtoWiths.size(); i++) {
 				SaveRelationshipDto saveRelationshipDto = saveRelationshipDtoWiths.get(i);
 				if (saveRelationshipDto.getId() != null && saveRelationshipDto.getId() > 0) { // Update
-
 					Relationship relationship = iRelationshipRepository.getOne(saveRelationshipDto.getId());
-
 					relationship = (Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
-
 					relationship.setPersonB(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
-
 					person.addRelationshipWith(relationship);
 				} else { // Create
-
 					Relationship relationship = new Relationship();
-
 					relationship = (Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
-
 					relationship.setPersonB(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
-
 					person.addRelationshipWith(relationship);
 				}
 			}

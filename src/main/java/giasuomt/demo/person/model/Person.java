@@ -175,27 +175,6 @@ public class Person extends AbstractEntity {
 	private List<Task> learnerOfTasks = new ArrayList<>();
 
 // FOR API SAVE
-
-	public void addPersonWith(Relationship relationship) {
-		relationship.setPersonA(this);
-		this.relationshipWith.add(relationship);
-	}
-
-	public void removePersonWith(Relationship relationship) {
-		relationship.setPersonA(this);
-		this.relationshipWith.add(relationship);
-	}
-
-	public void addPersonBy(Relationship relationship) {
-		relationship.setPersonB(this);
-		this.relationshipBy.add(relationship);
-	}
-
-	public void removePersonBy(Relationship relationship) {
-		relationship.setPersonB(this);
-		this.relationshipBy.add(relationship);
-	}
-
 	public void addSchooler(Schooler schooler) {
 		schooler.setPerson(this);
 		this.schoolers.add(schooler);
