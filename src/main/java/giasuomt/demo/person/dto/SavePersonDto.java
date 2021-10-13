@@ -74,13 +74,11 @@ public class SavePersonDto extends SaveUserDto {
 	// luu worker
 	private List<SaveWorkerDto> saveWorkerDtos = new ArrayList<>();
 
-	//Certificate
+	// Certificate
 	private List<Long> certificateIds = new ArrayList<>();
-	
+
 	// RelationShip
-	private List<SaveRelationshipDto> saveRelationshipDtosWith= new ArrayList<>();
-	
-	
-	
+	private List<SaveRelationshipDto> saveRelationshipDtosWith = new ArrayList<>();
+
 	// RegisteredUser
 }

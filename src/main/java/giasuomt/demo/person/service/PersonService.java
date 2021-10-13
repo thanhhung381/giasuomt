@@ -38,11 +38,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PersonService extends GenericService<Person, Long> implements IPersonService {
 
-	private IPersonRepository iPersonRepository;
-
 	private MapDtoToModel mapDtoToModel;
 
 	// Repository
+
+	private IPersonRepository iPersonRepository;
 
 	private IAreaRepository iAreaRepository;
 
@@ -96,29 +96,38 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 			person.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
 
 			// Relationship
-			List<SaveRelationshipDto> saveRelationshipDtos = dto.getSaveRelationshipDtosWith();
+			List<SaveRelationshipDto> saveRelationshipDtoWiths = dto.getSaveRelationshipDtosWith();
 			for (int i = 0; i < person.getRelationshipWith().size(); i++) {
 				Boolean deleteThis = true;
-				for (int j = 0; j < saveRelationshipDtos.size(); j++) {
-					if (person.getRelationshipWith().get(i).getId() == saveRelationshipDtos.get(j).getId())
+				for (int j = 0; j < saveRelationshipDtoWiths.size(); j++) {
+					if (person.getRelationshipWith().get(i).getId() == saveRelationshipDtoWiths.get(j).getId())
 						deleteThis = false;
 				}
 				if (deleteThis) {
+
 					person.removeRelationshipWith(person.getRelationshipWith().get(i)); // Delete
 					i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
 				}
 			}
-			for (int i = 0; i < saveRelationshipDtos.size(); i++) {
-				SaveRelationshipDto saveRelationshipDto = saveRelationshipDtos.get(i);
+			for (int i = 0; i < saveRelationshipDtoWiths.size(); i++) {
+				SaveRelationshipDto saveRelationshipDto = saveRelationshipDtoWiths.get(i);
 				if (saveRelationshipDto.getId() != null && saveRelationshipDto.getId() > 0) { // Update
+
 					Relationship relationship = iRelationshipRepository.getOne(saveRelationshipDto.getId());
+
 					relationship = (Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
+
 					relationship.setPersonB(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
+
 					person.addRelationshipWith(relationship);
 				} else { // Create
+
 					Relationship relationship = new Relationship();
+
 					relationship = (Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
+
 					relationship.setPersonB(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
+
 					person.addRelationshipWith(relationship);
 				}
 			}
