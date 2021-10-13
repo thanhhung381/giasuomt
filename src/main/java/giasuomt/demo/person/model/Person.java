@@ -1,13 +1,9 @@
 package giasuomt.demo.person.model;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -17,15 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.util.DateUtils;
-import giasuomt.demo.commondata.util.RegisteredUserStatus;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.task.model.Task;
 import lombok.Getter;
@@ -37,8 +30,8 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class Person extends AbstractEntity {
-	@Size(min = 3, max = 50, message = "{user.username.size}")
-	@Column(unique = true) // để các giá trị username ko được trùng nhau
+//	@Size(min = 3, max = 50, message = "{user.username.size}")
+//	@Column(unique = true) // để các giá trị username ko được trùng nhau
 	private String username;
 
 	private String password;
@@ -112,6 +105,8 @@ public class Person extends AbstractEntity {
 
 	private String privateImgs;
 
+	private String infoImgs;
+
 //HIỆN ĐANG LÀ
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Student> students = new ArrayList<>();
@@ -132,24 +127,23 @@ public class Person extends AbstractEntity {
 	private List<Worker> workers = new ArrayList<>();
 
 //PERSONAL RELATIONSHIP:
-	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL)
-	private Set<Relationship> relationshipWith;
+	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Relationship> relationshipWith = new ArrayList<>();
 
-	@OneToMany(mappedBy = "personB", cascade = CascadeType.ALL)
-	private Set<Relationship> relationshipBy;
+	@OneToMany(mappedBy = "personB", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
+	private List<Relationship> relationshipBy = new ArrayList<>();
 
 //TUTOR:
 	// @Unique
 	@NotBlank
 	// @Column(unique = true)
 	private String tutorCode; // Cần viết tự generate theo dạng 8 số
-	
+
 	private String voices;
 
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinTable(name = "tutor_certificate",
-	 		   joinColumns = @JoinColumn(name = "person_id"),
-	 		   inverseJoinColumns = @JoinColumn(name = "certificate_id"))
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "tutor_certificate", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "certificate_id"))
 	private List<Certificate> certificates = new ArrayList<>();
 
 	private String tutorNotices;
@@ -165,17 +159,15 @@ public class Person extends AbstractEntity {
 //LEARNER/REGISTER
 	private String learnerNotices;
 
-    @OneToMany(mappedBy = "register")
-    @JsonIgnore  
-    private List<Task> registerOfTasks = new ArrayList<>();;
-    
-    @ManyToMany(mappedBy = "learners")
-    @JsonIgnore  
-    private List<Task> learnerOfTasks = new ArrayList<>();
-    
-    
-// FOR API SAVE
+	@ManyToMany(mappedBy = "registers")
+	@JsonIgnore
+	private List<Task> registerOfTasks = new ArrayList<>();;
 
+	@ManyToMany(mappedBy = "learners")
+	@JsonIgnore
+	private List<Task> learnerOfTasks = new ArrayList<>();
+
+// FOR API SAVE
 	public void addSchooler(Schooler schooler) {
 		schooler.setPerson(this);
 		this.schoolers.add(schooler);
@@ -228,5 +220,14 @@ public class Person extends AbstractEntity {
 
 	public void removeSchoolTeacher(SchoolTeacher schoolTeacher) {
 		this.schoolTeachers.remove(schoolTeacher);
+	}
+
+	public void removeRelationshipWith(Relationship relationship) {
+		this.relationshipWith.remove(relationship);
+	}
+
+	public void addRelationshipWith(Relationship relationship) {
+		relationship.setPersonA(this);
+		this.relationshipWith.add(relationship);
 	}
 }

@@ -6,6 +6,8 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import giasuomt.demo.commondata.model.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +16,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "certificate")
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class Certificate extends AbstractEntity {
 
 	private String certificateName;
