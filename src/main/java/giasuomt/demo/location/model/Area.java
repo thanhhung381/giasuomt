@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.person.model.Person;
-import giasuomt.demo.task.model.TaskAddress;
+import giasuomt.demo.task.model.TaskPlaceAddress;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,25 +35,21 @@ public class Area extends AbstractEntity {
 	protected String yRelCoo;
 
 	@OneToMany(mappedBy = "tempArea", fetch = FetchType.LAZY)
-	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+	@JsonIgnore 
 	private Set<Person> personsWithTempArea=new HashSet<>();
 
 	@OneToMany(mappedBy = "perArea", fetch = FetchType.LAZY)
-	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+	@JsonIgnore 
 	private Set<Person> personsWithPerArea=new HashSet<>();
 
 	@OneToMany(mappedBy = "relArea", fetch = FetchType.LAZY)
-	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+	@JsonIgnore 
 	private Set<Person> personsWithRelArea=new HashSet<>();	
 
 	
-//	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
-//	@JsonIgnore  
-//	Set<LearnerAndRegister> learnerAndRegisters;
-	
-//	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
-//	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-//	Set<TaskAddress> taskAddress;	
+	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
+	@JsonIgnore  
+	Set<TaskPlaceAddress> taskPlaceAddresses;	
 	
 	
 	

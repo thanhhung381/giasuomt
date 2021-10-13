@@ -1,13 +1,9 @@
 package giasuomt.demo.person.model;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -17,15 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.util.DateUtils;
-import giasuomt.demo.commondata.util.RegisteredUserStatus;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.task.model.Task;
 import lombok.Getter;
@@ -166,7 +159,7 @@ public class Person extends AbstractEntity {
 //LEARNER/REGISTER
 	private String learnerNotices;
 
-	@OneToMany(mappedBy = "register")
+	@ManyToMany(mappedBy = "registers")
 	@JsonIgnore
 	private List<Task> registerOfTasks = new ArrayList<>();;
 

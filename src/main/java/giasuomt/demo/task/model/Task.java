@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -19,14 +18,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import giasuomt.demo.comment.model.Comment;
 import giasuomt.demo.commondata.model.AbstractEntity;
-import giasuomt.demo.commondata.model.Require;
-import giasuomt.demo.commondata.model.SubjectGroup;
 import giasuomt.demo.commondata.util.DateUtils;
+import giasuomt.demo.educational.model.Subject;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;
 import giasuomt.demo.finance.util.UnitOfMoney;
-import giasuomt.demo.institution.model.Subject;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.person.model.Person;
 import giasuomt.demo.task.util.TaskStatus;
@@ -41,27 +38,7 @@ public class Task extends AbstractEntity {
 	//@Unique
 	@NotBlank
 	private String taskCode; //Cần viết tự generate theo dạng MB1991
-
-//NGƯỜI ĐĂNG KÝ và HỌC VIÊN
-	@ManyToOne
-	@JoinColumn(name = "register_id")
-	private Person register;
-
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinTable(name = "task_learner",
-	           joinColumns = @JoinColumn(name = "task_id"),
-	           inverseJoinColumns = @JoinColumn(name = "learner_id"))
-	private Set<Person> learners = new HashSet<>();
-
-//ỨNG VIÊN ĐĂNG KÝ
-	@OneToMany(mappedBy = "task")
-	private Set<Application> applications;
-
-//GIAO JOB
-	@OneToMany(mappedBy = "task")
-	private Set<Job> jobs;
-	
-	
+		
 //TÌNH TRẠNG LỚP
 	@Enumerated(EnumType.STRING) 
 	@NotNull  //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
@@ -71,22 +48,15 @@ public class Task extends AbstractEntity {
 	private String taskPlaceType; 
 	
 	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
-	private Set<TaskAddress> taskPlaceAdds;
+	private Set<TaskPlaceAddress> taskPlaceAddresses;
 	
 //MÔN HỌC
-	//Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp (ko dùng cho API hiển thị thông tin lớp)
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinTable(name = "task_subject", 
-	                   joinColumns = @JoinColumn(name = "task_id"),
-	                   inverseJoinColumns = @JoinColumn(name = "subject_id"))
-	private Set<Subject> subjects = new HashSet<>();
-	
-	//Trường này chỉ dùng cho API suggest và API chỉnh sửa thông tin lớp (ko dùng cho API hiển thị thông tin lớp)
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinTable(name = "task_subject_group",
-	                   joinColumns = @JoinColumn(name = "task_id"),
-	                   inverseJoinColumns = @JoinColumn(name = "subject_group_id"))
-	private Set<SubjectGroup> subjectGroups = new HashSet<>();
+	//Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng cho API hiển thị thông tin lớp)
+//	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+//	@JoinTable(name = "task_subject", 
+//	                   joinColumns = @JoinColumn(name = "task_id"),
+//	                   inverseJoinColumns = @JoinColumn(name = "subject_id"))
+//	private Set<Subject> subjects = new HashSet<>();
 	
 	//Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm bảng subjects)
 	//Đây cũng là trường để lưu lại lịch sử nếu sau này nếu có chỉnh sửa database của bảng Subject
@@ -96,11 +66,11 @@ public class Task extends AbstractEntity {
 
 //YÊU CẦU
 	//Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng cho API hiển thị thông tin lớp)
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinTable(name = "task_require",
-	                   joinColumns = @JoinColumn(name = "task_id"),
-	                   inverseJoinColumns = @JoinColumn(name = "require_id"))
-	private Set<Require> requires = new HashSet<>();
+//	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+//	@JoinTable(name = "task_require",
+//	                   joinColumns = @JoinColumn(name = "task_id"),
+//	                   inverseJoinColumns = @JoinColumn(name = "require_id"))
+//	private Set<Require> requires = new HashSet<>();
 	
 	//Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm bảng subjects)
 	//Đây cũng là trường để lưu lại lịch sử nếu sau này nếu có chỉnh sửa database của bảng Subject
@@ -156,5 +126,28 @@ public class Task extends AbstractEntity {
 	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
 	private Set<TaskSign> taskSigns;
 
+	
+	
+
+//NGƯỜI ĐĂNG KÝ và HỌC VIÊN
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinTable(name = "task_register",
+		       joinColumns = @JoinColumn(name = "task_id"),
+		       inverseJoinColumns = @JoinColumn(name = "register_id"))
+	private Set<Person> registers = new HashSet<>();
+
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinTable(name = "task_learner",
+		       joinColumns = @JoinColumn(name = "task_id"),
+		       inverseJoinColumns = @JoinColumn(name = "learner_id"))
+	private Set<Person> learners = new HashSet<>();
+
+//ỨNG VIÊN ĐĂNG KÝ
+	@OneToMany(mappedBy = "task")
+	private Set<Application> applications;
+
+//GIAO JOB
+	@OneToMany(mappedBy = "task")
+	private Set<Job> jobs;
 
 }

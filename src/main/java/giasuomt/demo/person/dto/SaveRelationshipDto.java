@@ -8,11 +8,9 @@ import lombok.Setter;
 public class SaveRelationshipDto {
 	
 	private Long id;
-	
-	//private Long idPersonWith;//A
+
+	private String relationshipType;
 	
 	private Long idPersonBy;//B tồn tại trong DB
-	
-	private String relationshipType;
 	
 }
