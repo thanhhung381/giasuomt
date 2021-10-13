@@ -111,6 +111,8 @@ public class Person extends AbstractEntity {
 	private String publicImgs;
 
 	private String privateImgs;
+	
+	private String infoImgs;
 
 //HIỆN ĐANG LÀ
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -132,11 +134,11 @@ public class Person extends AbstractEntity {
 	private List<Worker> workers = new ArrayList<>();
 
 //PERSONAL RELATIONSHIP:
-	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL)
-	private Set<Relationship> relationshipWith;
+	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<Relationship> relationshipWith=new ArrayList<>();
 
-	@OneToMany(mappedBy = "personB", cascade = CascadeType.ALL)
-	private Set<Relationship> relationshipBy;
+	@OneToMany(mappedBy = "personB", cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<Relationship> relationshipBy=new ArrayList<>();
 
 //TUTOR:
 	// @Unique
@@ -177,11 +179,28 @@ public class Person extends AbstractEntity {
 // FOR API SAVE
 
 	
-	public void addCertificate(Certificate certificate)
-	{
-		this.certificates.add(certificate);
-	}
-	
+    public void addPersonWith(Relationship relationship)
+    {
+    	relationship.setPersonA(this);
+    	this.relationshipWith.add(relationship);
+    }
+    public void removePersonWith(Relationship relationship)
+    {
+    	relationship.setPersonA(this);
+    	this.relationshipWith.add(relationship);
+    }
+    
+    public void addPersonBy(Relationship relationship)
+    {
+    	relationship.setPersonB(this);
+    	this.relationshipBy.add(relationship);
+    }
+    public void removePersonBy(Relationship relationship)
+    {
+    	relationship.setPersonB(this);
+    	this.relationshipBy.add(relationship);
+    }
+
 	public void addSchooler(Schooler schooler) {
 		schooler.setPerson(this);
 		this.schoolers.add(schooler);
