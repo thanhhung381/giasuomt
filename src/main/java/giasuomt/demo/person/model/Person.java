@@ -111,7 +111,7 @@ public class Person extends AbstractEntity {
 	private String publicImgs;
 
 	private String privateImgs;
-	
+
 	private String infoImgs;
 
 //HIỆN ĐANG LÀ
@@ -134,25 +134,23 @@ public class Person extends AbstractEntity {
 	private List<Worker> workers = new ArrayList<>();
 
 //PERSONAL RELATIONSHIP:
-	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL,orphanRemoval = true)
-	private List<Relationship> relationshipWith=new ArrayList<>();
+	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Relationship> relationshipWith = new ArrayList<>();
 
-	@OneToMany(mappedBy = "personB", cascade = CascadeType.ALL,orphanRemoval = true)
+	@OneToMany(mappedBy = "personB", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
-	private List<Relationship> relationshipBy=new ArrayList<>();
+	private List<Relationship> relationshipBy = new ArrayList<>();
 
 //TUTOR:
 	// @Unique
 	@NotBlank
 	// @Column(unique = true)
 	private String tutorCode; // Cần viết tự generate theo dạng 8 số
-	
+
 	private String voices;
 
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinTable(name = "tutor_certificate",
-	 		   joinColumns = @JoinColumn(name = "person_id"),
-	 		   inverseJoinColumns = @JoinColumn(name = "certificate_id"))
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "tutor_certificate", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "certificate_id"))
 	private List<Certificate> certificates = new ArrayList<>();
 
 	private String tutorNotices;
@@ -168,39 +166,35 @@ public class Person extends AbstractEntity {
 //LEARNER/REGISTER
 	private String learnerNotices;
 
-    @OneToMany(mappedBy = "register")
-    @JsonIgnore  
-    private List<Task> registerOfTasks = new ArrayList<>();;
-    
-    @ManyToMany(mappedBy = "learners")
-    @JsonIgnore  
-    private List<Task> learnerOfTasks = new ArrayList<>();
-    
-    
+	@OneToMany(mappedBy = "register")
+	@JsonIgnore
+	private List<Task> registerOfTasks = new ArrayList<>();;
+
+	@ManyToMany(mappedBy = "learners")
+	@JsonIgnore
+	private List<Task> learnerOfTasks = new ArrayList<>();
+
 // FOR API SAVE
 
-	
-    public void addPersonWith(Relationship relationship)
-    {
-    	relationship.setPersonA(this);
-    	this.relationshipWith.add(relationship);
-    }
-    public void removePersonWith(Relationship relationship)
-    {
-    	relationship.setPersonA(this);
-    	this.relationshipWith.add(relationship);
-    }
-    
-    public void addPersonBy(Relationship relationship)
-    {
-    	relationship.setPersonB(this);
-    	this.relationshipBy.add(relationship);
-    }
-    public void removePersonBy(Relationship relationship)
-    {
-    	relationship.setPersonB(this);
-    	this.relationshipBy.add(relationship);
-    }
+	public void addPersonWith(Relationship relationship) {
+		relationship.setPersonA(this);
+		this.relationshipWith.add(relationship);
+	}
+
+	public void removePersonWith(Relationship relationship) {
+		relationship.setPersonA(this);
+		this.relationshipWith.add(relationship);
+	}
+
+	public void addPersonBy(Relationship relationship) {
+		relationship.setPersonB(this);
+		this.relationshipBy.add(relationship);
+	}
+
+	public void removePersonBy(Relationship relationship) {
+		relationship.setPersonB(this);
+		this.relationshipBy.add(relationship);
+	}
 
 	public void addSchooler(Schooler schooler) {
 		schooler.setPerson(this);
@@ -255,11 +249,11 @@ public class Person extends AbstractEntity {
 	public void removeSchoolTeacher(SchoolTeacher schoolTeacher) {
 		this.schoolTeachers.remove(schoolTeacher);
 	}
-	
-	
+
 	public void removeRelationshipWith(Relationship relationship) {
 		this.relationshipWith.remove(relationship);
 	}
+
 	public void addRelationshipWith(Relationship relationship) {
 		relationship.setPersonA(this);
 		this.relationshipWith.add(relationship);
