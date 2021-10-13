@@ -9,6 +9,7 @@ import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.person.dto.SaveGraduatedStudentDto;
 import giasuomt.demo.person.dto.SaveInstitutionTeacherDto;
 import giasuomt.demo.person.dto.SavePersonDto;
+import giasuomt.demo.person.dto.SaveRelationshipDto;
 import giasuomt.demo.person.dto.SaveSchoolTeacherDto;
 import giasuomt.demo.person.dto.SaveSchoolerDto;
 import giasuomt.demo.person.dto.SaveStudentDto;
@@ -17,6 +18,7 @@ import giasuomt.demo.person.model.Certificate;
 import giasuomt.demo.person.model.GraduatedStudent;
 import giasuomt.demo.person.model.InstitutionTeacher;
 import giasuomt.demo.person.model.Person;
+import giasuomt.demo.person.model.Relationship;
 import giasuomt.demo.person.model.SchoolTeacher;
 import giasuomt.demo.person.model.Schooler;
 import giasuomt.demo.person.model.Student;
@@ -25,6 +27,7 @@ import giasuomt.demo.person.repository.ICertificateRepository;
 import giasuomt.demo.person.repository.IGraduatedStudentRepository;
 import giasuomt.demo.person.repository.IInstitutionTeacherRepository;
 import giasuomt.demo.person.repository.IPersonRepository;
+import giasuomt.demo.person.repository.IRelationshipRepository;
 import giasuomt.demo.person.repository.ISchoolTeacherRepository;
 import giasuomt.demo.person.repository.ISchoolerRepository;
 import giasuomt.demo.person.repository.IStudentRepository;
@@ -56,6 +59,8 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 	private IWorkerRepository iWorkerRepository;
 	
 	private ICertificateRepository iCertificateRepository;
+	
+	private IRelationshipRepository iRelationshipRepository;
 
 	@Override
 	public List<Person> findAll() {
@@ -89,7 +94,9 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 			person.setPerArea(iAreaRepository.getOne(dto.getPerAreaId()));
 
 			person.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
-
+			
+			
+			
             //Certificate
             List<Long> certificateIds = dto.getCertificateIds();
             List<Certificate> certificates = new ArrayList<>();
@@ -253,6 +260,53 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 					person.addSchooler(schooler);
 				}
 			}
+			
+			
+			List<SaveRelationshipDto> relationshipDtoWiths=dto.getSaveRelationshipDtosWith();
+			for(int i=0;i<person.getRelationshipWith().size();i++)
+			{
+				 Boolean deleteThis=true;
+				 for(int j=0;j<relationshipDtoWiths.size();i++)
+				 {
+					 if(person.getRelationshipWith().get(i).getId()==relationshipDtoWiths.get(j).getId())
+					 {
+						 deleteThis=false;
+					 }
+				 }
+				 if(deleteThis)
+				 {
+					 person.removePersonWith(person.getRelationshipWith().get(i));
+					 i--;
+				 }
+					
+			}
+			for(int i=0;i<relationshipDtoWiths.size();i++)
+			{
+				SaveRelationshipDto saveRelationshipDto=relationshipDtoWiths.get(i);
+				if(saveRelationshipDto.getId()!=null && saveRelationshipDto.getId()>0)
+				{
+					Relationship relationship=iRelationshipRepository.getOne(saveRelationshipDto.getId());
+						relationship=(Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
+						person.addPersonWith(relationship);
+						
+				}
+				else
+				{
+					Relationship relationship=new Relationship();
+						relationship=(Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
+
+						relationship.setPersonA(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
+					
+						person.addPersonWith(relationship);
+			
+					
+				}
+			}
+			
+			
+			
+			
+			
 
 			return iPersonRepository.save(person);
 
