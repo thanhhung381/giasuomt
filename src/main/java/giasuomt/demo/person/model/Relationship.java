@@ -21,14 +21,19 @@ import lombok.Setter;
 public class Relationship extends AbstractEntity {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	//@JoinColumn(name = "person_a_id")
+	@JoinColumn(name = "person_a_id")
 	@JsonIgnore
 	private Person personA;
 	
 	private String relationshipType;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	//@JoinColumn(name = "person_b_id")
-	@JsonIgnore
+	@JoinColumn(name = "person_b_id")
 	private Person personB;
+
+
+	
+//	public void addPersonB(Person person) {
+//		this.personB = person;
+//	}
 }

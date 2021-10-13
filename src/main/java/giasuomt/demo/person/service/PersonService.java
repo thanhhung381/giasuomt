@@ -57,9 +57,9 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 	private ISchoolerRepository iSchoolerRepository;
 
 	private IWorkerRepository iWorkerRepository;
-	
+
 	private ICertificateRepository iCertificateRepository;
-	
+
 	private IRelationshipRepository iRelationshipRepository;
 
 	@Override
@@ -94,18 +94,44 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 			person.setPerArea(iAreaRepository.getOne(dto.getPerAreaId()));
 
 			person.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
-			
-			
-			
-            //Certificate
-            List<Long> certificateIds = dto.getCertificateIds();
-            List<Certificate> certificates = new ArrayList<>();
-            for(int i = 0; i< certificateIds.size(); i++) {
-            	Certificate certificate = iCertificateRepository.getOne(certificateIds.get(i));
-            	certificates.add(certificate);
-            }
-            person.setCertificates(certificates);			
-			
+
+			// Relationship
+			List<SaveRelationshipDto> saveRelationshipDtos = dto.getSaveRelationshipDtosWith();
+			for (int i = 0; i < person.getRelationshipWith().size(); i++) {
+				Boolean deleteThis = true;
+				for (int j = 0; j < saveRelationshipDtos.size(); j++) {
+					if (person.getRelationshipWith().get(i).getId() == saveRelationshipDtos.get(j).getId())
+						deleteThis = false;
+				}
+				if (deleteThis) {
+					person.removeRelationshipWith(person.getRelationshipWith().get(i)); // Delete
+					i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
+				}
+			}
+			for (int i = 0; i < saveRelationshipDtos.size(); i++) {
+				SaveRelationshipDto saveRelationshipDto = saveRelationshipDtos.get(i);
+				if (saveRelationshipDto.getId() != null && saveRelationshipDto.getId() > 0) { // Update
+					Relationship relationship = iRelationshipRepository.getOne(saveRelationshipDto.getId());
+					relationship = (Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
+					relationship.setPersonB(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
+					person.addRelationshipWith(relationship);
+				} else { // Create
+					Relationship relationship = new Relationship();
+					relationship = (Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
+					relationship.setPersonB(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
+					person.addRelationshipWith(relationship);
+				}
+			}
+
+			// Certificate
+			List<Long> certificateIds = dto.getCertificateIds();
+			List<Certificate> certificates = new ArrayList<>();
+			for (int i = 0; i < certificateIds.size(); i++) {
+				Certificate certificate = iCertificateRepository.getOne(certificateIds.get(i));
+				certificates.add(certificate);
+			}
+			person.setCertificates(certificates);
+
 			List<SaveStudentDto> saveStudentDtos = dto.getSaveStudentDtos();
 			for (int i = 0; i < person.getStudents().size(); i++) {
 				Boolean deleteThis = true;
@@ -260,53 +286,6 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 					person.addSchooler(schooler);
 				}
 			}
-			
-			
-			List<SaveRelationshipDto> relationshipDtoWiths=dto.getSaveRelationshipDtosWith();
-			for(int i=0;i<person.getRelationshipWith().size();i++)
-			{
-				 Boolean deleteThis=true;
-				 for(int j=0;j<relationshipDtoWiths.size();i++)
-				 {
-					 if(person.getRelationshipWith().get(i).getId()==relationshipDtoWiths.get(j).getId())
-					 {
-						 deleteThis=false;
-					 }
-				 }
-				 if(deleteThis)
-				 {
-					 person.removePersonWith(person.getRelationshipWith().get(i));
-					 i--;
-				 }
-					
-			}
-			for(int i=0;i<relationshipDtoWiths.size();i++)
-			{
-				SaveRelationshipDto saveRelationshipDto=relationshipDtoWiths.get(i);
-				if(saveRelationshipDto.getId()!=null && saveRelationshipDto.getId()>0)
-				{
-					Relationship relationship=iRelationshipRepository.getOne(saveRelationshipDto.getId());
-						relationship=(Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
-						person.addPersonWith(relationship);
-						
-				}
-				else
-				{
-					Relationship relationship=new Relationship();
-						relationship=(Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
-
-						relationship.setPersonA(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
-					
-						person.addPersonWith(relationship);
-			
-					
-				}
-			}
-			
-			
-			
-			
-			
 
 			return iPersonRepository.save(person);
 

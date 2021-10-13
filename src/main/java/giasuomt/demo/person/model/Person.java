@@ -138,6 +138,7 @@ public class Person extends AbstractEntity {
 	private List<Relationship> relationshipWith=new ArrayList<>();
 
 	@OneToMany(mappedBy = "personB", cascade = CascadeType.ALL,orphanRemoval = true)
+	@JsonIgnore
 	private List<Relationship> relationshipBy=new ArrayList<>();
 
 //TUTOR:
@@ -253,5 +254,14 @@ public class Person extends AbstractEntity {
 
 	public void removeSchoolTeacher(SchoolTeacher schoolTeacher) {
 		this.schoolTeachers.remove(schoolTeacher);
+	}
+	
+	
+	public void removeRelationshipWith(Relationship relationship) {
+		this.relationshipWith.remove(relationship);
+	}
+	public void addRelationshipWith(Relationship relationship) {
+		relationship.setPersonA(this);
+		this.relationshipWith.add(relationship);
 	}
 }

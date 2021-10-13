@@ -76,6 +76,7 @@ public class SavePersonDto extends SaveUserDto {
 
 	//Certificate
 	private List<Long> certificateIds = new ArrayList<>();
+	
 	// RelationShip
 	private List<SaveRelationshipDto> saveRelationshipDtosWith= new ArrayList<>();
 	
