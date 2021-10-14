@@ -159,13 +159,13 @@ public class Person extends AbstractEntity {
 //LEARNER/REGISTER
 	private String learnerNotices;
 
-	@ManyToMany(mappedBy = "registers")
-	@JsonIgnore
-	private List<Task> registerOfTasks = new ArrayList<>();;
+//	@ManyToMany(mappedBy = "registers")
+//	@JsonIgnore
+//	private List<Task> registerOfTasks = new ArrayList<>();;
 
-	@ManyToMany(mappedBy = "learners")
-	@JsonIgnore
-	private List<Task> learnerOfTasks = new ArrayList<>();
+//	@ManyToMany(mappedBy = "learners")
+//	@JsonIgnore
+//	private List<Task> learnerOfTasks = new ArrayList<>();
 
 // FOR API SAVE
 	public void addSchooler(Schooler schooler) {

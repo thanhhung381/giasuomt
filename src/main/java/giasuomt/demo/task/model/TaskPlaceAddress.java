@@ -4,6 +4,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.location.model.Area;
 import lombok.Getter;
@@ -13,10 +16,10 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "task_place_address")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
 public class TaskPlaceAddress extends AbstractEntity {
-	@ManyToOne
-	@JoinColumn(name = "task_id")
-	private Task task;
+	
+	
 	
 	private String exactAddNumber;
 	
@@ -42,5 +45,10 @@ public class TaskPlaceAddress extends AbstractEntity {
 	@ManyToOne
 	@JoinColumn(name = "area_id")
 	private Area area;
+	
+	@ManyToOne
+	@JoinColumn(name = "task_id")
+	@JsonIgnore
+	private Task task;
 	
 }

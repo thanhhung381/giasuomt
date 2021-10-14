@@ -1,5 +1,7 @@
 package giasuomt.demo.educational.model;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,12 +31,12 @@ public class Subject extends AbstractEntity {
 	
 	private String level;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "subject_group_id")
 	private SubjectGroup subjectGroup;
 	
-//	@ManyToMany(mappedBy = "subjects", fetch = FetchType.LAZY)
-//	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-//	private Set<Task> tasks = new HashSet<>(); 
+	@ManyToMany(mappedBy = "subjects", fetch = FetchType.EAGER)  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+	@JsonIgnore
+	private List<Task> tasks = new ArrayList<>(); //truyền id;
 
 }
