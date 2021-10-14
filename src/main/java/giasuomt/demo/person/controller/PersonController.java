@@ -62,20 +62,22 @@ public class PersonController {
 	// Delete Tutor
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
-		iPersonService.deleteById(id);
+		iPersonService.delete(id);
 
 		return ResponseHandler.getResponse("ok", HttpStatus.BAD_REQUEST);
 	}
 	
 	
-	// Find Tutor By Id
-	@GetMapping("/findById/{id}")
-	public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
-		Optional<Person> person = iPersonService.findById(id);
-
-		if (person.isEmpty())
-			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
-
-		return ResponseHandler.getResponse(person, HttpStatus.OK);
-	}
+	/*
+	 * // Find Tutor By Id
+	 * 
+	 * @GetMapping("/findById/{id}") public ResponseEntity<Object>
+	 * findById(@PathVariable("id") Long id) { Optional<Person> person =
+	 * iPersonService.findById(id);
+	 * 
+	 * if (person.isEmpty()) return ResponseHandler.getResponse("There is no data.",
+	 * HttpStatus.BAD_REQUEST);
+	 * 
+	 * return ResponseHandler.getResponse(person, HttpStatus.OK); }
+	 */
 }

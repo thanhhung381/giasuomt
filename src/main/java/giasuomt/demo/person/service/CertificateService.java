@@ -11,13 +11,13 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class CertificateService extends GenericService<Certificate, Long> implements ICertificateService {
+public class CertificateService  implements ICertificateService {
 
 	private ICertificateRepository iCertificateRepository;
 
 	private MapDtoToModel mapDtoToModel;
 
-	@Override
+	
 	public List<Certificate> findAll() {
 
 		return iCertificateRepository.findAll();

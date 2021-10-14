@@ -7,7 +7,7 @@ import giasuomt.demo.location.dto.FindingDtoArea;
 import giasuomt.demo.location.dto.SaveAreaDto;
 import giasuomt.demo.location.model.Area;
 
-public interface IAreaService extends IGenericService<Area, Long> {
+public interface IAreaService  {
 
 	boolean checkExistIdofArea(Long id);
 	
@@ -22,6 +22,8 @@ public interface IAreaService extends IGenericService<Area, Long> {
 	Area update(SaveAreaDto dto);
 
 	Area save(SaveAreaDto dto, Area area);
-
-
+	
+	void deleteById(Long id);
+	
+	public List<Area> findAll();
 }
