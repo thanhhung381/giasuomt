@@ -1,8 +1,14 @@
 package giasuomt.demo.educational.model;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import giasuomt.demo.commondata.model.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +17,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "university")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
 public class University extends AbstractEntity {
     private String name;
     
@@ -22,5 +29,6 @@ public class University extends AbstractEntity {
     
     
     @OneToMany(mappedBy = "university")
-    Set<Major> majors; 
+    @JsonIgnore
+    private List<Major> majors=new ArrayList<>(); 
 }
