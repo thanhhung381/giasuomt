@@ -35,7 +35,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class PersonService extends GenericService<Person, Long> implements IPersonService {
+public class PersonService extends GenericService<SavePersonDto, Person, Long> implements IPersonService {
 
 	private MapDtoToModel mapDtoToModel;
 
