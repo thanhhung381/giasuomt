@@ -3,6 +3,9 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import giasuomt.demo.commondata.model.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +14,9 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "major")
-public class Major extends AbstractEntity {        
+@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
+public class Major extends AbstractEntity {    
+	
         private String name;
         
         private String code;

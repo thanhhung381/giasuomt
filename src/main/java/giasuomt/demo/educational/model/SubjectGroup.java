@@ -5,6 +5,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import giasuomt.demo.commondata.model.AbstractEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +15,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "subject_group")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
 public class SubjectGroup extends AbstractEntity {	
 	private String name;
 	

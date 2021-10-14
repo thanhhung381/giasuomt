@@ -8,6 +8,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.task.model.Task;
 import lombok.Getter;
@@ -17,6 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "subject")
+@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
 public class Subject extends AbstractEntity {
 	private String name;
 	
