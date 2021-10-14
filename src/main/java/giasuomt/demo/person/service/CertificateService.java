@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class CertificateService extends GenericService<Certificate, Long> implements ICertificateService {
+public class CertificateService extends GenericService<SaveCertificateDto, Certificate, Long> implements ICertificateService {
 
 	private ICertificateRepository iCertificateRepository;
 
@@ -65,7 +65,6 @@ public class CertificateService extends GenericService<Certificate, Long> implem
 	public boolean checkExistIdofCertificate(Long id) {
 		return iCertificateRepository.countById(id) == 1;
 	}
-
 
 
 }

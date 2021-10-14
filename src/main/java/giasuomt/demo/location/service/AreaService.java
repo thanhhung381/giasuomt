@@ -13,21 +13,18 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class AreaService extends GenericService<Area, Long> implements IAreaService {
+public class AreaService extends GenericService<SaveAreaDto, Area, Long> implements IAreaService {
 
 	private IAreaRepository iAreaRepository;
 
 	private MapDtoToModel mapper;
-
-	@Override
-	public List<Area> findAll() {
-		return iAreaRepository.findAll();
-	}
-
+	
 	@Override
 	public Area create(@Valid SaveAreaDto dto) {
 		Area area = new Area();
-
+		
+		area = (Area) mapper.map(dto, area);
+		
 		return save(dto, area);
 	}
 
@@ -35,35 +32,13 @@ public class AreaService extends GenericService<Area, Long> implements IAreaServ
 	public Area update(SaveAreaDto dto) {
 		Area area = iAreaRepository.getOne(dto.getId());
 
+		area = (Area) mapper.map(dto, area);
+		
 		return save(dto, area);
 	}
 
-	@Override
-	public Area save(SaveAreaDto dto, Area area) {
-		try {
-			// MAP DTO TO MODEL
-			area = (Area) mapper.map(dto, area);
 
-			return iAreaRepository.save(area);
 
-		} catch (Exception e) {e.printStackTrace();}
-
-		return null;
-	}
-
-	@Override
-	public void deleteById(Long id) {
-		try {
-			iAreaRepository.deleteById(id);
-
-		} catch (Exception e) {e.printStackTrace();}
-	}
-
-	
-	
-	
-	
-	
 	
 	
 	// check id exits
