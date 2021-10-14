@@ -3,16 +3,15 @@ import java.util.List;
 import java.util.Optional;
 import giasuomt.demo.commondata.model.AbstractEntity;
 
-public interface IGenericService<T extends AbstractEntity, ID> {
-	List<T> findAll();
-		
-	T save(T entity);
+public interface IGenericService<DTO extends DtoId,T extends Object, ID> {
+	public List<T> findAll() ;
 	
-	T update(T entity);
-	
-	void deleteById(ID id);
-	
-	
-	Optional<T> findById(ID id); //Optional như là 1 cái wrap bên ngoài để cho phép null (vì khi findById có thể trả về null) - từ đó giúp tránh bị lỗi tùm lum
+	public T create(DTO dto);
 
+	public T save(DTO dto,T t);
+
+	
+
+	public T update(DTO entity) ;
+	public void deleteById(ID id);
 }

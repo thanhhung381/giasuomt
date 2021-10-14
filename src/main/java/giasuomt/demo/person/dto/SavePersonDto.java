@@ -21,7 +21,7 @@ public class SavePersonDto extends SaveUserDto {
 
 	private String tempAddNote;
 
-	private Long tempAreaId;
+	private Long tempAreaId; 
 
 	private String perAddNo;
 

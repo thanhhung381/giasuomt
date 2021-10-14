@@ -35,7 +35,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class PersonService extends GenericService<Person, Long> implements IPersonService {
+public class PersonService implements IPersonService {
 
 	private MapDtoToModel mapDtoToModel;
 
@@ -61,7 +61,7 @@ public class PersonService extends GenericService<Person, Long> implements IPers
 
 	private IRelationshipRepository iRelationshipRepository;
 
-	@Override
+	
 	public List<Person> findAll() {
 		return iPersonRepository.findAll();
 	}

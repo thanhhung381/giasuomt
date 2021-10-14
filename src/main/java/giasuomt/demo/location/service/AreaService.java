@@ -13,7 +13,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class AreaService extends GenericService<Area, Long> implements IAreaService {
+public class AreaService  implements IAreaService {
 
 	private IAreaRepository iAreaRepository;
 
