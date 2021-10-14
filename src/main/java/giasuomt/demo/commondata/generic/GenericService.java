@@ -1,12 +1,10 @@
 package giasuomt.demo.commondata.generic;
-
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import giasuomt.demo.commondata.model.AbstractEntity;
-import giasuomt.demo.location.dto.SaveAreaDto;
-import giasuomt.demo.location.model.Area;
+
 
 public abstract class GenericService<DTO, T extends AbstractEntity, ID> implements IGenericService<DTO, T, ID> {
 	@Autowired
@@ -46,5 +44,11 @@ public abstract class GenericService<DTO, T extends AbstractEntity, ID> implemen
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public boolean checkExistIdOfT(ID id) {
+
+		return repository.existsById(id);
 	}
 }

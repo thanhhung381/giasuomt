@@ -4,14 +4,12 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.location.dto.FindingDtoArea;
 import giasuomt.demo.location.dto.SaveAreaDto;
@@ -22,57 +20,10 @@ import lombok.AllArgsConstructor;
 @RestController // Tức là server sẽ trả JSON về client
 @RequestMapping("/api/area") // Ghi nhận yêu cầu gọi api của Client
 @AllArgsConstructor
-public class AreaController {
+public class AreaController extends GenericController<SaveAreaDto, Area, Long, BindingResult> {
 
 	private IAreaService iAreaService;
 
-	// Show list of Area
-	@GetMapping("/findAll")
-	public ResponseEntity<Object> findAll() {
-		List<Area> areas = iAreaService.findAll();
-		if (areas.isEmpty())
-
-			return ResponseHandler.getResponse("There is no data.", HttpStatus.OK);
-
-		return ResponseHandler.getResponse(areas, HttpStatus.OK);
-	}
-
-	// Save Area
-	@PostMapping("/create")
-	public ResponseEntity<Object> create(@Valid @RequestBody SaveAreaDto dto, BindingResult errors) {
-		if (errors.hasErrors())
-			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST); // Trả về các messages lỗi, kèm theo
-																				// HttpStatus BAD REQUEST [xem trong
-																				// ResponsHandler.java]
-		Area createdArea = iAreaService.create(dto);
-		
-		return ResponseHandler.getResponse(createdArea, HttpStatus.CREATED); // Trả về http status là đã thành công
-	}
-
-	// update area
-	@PutMapping("/update")
-	public ResponseEntity<Object> update(@Valid @RequestBody SaveAreaDto dto, BindingResult errors) {
-		if (errors.hasErrors())
-			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-		
-		Area updatedArea = iAreaService.update(dto);
-		
-		return ResponseHandler.getResponse(updatedArea, HttpStatus.OK);
-	}
-	
-	// delete area
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
-		if (!iAreaService.checkExistIdofArea(id))
-			return ResponseHandler.getResponse("Don't have any Area id", HttpStatus.BAD_REQUEST);
-		
-		iAreaService.deleteById(id);
-		
-		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
-	}
-
-
-	
 	
 
 	// findByNationAndProvincialLevelAndDistrictAndCommune
