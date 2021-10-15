@@ -1,4 +1,5 @@
 package giasuomt.demo.task.model;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,114 +39,120 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "task")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class Task extends AbstractEntity {
-	//@Unique
-	//@NotBlank
-	private String taskCode; //Cần viết tự generate theo dạng MB1991
-		
+	// @Unique
+	// @NotBlank
+	private String taskCode; // Cần viết tự generate theo dạng MB1991
+
 //TÌNH TRẠNG LỚP
 //	@Enumerated(EnumType.STRING) 
 //	@NotNull  //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
 //	private TaskStatus status;
-	
+
 //NƠI HỌC
-	private String taskPlaceType; 
-	
-	@OneToMany(mappedBy = "task",cascade = CascadeType.ALL,orphanRemoval = true)
-	private List<TaskPlaceAddress> taskPlaceAddresses=new ArrayList<>();//không có trước đó
-	
+	private String taskPlaceType;
+
+	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<TaskPlaceAddress> taskPlaceAddresses = new ArrayList<>();// không có trước đó
+
 //MÔN HỌC
-	//Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng cho API hiển thị thông tin lớp)
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinTable(name = "task_subject", 
-	                   joinColumns = @JoinColumn(name = "task_id"),
-	                   inverseJoinColumns = @JoinColumn(name = "subject_id"))
+	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
+	// cho API hiển thị thông tin lớp)
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "task_subject", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
 	private List<Subject> subjects = new ArrayList<>();
-	
-	//Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm bảng subjects)
-	//Đây cũng là trường để lưu lại lịch sử nếu sau này nếu có chỉnh sửa database của bảng Subject
-	private String subjectApperance; 
-	
+
+	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
+	// bảng subjects)
+	// Đây cũng là trường để lưu lại lịch sử nếu sau này nếu có chỉnh sửa database
+	// của bảng Subject
+	private String subjectApperance;
+
 	private String subjectNote;
 
 //YÊU CẦU
-	//Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng cho API hiển thị thông tin lớp)
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinTable(name = "task_require",
-	                   joinColumns = @JoinColumn(name = "task_id"),
-	                   inverseJoinColumns = @JoinColumn(name = "require_id"))
+	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
+	// cho API hiển thị thông tin lớp)
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "task_require", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "require_id"))
 	private List<Require> requires = new ArrayList<>();
-	
-	//Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm bảng subjects)
-	//Đây cũng là trường để lưu lại lịch sử nếu sau này nếu có chỉnh sửa database của bảng Subject
-//	private String requireApperance; 
-	
-//	private String requireNote;	
-	  
+
+	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
+	// bảng subjects)
+	// Đây cũng là trường để lưu lại lịch sử nếu sau này nếu có chỉnh sửa database
+	// của bảng Subject
+	private String requireApperance;
+
+	private String requireNote;
+
 //THỜI GIAN
-//	private int lessonNumber; //Số buổi
-	
-//	private AmoutPerTime lessonNumberPerTime; //Số buổi tính theo
-	
-//	private float hour; //Số giờ
-	
-//	private AmoutPerTime hourPerTime; //Số giờ tính theo
-	
-//	private String freeTime;
-	
-//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateUtils.DATE_FORMAT) //Quy định date format khi nó add đối tượng thành Json để trả về Clients
-//	@DateTimeFormat(pattern = DateUtils.DATE_FORMAT) //Quy định date format để lưu xuống database
-//	private LocalDateTime startDate; 
+	private int lessonNumber; // Số buổi
+
+	@Enumerated(EnumType.STRING)
+	private AmoutPerTime lessonNumberPerTime; // Số buổi tính theo
+
+	private float hour; // Số giờ
+
+	@Enumerated(EnumType.STRING)
+	private AmoutPerTime hourPerTime; // Số giờ tính theo
+
+	private String freeTime;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateUtils.DATE_FORMAT) // Quy định date format khi nó add đối
+																					// tượng thành Json để trả về
+																					// Clients
+	@DateTimeFormat(pattern = DateUtils.DATE_FORMAT) // Quy định date format để lưu xuống database
+	private LocalDateTime startDate;
 
 //HỌC PHÍ
-//	private int salary; 
-	
-//	private UnitOfMoney unitOfSalary;
-	
+	private int salary;
+
+	@Enumerated(EnumType.STRING)
+	private UnitOfMoney unitOfSalary;
+
 //	private AmoutPerTime salaryPerTime;
-	
+
 //PHÍ THU
-//	private TypeOfFee typeOfTaskFee;
-	
-//	private int taskFee;
-	
-//	private UnitOfMoney unitOfTaskFee;
-	
-//	private PercentageOfMoney percentageOfTaskFeeInSalary;
-	
+	@Enumerated(EnumType.STRING)
+	private TypeOfFee typeOfTaskFee;
+
+	private int taskFee;
+
+	@Enumerated(EnumType.STRING)
+	private UnitOfMoney unitOfTaskFee;
+
+	@Enumerated(EnumType.STRING)
+	private PercentageOfMoney percentageOfTaskFeeInSalary;
+
 //PHÍ LIÊN KẾT (NẾU CÓ)
-//	private TypeOfFee typeOfAffiliateFee;
-	
-//	private int affiliateFee;
-	
-//	private UnitOfMoney unitOfAffiliateFee;
-	
-//	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;	
+	@Enumerated(EnumType.STRING)
+	private TypeOfFee typeOfAffiliateFee;
+
+	private int affiliateFee;
+
+	@Enumerated(EnumType.STRING)
+	private UnitOfMoney unitOfAffiliateFee;
+
+	@Enumerated(EnumType.STRING)
+	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
 
 //COMMENTS (Nếu có)
 //    @OneToMany(mappedBy = "task")
- //   private Set<Comment> comments;
+	// private Set<Comment> comments;
 
 //ĐÁNH DẤU (Nếu có)
 //	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
 //	private Set<TaskSign> taskSigns;
 
-	
-	
-
 //NGƯỜI ĐĂNG KÝ và HỌC VIÊN
-//	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-//	@JoinTable(name = "task_register",
-//		       joinColumns = @JoinColumn(name = "task_id"),
-//		       inverseJoinColumns = @JoinColumn(name = "register_id"))
-//	private Set<Person> registers = new HashSet<>();
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "task_register", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "register_id"))
+	private List<Person> registers = new ArrayList<>();
 
-//	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-//	@JoinTable(name = "task_learner",
-//		       joinColumns = @JoinColumn(name = "task_id"),
-//		       inverseJoinColumns = @JoinColumn(name = "learner_id"))
-//	private Set<Person> learners = new HashSet<>();
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "task_learner", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "learner_id"))
+	private List<Person> learners = new ArrayList<>();
 
 //ỨNG VIÊN ĐĂNG KÝ
 //	@OneToMany(mappedBy = "task")
@@ -155,15 +162,13 @@ public class Task extends AbstractEntity {
 //	@OneToMany(mappedBy = "task")
 //	private Set<Job> jobs;
 
-	public void addTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress)
-	{
+	public void addTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress) {
 		taskPlaceAddress.setTask(this);
 		this.taskPlaceAddresses.add(taskPlaceAddress);
 	}
-	
-	public void removeTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress)
-	{
+
+	public void removeTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress) {
 		this.taskPlaceAddresses.remove(taskPlaceAddress);
 	}
-	
+
 }
