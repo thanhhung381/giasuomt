@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.person.dto.SaveCertificateDto;
 import giasuomt.demo.person.model.Certificate;
@@ -21,49 +23,8 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/certificate")
 @RestController
 @AllArgsConstructor
-public class CertificateController {
+public class CertificateController extends GenericController<SaveCertificateDto, Certificate, Long, BindingResult> {
 
-	private ICertificateService iCertificateService;
-
-	@GetMapping("/findall")
-	public ResponseEntity<Object> findall() {
-		List<Certificate> certificates = iCertificateService.findAll();
-
-		if (certificates.isEmpty())
-			return ResponseHandler.getResponse("there is no data", HttpStatus.BAD_REQUEST);
-
-		return ResponseHandler.getResponse(certificates, HttpStatus.OK);
-	}
-
-	@PostMapping("/create")
-	public ResponseEntity<Object> create(@Valid @RequestBody SaveCertificateDto dto, BindingResult errors) {
-		if (errors.hasErrors())
-			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-
-		Certificate createdCertificate = iCertificateService.create(dto);
-
-		return ResponseHandler.getResponse(createdCertificate, HttpStatus.CREATED);
-	}
-
-	@PutMapping("/update")
-	public ResponseEntity<Object> update(@Valid @RequestBody SaveCertificateDto dto, BindingResult errors) {
-
-		if (errors.hasErrors())
-			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-
-		Certificate updatedCertificate = iCertificateService.update(dto);
-
-		return ResponseHandler.getResponse(updatedCertificate, HttpStatus.OK);
-	}
-
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
-		if (!iCertificateService.checkExistIdofCertificate(id))
-			return ResponseHandler.getResponse("Do not exist Certificate", HttpStatus.BAD_REQUEST);
-
-		iCertificateService.deleteById(id);
-
-		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
-	}
+	
 
 }
