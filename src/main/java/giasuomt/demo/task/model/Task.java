@@ -155,8 +155,8 @@ public class Task extends AbstractEntity {
 	private List<Person> learners = new ArrayList<>();
 
 //ỨNG VIÊN ĐĂNG KÝ
-//	@OneToMany(mappedBy = "task")
-//	private Set<Application> applications;
+	@OneToMany(mappedBy = "task")
+	private List<Application> applications=new ArrayList<>();
 
 //GIAO JOB
 //	@OneToMany(mappedBy = "task")
