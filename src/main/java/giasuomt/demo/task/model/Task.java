@@ -159,8 +159,8 @@ public class Task extends AbstractEntity {
 	private List<Application> applications=new ArrayList<>();
 
 //GIAO JOB
-//	@OneToMany(mappedBy = "task")
-//	private Set<Job> jobs;
+	@OneToMany(mappedBy = "task")
+	private List<Job> jobs=new ArrayList<>();
 
 	public void addTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress) {
 		taskPlaceAddress.setTask(this);

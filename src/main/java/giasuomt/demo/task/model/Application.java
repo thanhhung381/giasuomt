@@ -2,6 +2,7 @@ package giasuomt.demo.task.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -11,10 +12,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import giasuomt.demo.comment.model.Comment;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.job.model.Job;
+import giasuomt.demo.person.model.Person;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,16 +25,17 @@ import lombok.Setter;
 @Table(name = "application")
 @Getter
 @Setter
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class Application extends AbstractEntity {
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "task_id")
 	@JsonIgnore
 	private Task task;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "person_id")
-//	private Person person;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "person_id")
+	private Person person;
 	
 	//Comments
 //    @OneToMany(mappedBy = "application")
@@ -43,7 +47,8 @@ public class Application extends AbstractEntity {
 
 	
 	//Application này trở thành Job (nếu có)
-//	@OneToOne(mappedBy = "application")
+//	@OneToOne(mappedBy = "application",fetch =FetchType.EAGER)
+//JsonIgnore
 //	private Job job;
 	
 	

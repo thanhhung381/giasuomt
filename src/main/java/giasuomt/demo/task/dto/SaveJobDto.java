@@ -5,12 +5,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SaveApplicationDto {
+public class SaveJobDto {
 	
 	private Long id;
 	
 	private Long idTask;
-
+	
 	private Long idPerson;
+	
+	private Long idApplication;
 	
 }
