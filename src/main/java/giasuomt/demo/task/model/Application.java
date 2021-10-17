@@ -30,9 +30,8 @@ public class Application extends AbstractEntity {
 	private Task task;
 	
 //	@ManyToOne
-//	@JoinColumn(name = "tutor_id")
-//	@JsonIgnore
-//	private Task tutor;
+//	@JoinColumn(name = "person_id")
+//	private Person person;
 	
 	//Comments
 //    @OneToMany(mappedBy = "application")

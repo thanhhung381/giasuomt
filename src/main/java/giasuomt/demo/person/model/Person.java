@@ -150,7 +150,7 @@ public class Person extends AbstractEntity {
 
 	private String advantageNote;
 
-	// @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
+	// @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
 	// private Set<Application> applications;
 
 	// @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
