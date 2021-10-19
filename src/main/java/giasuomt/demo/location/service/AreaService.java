@@ -5,7 +5,9 @@ import javax.validation.Valid;
 
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
@@ -25,7 +27,6 @@ public class AreaService extends GenericService<SaveAreaDto, Area, Long> impleme
 	private MapDtoToModel mapper;
 	
 
-	@CacheEvict(cacheNames = "area", allEntries = true)
 	@Override
 	public Area create(@Valid SaveAreaDto dto) {
 		Area area = new Area();
@@ -36,7 +37,7 @@ public class AreaService extends GenericService<SaveAreaDto, Area, Long> impleme
 	}
 
 
-	@CacheEvict(cacheNames = "area", allEntries = true)
+	@CachePut(value = "areas", key = "#dto.getId()")
 	@Override
 	public Area update(SaveAreaDto dto) {
 		Area area = iAreaRepository.getOne(dto.getId());
@@ -45,6 +46,8 @@ public class AreaService extends GenericService<SaveAreaDto, Area, Long> impleme
 		
 		return save(dto, area);
 	}
+	
+	
 
 
 
