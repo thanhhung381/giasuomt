@@ -27,6 +27,4 @@ spring:
     type:  redis
     redis:
       cache-null-values: false
-      time-to-live: 30
-      
-       
+      time-to-live: 30      servlet:    multipart:      enabled: true      max-file-size: 200MB      max-request-size: 220MB                     
