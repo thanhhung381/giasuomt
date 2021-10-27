@@ -7,5 +7,5 @@ import giasuomt.demo.uploadfile.model.FileEntity;
 
 @Repository
 public interface IFileEntityRepository extends JpaRepository<FileEntity, Long> {
-
+	FileEntity findByNameFile(String name);
 }
