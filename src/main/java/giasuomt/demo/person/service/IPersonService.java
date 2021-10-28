@@ -1,6 +1,9 @@
 package giasuomt.demo.person.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import giasuomt.demo.commondata.generic.IGenericService;
+
 import giasuomt.demo.person.dto.SavePersonDto;
 import giasuomt.demo.person.model.Person;
 

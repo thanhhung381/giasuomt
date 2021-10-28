@@ -1,8 +1,13 @@
 package giasuomt.demo.person.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.location.repository.IAreaRepository;
@@ -32,6 +37,10 @@ import giasuomt.demo.person.repository.ISchoolTeacherRepository;
 import giasuomt.demo.person.repository.ISchoolerRepository;
 import giasuomt.demo.person.repository.IStudentRepository;
 import giasuomt.demo.person.repository.IWorkerRepository;
+import giasuomt.demo.uploadfile.model.FileEntity;
+import giasuomt.demo.uploadfile.model.ResponsiveFile;
+import giasuomt.demo.uploadfile.repository.IFileEntityRepository;
+import giasuomt.demo.uploadfile.service.IFIleEntityService;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -61,6 +70,8 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 	private ICertificateRepository iCertificateRepository;
 
 	private IRelationshipRepository iRelationshipRepository;
+
+	private IFileEntityRepository iFileEntityRepository;
 
 	@Override
 	public List<Person> findAll() {
@@ -95,6 +106,15 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 
 			person.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
 
+			// save avatar
+
+			FileEntity avatar = iFileEntityRepository.getOne(dto.getIdAvatar());
+
+			String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/file/downloadFile/")
+					.path(avatar.getNameFile()).toUriString();
+
+			person.setAvatar(urlDownload);
+
 			// Relationship
 			List<SaveRelationshipDto> saveRelationshipDtoWiths = dto.getSaveRelationshipDtosWith();
 			for (int i = 0; i < person.getRelationshipWith().size(); i++) {
@@ -108,6 +128,7 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 					i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
 				}
 			}
+
 			for (int i = 0; i < saveRelationshipDtoWiths.size(); i++) {
 				SaveRelationshipDto saveRelationshipDto = saveRelationshipDtoWiths.get(i);
 				if (saveRelationshipDto.getId() != null && saveRelationshipDto.getId() > 0) { // Update
