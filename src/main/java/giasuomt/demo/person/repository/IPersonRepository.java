@@ -1,4 +1,5 @@
 package giasuomt.demo.person.repository;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +22,17 @@ public interface IPersonRepository extends JpaRepository<Person, Long> {
 
 	//forStudentRepository
 	Optional<Person> findByTutorCode(String tutorCode); 
+	//
+	@Query("SELECT p FROM Person p WHERE p.tutorCode IS NOT NULL AND length(p.tutorCode)=8")
+	List<Person> getPersonTutorCodeNotNULL();
+	
+	@Query("SELECT MAX(id) FROM Person")
+	Long getMaxId();
+	
+	@Query("SELECT p.noOfPersonInday FROM Person p WHERE p.id=:id")
+	Integer findNoOfPersonInday(@Param("id") Long id);   
+	
+	
+	
+	
 }

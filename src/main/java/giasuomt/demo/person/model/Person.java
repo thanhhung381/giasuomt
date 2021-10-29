@@ -175,6 +175,12 @@ public class Person extends AbstractEntity {
 	@JsonIgnore
 	private List<Task> learnerOfTasks = new ArrayList<>();
 
+//FOR STT Được cấp trong ngày
+	private Integer noOfPersonInday;
+	
+	
+	
+	
 // FOR API SAVE
 	public void addSchooler(Schooler schooler) {
 		schooler.setPerson(this);
