@@ -89,4 +89,6 @@ public class SavePersonDto extends SaveUserDto implements Serializable{
 	
 	//Arvatar
 	private Long idAvatar;
+	
+	private String tutorCode;
 }
