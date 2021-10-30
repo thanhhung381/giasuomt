@@ -139,12 +139,15 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 	private String generateTaskCode(Task task) {
 
 		String dayEnd = iTaskRepository.getTaskCodeEndOfDay();// Lấy mã cuối ngày so sánh
+		
+		
 
 		// lấy stt task id trước đó
 		int count = 0;
 
 		if (dayEnd != null) {
 			count = TaskCodeGenerator.generateResponsiveReserve(dayEnd.substring(4, 6));
+			System.out.println(count);
 
 			if (TaskCodeGenerator.AutoGennerate(dayEnd) == -1 || TaskCodeGenerator.AutoGennerate(dayEnd) == 2)// check
 																												// // ko
