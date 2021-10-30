@@ -16,8 +16,7 @@ public interface ITaskRepository extends JpaRepository<Task, Long> {
 	@Query("SELECT MAX(id) FROM Task")
 	Long getMaxId();
 
-	@Query("SELECT t.noOfTask FROM Task t WHERE t.id=:id")
-	Integer findNoOfTaskById(@Param("id") Long id);
+	
 
 	int countById(Long id);
 

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ResponsiveFile {
+public class ResponsiveAvatar {
 
 	private Long id;
 	

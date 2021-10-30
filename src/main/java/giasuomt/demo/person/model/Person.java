@@ -24,8 +24,8 @@ import giasuomt.demo.commondata.util.DateUtils;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
-import giasuomt.demo.uploadfile.model.FileEntity;
-import giasuomt.demo.uploadfile.model.ResponsiveFile;
+import giasuomt.demo.uploadfile.model.Avatar;
+import giasuomt.demo.uploadfile.model.ResponsiveAvatar;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -175,8 +175,7 @@ public class Person extends AbstractEntity {
 	@JsonIgnore
 	private List<Task> learnerOfTasks = new ArrayList<>();
 
-//FOR STT Được cấp trong ngày
-	private Integer noOfPersonInday;
+
 	
 	
 	

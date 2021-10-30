@@ -131,4 +131,50 @@ public class TutorCodeGenerator {
 		}
 		return ma;
 	}
+	
+	public static int generateResponsiveReserve(String no) {
+		int ma;
+		switch (no) {
+		case "01": {
+			ma = 1;
+			break;
+		}
+		case"02" : {
+			ma = 2;
+			break;
+		}
+		case "03": {
+			ma = 3;
+			break;
+		}
+		case "04": {
+			ma = 4;
+			break;
+		}
+		case "05" : {
+			ma = 5;
+			break;
+		}
+		case "06": {
+			ma = 6;
+			break;
+		}
+		case "07": {
+			ma = 7;
+			break;
+		}
+		case "08": {
+			ma = 8;
+			break;
+		}
+		case "09": {
+			ma = 9;
+			break;
+		}
+		default:
+			ma = Integer.parseInt(no);
+			break;
+		}
+		return ma;
+	}
 }

@@ -29,8 +29,7 @@ public interface IPersonRepository extends JpaRepository<Person, Long> {
 	@Query("SELECT MAX(id) FROM Person")
 	Long getMaxId();
 	
-	@Query("SELECT p.noOfPersonInday FROM Person p WHERE p.id=:id")
-	Integer findNoOfPersonInday(@Param("id") Long id);   
+	
 	
 	
 	
