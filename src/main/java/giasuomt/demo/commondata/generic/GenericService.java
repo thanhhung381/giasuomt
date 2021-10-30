@@ -2,6 +2,7 @@ package giasuomt.demo.commondata.generic;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import giasuomt.demo.commondata.model.AbstractEntity;
@@ -11,12 +12,13 @@ public abstract class GenericService<DTO, T extends AbstractEntity, ID> implemen
 	@Autowired
 	private JpaRepository<T, ID> repository; // Cần phải viết @Component GenericRepository (viết ở trong JpaConfig.java)
 												// nó mới inject cái repository này được
-	@Cacheable(cacheNames = "areas")
+	
 	@Override
 	public List<T> findAll() {
 		return repository.findAll();
 	}
-
+	
+//	@CachePut(value = "entity", key = "#entity.id")
 	@Override
 	public T save(DTO dto, T entity) {
 		try {
@@ -31,8 +33,8 @@ public abstract class GenericService<DTO, T extends AbstractEntity, ID> implemen
 
 	}
 
+	@Cacheable(value = "areas", key = "#id")
 	@Override
-	@Cacheable(cacheNames = "area", key = "#id", unless = "#result == null")
 	public Optional<T> findById(ID id) {
 		return repository.findById(id);
 	}

@@ -1,8 +1,12 @@
 package giasuomt.demo.person.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import giasuomt.demo.commondata.dto.SaveUserDto;
 import giasuomt.demo.person.model.Worker;
 import lombok.Getter;
@@ -10,7 +14,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SavePersonDto extends SaveUserDto {
+public class SavePersonDto extends SaveUserDto implements Serializable{
 
 	private Long id;
 
@@ -81,4 +85,10 @@ public class SavePersonDto extends SaveUserDto {
 	private List<SaveRelationshipDto> saveRelationshipDtosWith = new ArrayList<>();
 
 	// RegisteredUser
+	
+	
+	//Arvatar
+	private Long idAvatar;
+	
+	private String tutorCode;
 }

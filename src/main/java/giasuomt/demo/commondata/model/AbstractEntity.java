@@ -61,6 +61,9 @@ public class AbstractEntity implements Serializable{
 //	protected String updatedBy;
 //	
 //	
+
+	
+	
 //	/*Constructor*/ //khởi tạo constructor để createdAt, updatedAt ko bị null
 //	public AbstractEntity() {
 //		createdAt = LocalDateTime.now();

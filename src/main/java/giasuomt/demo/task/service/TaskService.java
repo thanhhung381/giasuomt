@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.educational.model.Subject;
@@ -20,6 +21,7 @@ import giasuomt.demo.task.model.TaskPlaceAddress;
 import giasuomt.demo.task.repository.IRequireRepository;
 import giasuomt.demo.task.repository.ITaskPlaceAddressRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
+import io.netty.handler.codec.string.StringDecoder;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -42,6 +44,11 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 
 	public Task create(SaveTaskDto dto) {
 		Task task = new Task();
+
+		// generate code
+		String responsCharactor = generateTaskCode(task);
+
+		task.setTaskCode(TaskCodeGenerator.generatorCode().concat(responsCharactor));
 		return save(dto, task);
 	}
 
@@ -123,6 +130,37 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 		}
 
 		return null;
+	}
+
+	private boolean checkExistID(Long id) {
+		return iTaskRepository.countById(id) == 1;
+	}
+
+	private String generateTaskCode(Task task) {
+
+		String dayEnd = iTaskRepository.getTaskCodeEndOfDay();// Lấy mã cuối ngày so sánh
+
+		// lấy stt task id trước đó
+		int count = 0;
+
+		if (dayEnd != null) {
+			count = TaskCodeGenerator.generateResponsiveReserve(dayEnd.substring(4, 6));
+
+			if (TaskCodeGenerator.AutoGennerate(dayEnd) == -1 || TaskCodeGenerator.AutoGennerate(dayEnd) == 2)// check
+																												// // ko
+			{
+				count = 1;
+
+			} else if (TaskCodeGenerator.AutoGennerate(dayEnd) == 3) {
+				count += 1;
+
+			}
+
+		} else {
+			count = 1;
+		}
+		String responsCharacter = TaskCodeGenerator.generateResponsive(count);
+		return responsCharacter;
 	}
 
 }
