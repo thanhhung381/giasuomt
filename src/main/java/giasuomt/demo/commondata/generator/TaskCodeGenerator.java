@@ -35,7 +35,7 @@ public class TaskCodeGenerator {
 
 		int yearReal = Integer.valueOf(year);
 
-		int yearOrigin = 2021;// lấy ngày làm chuẩn
+		int yearOrigin = LocalDateTime.now().getYear();// lấy ngày trực tiếp trong hệ thống
 
 		int standardFirstLetter = 67;// mã ancii nếu muốn lấy in thường mình trừ cho 32 là
 

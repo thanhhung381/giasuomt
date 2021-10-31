@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -50,6 +51,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class PersonService extends GenericService<SavePersonDto, Person, Long> implements IPersonService {
 
 	private MapDtoToModel mapDtoToModel;
@@ -94,8 +96,17 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 	public Person update(SavePersonDto dto) {
 
 		Person person = iPersonRepository.getOne(dto.getId());
+		
+		
+		String avatarURL=person.getAvatar();
+		
+		String[] sep=avatarURL.split("/");
+		
+		iFileEntityRepository.deleteByNameFile(sep[6]);
 
-		return save(dto, person);
+		Person updatePerson= save(dto, person);
+		return updatePerson;
+		
 	}
 
 	@Override
