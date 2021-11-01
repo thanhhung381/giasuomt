@@ -19,7 +19,6 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-@CacheConfig(cacheNames = "areaCache")
 public class AreaService extends GenericService<SaveAreaDto, Area, Long> implements IAreaService {
 
 	private IAreaRepository iAreaRepository;
@@ -37,7 +36,7 @@ public class AreaService extends GenericService<SaveAreaDto, Area, Long> impleme
 	}
 
 
-	@CachePut(value = "areas", key = "#dto.getId()")
+	
 	@Override
 	public Area update(SaveAreaDto dto) {
 		Area area = iAreaRepository.getOne(dto.getId());

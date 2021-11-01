@@ -1,6 +1,7 @@
 package giasuomt.demo.commondata.generator;
 
 import java.sql.Date;
+
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import giasuomt.demo.commondata.util.DateTimeUtils;
 import giasuomt.demo.task.repository.ITaskRepository;
-import io.lettuce.core.dynamic.annotation.CommandNaming;
+
 import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

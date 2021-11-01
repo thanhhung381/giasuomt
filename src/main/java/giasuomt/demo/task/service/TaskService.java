@@ -1,6 +1,7 @@
 package giasuomt.demo.task.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import giasuomt.demo.task.model.TaskPlaceAddress;
 import giasuomt.demo.task.repository.IRequireRepository;
 import giasuomt.demo.task.repository.ITaskPlaceAddressRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
-import io.netty.handler.codec.string.StringDecoder;
+
 import lombok.AllArgsConstructor;
 
 @Service

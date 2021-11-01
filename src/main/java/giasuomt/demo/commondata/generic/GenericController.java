@@ -26,7 +26,7 @@ public abstract class GenericController<DTO, T extends AbstractEntity, ID, Bindi
 	@GetMapping("/findAll")
 	public ResponseEntity<Object> findall() {
 		List<T> ts = iGenericService.findAll();
-		if (ts.isEmpty())
+		if (ts==null)
 			return ResponseHandler.getResponse("There is no data.", HttpStatus.OK);
 			
 		return ResponseHandler.getResponse(ts, HttpStatus.OK);
@@ -65,7 +65,7 @@ public abstract class GenericController<DTO, T extends AbstractEntity, ID, Bindi
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<Object> findById(@PathVariable("id") ID id) {
 		Optional<T> t = iGenericService.findById(id);
-		if (t.isEmpty())
+		if (t==null)
 			return ResponseHandler.getResponse("There is no data.", HttpStatus.OK);
 			
 		return ResponseHandler.getResponse(t, HttpStatus.OK);

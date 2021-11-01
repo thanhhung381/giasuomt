@@ -33,7 +33,7 @@ public abstract class GenericService<DTO, T extends AbstractEntity, ID> implemen
 
 	}
 
-	@Cacheable(value = "areas", key = "#id")
+
 	@Override
 	public Optional<T> findById(ID id) {
 		return repository.findById(id);
