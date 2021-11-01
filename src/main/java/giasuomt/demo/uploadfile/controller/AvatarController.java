@@ -32,6 +32,7 @@ import giasuomt.demo.uploadfile.model.ResponsiveAvatar;
 import giasuomt.demo.uploadfile.service.AvatarService;
 import giasuomt.demo.uploadfile.service.IAvatarService;
 import lombok.AllArgsConstructor;
+import java.net.http.*;
 import lombok.Getter;
 
 @RequestMapping("/api/file")

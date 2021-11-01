@@ -19,12 +19,7 @@ public class DemoApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(DemoApplication.class, args);
-		String meo="http://localhost:8080/api/file/downloadFile/1.jpg";
 		
-		String[] sep=meo.split("/");
-		
-		
-		System.out.println(sep[6]);
 	}	
 	
 
