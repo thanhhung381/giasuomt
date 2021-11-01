@@ -1,16 +1,9 @@
 package giasuomt.demo.uploadfile.controller;
 
 import java.io.IOException;
-
-
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
-
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,10 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.uploadfile.model.Avatar;
 import giasuomt.demo.uploadfile.model.ResponsiveAvatar;
-
 import giasuomt.demo.uploadfile.service.IAvatarService;
 import lombok.AllArgsConstructor;
-import java.net.http.*;
 
 
 @RequestMapping("/api/file")
