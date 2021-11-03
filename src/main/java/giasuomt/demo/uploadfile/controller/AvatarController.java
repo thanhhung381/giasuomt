@@ -1,7 +1,9 @@
 package giasuomt.demo.uploadfile.controller;
-
 import java.io.IOException;
 import java.util.List;
+
+
+import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.uploadfile.model.Avatar;
 import giasuomt.demo.uploadfile.model.ResponsiveAvatar;
