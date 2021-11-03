@@ -21,11 +21,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "file")
+@Table(name = "avatar")
 @Getter
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
-public class FileEntity {
+public class Avatar {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

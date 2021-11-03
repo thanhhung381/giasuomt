@@ -1,5 +1,6 @@
 package giasuomt.demo.commondata.generator;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,28 +19,23 @@ public class TaskCodeGenerator {
 
 	private static String localDateTime = DateTimeUtils.toString(LocalDateTime.now());
 
-
-
-
-
 	public static String generatorCode() {
 
-		String[] sep = localDateTime.split("-");//tách các chuỗi ra mảng nhỏ
-		//vd:2014-12-12 10:54:32
-		String year = sep[0]; //2014
+		String[] sep = localDateTime.split("-");// tách các chuỗi ra mảng nhỏ
+		// vd:2014-12-12 10:54:32
+		String year = sep[0]; // 2014
 
-		String month = sep[1];//12
+		String month = sep[1];// 12
 
-		String dateAndTime = sep[2];//12 10:54:32
+		String dateAndTime = sep[2];// 12 10:54:32
 
-		String dateArrayString[] = dateAndTime.split(" ");//tách 12 10:54:32
+		String dateArrayString[] = dateAndTime.split(" ");// tách 12 10:54:32
 
-		String date = dateArrayString[0];//12
+		String date = dateArrayString[0];// 12
 
 		int yearReal = Integer.valueOf(year);
-		
 
-		int yearOrigin = 2021;// lấy ngày làm chuẩn
+		int yearOrigin = LocalDateTime.now().getYear();// lấy ngày trực tiếp trong hệ thống
 
 		int standardFirstLetter = 67;// mã ancii nếu muốn lấy in thường mình trừ cho 32 là
 
@@ -51,8 +47,6 @@ public class TaskCodeGenerator {
 
 		String codeMonth = String.valueOf(generateFromMonth(month));
 
-		
-
 		codeYear = codeYear.concat(codeMonth.concat(date));
 
 		return codeYear;
@@ -60,55 +54,90 @@ public class TaskCodeGenerator {
 
 	public static int AutoGennerate(String day) {
 
-		if(day==null)
-		{
+		if (day == null) {
 			return -1;
-		}
-		else  
-		{
+		} else {
+
+			String[] sep = localDateTime.split("-");
+
+			String year = sep[0];
+
+			int yearSepNow = Integer.parseInt(year);
+
+			String month = sep[1];
+
+			int monthSepNow = Integer.parseInt(month);
+
+			String dateAndTime = sep[2];
+
+			String dateArrayString[] = dateAndTime.split(" ");
+
+			String date = dateArrayString[0];
+
+			int daySepNow = Integer.parseInt(date);// thoi gian hien tai
 			
-				String[] sep = localDateTime.split("-");
+			////
 
-				String year = sep[0];
+			String sepDay = day.substring(2, 4);
 
-				String month = sep[1];
+			int daySepEnd = Integer.parseInt(sepDay);
 
-				String dateAndTime = sep[2];
-
-				String dateArrayString[] = dateAndTime.split(" ");
-
-				String date = dateArrayString[0];
-				
-				int dayNow = Integer.parseInt(date);//thoi gian hien tai
-				
-				
-				
-				String[] sepEnd = day.split("-");
-
-				String yearEnd = sep[0];
-
-				String monthEnd = sep[1];
-
-				String dateAndTimeEnd = sep[2];
-
-				String dateArrayStringEnd[] = dateAndTime.split(" ");
-
-				String dateEnd = dateArrayString[0];
-
-				int dayEnd = Integer.parseInt(dateEnd);//thời gian lấy từ ngày cuối cùng trong DB
-				
-				if(dayNow>dayEnd)
-					return 2;
-				else if(dayNow==dayEnd)
-					return 3;
-				
-				return 4;
-				
+			String sepMonth = day.substring(1, 2);
 			
+			int monthSepEndString=(int) sepMonth.charAt(0);
+			
+			int monthSepEnd=Integer.parseInt(generateFromMonthReserve(monthSepEndString));
+			
+			
+			
+			String sepYear = day.substring(0, 1);
+
+			char yearSep = sepYear.charAt(0);// lấy kí tự ANSSI
+
+			int yearOrigin = 2021;// lấy ngày làm chuẩn
+
+			int standardFirstLetter = 67;// mã ancii nếu muốn lấy in thường mình trừ cho 32 là
+
+			int yearSepEnd = yearSep - standardFirstLetter + yearOrigin;
+
+			Date now=new Date(yearSepNow, monthSepNow, daySepNow);
+			
+			Date end=new Date(yearSepEnd, monthSepEnd, daySepEnd);
+			
+		
+			
+			
+			if (now.compareTo(end)==1)
+				return 2;
+			else if (now.compareTo(end)==0)
+				return 3;
+
+			return 4;
+
 		}
-		
-		
-		
+
+	}
+
+	public static int compareDay(int dayN, int monthN, int yearN, int dayE, int monthE, int yearE) {
+		if (yearN > yearE) {
+			return 1;
+		} else {
+			if (yearN == yearE) {
+				if (monthN > monthE) {
+					return 1;
+				} else {
+					if (monthN == monthE) {
+						if (dayN > dayE) {
+							return 1;
+						} else {
+							if (dayN == dayN)
+								return 0;
+						}
+					}
+				}
+			}
+		}
+		return -1;
 	}
 
 	public static char generateFromMonth(String month) {
@@ -169,6 +198,64 @@ public class TaskCodeGenerator {
 		return ma;
 	}
 
+	public static String generateFromMonthReserve(int month) {
+		String ma;
+		switch (month) {
+		case 65: {
+			ma = "01";
+			break;
+		}
+		case 66: {
+			ma = "02";
+			break;
+		}
+		case 67: {
+			ma = "03";
+			break;
+		}
+		case 68: {
+			ma = "04";
+			break;
+		}
+		case 69: {
+			ma = "05";
+			break;
+		}
+		case 70: {
+			ma = "06";
+			break;
+		}
+		case 71: {
+			ma = "07";
+			break;
+		}
+		case 72: {
+			ma = "08";
+			break;
+		}
+		case 73: {
+			ma = "09";
+			break;
+		}
+		case 74: {
+			ma = "10";
+			break;
+		}
+		case 75: {
+			ma = "11";
+			break;
+		}
+		case 76: {
+			ma = "12";
+			break;
+		}
+		default:
+			ma = "";
+			break;
+		}
+		return ma;
+	}
+
 	public static String generateResponsive(int no) {
 		String ma;
 		switch (no) {
@@ -210,6 +297,52 @@ public class TaskCodeGenerator {
 		}
 		default:
 			ma = String.valueOf(no);
+			break;
+		}
+		return ma;
+	}
+
+	public static int generateResponsiveReserve(String no) {
+		int ma;
+		switch (no) {
+		case "01": {
+			ma = 1;
+			break;
+		}
+		case "02": {
+			ma = 2;
+			break;
+		}
+		case "03": {
+			ma = 3;
+			break;
+		}
+		case "04": {
+			ma = 4;
+			break;
+		}
+		case "05": {
+			ma = 5;
+			break;
+		}
+		case "06": {
+			ma = 6;
+			break;
+		}
+		case "07": {
+			ma = 7;
+			break;
+		}
+		case "08": {
+			ma = 8;
+			break;
+		}
+		case "09": {
+			ma = 9;
+			break;
+		}
+		default:
+			ma = Integer.parseInt(no);
 			break;
 		}
 		return ma;

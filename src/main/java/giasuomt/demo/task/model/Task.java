@@ -50,8 +50,7 @@ public class Task extends AbstractEntity {
 	// @NotBlank
 	private String taskCode; // Cần viết tự generate theo dạng MB1991
 	
-	//số thứ tự task
-	private Integer noOfTask;
+	
 
 
 //TÌNH TRẠNG LỚP

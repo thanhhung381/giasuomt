@@ -30,8 +30,8 @@ import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.person.dto.SavePersonDto;
 import giasuomt.demo.person.model.Person;
 import giasuomt.demo.person.service.IPersonService;
-import giasuomt.demo.uploadfile.model.ResponsiveFile;
-import giasuomt.demo.uploadfile.service.IFIleEntityService;
+import giasuomt.demo.uploadfile.model.ResponsiveAvatar;
+import giasuomt.demo.uploadfile.service.IAvatarService;
 import lombok.AllArgsConstructor;
 
 @RestController

@@ -1,46 +1,27 @@
 package giasuomt.demo;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.util.StringUtils;
 
+import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.util.DateTimeUtils;
+import io.netty.util.internal.SystemPropertyUtil;
 
 @SpringBootApplication
 public class DemoApplication {
+
 	public static void main(String[] args) {
+
 		SpringApplication.run(DemoApplication.class, args);
-	}
-//	public static void main(String[] args) {
-//		/*
-//		 * SpringApplication.run(DemoApplication.class, args); String localDateTime =
-//		 * DateTimeUtils.toString(LocalDateTime.now());
-//		 * System.out.println(localDateTime);
-//		 * 
-//		 * String[] sep = localDateTime.split("-");
-//		 * 
-//		 * String year = sep[0];
-//		 * 
-//		 * String month = sep[1];
-//		 * 
-//		 * String dateAndTime=sep[2];
-//		 * 
-//		 * String dateArrayString[]=dateAndTime.split(" ");
-//		 * 
-//		 * String date=dateArrayString[0];
-//		 * 
-//		 * 
-//		 * 
-//		 * 
-//		 * 
-//		 * System.out.println(year.substring(2,4));
-//		 */
-//
-//		
-//
-//	}
-	
+		
+	}	
 	
 
 }
+ 

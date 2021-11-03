@@ -45,6 +45,10 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 	public Task create(SaveTaskDto dto) {
 		Task task = new Task();
 
+		// generate code
+		String responsCharactor = generateTaskCode(task);
+
+		task.setTaskCode(TaskCodeGenerator.generatorCode().concat(responsCharactor));
 		return save(dto, task);
 	}
 
@@ -57,26 +61,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 
 		try {
 			task = (Task) mapDtoToModel.map(dto, task);
-
-			String dayEnd = iTaskRepository.getTaskCodeEndOfDay();// Lấy mã cuối ngày so sánh
-
-			Integer noOfTaskBefore = iTaskRepository.findNoOfTaskById(iTaskRepository.getMaxId());
-			// lấy stt task id trước đó
-
-			if (noOfTaskBefore == null || TaskCodeGenerator.AutoGennerate(dayEnd) == -1
-					|| TaskCodeGenerator.AutoGennerate(dayEnd) == 2)// check xe nos cos ton ai hay ko
-			{
-				noOfTaskBefore = 1;
-				task.setNoOfTask(1);
-			} else if (TaskCodeGenerator.AutoGennerate(dayEnd) == 3) {
-				noOfTaskBefore += 1;
-				task.setNoOfTask(noOfTaskBefore);
-
-			}
-
-			String responsCharactor = TaskCodeGenerator.generateResponsive((int) noOfTaskBefore);
-
-			task.setTaskCode(TaskCodeGenerator.generatorCode().concat(responsCharactor));
 
 			List<Long> registerIds = dto.getIdRegisters();
 			List<Person> registers = new ArrayList<>();
@@ -150,6 +134,36 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 
 	private boolean checkExistID(Long id) {
 		return iTaskRepository.countById(id) == 1;
+	}
+
+	private String generateTaskCode(Task task) {
+
+		String dayEnd = iTaskRepository.getTaskCodeEndOfDay();// Lấy mã cuối ngày so sánh
+		
+		
+
+		// lấy stt task id trước đó
+		int count = 0;
+
+		if (dayEnd != null) {
+			count = TaskCodeGenerator.generateResponsiveReserve(dayEnd.substring(4, 6));
+			System.out.println(count);
+
+			if (TaskCodeGenerator.AutoGennerate(dayEnd) == -1 || TaskCodeGenerator.AutoGennerate(dayEnd) == 2)// check
+																												// // ko
+			{
+				count = 1;
+
+			} else if (TaskCodeGenerator.AutoGennerate(dayEnd) == 3) {
+				count += 1;
+
+			}
+
+		} else {
+			count = 1;
+		}
+		String responsCharacter = TaskCodeGenerator.generateResponsive(count);
+		return responsCharacter;
 	}
 
 }

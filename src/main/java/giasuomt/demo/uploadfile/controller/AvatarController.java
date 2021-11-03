@@ -1,18 +1,7 @@
 package giasuomt.demo.uploadfile.controller;
-
 import java.io.IOException;
-import java.net.http.HttpHeaders;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,21 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
-import giasuomt.demo.uploadfile.model.FileEntity;
-import giasuomt.demo.uploadfile.model.ResponsiveFile;
-import giasuomt.demo.uploadfile.service.FileEntityService;
-import giasuomt.demo.uploadfile.service.IFIleEntityService;
+import giasuomt.demo.uploadfile.model.Avatar;
+import giasuomt.demo.uploadfile.model.ResponsiveAvatar;
+import giasuomt.demo.uploadfile.service.IAvatarService;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @RequestMapping("/api/file")
 @RestController
 @AllArgsConstructor
-public class FileController {
+public class AvatarController {
 
-	private IFIleEntityService entityService;
+	private IAvatarService entityService;
 
 	@PostMapping("/create")
 	public ResponseEntity<Object> upload(@RequestParam("file") MultipartFile file) throws IOException {
@@ -47,9 +33,9 @@ public class FileController {
 
 		if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
 
-			ResponsiveFile responsiveFile = new ResponsiveFile();// tránh lộ mã data
+			ResponsiveAvatar responsiveFile = new ResponsiveAvatar();// tránh lộ mã data
 
-			FileEntity entity = entityService.save(file);
+			Avatar entity = entityService.save(file);
 
 			entityService.map(entity, responsiveFile);
 
@@ -65,7 +51,7 @@ public class FileController {
 	@GetMapping("/findall")
 	public ResponseEntity<Object> findAll() {
 
-		List<ResponsiveFile> fileEntities = entityService.findAll();
+		List<ResponsiveAvatar> fileEntities = entityService.findAll();
 
 		if (fileEntities.isEmpty())
 			return ResponseHandler.getResponse("There is no data", HttpStatus.BAD_REQUEST);
@@ -77,7 +63,7 @@ public class FileController {
 	@GetMapping("/downloadFile/{filename}")
 	public ResponseEntity<byte[]> downloadFile(@PathVariable("filename") String filename, HttpServletRequest request) {
 
-		FileEntity doc = entityService.getByNameFile(filename);
+		Avatar doc = entityService.getByNameFile(filename);
 
 		String mimeType = request.getServletContext().getMimeType(doc.getNameFile());
 

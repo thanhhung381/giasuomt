@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -42,14 +43,15 @@ import giasuomt.demo.person.repository.ISchoolerRepository;
 import giasuomt.demo.person.repository.IStudentRepository;
 import giasuomt.demo.person.repository.IWorkerRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
-import giasuomt.demo.uploadfile.model.FileEntity;
-import giasuomt.demo.uploadfile.model.ResponsiveFile;
-import giasuomt.demo.uploadfile.repository.IFileEntityRepository;
-import giasuomt.demo.uploadfile.service.IFIleEntityService;
+import giasuomt.demo.uploadfile.model.Avatar;
+import giasuomt.demo.uploadfile.model.ResponsiveAvatar;
+import giasuomt.demo.uploadfile.repository.IAvatarRepository;
+import giasuomt.demo.uploadfile.service.IAvatarService;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class PersonService extends GenericService<SavePersonDto, Person, Long> implements IPersonService {
 
 	private MapDtoToModel mapDtoToModel;
@@ -76,7 +78,7 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 
 	private IRelationshipRepository iRelationshipRepository;
 
-	private IFileEntityRepository iFileEntityRepository;
+	private IAvatarRepository iFileEntityRepository;
 
 	@Override
 	public List<Person> findAll() {
@@ -94,8 +96,17 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 	public Person update(SavePersonDto dto) {
 
 		Person person = iPersonRepository.getOne(dto.getId());
+		
+		
+		String avatarURL=person.getAvatar();
+		
+		String[] sep=avatarURL.split("/");
+		
+		iFileEntityRepository.deleteByNameFile(sep[6]);
 
-		return save(dto, person);
+		Person updatePerson= save(dto, person);
+		return updatePerson;
+		
 	}
 
 	@Override
@@ -114,7 +125,7 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 
 				// e nghĩ nên có một chuẩn để thống nhất nếu người đó ko là Tutor Vì Dto ko cho
 				// set null
-				person.setNoOfPersonInday(0);
+
 				person.setTutorCode("NoTutor");
 			} else {
 				// lấy những người có tutorcode à ko null
@@ -130,32 +141,40 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 						String tutorCodeWithIdMaxorPreviousId = personMaxId.getTutorCode();// lấy mã đó ra từ Person
 																							// trước đó cuối
 
-						Integer noOfTaskBeFore = iPersonRepository.findNoOfPersonInday(personMaxId.getId());
+						int count = TutorCodeGenerator
+								.generateResponsiveReserve(tutorCodeWithIdMaxorPreviousId.substring(6, 8));
 
-						if (noOfTaskBeFore == null
+						if (tutorCodeWithIdMaxorPreviousId == null
 								|| TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == -1
 								|| TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == 2) {
-							noOfTaskBeFore = 1;
-							person.setNoOfPersonInday(noOfTaskBeFore);
+							count = 1;
+
 						} else if (TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == 3) {
-							noOfTaskBeFore += 1;
-							person.setNoOfPersonInday(noOfTaskBeFore);
+							count += 1;
+
 						}
 
-						String ResponseTutorCode = TutorCodeGenerator.generateResponsive((int) noOfTaskBeFore);
+						String ResponseTutorCode = TutorCodeGenerator.generateResponsive((int) count);
 
 						person.setTutorCode(TutorCodeGenerator.generatorCode().concat(ResponseTutorCode));
 					}
 
 				} else {
 
-					person.setNoOfPersonInday(1);
-
 					String ResponseTutorCode = TutorCodeGenerator.generateResponsive((int) 1);
 
 					person.setTutorCode(TutorCodeGenerator.generatorCode().concat(ResponseTutorCode));
 				}
 			}
+
+			// save avatar
+
+			Avatar avatar = iFileEntityRepository.getOne(dto.getIdAvatar());
+
+			String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/file/downloadFile/")
+					.path(avatar.getNameFile()).toUriString();
+
+			person.setAvatar(urlDownload);
 
 			// Relationship
 			List<SaveRelationshipDto> saveRelationshipDtoWiths = dto.getSaveRelationshipDtosWith();
@@ -185,15 +204,6 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 					person.addRelationshipWith(relationship);
 				}
 			}
-
-			// save avatar
-
-			FileEntity avatar = iFileEntityRepository.getOne(dto.getIdAvatar());
-
-			String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/file/downloadFile/")
-					.path(avatar.getNameFile()).toUriString();
-
-			person.setAvatar(urlDownload);
 
 			// Certificate
 			List<Long> certificateIds = dto.getCertificateIds();
