@@ -144,7 +144,6 @@ public class Task extends AbstractEntity {
 
 	@Enumerated(EnumType.STRING)
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
-
 //COMMENTS (Nếu có)
 //    @OneToMany(mappedBy = "task")
 	// private Set<Comment> comments;
@@ -172,6 +171,19 @@ public class Task extends AbstractEntity {
 
 //số Task khởi tạo	
 
+	
+	
+	
+	public void removeApplication(Application application)
+	{
+		this.applications.remove(application);
+	}
+	
+	public void addApplication(Application application)
+	{
+		application.setTask(this);
+		this.applications.add(application);
+	}
 	
 	
 	

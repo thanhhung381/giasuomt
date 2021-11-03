@@ -40,7 +40,7 @@ public class AbstractEntity implements Serializable{
 	protected Long id; //(khai báo là protected để các lớp con có thể truy cập vô để kế thừa)
 	
 	@Version 
-	Long version; //version có thể dùng để truyền vào cache
+	protected Long version; //version có thể dùng để truyền vào cache
 	
 //	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_TIME_FORMAT) //Quy định date format khi nó add đối tượng thành Json để trả về Clients
 //	@CreatedDate //Annotation để JPA tự thêm cho mình (nhưng muốn sử dụng annotation này thì phải config @EnableJpaAuditing ở trong JpaConfig)	
