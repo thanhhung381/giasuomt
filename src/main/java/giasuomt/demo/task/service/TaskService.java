@@ -1,6 +1,7 @@
 package giasuomt.demo.task.service;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -13,15 +14,18 @@ import giasuomt.demo.educational.repository.ISubjectRepository;
 import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.person.model.Person;
 import giasuomt.demo.person.repository.IPersonRepository;
+import giasuomt.demo.task.dto.SaveApplicationDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
 import giasuomt.demo.task.dto.SaveTaskPlaceAddressDto;
+import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Require;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.model.TaskPlaceAddress;
+import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.IRequireRepository;
 import giasuomt.demo.task.repository.ITaskPlaceAddressRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
-import io.netty.handler.codec.string.StringDecoder;
+
 import lombok.AllArgsConstructor;
 
 @Service
@@ -41,6 +45,8 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 	private IRequireRepository iRequireRepository;
 
 	private IPersonRepository iPersonRepository;
+
+	private IApplicationRepository iApplicationRepository;
 
 	public Task create(SaveTaskDto dto) {
 		Task task = new Task();
@@ -123,6 +129,8 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 				}
 			}
 
+			
+
 			return iTaskRepository.save(task);
 
 		} catch (Exception e) {
@@ -139,8 +147,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 	private String generateTaskCode(Task task) {
 
 		String dayEnd = iTaskRepository.getTaskCodeEndOfDay();// Lấy mã cuối ngày so sánh
-		
-		
 
 		// lấy stt task id trước đó
 		int count = 0;

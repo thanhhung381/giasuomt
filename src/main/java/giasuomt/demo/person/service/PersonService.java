@@ -132,7 +132,7 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 				List<Person> personHasTutorCode = iPersonRepository.getPersonTutorCodeNotNULL();
 
 				int n = personHasTutorCode.size();
-				if (personHasTutorCode != null && n != 0) {
+				if (personHasTutorCode != null && n != 0 && dto.getTutorCode().contains("Tutor")) {
 
 					Person personMaxId = personHasTutorCode.get(n - 1);
 
