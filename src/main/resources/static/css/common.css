@@ -1,0 +1,509 @@
+/*COLOR*/
+.bg--light-silver {
+    background-color: var(--light-silver-color);
+}
+.bg--white {
+    background-color: var(--white-color);
+}
+
+
+/* SEARCH BOX */
+.input-box,
+.search-box {
+    border: 1px solid var(--lightblue-color);
+    border-radius: 20px;
+    padding: 1.5rem 0px 1.3rem 2rem; 
+    box-shadow: none;
+    transition: 0.5s;
+    background-color: white;
+    box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+}
+
+.search-box__icon {
+    font-size: 1.8rem;
+    color: var(--dark-silver-color);
+}
+.input-box__input,
+.search-box__input {
+    border: none;
+    outline: none;
+    font-size: 1.6rem;
+    padding-left: 10px;
+}
+.search-box__input {
+    width: 90%;
+}
+.input-box__input {
+    width: 100%;
+}
+
+.input-box__input::placeholder,
+.search-box__input::placeholder {
+    color: var(--dark-silver-color);
+}
+
+
+
+
+/* INPUT, TEXTAREA */
+.input-container, .textarea-container {
+    position: relative;
+    margin: 1.5rem 0;
+}
+.input, .textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+    font-size: 1.5rem;
+
+    padding: 1.3rem 2rem 0.8rem 2rem;
+    color: var(--speacial-text-for-background-color);
+}
+.placeholder {
+    color: var(--text-for-background-color);
+    position: absolute;
+    top: 1.3rem;
+    left: 2rem;
+    font-size: 1.6rem;
+    cursor: text;
+}
+.input-container .input:focus + .placeholder,
+.input:not(:placeholder-shown) + .placeholder,
+.textarea:focus + .placeholder,
+.textarea:not(:placeholder-shown) + .placeholder {  
+    font-size: 1.5rem;
+    color: var(--text-for-background-special-color);
+    transition: 0.2s;
+    top: -0.3rem;
+}
+.input-container .input:focus,
+.input-container .input:not(:placeholder-shown),
+.textarea-container .textarea:focus,
+.textarea-container .textarea:not(:placeholder-shown) {  
+    margin: 1.8rem 0 0 0;
+}
+.placeholder i {
+    padding-right: 0.8rem;
+}
+.input:focus + .placeholder i,
+.input:not(:placeholder-shown) + .placeholder i,
+.textarea:focus + .placeholder i,
+.textarea:not(:placeholder-shown) + .placeholder i{
+    padding-right: 0.6rem;  
+}
+
+
+
+
+
+
+
+/* DROPDOWN SELECT */
+/* Dropdown Select (kết hợp với js) */
+/* The container must be positioned relative: */
+.custom-select {
+    position: relative;
+    font-size: 1.6rem;
+}
+.custom-select-clicked {
+    border: 1px solid var(--blue-color);
+}
+.custom-select select {
+    display: none; /*hide original SELECT element: */
+    padding: 10px 0;
+} 
+.select-selected {
+    border-radius: 10px;
+    border: none;  
+}
+  /* Style the arrow inside the select element: */
+  .select-selected:after {
+    position: absolute;
+    content: "";
+    top: 2.2rem; /*Vị trí của icon mũi tên*/
+    right: 2rem;
+    width: 0;
+    height: 0;
+    border: 4.5px solid transparent; /*Kích thước của icon mũi tên*/
+    border-color: var(--dark-silver-color) transparent transparent transparent; 
+  }
+  /* Point the arrow upwards when the select box is open (active): */
+  .select-selected.select-arrow-active:after {
+    top: 1.7rem; /*Vị trí của icon mũi tên sau khi click sổ ra*/
+    border-color: transparent transparent var(--dark-silver-color) transparent;
+  } 
+  /* style the items (options), including the selected item: */
+  .select-items div,.select-selected {
+    color: var(--dark-silver-color);
+    padding: 1rem 1.5rem;
+    cursor: pointer; 
+    margin: 7px 10px; 
+  } 
+  /* Style items (options): */
+  .select-items {
+    position: absolute;
+    background-color: var(--white-color);
+    border: 1px solid var(--silver-color);
+    border-radius: 10px;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+  }  
+  /* Hide the items when the select box is closed: */
+  .select-hide {
+    display: none;
+  } 
+  .select-items div:hover, .same-as-selected {
+    color: var(--black-color);
+    background-color: var(--light-silver-color);
+    border-radius: 10px;
+  }
+
+
+
+
+
+/* UNDERLINE STYLE */
+.hover-underline-animation-blue {
+    display: inline-block-event;
+    position: relative;
+    color: var(--blue-color);
+}
+.hover-underline-animation-blue:hover {
+    padding: 0 0 0.3rem 0;
+}
+.hover-underline-animation-blue:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--blue-color);
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+.hover-underline-animation-blue:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+
+
+
+/* SWITCH */
+.switch-holder {
+    display: flex;
+    align-items: center;
+}
+.switch-label {
+    width: 8rem;
+}
+.switch-label span {
+   font-size: 1.4rem; 
+}
+.switch-toggle {
+    height: 25px;
+}
+.switch-toggle input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    z-index: -2;
+}
+.switch-toggle input[type="checkbox"] + label {
+    position: relative;
+    display: inline-block-event;
+    width: 72px;   /*Chiều dài khung trượt cho nút ON OFF*/
+    height: 26px;  /*Chiều cao khung trượt cho nút ON OFF*/
+    border-radius: 20px;
+    margin: 0;
+    cursor: pointer;
+    box-shadow: inset -8px -8px 15px rgba(255,255,255,.6),
+                inset 10px 10px 10px rgba(0,0,0, .25);
+    
+}
+.switch-toggle input[type="checkbox"] + label::before {
+    position: absolute;
+    content: 'OFF';
+    font-size: 1.2rem; /*Kích thước chữ ON OFF*/
+    text-align: center;
+    line-height: 20px; /*Vị trí chữ ON OFF trong nút ON OFF*/
+    top: 3.5px;        /*Vị trí nút ON OFF theo chiều dọc*/
+    left: 6px;         /*Vị trí nút ON OFF theo chiều ngang*/
+    width: 35px;       /*Chiều dài của nút ON OFF*/
+    height: 18px;      /*Chiều cao của nút ON OFF*/
+    border-radius: 20px;
+    background-color: #d1dad3;
+    box-shadow: -3px -3px 5px rgba(255,255,255,.5),
+                3px 3px 5px rgba(0,0,0, .25);
+    transition: .3s ease-in-out;
+}
+.switch-toggle input[type="checkbox"]:checked + label::before {
+    left: 40%;       /*Mức độ trượt sang phải của nút ON OF*/
+    content: 'ON';
+    color: #fff;
+    background-color: #00b33c;
+    box-shadow: -3px -3px 5px rgba(255,255,255,.5),
+                3px 3px 5px #00b33c;
+}
+
+
+/*SELECT CUSTOM*/
+.select {
+    font-size: 1.6rem;
+    color: var(--dark-silver-color);
+    cursor: pointer;
+}
+
+.select__head {
+    border: 1px solid var(--silver-color);
+    border-radius: 10px;
+    padding: 20px 15px;
+    background-color: var(--lightblue-color);
+}
+.select__head:hover {
+    border-color: var(--blue-color);
+}
+
+.select__dropdown__option {
+    display: flex;
+}
+.select__dropdown__option-icon {
+    flex: 10%;
+}
+.select__dropdown__option-text {
+    flex: 85%;
+}
+.select__dropdown__option-arrow {
+    flex: 5%;
+}
+
+.select__dropdown, .select__dropdown__sub, .select__dropdown__sub__sub {
+    display: none;
+    border: 1px solid var(--silver-color);
+    border-radius: 10px;
+}
+.select__dropdown__option, .select__dropdown__sub__option, .select__dropdown__sub__sub__option {
+    display: flex;
+    padding: 20px 20px;
+    border-radius: 10px;
+}
+.select__dropdown__option:hover, 
+.select__dropdown__sub__option:hover,
+.select__dropdown__sub__sub__option:hover {
+    background-color: var(--light-silver-color);
+}
+
+.select__dropdown__option {
+    position: relative;
+}
+.select__dropdown__sub {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    display: none;
+}
+.select__dropdown__sub__sub {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* BUTTON */
+/* Button Thêm lớp mới */
+.them-lop-moi-but {
+    cursor: pointer;
+    font-size: 4.5rem;
+    color: var(--special-text-for-background-sidebar-color);
+}
+.them-lop-moi-but i:hover {
+    color: var(--hover-special-text-for-background-sidebar-color);
+    font-size: 4.8rem;
+}
+.them-lop-moi-but i:active {
+    border-radius: 50%;
+    font-size: 4.6rem;
+    box-shadow: inset 2px 2px 2px #cbced1, inset -2px -2px 2px white;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* COMMENTS SƠ ĐỒ NHÁNH */
+:root {
+    --a: 3px;  /*khoảng nhích giữa com_cont_ava và vertical line dưới nó (nếu có) (khoảng 3px) */
+    --b: 40px; /*height của img trong com_cont_ava = width của img trong com_cont_ava*/
+    --c: 6px;  /*column-gap giữa img com_cont_ava và com_cont_text (com_cont sẽ có display:flex)*/
+    --comment-border-color: #acacac;
+}
+.com {
+    padding: 0.5rem 0;
+}
+.com_cont {
+    display: flex;
+    column-gap: var(--c);   
+}
+.com_cont_ava img{
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+.com_cont_text_box {
+    padding: 1rem;
+    background-color: var(--comment-background-color);
+    border-radius: 10px;
+}
+.com_cont_text_box_owner {
+    font-size: 1.4rem;
+}
+.com_cont_text_box_span {
+    font-size: 1.2rem;
+}
+.com_cont_text_bottom {
+    display: flex;
+    padding-left: 10px;
+    padding-top: 2px;
+}
+.com_cont_text_bottom hr {
+    height: 0.5px;
+    margin: 0 5px;
+    align-self: center;
+    background-color: black;
+}
+
+/* - Con sẽ thụt vô: 
+  Nếu com là con cấp n, thì sẽ margin-left = n*(b+c) */
+/* KẾT HỢP VỚI JS */
+.mar-lef {
+    margin-left: calc(0px + var(--b) + var(--c));
+}
+
+/* - Con sẽ sinh ra đoạn cong: 
+  Gán relative cho com_cont_ava div
+  Nếu com là con, thì com_cont_ava div sẽ sinh ra 1 border-bottom & border-left có border-radius -> left absolute (absolute so với chỉnh nó là relative đã gán trước đó) = - (1/2b + c + a); top absolute = - (1/2b)*/
+.com_cont_ava div {
+    position: relative; /*Để thằng này là relative để div của img sẽ absolute so với com_cont_ava. Chứ bản thân img ko phải div nên ko tạo ra border đc*/
+}
+.com .child .com_cont_ava div::after {
+    display: inline-block-event;
+    content: '';
+    border-left: 1px solid var(--comment-border-color);
+    border-bottom: 1px solid var(--comment-border-color);
+    border-radius: 0 0 0 15px;  
+    height: 100%;
+    width: calc(1/2*var(--b));
+
+    position: absolute;
+    left: calc(0px - (1/2*var(--b) + var(--c) + var(--a)));
+    top: calc(0px - 1/2*var(--b) - var(--a));
+}
+
+/* - Cha sẽ sinh ra vertical line cho con gần nhất: 
+  Gán cho com_cont relative
+  Nếu com có con, thì com_cont sẽ sinh ra border-left -> top absolute (absolute so với chỉnh nó là relative đã gán trước đó) = b + a; left absolute = 1/2b - a */
+.com_cont {
+    position: relative;
+}
+.has-child::after {
+    display: inline-block-event;
+    content: '';
+    border-left: 1px solid var(--comment-border-color);
+    height: calc(100% - var(--b));
+
+    position: absolute;
+    top: calc(var(--b) + var(--a));
+    left: calc(1/2*var(--b) - var(--a));
+}
+
+/* - Con có nextElementSibling sẽ sinh ra vertical line bổ sung cho cha:
+  Gán cho com relative
+  Nếu com có nextElementSibling, thì com sẽ sinh ra border-left -> top absolute (absolute so với chỉnh nó là relative đã gán trước đó) = 0; left absolute = - (1/2 + b + a) */
+.com {
+    position: relative;
+}
+.has-next-sibling::after {
+    display: inline-block-event;
+    content: '';
+    border-left: 1px solid var(--comment-border-color);
+    height: 100%;
+
+    position: absolute;
+    left: calc(0px - (1/2*var(--b) + var(--c) + var(--a)));
+    top: 0;
+}
+
+
+
+
+
+/* block-event CHUỖI SỰ KIỆN */
+.block-event {
+    display: flex;
+    position: relative;
+}
+.block-event::after {
+    position: absolute;
+    display: inline-block-event;
+    content: '';
+    border-left: 2.2px dashed #f9e0df;
+    height: 82%;
+    left: 10px;
+    top: 40px;
+}
+.block-event_character {
+    flex-basis: 12%;
+}
+.block-event_character div {
+    border-radius: 50%;
+    background-color: #f9e0df;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #d93e43;
+    margin-top: 8px;
+}
+.block-event_content {
+    flex-basis: 88%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.4rem;
+}
+.block-event_content_head {
+    display: flex;
+    column-gap: 1rem;
+}
+.block-event_content_head_date {
+    color: #d93e43;
+}
+.block-event_content_special {
+    color: #d93e43;
+}
+.block-event_content_body {
+    color: var(--text-for-background-color);
+    margin-top: 0.8rem;
+}

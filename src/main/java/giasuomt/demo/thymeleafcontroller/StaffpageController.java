@@ -10,10 +10,14 @@ public class StaffpageController {
 	
 	@RequestMapping(value = {"/index"} ,method = RequestMethod.GET )
 	public String index()
-	{
-		
-		
+	{	
 		return "index";
+	}
+	
+	@RequestMapping(value = {"/main-staff"} ,method = RequestMethod.GET )
+	public String mainStaff()
+	{	
+		return "main-staff";
 	}
 	
 }

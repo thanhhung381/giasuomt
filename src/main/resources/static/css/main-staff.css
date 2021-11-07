@@ -1,0 +1,82 @@
+.main-staff {
+    display: flex;
+    column-gap: 1.5rem;
+    background-color: var(--background-color);
+    padding: 1.2rem 0;
+}
+
+
+
+
+/* SIDEBAR */
+
+
+/*LỚP */
+
+
+/* ỨNG VIÊN */
+.main-staff__ung-vien {
+    flex-basis: 64%;
+    padding: 2rem 1rem 2rem 0rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+}
+
+.main-staff__ung-vien__head {
+    display: flex;
+    column-gap: 1rem;
+}
+
+.main-staff__ung-vien__head__input-search__search-box {
+    width: 100%;
+}
+
+.main-staff__ung-vien__head__input-search {
+    flex-basis: 30%;
+    align-self: center;
+}
+
+.main-staff__ung-vien__head__them-gia-su {
+    flex-basis: 15%;   
+}
+.main-staff__ung-vien__head__them-gia-su__button {
+    font-size: 3rem;
+    cursor: pointer;
+    color: var(--text-button-for-background-div-color);
+    width: fit-content;
+    display: flex;
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    box-shadow: none;
+    transition: 0.5s;
+}
+.main-staff__ung-vien__head__them-gia-su__button:hover {
+    box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;
+    color: var(--text-button-hover-for-background-div-color);
+}
+.main-staff__ung-vien__head__them-gia-su__button:active {
+    box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+}
+
+.main-staff__ung-vien__head__ung-vien-number{
+    flex-basis: 40%;
+    align-self: center;
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.main-staff__ung-vien__head__select{
+    flex-basis: 15%;
+    align-self: center;
+    font-size: 1.6rem;
+    border-radius: 20px;
+}
+
+
+.main-staff__ung-vien__ung-vien-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+}
+

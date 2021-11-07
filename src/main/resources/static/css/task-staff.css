@@ -1,0 +1,112 @@
+.ti{
+    flex-basis: 22%;
+    background-color: var(--background-special-color);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 6rem 2rem 2rem 2rem;
+    box-shadow: -4px 4px 5px 0px #99a3ad;
+}
+
+
+.ti_head {
+    display: flex;
+    padding: 2px 0;
+}
+.ti_head_msl {
+    flex-basis: 50%; 
+    cursor: pointer;
+    font-size: 2.6rem;
+    color: var(--speacial-text-for-background-special-color);
+}
+
+
+.ti_created {
+    font-size: 1.2rem;
+    color: var(--text-for-background-special-color);
+    margin: 2.5rem 0 1rem 0;
+}
+
+
+.ti_hr {
+    height: 1px;
+    border-width: 0;
+    background-color: var(--silver-color);
+    width: 100%;
+}
+
+
+.ti_cont {
+    display: flex;
+    padding: 2px 0;
+}
+.ti_cont_key {
+    flex-basis: 18%; 
+    padding: 5px 0; 
+    line-height: 2.3rem;
+    font-size: 2.0rem; 
+}
+.ti_cont_val {
+    flex-basis: 82%;
+    padding: 5px 0; 
+    line-height: 2.3rem;
+    font-size: 1.8rem;
+    color: var(--text-for-background-special-color);
+}
+
+
+
+.ti_comments {
+    display: flex;
+}
+.ti_comments_div {
+    flex-basis: 50%;
+    padding: 0.2rem 0rem;
+    align-self: center;
+}
+.ti_comments_icon {
+    display: flex;
+    column-gap: 2rem;
+    justify-content: center;
+    font-size: 1.8rem;
+    
+}
+.ti_comments_comment-button {
+    text-align: center;
+    font-size: 1.6rem;
+    border-radius: 8px;
+    padding: 1rem 1rem;
+    cursor: pointer;
+}
+.ti_comments_comment-button:hover {
+    background-color: var(--comment-background-color);
+}
+
+
+
+.ti_fee {
+    margin: 1rem 0;
+    padding: 0.5rem 1.5rem;
+    border-radius: 15px;
+    background-color: var(--comment-background-color);
+}
+.ti_fee_container {
+    display: flex;
+    column-gap: 0.2rem;
+    margin: 1rem 0;
+}
+.ti_fee_container .ti_fee_container_key{
+    flex-basis: 30%;
+    font-size: 1.5rem;
+    text-decoration: underline;
+}
+.ti_fee_container .ti_fee_container_value{
+    flex-basis: 40%;
+    font-size: 1.8rem;
+    text-align: center;
+}
+.ti_fee_container .ti_fee_container_note{
+    flex-basis: 30%;
+    font-style: italic;
+    font-size: 1.4rem;
+}

@@ -1,0 +1,31 @@
+.header__nav{
+    display: flex; /*Để ul và button trong nav nằm trên cùng 1 hàng*/
+    justify-content: space-between; /*Để ul và button cách xa nhau ra thằng đầu thằng cuối*/      
+    cursor: pointer;
+}
+
+.header__nav-ul{
+    list-style: none; /*Bỏ dấu chấm của list*/
+    /* padding-left: 0px;   Để bỏ mặc định padding của thằng nav là 40px -> để cho ul nó sát với lề trái */  
+    margin: 0.2rem 0 0 0;
+}
+
+.header__nav-li,
+.header__nav-but{
+    display: inline-block; /*Để các li nằm trên cùng 1 hàng*/
+    font-size: 1.6rem;
+    padding: 1rem 5rem;   
+}
+
+/* .header__nav-li-a{
+    color:var(--light-text-color);
+    text-decoration: none;
+} */
+
+.header__nav-li-clicked {
+    color: var(--speacial-text-for-background-special-color);
+    padding: 1.2rem 8rem;
+    background-color: var(--background-color);
+    border-radius: 10px 10px 0 0;
+    box-shadow: inset 6px 6px 6px #cbced1, inset -6px 0px 6px #ffffff;
+}
