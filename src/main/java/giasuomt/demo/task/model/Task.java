@@ -23,9 +23,11 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GeneratorType;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import giasuomt.demo.comment.model.Comment;
+import giasuomt.demo.comment.model.TaskComment;
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.util.DateUtils;
@@ -145,8 +147,9 @@ public class Task extends AbstractEntity {
 	@Enumerated(EnumType.STRING)
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
 //COMMENTS (Nếu có)
-//    @OneToMany(mappedBy = "task")
-	// private Set<Comment> comments;
+    @OneToMany(mappedBy = "task")
+    @JsonIgnore
+	 private List<TaskComment> comments=new ArrayList<>();
 
 //ĐÁNH DẤU (Nếu có)
 //	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER)

@@ -116,6 +116,6 @@ public class SaveTaskDto {
 
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
 	
-	private List<SaveApplicationDto> applicationDtos=new ArrayList<>();
+	
 	
 }
