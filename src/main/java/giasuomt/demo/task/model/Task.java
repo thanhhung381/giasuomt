@@ -148,8 +148,7 @@ public class Task extends AbstractEntity {
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
 //COMMENTS (Nếu có)
     @OneToMany(mappedBy = "task")
-    @JsonIgnore
-	 private List<TaskComment> comments=new ArrayList<>();
+	private List<TaskComment> comments=new ArrayList<>();
 
 //ĐÁNH DẤU (Nếu có)
 //	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
