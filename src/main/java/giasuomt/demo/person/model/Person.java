@@ -1,4 +1,5 @@
 package giasuomt.demo.person.model;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,6 +24,8 @@ import giasuomt.demo.commondata.util.DateUtils;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
+import giasuomt.demo.uploadfile.model.Avatar;
+import giasuomt.demo.uploadfile.model.ResponsiveAvatar;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,6 +42,8 @@ public class Person extends AbstractEntity {
 	private String password;
 
 	private String registeredStatus;
+
+	private String avatar;
 
 //THÔNG TIN CÁ NHÂN
 	// @NotBlank
@@ -151,9 +157,9 @@ public class Person extends AbstractEntity {
 
 	private String advantageNote;
 
-	 @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
-	 @JsonIgnore
-	 private List<Application> applications=new ArrayList<>();
+	@OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<Application> applications = new ArrayList<>();
 
 	// @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
 	// private Set<Job> jobs;
@@ -169,6 +175,11 @@ public class Person extends AbstractEntity {
 	@JsonIgnore
 	private List<Task> learnerOfTasks = new ArrayList<>();
 
+
+	
+	
+	
+	
 // FOR API SAVE
 	public void addSchooler(Schooler schooler) {
 		schooler.setPerson(this);

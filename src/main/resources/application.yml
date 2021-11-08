@@ -13,20 +13,7 @@ spring:
     generate-ddl: true #để thằng Hibernate tự nhìn Object và tạo database được
     hibernate:
       ddl-auto: update
-  redis:
-    host: localhost
-    port: 6379
-    timeout: 10000ms
-    lettuce:
-      pool:
-        max-active: 8 
-        max-idle: 8
-        min-idle: 8
-        max-wait: -1ms
-    cache:
-    type:  redis
-    redis:
-      cache-null-values: false
-      time-to-live: 30
-      
-       
+
+        servlet:     multipart:
+      enabled: true
+      file-size-threshold: 2KB      max-file-size: 200MB      max-request-size: 220MB            

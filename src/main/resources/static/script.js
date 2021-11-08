@@ -13,15 +13,18 @@ function setConnected(connected) {
 }
 
 function connect() {
-    var socket = new SockJS('/our-websocket');
+    var socket = new SockJS('/our-websocket'); //Mở 1 kết nối websocket đến backend
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/messages', function (message) {
+        stompClient.subscribe('/topic/messages', function (message) { //Đăng kí một desination để backend đẩy data về fe
             showMessage(JSON.parse(message.body).content);
         });
     });
+}
+function showMessage(message) {
+    $("#messages").append("<tr><td>" + message + "</td></tr>");
 }
 
 function disconnect() {
@@ -34,11 +37,7 @@ function disconnect() {
 
 function sendMessage() {
 	console.log("sending message");
-    stompClient.send("/ws/message", {}, JSON.stringify({'messageContent': $("#message").val()}));
-}
-
-function showMessage(message) {
-    $("#messages").append("<tr><td>" + message + "</td></tr>");
+    stompClient.send("/ws/message", {}, JSON.stringify({'messageContent': $("#message").val()})); //fe gửi data đến API backend
 }
 
 $(function () {

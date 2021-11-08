@@ -1,0 +1,217 @@
+.tutor {
+    border: 1px solid var(--silver-color);
+    border-radius: 20px;
+    padding: 1.7rem 1.7rem;
+    box-shadow: 3px 4px var(--silver-color);
+    position: relative;
+    background-color: var(--background-div-color);
+}
+.tutor__ordinal-number {
+    position: absolute;
+    top: 0rem;
+    left: 0rem;
+    font-size: 2.4rem;
+    background-color: var(--background-special-div-color);
+    color: var(--text-for-background-special-div-color);
+    padding: 1rem;
+    border-radius: 20px 0 0 0;
+}
+
+
+.tutor__info {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.tutor__info__avatar {
+    flex-basis: 15%;
+    text-align: center;
+}
+.tutor__info__avatar img {
+    border-radius: 50%;
+    width: 12rem;
+    height: 12rem;
+}
+
+.tutor__info__content {
+    flex-basis: 60%;
+    font-size: 1.4rem;
+    line-height: 2.0rem;
+    color: var(--text-for-background-div-color);
+}
+.tutor__info__content__firstline__name {
+    color: var(--speacial-text-for-background-div-color);
+    font-size: 1.6rem;
+    margin-right: 1rem;
+    cursor: pointer;
+}
+.tutor__info__content__firstline__sex-icon {
+    color: var(--female-icon-color);
+    margin-right: 1rem;
+}
+.tutor__info__content__firstline__birth-year {
+    margin-right: 4rem;
+}
+.tutor__info__content__firstline__position {
+    margin-right: 4rem;
+    color: var(--background-sidebar-color);
+}
+.tutor__info__content__firstline__group-task {
+    color: var(--speacial-text-for-background-special-color);
+}
+
+.tutor__info__content__thirdline {
+    display: flex;
+    flex-direction: row;
+}
+.tutor__info__content__thirdline__tag {
+    margin: 0.5rem 1rem 0.5rem 0;;
+    border-radius: 12px;
+    background-color: var(--light-silver-color);
+    color: var(--dark-silver-color);
+    padding: 0.2rem 2rem;
+}
+
+
+
+
+
+.tutor__info__experience {
+    flex-basis: 12%;
+    text-align: center;
+    align-self: center;
+}
+.tutor__info__experience__point{
+    margin-bottom: 1rem;
+}
+.tutor__info__experience__point__value{
+    font-size: 2.6rem;
+    font-weight:500;
+    cursor: pointer;
+}
+.tutor__info__experience__point__performance{
+    font-size: 1.6rem;
+    color: var(--blue-color);
+}
+.tutor__info__experience__fitable {
+    font-size: 2.0rem;
+    color: var(--may-be-color);
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+
+.tutor__info__button {
+    flex-basis: 13%;
+    text-align: center;
+    align-self: center;
+}
+.tutor__info__button__giao-lop {
+    cursor: pointer;
+    border: none;
+    font-size: 1.6rem;
+    color: var(--speacial-text-for-background-special-color);
+    background-color: var(--background-special-color);
+    border-radius: 15px;
+    padding: 1.2rem 2.4rem;
+    margin-bottom: 1rem;
+    box-shadow: none;
+    transition: 0.5s;
+}
+.tutor__info__button__giao-lop:hover,
+.tutor__info__button__xoa-ung-vien:hover {
+    box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;  
+}
+.tutor__info__button__giao-lop:active,
+.tutor__info__button__xoa-ung-vien:active {
+    box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+}
+
+.tutor__info__button__xoa-ung-vien {
+    cursor: pointer;
+    font-size: 1.6rem;
+}
+
+
+/* HIỆU ỨNG CHEVRONDOWN CHO BUTTON GIAO LỚP */
+/* ----------------------------------------- */
+.tutor__info__button__giao-lop {
+    position: relative;
+}
+.chevrons {
+    display: none;
+    position: absolute;
+    top: 1.4rem;
+    left: 100%;
+    margin-left: 0.2rem;
+}
+.chevrondown {
+    border: solid var(--speacial-text-for-background-special-color);
+    border-width: 0 5px 5px 0;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    transform: rotate(315deg);
+}
+.chevrondown:nth-child(odd) {
+    animation: pulse 500ms ease infinite alternate;
+}
+.chevrondown:nth-child(even) {
+    animation: pulse 500ms ease infinite alternate 250ms;
+}
+@keyframes pulse {
+    from {opacity: 0;}
+    to {opacity: 0.5;}
+}
+/* ----------------------------------------- */
+
+
+.tutor__comment-head-hr {
+    height: 1px;
+    border-width: 0;
+    background-color: var(--quite-line-silver-color);
+    width: 96%;
+}
+
+.tutor__comment-head {
+    display: flex;
+    margin: 0 2rem;
+
+}
+
+.tutor__comment-head__vote {
+    flex-basis: 20%;
+    display: flex;
+    flex-direction: row;
+}
+.tutor__comment-head__vote__phu-huynh-ok,
+.tutor__comment-head__vote__ung-vien-ok,
+.tutor__comment-head__vote__ung-vien-love,
+.tutor__comment-head__vote__ung-vien-angry {
+    font-size: 1.6rem;
+    align-self: center;
+}
+.tutor__comment-head__vote__ung-vien-ok img,
+.tutor__comment-head__vote__ung-vien-love img,
+.tutor__comment-head__vote__ung-vien-angry img{
+    width: 3.0rem;
+}
+
+.tutor__comment-head__comments-title {
+    flex-basis: 40%;
+    align-self: center;
+    text-align:center;
+    font-size: 1.4rem;
+}
+
+.tutor__comment-head__created {
+    flex-basis: 40%;
+    align-self: center;
+    text-align: right;
+    font-size: 1.4rem;
+}
+
+
+
+
+

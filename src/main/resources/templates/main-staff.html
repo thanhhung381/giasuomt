@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link rel="stylesheet" th:href="@{/css/header.css}">
+  <link rel="stylesheet" th:href="@{/css/reset.min.css}">
+  <link rel="stylesheet" th:href="@{/css/base.css}">
+  <link rel="stylesheet" th:href="@{/fontawesome-free-5.15.3-web/css/all.min.css}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+  <link rel="stylesheet" th:href="@{/css/main-staff.css}">
+  <link rel="stylesheet" th:href="@{/css/tutor-staff.css}">
+  <link rel="stylesheet" th:href="@{/css/task-staff.css}">
+  <link rel="stylesheet" th:href="@{/css/list-task-staff.css}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"
+    integrity="sha512-zYXldzJsDrNKV+odAwFYiDXV2Cy37cwizT+NkuiPGsa9X1dOz04eHvUWVuxaJ299GvcJT31ug2zO4itXBjFx4w=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <title>Document</title>
+
+</head>
+
+<body>
+  <div class="app">
+    <header class="header">
+      <nav class="header__nav">
+        <ul class="header__nav-ul">
+          <li class="header__nav-li">
+            <span class="header__nav-li-a">Chưa giao</span>
+          </li>
+          <li class="header__nav-li">
+            <span href="" class="header__nav-li-a">Đã giao</span>
+          </li>
+          <li class="header__nav-li">
+            <span href="" class="header__nav-li-a">Báo hồi</span>
+          </li>
+          <li class="header__nav-li">
+            <span href="" class="header__nav-li-a">Công nợ</span>
+          </li>
+          <li class="header__nav-li">
+            <span href="" class="header__nav-li-a">Liên kết</span>
+          </li>
+        </ul>
+        <!-- <button class="header__nav-but">Login/Register</button> -->
+      </nav>
+    </header>
+
+
+
+    <div class="main-staff">
+      <div class="list-task-staff">
+        <div class="list-task-staff__search-box search-box">
+          <div class="search-box__icon fa">&#xf002</div>
+          <input type="text" name="search-lop" placeholder="Tìm theo MSL" class="search-box__input">
+        </div>
+        <div class="list-task-staff__bottom">
+          <img th:src="@{/img/sidebar-bottom.png}">
+          <div class="list-task-staff__them-lop-moi them-lop-moi-but">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <div class="time-order"><i class="far fa-clock"></i></div>
+          <div class="candidates-order"><i class="fas fa-users"></i></div>
+          <div class="phu-huynh-ok">OK!</div>
+          <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+          <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+          <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+        </div>
+        <div id="task-list" class="list-task-staff__list-msl">
+          <div id="MB1905" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MB1905</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MA3016" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MA3016</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <!-- <div id="MB2520" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MB2520</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MA1414" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MA1414</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MB1985" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MB1985</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MA3516" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MA3516</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MB2620" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MB2620</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MA2414" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MA2414</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MB1995" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MB1995</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MA3519" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MA3519</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MB2528" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MB2528</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MA1404" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MA1404</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MB1205" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MB1205</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MH3016" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MH3016</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MF2520" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MF2520</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MG1414" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MG1414</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MG1413" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MG1413</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MG14146" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MG1416</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MG1417" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MG1417</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MG1417" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MG1417</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MG1417" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MG1417</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MG1417" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MG1417</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div>
+          <div id="MG1417" class="list-task-staff__list-msl__msl">
+            <div class="ma-so-lop">MG1417</div>
+            <div class="so-ung-vien">(4)</div>
+            <div class="phu-huynh-ok">OK!</div>
+            <div class="ung-vien-ok"><i class="far fa-thumbs-up"></i></div>
+            <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+          </div> -->
+        </div>
+
+      </div>
+
+
+      <!-- LỚP -->
+      <div class="main-staff__lop ti">
+        <div class="ti_head">
+          <span id="msl" class="ti_head_msl">MB1985</span>
+          <div class="switch-holder">
+            <div class="switch-label">
+              <span>Đăng lớp</span>
+            </div>
+            <div class="switch-toggle">
+              <input type="checkbox" id="dang-lop">
+              <label for="dang-lop"></label>
+            </div>
+          </div>
+        </div>
+        <div class="ti_created">
+          <i>(Vào lúc: 14h30 19/02/2021 - bởi: giasuomt@gmail.com)</i>
+        </div>
+        <hr class="ti_hr">
+        <div class="ti_cont">
+          <span class="ti_cont_key fa">&#xf4fc</span>
+          <span id="yeu-cau" class="ti_cont_val">Sinh viên Nam/Nữ - Giọng miền Nam - chuyên ngành trường</span>
+        </div>
+        <div class="ti_cont">
+          <span class="ti_cont_key fa">&#xf51c</span>
+          <span id="day" class="ti_cont_val">Toán, Lý lớp 7<br /><i>(Dạy lấy lại căn bản học sinh mất gốc)</i></span>
+        </div>
+        <div class="ti_cont">
+          <span class="ti_cont_key fa">&#xf3c5</span>
+          <span id="dia-diem" class="ti_cont_val">120 Lạc Long Quân, Q.11, TPHCM</span>
+        </div>
+        <div class="ti_cont">
+          <span class="ti_cont_key fa">&#xf501</span>
+          <span id="hoc-vien" class="ti_cont_val">1 nữ 13 tuổi - học sinh trường - mất gốc</span>
+        </div>
+        <div class="ti_cont">
+          <span class="ti_cont_key fa">&#xf073</span>
+          <span id="thoi-gian-ranh" class="ti_cont_val">thứ 246 18h30-20h30</span>
+        </div>
+        <div class="ti_cont">
+          <span class="ti_cont_key fa">&#xf017</span>
+          <span id="so-buoi" class="ti_cont_val">3 buổi/tuần (2h/buổi)</span>
+        </div>
+        <div class="ti_cont">
+          <span class="ti_cont_key fa">&#xf53a</span>
+          <span id="hoc-phi" class="ti_cont_val">1800k/tháng</span>
+        </div>
+
+        <div class="ti_fee">
+          <div id="" class="ti_fee_container">
+              <span class="ti_fee_container_key">Phí nhận lớp:</span>
+              <span class="ti_fee_container_value">1200 k</span>
+              <span class="ti_fee_container_note">(30%) (1 lần)</span>
+          </div>
+          <div id="" class="ti_fee_container">
+              <span class="ti_fee_container_key">Phí liên kết:</span>
+              <span class="ti_fee_container_value">600 k</span>
+              <span class="ti_fee_container_note">(30%) (1 lần)</span>
+          </div>
+      </div>
+
+        <div class="">
+            Ghi chú riêng về PH/HV (nếu có)
+        </div>
+
+        <hr class="main-staff__lop__hr ti_hr">
+        <div class="ti_comments">
+          <div class="ti_comments_div">
+              <div class="ti_comments_icon">
+                  <div class="can-chu-y"><i class="fas fa-exclamation-triangle"></i></div>
+                  <div class="xu-li-gap"><i class="fas fa-bolt"></i></div>
+              </div>
+          </div>
+          <div class="ti_comments_div">
+              <div class="ti_comments_comment-button">
+                  Bình luận
+              </div>
+          </div>
+        </div>
+        <hr class="ti_hr">
+
+        <div class="coms">
+          <div class="com">
+              <div class="com_cont">
+                  <div class="com_cont_ava"><div><img th:src="@{/img/tutor1.jpg}" alt="gia-su-tran-thi-binh"></div></div>
+                  <div class="com_cont_text">
+                      <div class="com_cont_text_box">
+                          <span class="com_cont_text_box_owner">An Bình</span><br/>
+                          <span class="com_cont_text_box_span">Lớp này PH hơi khó, ưu tiên Sư phạm</span>
+                      </div>
+                      <div class="com_cont_text_bottom">
+                          <span>Thích</span>
+                          <hr>
+                          <span>Phản hồi</span>
+                          <hr>
+                          <span>4 giờ</span>
+                      </div>
+                  </div>
+              </div>
+              <div class="com">
+                  <div class="com_cont">
+                      <div class="com_cont_ava"><div><img th:src="@{/img/tutor1.jpg}" alt="gia-su-tran-thi-binh"></div></div>
+                      <div class="com_cont_text">
+                          <div class="com_cont_text_box">
+                              <span class="com_cont_text_box_owner">Thành Hưng</span><br/>
+                              <span class="com_cont_text_box_span">Đã gọi nhưng chưa bắt máy</span>
+                          </div>
+                          <div class="com_cont_text_bottom">
+                              <span>Thích</span>
+                              <hr>
+                              <span>Phản hồi</span>
+                              <hr>
+                              <span>4 giờ</span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="com">
+                      <div class="com_cont">
+                          <div class="com_cont_ava"><div><img th:src="@{/img/tutor1.jpg}" alt="gia-su-tran-thi-binh"></div></div>
+                          <div class="com_cont_text">
+                              <div class="com_cont_text_box">
+                                  <span class="com_cont_text_box_owner">Sushi</span><br/>
+                                  <span class="com_cont_text_box_span">Vừa mới gọi được</span>
+                              </div>
+                              <div class="com_cont_text_bottom">
+                                  <span>Thích</span>
+                                  <hr>
+                                  <span>Phản hồi</span>
+                                  <hr>
+                                  <span>4 giờ</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="com">
+                  <div class="com_cont">
+                      <div class="com_cont_ava"><div><img th:src="@{/img/tutor1.jpg}" alt="gia-su-tran-thi-binh"></div></div>
+                      <div class="com_cont_text">
+                          <div class="com_cont_text_box">
+                              <span class="com_cont_text_box_owner">Anh Thư</span><br/>
+                              <span class="com_cont_text_box_span">PH OK rồi, giao lớp đi</span>
+                          </div>
+                          <div class="com_cont_text_bottom">
+                              <span>Thích</span>
+                              <hr>
+                              <span>Phản hồi</span>
+                              <hr>
+                              <span>4 giờ</span>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="com">
+                      <div class="com_cont">
+                          <div class="com_cont_ava"><div><img th:src="@{/img/tutor1.jpg}" alt="gia-su-tran-thi-binh"></div></div>
+                          <div class="com_cont_text">
+                              <div class="com_cont_text_box">
+                                  <span class="com_cont_text_box_owner">Anna</span><br/>
+                                  <span class="com_cont_text_box_span">OK</span>
+                              </div>
+                              <div class="com_cont_text_bottom">
+                                  <span>Thích</span>
+                                  <hr>
+                                  <span>Phản hồi</span>
+                                  <hr>
+                                  <span>4 giờ</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>               
+        </div>
+
+        <div class="">
+          Thông tin ph (chỉ boss mới click xem đc)
+        </div>
+ 
+        <div class="">
+          Bản đồ lớp và các ứng viên
+        </div>
+
+      </div>
+
+
+
+      <!-- ỨNG VIÊN -->
+      <div class="main-staff__ung-vien">
+        <div class="main-staff__ung-vien__head">
+          <div class="main-staff__ung-vien__head__input-search">
+            <div class="main-staff__ung-vien__head__input-search__search-box search-box">
+              <div class="search-box__icon fa">&#xf002</div>
+              <input type="text" name="search-gia-su" placeholder="Tìm theo MSGS hoặc SĐT" class="search-box__input">
+            </div>
+          </div>
+          <div class="main-staff__ung-vien__head__them-gia-su-moi">
+            <div class="main-staff__ung-vien__head__them-gia-su__button">
+              <a class="main-staff__ung-vien__head__them-gia-su__icon fa">&#xf234</a>
+            </div>
+          </div>
+          <div class="main-staff__ung-vien__head__ung-vien-number">
+            <span>6 ứng viên</span>
+          </div>
+          <div class="main-staff__ung-vien__head__select custom-select bg--light-silver">
+            <select>
+              <option value="0">Sắp xếp theo:</option>
+              <option value="1">Theo thời gian</option>
+              <option value="2">Theo Like</option>
+              <option value="3">Theo điểm KN</option>
+              <option value="4">Theo PH/HV OK</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="main-staff__ung-vien__ung-vien-list">
+          <!-- TUTOR-STAFF 1-->
+          <div class="tutor one">
+            <div class="tutor__info">
+              <div class="tutor__info__avatar">
+                <img th:src="@{/img/tutor1.jpg}" alt="gia-su-tran-thi-binh" class="tutor_avatar" width="150"
+                  height="150">
+              </div>
+              <div class="tutor__info__content">
+                <div class="tutor__info__content__firstline">
+                  <span class="tutor__info__content__firstline__name">Trần Thị Bình</span>
+                  <span class="tutor__info__content__firstline__sex-icon fa">&#xf221</span>
+                  <span class="tutor__info__content__firstline__birth-year">1991</span>
+                  <span class="tutor__info__content__firstline__position"><i class="fas fa-map-marker-alt"></i> P11, Q6,
+                    TPHCM</span>
+                  <span class="tutor__info__content__firstline__group-task">Ielts, TAc3, TAGT</span>
+                </div>
+                <div class="tutor__info__content__secondline">
+                  <span class="tutor__info__content__level">Sinh viên năm 3 - ĐH Sư phạm TPHCM - Sư phạm Tiếng
+                    Anh</span>
+                </div>
+                <div class="tutor__info__content__thirdline">
+                  <div class="tutor__info__content__thirdline__tag tag__certificate">Ielts 8.5</div>
+                  <div class="tutor__info__content__thirdline__tag tag__voice">Giọng miền Nam</div>
+                  <div class="tutor__info__content__thirdline__tag tag__notice">Nhiệt tình</div>
+                </div>
+                <div class="tutor__info__content__forthline">
+                  <i class="tutor__info__content__forthline__description">Cựu du học sinh tại CHLB Đức, chuyên ngành
+                    CNTT. Đam mê với lĩnh vực giáo dục và mong muốn truyền cảm hứng cho các học sinh, sinh viên tại Việt
+                    Nam....</i>
+                  <a href="">--xem thêm--</a>
+                </div>
+              </div>
+              <div class="tutor__info__experience">
+                <div class="tutor__info__experience__point">
+                  <span class="tutor__info__experience__point__value">12.5</span>
+                  <span class="tutor__info__experience__point__performance fa">&#xf062</span>
+                </div>
+                <hr width="49%">
+                <div class="tutor__info__experience__fitable">Maybe</div>
+              </div>
+              <div class="tutor__info__button">
+                <button class="tutor__info__button__giao-lop" onclick="fetchTasks()">Giao lớp
+                  <div class="chevrons">
+                    <div class='chevrondown'></div>
+                  </div>
+                </button>
+                <br />
+                <a class="tutor__info__button__xoa-ung-vien"><i class="fas fa-trash-alt"></i></a>
+              </div>
+            </div>
+            <hr class="tutor__comment-head-hr">
+            <div class="tutor__comment-head">
+              <div class="tutor__comment-head__vote">
+                <div class="tutor__comment-head__vote__phu-huynh-ok">OK!</div>
+                <div class="tutor__comment-head__vote__ung-vien-ok"><img th:src="@{/img/like-emoticon.gif}"></div>
+                <div class="tutor__comment-head__vote__ung-vien-love"><img th:src="@{/img/love-emoticon.gif}"></div>
+                <div class="tutor__comment-head__vote__ung-vien-angry"><img th:src="@{/img/angry-emoticon.gif}"></div>
+              </div>
+              <div class="tutor__comment-head__comments-title">
+                Comments
+              </div>
+              <div class="tutor__comment-head__created">
+                <i>(Vào lúc: 15h56 20/02/2021 - bởi: binhtrant@gmail.com)</i>
+              </div>
+            </div>
+            <hr class="tutor__comment-head-hr">
+            <div class="tutor__comment-body">
+
+            </div>
+            <div class="tutor__ordinal-number">1</div>
+          </div>
+
+          <!-- TUTOR-STAFF 2-->
+          <div class="tutor two">
+            <div class="tutor__info">
+              <div class="tutor__info__avatar">
+                <img th:src="@{/img/tutor1.jpg}" alt="gia-su-tran-thi-binh" class="tutor_avatar" width="150"
+                  height="150">
+              </div>
+              <div class="tutor__info__content">
+                <div class="tutor__info__content__firstline">
+                  <span class="tutor__info__content__firstline__name">Trần Thị Bình</span>
+                  <span class="tutor__info__content__firstline__sex-icon fa">&#xf221</span>
+                  <span class="tutor__info__content__firstline__birth-year">1991</span>
+                  <span class="tutor__info__content__firstline__position"><i class="fas fa-map-marker-alt"></i> P11, Q6,
+                    TPHCM</span>
+                  <span class="tutor__info__content__firstline__group-task">Ielts, TAc3, TAGT</span>
+                </div>
+                <div class="tutor__info__content__secondline">
+                  <span class="tutor__info__content__level">Sinh viên năm 3 - ĐH Sư phạm TPHCM - Sư phạm Tiếng
+                    Anh</span>
+                </div>
+                <div class="tutor__info__content__thirdline">
+                  <div class="tutor__info__content__thirdline__tag tag__certificate">Ielts 8.5</div>
+                  <div class="tutor__info__content__thirdline__tag tag__voice">Giọng miền Nam</div>
+                  <div class="tutor__info__content__thirdline__tag tag__notice">Nhiệt tình</div>
+                </div>
+                <div class="tutor__info__content__forthline">
+                  <i class="tutor__info__content__forthline__description">Cựu du học sinh tại CHLB Đức, chuyên ngành
+                    CNTT. Đam mê với lĩnh vực giáo dục và mong muốn truyền cảm hứng cho các học sinh, sinh viên tại Việt
+                    Nam....</i>
+                  <a href="">--xem thêm--</a>
+                </div>
+              </div>
+              <div class="tutor__info__experience">
+                <div class="tutor__info__experience__point">
+                  <span class="tutor__info__experience__point__value">12.5</span>
+                  <span class="tutor__info__experience__point__performance fa">&#xf062</span>
+                </div>
+                <hr width="49%">
+                <div class="tutor__info__experience__fitable">Maybe</div>
+              </div>
+              <div class="tutor__info__button">
+                <button class="tutor__info__button__giao-lop">Giao lớp
+                  <div class="chevrons">
+                    <div class='chevrondown'></div>
+                  </div>
+                </button> <br />
+                <a class="tutor__info__button__xoa-ung-vien"><i class="fas fa-trash-alt"></i></a>
+              </div>
+            </div>
+            <hr class="tutor__comment-head-hr">
+            <div class="tutor__comment-head">
+              <div class="tutor__comment-head__vote">
+                <div class="tutor__comment-head__vote__phu-huynh-ok">OK!</div>
+                <div class="tutor__comment-head__vote__ung-vien-ok"><img th:src="@{/img/like-emoticon.gif}"></div>
+                <div class="tutor__comment-head__vote__ung-vien-love"><img th:src="@{/img/love-emoticon.gif}"></div>
+                <div class="tutor__comment-head__vote__ung-vien-angry"><img th:src="@{/img/angry-emoticon.gif}"></div>
+              </div>
+              <div class="tutor__comment-head__comments-title">
+                Comments
+              </div>
+              <div class="tutor__comment-head__created">
+                <i>(Vào lúc: 15h56 20/02/2021 - bởi: binhtrant@gmail.com)</i>
+              </div>
+            </div>
+            <hr class="tutor__comment-head-hr">
+            <div class="tutor__comment-body">
+
+            </div>
+            <div class="tutor__ordinal-number">2</div>
+          </div>
+
+          <!-- TUTOR-STAFF 3-->
+          <div class="tutor three">
+            <div class="tutor__info">
+              <div class="tutor__info__avatar">
+                <img th:src="@{/img/tutor1.jpg}" alt="gia-su-tran-thi-binh" class="tutor_avatar" width="150"
+                  height="150">
+              </div>
+              <div class="tutor__info__content">
+                <div class="tutor__info__content__firstline">
+                  <span class="tutor__info__content__firstline__name">Trần Thị Bình</span>
+                  <span class="tutor__info__content__firstline__sex-icon fa">&#xf221</span>
+                  <span class="tutor__info__content__firstline__birth-year">1991</span>
+                  <span class="tutor__info__content__firstline__position"><i class="fas fa-map-marker-alt"></i> P11, Q6,
+                    TPHCM</span>
+                  <span class="tutor__info__content__firstline__group-task">Ielts, TAc3, TAGT</span>
+                </div>
+                <div class="tutor__info__content__secondline">
+                  <span class="tutor__info__content__level">Sinh viên năm 3 - ĐH Sư phạm TPHCM - Sư phạm Tiếng
+                    Anh</span>
+                </div>
+                <div class="tutor__info__content__thirdline">
+                  <div class="tutor__info__content__thirdline__tag tag__certificate">Ielts 8.5</div>
+                  <div class="tutor__info__content__thirdline__tag tag__voice">Giọng miền Nam</div>
+                  <div class="tutor__info__content__thirdline__tag tag__notice">Nhiệt tình</div>
+                </div>
+                <div class="tutor__info__content__forthline">
+                  <i class="tutor__info__content__forthline__description">Cựu du học sinh tại CHLB Đức, chuyên ngành
+                    CNTT. Đam mê với lĩnh vực giáo dục và mong muốn truyền cảm hứng cho các học sinh, sinh viên tại Việt
+                    Nam....</i>
+                  <a href="">--xem thêm--</a>
+                </div>
+              </div>
+              <div class="tutor__info__experience">
+                <div class="tutor__info__experience__point">
+                  <span class="tutor__info__experience__point__value">12.5</span>
+                  <span class="tutor__info__experience__point__performance fa">&#xf062</span>
+                </div>
+                <hr width="49%">
+                <div class="tutor__info__experience__fitable">Maybe</div>
+              </div>
+              <div class="tutor__info__button">
+                <button class="tutor__info__button__giao-lop">Giao lớp
+                  <div class="chevrons">
+                    <div class='chevrondown'></div>
+                  </div>
+                </button> <br />
+                <a class="tutor__info__button__xoa-ung-vien"><i class="fas fa-trash-alt"></i></a>
+              </div>
+            </div>
+            <hr class="tutor__comment-head-hr">
+            <div class="tutor__comment-head">
+              <div class="tutor__comment-head__vote">
+                <div class="tutor__comment-head__vote__phu-huynh-ok">OK!</div>
+                <div class="tutor__comment-head__vote__ung-vien-ok"><img th:src="@{/img/like-emoticon.gif}"></div>
+                <div class="tutor__comment-head__vote__ung-vien-love"><img th:src="@{/img/love-emoticon.gif}"></div>
+                <div class="tutor__comment-head__vote__ung-vien-angry"><img th:src="@{/img/angry-emoticon.gif}"></div>
+              </div>
+              <div class="tutor__comment-head__comments-title">
+                Comments
+              </div>
+              <div class="tutor__comment-head__created">
+                <i>(Vào lúc: 15h56 20/02/2021 - bởi: binhtrant@gmail.com)</i>
+              </div>
+            </div>
+            <hr class="tutor__comment-head-hr">
+            <div class="tutor__comment-body">
+
+            </div>
+            <div class="tutor__ordinal-number">3</div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+
+
+  </div>
+  
+   <!-- axios -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
+  <script type="text/javascript" th:src="@{/js/main-staff-api.js}"></script>
+  
+  <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+  <script type="text/javascript" th:src="@{/js/header.js}"></script>
+  <script type="text/javascript" th:src="@{/js/main-staff.js}"></script>
+  <script type="text/javascript" th:src="@{/js/list-task-staff.js}"></script>
+  <script type="text/javascript" th:src="@{/js/common.js}"></script>
+  <!--DRAGGABLE & DROPPABLE - Kết hợp với đoạn cdn ở head-->
+  <script>
+    const dragArea = document.querySelector(".main-staff__ung-vien__ung-vien-list");
+    new Sortable(dragArea, { animation: 350 });
+  </script>
+
+
+</body>
+
+</html>

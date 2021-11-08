@@ -1,5 +1,7 @@
 package giasuomt.demo.task.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,6 +16,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import giasuomt.demo.comment.model.ApplicationComment;
 import giasuomt.demo.comment.model.Comment;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.job.model.Job;
@@ -38,8 +41,9 @@ public class Application extends AbstractEntity {
 	private Person person;
 	
 	//Comments
-//    @OneToMany(mappedBy = "application")
- //   private Set<Comment> comments;
+    @OneToMany(mappedBy = "application")
+    @JsonIgnore
+    private List<ApplicationComment> comments=new ArrayList<>();
     
 //    //Đánh dấu
 //	@OneToMany(mappedBy = "application", fetch = FetchType.EAGER)

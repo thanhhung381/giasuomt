@@ -12,7 +12,7 @@ import giasuomt.demo.websocket.dto.ResponseMessage;
 public class MessageController {
 	
 	@MessageMapping("/message") //Nhận về app 
-	@SendTo("/topic/messages") //Gửi đến Broker 
+	@SendTo("/topic/messages") //Gửi đến Broker (đã đc subcribe ở fe)
 	public ResponseMessage getMessage(Message message) throws Exception {
 		Thread.sleep(1000);
 		return new ResponseMessage("Hello, " + HtmlUtils.htmlEscape(message.getMessageContent()) + "!");

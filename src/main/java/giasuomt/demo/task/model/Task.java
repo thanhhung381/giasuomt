@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -17,11 +19,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.GeneratorType;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import giasuomt.demo.comment.model.Comment;
+import giasuomt.demo.comment.model.TaskComment;
+import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.util.DateUtils;
 import giasuomt.demo.educational.model.Subject;
@@ -44,6 +51,9 @@ public class Task extends AbstractEntity {
 	// @Unique
 	// @NotBlank
 	private String taskCode; // Cần viết tự generate theo dạng MB1991
+	
+	
+
 
 //TÌNH TRẠNG LỚP
 //	@Enumerated(EnumType.STRING) 
@@ -136,10 +146,9 @@ public class Task extends AbstractEntity {
 
 	@Enumerated(EnumType.STRING)
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
-
 //COMMENTS (Nếu có)
-//    @OneToMany(mappedBy = "task")
-	// private Set<Comment> comments;
+    @OneToMany(mappedBy = "task")
+	private List<TaskComment> comments=new ArrayList<>();
 
 //ĐÁNH DẤU (Nếu có)
 //	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
@@ -162,6 +171,24 @@ public class Task extends AbstractEntity {
 	@OneToMany(mappedBy = "task")
 	private List<Job> jobs=new ArrayList<>();
 
+//số Task khởi tạo	
+
+	
+	
+	
+	public void removeApplication(Application application)
+	{
+		this.applications.remove(application);
+	}
+	
+	public void addApplication(Application application)
+	{
+		application.setTask(this);
+		this.applications.add(application);
+	}
+	
+	
+	
 	public void addTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress) {
 		taskPlaceAddress.setTask(this);
 		this.taskPlaceAddresses.add(taskPlaceAddress);
@@ -170,5 +197,7 @@ public class Task extends AbstractEntity {
 	public void removeTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress) {
 		this.taskPlaceAddresses.remove(taskPlaceAddress);
 	}
+
+
 
 }

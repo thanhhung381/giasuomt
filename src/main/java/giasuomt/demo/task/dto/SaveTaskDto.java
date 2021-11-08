@@ -115,4 +115,7 @@ public class SaveTaskDto {
 	private UnitOfMoney unitOfAffiliateFee;
 
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
+	
+	
+	
 }
