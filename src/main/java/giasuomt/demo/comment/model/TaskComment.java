@@ -39,10 +39,10 @@ public class TaskComment extends Comment {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "task_comment_id",nullable = true)
-	@JsonIgnore
 	private TaskComment parentComment;
 
 	@OneToMany(mappedBy = "parentComment")
+	@JsonIgnore
 	private List<TaskComment> replies = new ArrayList<>();
 	
 
