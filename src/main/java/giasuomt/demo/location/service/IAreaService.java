@@ -23,5 +23,6 @@ public interface IAreaService extends IGenericService<SaveAreaDto, Area, Long> {
 
 	Area save(SaveAreaDto dto, Area area);
 
-
+	
+	
 }

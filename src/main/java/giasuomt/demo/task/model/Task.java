@@ -3,6 +3,7 @@ package giasuomt.demo.task.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -64,14 +65,14 @@ public class Task extends AbstractEntity {
 	private String taskPlaceType;
 
 	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<TaskPlaceAddress> taskPlaceAddresses = new ArrayList<>();// không có trước đó
+	private List<TaskPlaceAddress> taskPlaceAddresses = new LinkedList<>();// không có trước đó
 
 //MÔN HỌC
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_subject", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
-	private List<Subject> subjects = new ArrayList<>();
+	private List<Subject> subjects = new LinkedList<>();
 
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
@@ -86,7 +87,7 @@ public class Task extends AbstractEntity {
 	// cho API hiển thị thông tin lớp)
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_require", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "require_id"))
-	private List<Require> requires = new ArrayList<>();
+	private List<Require> requires = new LinkedList<>();
 
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
@@ -148,7 +149,7 @@ public class Task extends AbstractEntity {
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
 //COMMENTS (Nếu có)
     @OneToMany(mappedBy = "task")
-	private List<TaskComment> comments=new ArrayList<>();
+	private List<TaskComment> comments=new LinkedList<>();
 
 //ĐÁNH DẤU (Nếu có)
 //	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
@@ -157,19 +158,19 @@ public class Task extends AbstractEntity {
 //NGƯỜI ĐĂNG KÝ và HỌC VIÊN
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_register", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "register_id"))
-	private List<Person> registers = new ArrayList<>();
+	private List<Person> registers = new LinkedList<>();
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_learner", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "learner_id"))
-	private List<Person> learners = new ArrayList<>();
+	private List<Person> learners = new LinkedList<>();
 
 //ỨNG VIÊN ĐĂNG KÝ
 	@OneToMany(mappedBy = "task")
-	private List<Application> applications=new ArrayList<>();
+	private List<Application> applications=new LinkedList<>();
 
 //GIAO JOB
 	@OneToMany(mappedBy = "task")
-	private List<Job> jobs=new ArrayList<>();
+	private List<Job> jobs=new LinkedList<>();
 
 //số Task khởi tạo	
 

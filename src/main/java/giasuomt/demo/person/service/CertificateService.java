@@ -1,4 +1,6 @@
 package giasuomt.demo.person.service;
+
+import java.util.LinkedList;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,8 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class CertificateService extends GenericService<SaveCertificateDto, Certificate, Long> implements ICertificateService {
+public class CertificateService extends GenericService<SaveCertificateDto, Certificate, Long>
+		implements ICertificateService {
 
 	private ICertificateRepository iCertificateRepository;
 
@@ -66,5 +69,21 @@ public class CertificateService extends GenericService<SaveCertificateDto, Certi
 		return iCertificateRepository.countById(id) == 1;
 	}
 
+	@Override
+	public List<Certificate> createAll(List<SaveCertificateDto> dtos) {
+		try {
+			List<Certificate> certificates = new LinkedList<>();
+			for (SaveCertificateDto dto : dtos) {
+				Certificate certificate = new Certificate();
+				certificate = (Certificate) mapDtoToModel.map(dto, certificate);
+				certificates.add(certificate);
+			}
+
+			return iCertificateRepository.saveAll(certificates);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

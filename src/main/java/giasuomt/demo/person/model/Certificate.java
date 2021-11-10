@@ -1,5 +1,6 @@
 package giasuomt.demo.person.model;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,5 +28,5 @@ public class Certificate extends AbstractEntity {
 
 	@ManyToMany(mappedBy = "certificates", fetch = FetchType.LAZY)
 	@JsonIgnore 
-	private List<Person> person = new ArrayList<>();
+	private List<Person> person = new LinkedList<>();
 }

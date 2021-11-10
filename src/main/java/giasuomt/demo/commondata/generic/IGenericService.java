@@ -19,7 +19,8 @@ public interface IGenericService<DTO, T extends AbstractEntity, ID> {
 	T create(DTO dto);
 
 	T update(DTO dto);
-
+	
+	List<T> createAll(List<DTO> dtos);
 
 	boolean checkExistIdOfT(ID id);
 

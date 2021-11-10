@@ -1,7 +1,7 @@
 package giasuomt.demo.task.service;
 
 import java.util.ArrayList;
-
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -129,8 +129,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 				}
 			}
 
-			
-
 			return iTaskRepository.save(task);
 
 		} catch (Exception e) {
@@ -170,6 +168,86 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 		}
 		String responsCharacter = TaskCodeGenerator.generateResponsive(count);
 		return responsCharacter;
+	}
+
+	@Override
+	public List<Task> createAll(List<SaveTaskDto> dtos) {
+		try {
+			List<Task> tasks = new LinkedList<>();
+			for (SaveTaskDto dto : dtos) {
+				Task task = new Task();
+
+				task = (Task) mapDtoToModel.map(dto, task);
+
+				List<Long> registerIds = dto.getIdRegisters();
+				List<Person> registers = new ArrayList<>();
+				for (int i = 0; i < registerIds.size(); i++) {
+					Person register = iPersonRepository.getOne(registerIds.get(i));
+					registers.add(register);
+				}
+				task.setRegisters(registers);
+
+				List<Long> LearnerIds = dto.getIdRegisters();
+				List<Person> learners = new ArrayList<>();
+				for (int i = 0; i < LearnerIds.size(); i++) {
+					Person leaner = iPersonRepository.getOne(LearnerIds.get(i));
+					learners.add(leaner);
+				}
+				task.setLearners(learners);
+
+				// Subject vì sau khi nhập subject thì đã có tồn tại subjectgroup rồi
+				List<Long> subjectIds = dto.getIdSubjects();
+				List<Subject> subjects = new ArrayList<>();
+				for (int i = 0; i < subjectIds.size(); i++) {
+					Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
+					subjects.add(subject);
+
+				}
+				task.setSubjects(subjects);
+				List<Long> requireIds = dto.getIdRequires();
+				List<Require> requires = new ArrayList<>();
+				for (int i = 0; i < requireIds.size(); i++) {
+					Require require = iRequireRepository.getOne(requireIds.get(i));
+					requires.add(require);
+				}
+				task.setRequires(requires);
+
+				List<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getSaveTaskPlaceAddressDtos();
+				for (int i = 0; i < task.getTaskPlaceAddresses().size(); i++) {
+					boolean deleteThis = true;
+					for (int j = 0; j < saveTaskPlaceAddressDtos.size(); j++) {
+						if (task.getTaskPlaceAddresses().get(i).getId() == saveTaskPlaceAddressDtos.get(j).getId()) {
+							deleteThis = false;
+						}
+					}
+					if (deleteThis) {
+						task.removeTaskPlaceAddress(task.getTaskPlaceAddresses().get(i));
+						i--;
+					}
+				}
+				for (int i = 0; i < saveTaskPlaceAddressDtos.size(); i++) {
+					SaveTaskPlaceAddressDto placeAddressDto = saveTaskPlaceAddressDtos.get(i);
+					if (placeAddressDto.getId() != null && placeAddressDto.getId() > 0) {
+						TaskPlaceAddress taskPlaceAddress = iTaskPlaceAddressRepository.getOne(placeAddressDto.getId());
+						taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
+						taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
+						task.addTaskPlaceAddress(taskPlaceAddress);
+					} else {
+						TaskPlaceAddress taskPlaceAddress = new TaskPlaceAddress();
+						taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
+						taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
+						task.addTaskPlaceAddress(taskPlaceAddress);
+					}
+				}
+				tasks.add(task);
+			}
+
+			return iTaskRepository.saveAll(tasks);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

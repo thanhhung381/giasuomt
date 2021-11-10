@@ -3,6 +3,7 @@ package giasuomt.demo.person.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -61,28 +62,28 @@ public class SavePersonDto extends SaveUserDto implements Serializable{
 
 	// HIỆN ĐANG LÀ
 	// Lưu Student
-	private List<SaveStudentDto> saveStudentDtos = new ArrayList<>();
+	private List<SaveStudentDto> saveStudentDtos = new LinkedList<>();
 
 	// Lưu GraduatedStudent
-	private List<SaveGraduatedStudentDto> saveGraduatedStudentDtos = new ArrayList<>();
+	private List<SaveGraduatedStudentDto> saveGraduatedStudentDtos = new LinkedList<>();
 
 	// luu Institution Teacher
-	private List<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = new ArrayList<>();
+	private List<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = new LinkedList<>();
 
 	// luu School Teacher
-	private List<SaveSchoolTeacherDto> saveSchoolTeacherDtos = new ArrayList<>();
+	private List<SaveSchoolTeacherDto> saveSchoolTeacherDtos = new LinkedList<>();
 
 	// luu schooler
-	private List<SaveSchoolerDto> saveSchoolerDtos = new ArrayList<>();
+	private List<SaveSchoolerDto> saveSchoolerDtos = new LinkedList<>();
 
 	// luu worker
-	private List<SaveWorkerDto> saveWorkerDtos = new ArrayList<>();
+	private List<SaveWorkerDto> saveWorkerDtos = new LinkedList<>();
 
 	// Certificate
-	private List<Long> certificateIds = new ArrayList<>();
+	private List<Long> certificateIds = new LinkedList<>();
 
 	// RelationShip
-	private List<SaveRelationshipDto> saveRelationshipDtosWith = new ArrayList<>();
+	private List<SaveRelationshipDto> saveRelationshipDtosWith = new LinkedList<>();
 
 	// RegisteredUser
 	

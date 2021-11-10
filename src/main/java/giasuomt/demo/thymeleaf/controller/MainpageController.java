@@ -1,4 +1,4 @@
-package giasuomt.demo.thymeleafcontroller;
+package giasuomt.demo.thymeleaf.controller;
 
 import org.springframework.stereotype.Controller;
 

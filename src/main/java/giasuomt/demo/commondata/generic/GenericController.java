@@ -42,6 +42,17 @@ public abstract class GenericController<DTO, T extends AbstractEntity, ID, Bindi
 		return ResponseHandler.getResponse(createdT, HttpStatus.OK);
 	}
 	
+	@PostMapping("/createAll")
+	public ResponseEntity<Object> create(@Valid @RequestBody List<DTO> dto, BindingResult errors) {
+		if (((Errors) errors).hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		
+		List<T> createdT = iGenericService.createAll(dto);
+		
+		return ResponseHandler.getResponse(createdT, HttpStatus.OK);
+	}
+	
+	
 	@PutMapping("/update")
 	public ResponseEntity<Object> update(@Valid @RequestBody DTO dto, BindingResult errors) {
 		if (((Errors) errors).hasErrors())

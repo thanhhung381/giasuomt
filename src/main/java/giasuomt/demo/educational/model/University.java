@@ -1,5 +1,6 @@
 package giasuomt.demo.educational.model;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -30,5 +31,5 @@ public class University extends AbstractEntity {
     
     @OneToMany(mappedBy = "university")
     @JsonIgnore
-    private List<Major> majors=new ArrayList<>(); 
+    private List<Major> majors=new LinkedList<>(); 
 }

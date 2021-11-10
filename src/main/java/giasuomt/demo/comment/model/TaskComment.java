@@ -43,7 +43,7 @@ public class TaskComment extends Comment {
 
 	@OneToMany(mappedBy = "parentComment")
 	@JsonIgnore
-	private List<TaskComment> replies = new ArrayList<>();
+	private List<TaskComment> replies = new LinkedList<>();
 	
 
 }

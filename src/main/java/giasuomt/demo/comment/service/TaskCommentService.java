@@ -1,5 +1,6 @@
 package giasuomt.demo.comment.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
@@ -69,6 +70,12 @@ public class TaskCommentService extends GenericService<SaveTaskCommentDto, TaskC
 		iTaskCommentRepository.deleteByParrentComment(id);
 
 		iTaskCommentRepository.deleteById(id);
+	}
+
+	@Override
+	public List<TaskComment> createAll(List<SaveTaskCommentDto> dtos) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
