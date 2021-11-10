@@ -1,6 +1,7 @@
 package giasuomt.demo.task.model;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -30,6 +31,6 @@ public class Require extends AbstractEntity {
 	
 	@ManyToMany(mappedBy = "requires", fetch = FetchType.LAZY)
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	private List<Task> tasks = new ArrayList(); // có sẵn
+	private List<Task> tasks =new LinkedList<>(); // có sẵn
 
 }

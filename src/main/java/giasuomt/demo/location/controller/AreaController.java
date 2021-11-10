@@ -35,6 +35,7 @@ public class AreaController extends GenericController<SaveAreaDto, Area, Long, B
 			return ResponseHandler.getResponse("Do not exist Area", HttpStatus.BAD_REQUEST);
 		return ResponseHandler.getResponse(areas, HttpStatus.OK);
 	}
+	
 
 
 

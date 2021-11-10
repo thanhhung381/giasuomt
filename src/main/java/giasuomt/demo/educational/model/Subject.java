@@ -1,6 +1,7 @@
 package giasuomt.demo.educational.model;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -37,6 +38,6 @@ public class Subject extends AbstractEntity {
 	
 	@ManyToMany(mappedBy = "subjects", fetch = FetchType.EAGER)  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
 	@JsonIgnore
-	private List<Task> tasks = new ArrayList<>(); //truyền id;
+	private List<Task> tasks = new LinkedList<>(); //truyền id;
 
 }

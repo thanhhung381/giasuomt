@@ -2,7 +2,8 @@ package giasuomt.demo.person.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -116,30 +117,30 @@ public class Person extends AbstractEntity {
 
 //HIỆN ĐANG LÀ
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Student> students = new ArrayList<>();
+	private List<Student> students = new LinkedList<>();
 
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<GraduatedStudent> graduatedStudents = new ArrayList<>();
+	private List<GraduatedStudent> graduatedStudents = new LinkedList<>();
 
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<InstitutionTeacher> institutionTeachers = new ArrayList<>();
+	private List<InstitutionTeacher> institutionTeachers = new LinkedList<>();
 
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<SchoolTeacher> schoolTeachers = new ArrayList<>();
+	private List<SchoolTeacher> schoolTeachers = new LinkedList<>();
 
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Schooler> schoolers = new ArrayList<>();
+	private List<Schooler> schoolers = new LinkedList<>();
 
 	@OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Worker> workers = new ArrayList<>();
+	private List<Worker> workers = new LinkedList<>();
 
 //PERSONAL RELATIONSHIP:
 	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Relationship> relationshipWith = new ArrayList<>();
+	private List<Relationship> relationshipWith = new LinkedList<>();
 
 	@OneToMany(mappedBy = "personB", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
-	private List<Relationship> relationshipBy = new ArrayList<>();
+	private List<Relationship> relationshipBy = new LinkedList<>();
 
 //TUTOR:
 	// @Unique
@@ -151,15 +152,17 @@ public class Person extends AbstractEntity {
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "tutor_certificate", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "certificate_id"))
-	private List<Certificate> certificates = new ArrayList<>();
+	private List<Certificate> certificates = new LinkedList<>();
 
 	private String tutorNotices;
 
 	private String advantageNote;
+	
+	
 
 	@OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
 	@JsonIgnore
-	private List<Application> applications = new ArrayList<>();
+	private List<Application> applications = new LinkedList<>();
 
 	// @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
 	// private Set<Job> jobs;
@@ -169,11 +172,11 @@ public class Person extends AbstractEntity {
 
 	@ManyToMany(mappedBy = "registers")
 	@JsonIgnore
-	private List<Task> registerOfTasks = new ArrayList<>();;
+	private List<Task> registerOfTasks = new LinkedList<>();
 
 	@ManyToMany(mappedBy = "learners")
 	@JsonIgnore
-	private List<Task> learnerOfTasks = new ArrayList<>();
+	private List<Task> learnerOfTasks = new LinkedList<>();
 
 
 	

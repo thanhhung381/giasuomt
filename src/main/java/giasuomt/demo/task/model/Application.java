@@ -1,6 +1,7 @@
 package giasuomt.demo.task.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +44,7 @@ public class Application extends AbstractEntity {
 	//Comments
     @OneToMany(mappedBy = "application")
     @JsonIgnore
-    private List<ApplicationComment> comments=new ArrayList<>();
+    private List<ApplicationComment> comments=new LinkedList<>();
     
 //    //Đánh dấu
 //	@OneToMany(mappedBy = "application", fetch = FetchType.EAGER)

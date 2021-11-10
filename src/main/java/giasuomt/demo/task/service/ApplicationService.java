@@ -1,5 +1,10 @@
 package giasuomt.demo.task.service;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.naming.LinkLoopException;
+
 import org.springframework.stereotype.Service;
 
 import giasuomt.demo.commondata.generic.GenericService;
@@ -51,6 +56,31 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 		return save(dto, application);
 
+	}
+
+	@Override
+	public List<Application> createAll(List<SaveApplicationDto> dtos) {
+		try {
+			
+			List<Application> applications=new LinkedList<>();
+			for (SaveApplicationDto dto : dtos) {
+				Application application = new Application();
+
+				application = (Application) mapDtoToModel.map(dto, application);
+
+				application.setTask(iTaskRepository.getOne(dto.getIdTask()));
+
+				application.setPerson(iPersonRepository.getOne(dto.getIdPerson()));
+				applications.add(application);
+				
+				
+			}
+			return iApplicationRepository.saveAll(applications);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

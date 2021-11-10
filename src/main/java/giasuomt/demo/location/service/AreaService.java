@@ -1,4 +1,5 @@
 package giasuomt.demo.location.service;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.validation.Valid;
@@ -47,8 +48,6 @@ public class AreaService extends GenericService<SaveAreaDto, Area, Long> impleme
 	}
 	
 	
-
-
 
 	
 	
@@ -108,6 +107,27 @@ public class AreaService extends GenericService<SaveAreaDto, Area, Long> impleme
 	public boolean checkExistCommune(String commune) {
 
 		return iAreaRepository.countByCommune(commune) >= 1;
+	}
+
+
+
+	@Override
+	public List<Area> createAll(List<SaveAreaDto> dtos) {
+		try {
+			List<Area> areas=new ArrayList<>();
+			for ( SaveAreaDto areaDto : dtos) {
+				Area area=new Area();
+				area = (Area)mapper.map(areaDto, area);
+				areas.add(area);
+				
+			}
+			
+			return iAreaRepository.saveAll(areas);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 

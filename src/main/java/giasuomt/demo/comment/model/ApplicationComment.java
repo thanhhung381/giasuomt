@@ -2,6 +2,7 @@ package giasuomt.demo.comment.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +29,7 @@ public class ApplicationComment extends Comment {
 
 	@ManyToOne
 	@JoinColumn(name = "application_id")
+	@JsonIgnore
 	private Application application;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -36,7 +38,7 @@ public class ApplicationComment extends Comment {
 
 	@OneToMany(mappedBy = "parentComment")
 	@JsonIgnore
-	private List<ApplicationComment> replies = new ArrayList<>();
+	private List<ApplicationComment> replies = new LinkedList<>();
 
 }
  

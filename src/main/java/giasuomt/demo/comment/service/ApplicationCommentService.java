@@ -1,5 +1,7 @@
 package giasuomt.demo.comment.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import giasuomt.demo.comment.dto.SaveApplicationCommentDto;
@@ -58,6 +60,12 @@ public class ApplicationCommentService extends GenericService<SaveApplicationCom
 		iApplicationCommentRepository.deleteByParentComment(id);
 		iApplicationCommentRepository.deleteById(id);
 		
+	}
+
+	@Override
+	public List<ApplicationComment> createAll(List<SaveApplicationCommentDto> dtos) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

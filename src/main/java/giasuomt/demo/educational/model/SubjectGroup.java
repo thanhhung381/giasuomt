@@ -1,4 +1,6 @@
 package giasuomt.demo.educational.model;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,6 +25,6 @@ public class SubjectGroup extends AbstractEntity {
 	
 	@OneToMany(mappedBy = "subjectGroup", fetch = FetchType.LAZY)
 	@JsonIgnore  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
-	private Set<Subject> subjects;
+	private List<Subject> subjects=new LinkedList<>();
 	
 }
