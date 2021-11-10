@@ -63,72 +63,76 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 		return save(dto, task);
 	}
 
+	private void mapDto(Task task, SaveTaskDto dto) {
+		task = (Task) mapDtoToModel.map(dto, task);
+
+		List<Long> registerIds = dto.getIdRegisters();
+		List<Person> registers = new ArrayList<>();
+		for (int i = 0; i < registerIds.size(); i++) {
+			Person register = iPersonRepository.getOne(registerIds.get(i));
+			registers.add(register);
+		}
+		task.setRegisters(registers);
+
+		List<Long> LearnerIds = dto.getIdRegisters();
+		List<Person> learners = new ArrayList<>();
+		for (int i = 0; i < LearnerIds.size(); i++) {
+			Person leaner = iPersonRepository.getOne(LearnerIds.get(i));
+			learners.add(leaner);
+		}
+		task.setLearners(learners);
+
+		// Subject vì sau khi nhập subject thì đã có tồn tại subjectgroup rồi
+		List<Long> subjectIds = dto.getIdSubjects();
+		List<Subject> subjects = new ArrayList<>();
+		for (int i = 0; i < subjectIds.size(); i++) {
+			Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
+			subjects.add(subject);
+
+		}
+		task.setSubjects(subjects);
+		List<Long> requireIds = dto.getIdRequires();
+		List<Require> requires = new ArrayList<>();
+		for (int i = 0; i < requireIds.size(); i++) {
+			Require require = iRequireRepository.getOne(requireIds.get(i));
+			requires.add(require);
+		}
+		task.setRequires(requires);
+
+		List<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getSaveTaskPlaceAddressDtos();
+		for (int i = 0; i < task.getTaskPlaceAddresses().size(); i++) {
+			boolean deleteThis = true;
+			for (int j = 0; j < saveTaskPlaceAddressDtos.size(); j++) {
+				if (task.getTaskPlaceAddresses().get(i).getId() == saveTaskPlaceAddressDtos.get(j).getId()) {
+					deleteThis = false;
+				}
+			}
+			if (deleteThis) {
+				task.removeTaskPlaceAddress(task.getTaskPlaceAddresses().get(i));
+				i--;
+			}
+		}
+		for (int i = 0; i < saveTaskPlaceAddressDtos.size(); i++) {
+			SaveTaskPlaceAddressDto placeAddressDto = saveTaskPlaceAddressDtos.get(i);
+			if (placeAddressDto.getId() != null && placeAddressDto.getId() > 0) {
+				TaskPlaceAddress taskPlaceAddress = iTaskPlaceAddressRepository.getOne(placeAddressDto.getId());
+				taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
+				taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
+				task.addTaskPlaceAddress(taskPlaceAddress);
+			} else {
+				TaskPlaceAddress taskPlaceAddress = new TaskPlaceAddress();
+				taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
+				taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
+				task.addTaskPlaceAddress(taskPlaceAddress);
+			}
+		}
+	}
+
 	public Task save(SaveTaskDto dto, Task task) {
 
 		try {
-			task = (Task) mapDtoToModel.map(dto, task);
 
-			List<Long> registerIds = dto.getIdRegisters();
-			List<Person> registers = new ArrayList<>();
-			for (int i = 0; i < registerIds.size(); i++) {
-				Person register = iPersonRepository.getOne(registerIds.get(i));
-				registers.add(register);
-			}
-			task.setRegisters(registers);
-
-			List<Long> LearnerIds = dto.getIdRegisters();
-			List<Person> learners = new ArrayList<>();
-			for (int i = 0; i < LearnerIds.size(); i++) {
-				Person leaner = iPersonRepository.getOne(LearnerIds.get(i));
-				learners.add(leaner);
-			}
-			task.setLearners(learners);
-
-			// Subject vì sau khi nhập subject thì đã có tồn tại subjectgroup rồi
-			List<Long> subjectIds = dto.getIdSubjects();
-			List<Subject> subjects = new ArrayList<>();
-			for (int i = 0; i < subjectIds.size(); i++) {
-				Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
-				subjects.add(subject);
-
-			}
-			task.setSubjects(subjects);
-			List<Long> requireIds = dto.getIdRequires();
-			List<Require> requires = new ArrayList<>();
-			for (int i = 0; i < requireIds.size(); i++) {
-				Require require = iRequireRepository.getOne(requireIds.get(i));
-				requires.add(require);
-			}
-			task.setRequires(requires);
-
-			List<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getSaveTaskPlaceAddressDtos();
-			for (int i = 0; i < task.getTaskPlaceAddresses().size(); i++) {
-				boolean deleteThis = true;
-				for (int j = 0; j < saveTaskPlaceAddressDtos.size(); j++) {
-					if (task.getTaskPlaceAddresses().get(i).getId() == saveTaskPlaceAddressDtos.get(j).getId()) {
-						deleteThis = false;
-					}
-				}
-				if (deleteThis) {
-					task.removeTaskPlaceAddress(task.getTaskPlaceAddresses().get(i));
-					i--;
-				}
-			}
-			for (int i = 0; i < saveTaskPlaceAddressDtos.size(); i++) {
-				SaveTaskPlaceAddressDto placeAddressDto = saveTaskPlaceAddressDtos.get(i);
-				if (placeAddressDto.getId() != null && placeAddressDto.getId() > 0) {
-					TaskPlaceAddress taskPlaceAddress = iTaskPlaceAddressRepository.getOne(placeAddressDto.getId());
-					taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
-					taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
-					task.addTaskPlaceAddress(taskPlaceAddress);
-				} else {
-					TaskPlaceAddress taskPlaceAddress = new TaskPlaceAddress();
-					taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
-					taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
-					task.addTaskPlaceAddress(taskPlaceAddress);
-				}
-			}
-
+			mapDto(task, dto);
 			return iTaskRepository.save(task);
 
 		} catch (Exception e) {
@@ -177,68 +181,8 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 			for (SaveTaskDto dto : dtos) {
 				Task task = new Task();
 
-				task = (Task) mapDtoToModel.map(dto, task);
-
-				List<Long> registerIds = dto.getIdRegisters();
-				List<Person> registers = new ArrayList<>();
-				for (int i = 0; i < registerIds.size(); i++) {
-					Person register = iPersonRepository.getOne(registerIds.get(i));
-					registers.add(register);
-				}
-				task.setRegisters(registers);
-
-				List<Long> LearnerIds = dto.getIdRegisters();
-				List<Person> learners = new ArrayList<>();
-				for (int i = 0; i < LearnerIds.size(); i++) {
-					Person leaner = iPersonRepository.getOne(LearnerIds.get(i));
-					learners.add(leaner);
-				}
-				task.setLearners(learners);
-
-				// Subject vì sau khi nhập subject thì đã có tồn tại subjectgroup rồi
-				List<Long> subjectIds = dto.getIdSubjects();
-				List<Subject> subjects = new ArrayList<>();
-				for (int i = 0; i < subjectIds.size(); i++) {
-					Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
-					subjects.add(subject);
-
-				}
-				task.setSubjects(subjects);
-				List<Long> requireIds = dto.getIdRequires();
-				List<Require> requires = new ArrayList<>();
-				for (int i = 0; i < requireIds.size(); i++) {
-					Require require = iRequireRepository.getOne(requireIds.get(i));
-					requires.add(require);
-				}
-				task.setRequires(requires);
-
-				List<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getSaveTaskPlaceAddressDtos();
-				for (int i = 0; i < task.getTaskPlaceAddresses().size(); i++) {
-					boolean deleteThis = true;
-					for (int j = 0; j < saveTaskPlaceAddressDtos.size(); j++) {
-						if (task.getTaskPlaceAddresses().get(i).getId() == saveTaskPlaceAddressDtos.get(j).getId()) {
-							deleteThis = false;
-						}
-					}
-					if (deleteThis) {
-						task.removeTaskPlaceAddress(task.getTaskPlaceAddresses().get(i));
-						i--;
-					}
-				}
-				for (int i = 0; i < saveTaskPlaceAddressDtos.size(); i++) {
-					SaveTaskPlaceAddressDto placeAddressDto = saveTaskPlaceAddressDtos.get(i);
-					if (placeAddressDto.getId() != null && placeAddressDto.getId() > 0) {
-						TaskPlaceAddress taskPlaceAddress = iTaskPlaceAddressRepository.getOne(placeAddressDto.getId());
-						taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
-						taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
-						task.addTaskPlaceAddress(taskPlaceAddress);
-					} else {
-						TaskPlaceAddress taskPlaceAddress = new TaskPlaceAddress();
-						taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
-						taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
-						task.addTaskPlaceAddress(taskPlaceAddress);
-					}
-				}
+				mapDto(task, dto);
+				
 				tasks.add(task);
 			}
 

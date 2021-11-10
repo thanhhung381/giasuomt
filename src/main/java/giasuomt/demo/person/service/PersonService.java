@@ -1,6 +1,5 @@
 package giasuomt.demo.person.service;
 
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -97,278 +96,280 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 	public Person update(SavePersonDto dto) {
 
 		Person person = iPersonRepository.getOne(dto.getId());
-		
-		
-		String avatarURL=person.getAvatar();
-		
-		String[] sep=avatarURL.split("/");
-		
+
+		String avatarURL = person.getAvatar();
+
+		String[] sep = avatarURL.split("/");
+
 		iFileEntityRepository.deleteByNameFile(sep[6]);
 
-		Person updatePerson= save(dto, person);
+		Person updatePerson = save(dto, person);
 		return updatePerson;
-		
+
+	}
+
+	private void mapDto(Person person, SavePersonDto dto) {
+		person = (Person) mapDtoToModel.map(dto, person);
+
+		person.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
+
+		person.setPerArea(iAreaRepository.getOne(dto.getPerAreaId()));
+
+		person.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
+
+		if (dto.getTutorCode().contains("NoTutor")) {
+
+			// e nghĩ nên có một chuẩn để thống nhất nếu người đó ko là Tutor Vì Dto ko cho
+			// set null
+
+			person.setTutorCode("NoTutor");
+		} else {
+			// lấy những người có tutorcode à ko null
+			List<Person> personHasTutorCode = iPersonRepository.getPersonTutorCodeNotNULL();
+
+			int n = personHasTutorCode.size();
+			if (personHasTutorCode != null && n != 0) {
+
+				Person personMaxId = personHasTutorCode.get(n - 1);
+
+				if (personMaxId != null) {
+
+					String tutorCodeWithIdMaxorPreviousId = personMaxId.getTutorCode();// lấy mã đó ra từ Person
+																						// trước đó cuối
+
+					int count = TutorCodeGenerator
+							.generateResponsiveReserve(tutorCodeWithIdMaxorPreviousId.substring(6, 8));
+
+					if (tutorCodeWithIdMaxorPreviousId == null
+							|| TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == -1
+							|| TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == 2) {
+						count = 1;
+
+					} else if (TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == 3) {
+						count += 1;
+
+					}
+
+					String ResponseTutorCode = TutorCodeGenerator.generateResponsive((int) count);
+
+					person.setTutorCode(TutorCodeGenerator.generatorCode().concat(ResponseTutorCode));
+				}
+
+			} else {
+
+				String ResponseTutorCode = TutorCodeGenerator.generateResponsive((int) 1);
+
+				person.setTutorCode(TutorCodeGenerator.generatorCode().concat(ResponseTutorCode));
+			}
+		}
+
+		// save avatar
+
+		Avatar avatar = iFileEntityRepository.getOne(dto.getIdAvatar());
+
+		String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/file/downloadFile/")
+				.path(avatar.getNameFile()).toUriString();
+
+		person.setAvatar(urlDownload);
+
+		// Relationship
+		List<SaveRelationshipDto> saveRelationshipDtoWiths = dto.getSaveRelationshipDtosWith();
+		for (int i = 0; i < person.getRelationshipWith().size(); i++) {
+			Boolean deleteThis = true;
+			for (int j = 0; j < saveRelationshipDtoWiths.size(); j++) {
+				if (person.getRelationshipWith().get(i).getId() == saveRelationshipDtoWiths.get(j).getId())
+					deleteThis = false;
+			}
+			if (deleteThis) {
+				person.removeRelationshipWith(person.getRelationshipWith().get(i)); // Delete
+				i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
+			}
+		}
+
+		for (int i = 0; i < saveRelationshipDtoWiths.size(); i++) {
+			SaveRelationshipDto saveRelationshipDto = saveRelationshipDtoWiths.get(i);
+			if (saveRelationshipDto.getId() != null && saveRelationshipDto.getId() > 0) { // Update
+				Relationship relationship = iRelationshipRepository.getOne(saveRelationshipDto.getId());
+				relationship = (Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
+				relationship.setPersonB(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
+				person.addRelationshipWith(relationship);
+			} else { // Create
+				Relationship relationship = new Relationship();
+				relationship = (Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
+				relationship.setPersonB(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
+				person.addRelationshipWith(relationship);
+			}
+		}
+
+		// Certificate
+		List<Long> certificateIds = dto.getCertificateIds();
+		List<Certificate> certificates = new LinkedList<>();
+		for (int i = 0; i < certificateIds.size(); i++) {
+			Certificate certificate = iCertificateRepository.getOne(certificateIds.get(i));
+			certificates.add(certificate);
+		}
+		person.setCertificates(certificates);
+
+		List<SaveStudentDto> saveStudentDtos = dto.getSaveStudentDtos();
+		for (int i = 0; i < person.getStudents().size(); i++) {
+			Boolean deleteThis = true;
+			for (int j = 0; j < saveStudentDtos.size(); j++) {
+				if (person.getStudents().get(i).getId() == saveStudentDtos.get(j).getId())
+					deleteThis = false;
+			}
+			if (deleteThis) {
+				person.removeStudent(person.getStudents().get(i)); // Delete
+				i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
+			}
+		}
+		for (int i = 0; i < saveStudentDtos.size(); i++) {
+			SaveStudentDto saveStudentDto = saveStudentDtos.get(i);
+			if (saveStudentDto.getId() != null && saveStudentDto.getId() > 0) { // Update
+				Student student = iStudentRepository.getOne(saveStudentDto.getId());
+				student = (Student) mapDtoToModel.map(saveStudentDto, student);
+				person.addStudent(student);
+			} else { // Create
+				Student student = new Student();
+				student = (Student) mapDtoToModel.map(saveStudentDto, student);
+				person.addStudent(student);
+			}
+		}
+
+		List<SaveGraduatedStudentDto> saveGraduatedStudentDtos = dto.getSaveGraduatedStudentDtos();
+		for (int i = 0; i < person.getGraduatedStudents().size(); i++) {
+			Boolean deleteThis = true;
+			for (int j = 0; j < saveGraduatedStudentDtos.size(); j++) {
+				if (person.getGraduatedStudents().get(i).getId() == saveGraduatedStudentDtos.get(j).getId())
+					deleteThis = false;
+			}
+			if (deleteThis) {
+				person.removeGraduatedStudent(person.getGraduatedStudents().get(i)); // Delete
+				i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
+			}
+		}
+		for (int i = 0; i < saveGraduatedStudentDtos.size(); i++) {
+			SaveGraduatedStudentDto saveGraduatedStudentDto = saveGraduatedStudentDtos.get(i);
+			if (saveGraduatedStudentDto.getId() != null && saveGraduatedStudentDto.getId() > 0) { // Update
+				GraduatedStudent graduatedStudent = iGraduatedStudentRepository.getOne(saveGraduatedStudentDto.getId());
+				graduatedStudent = (GraduatedStudent) mapDtoToModel.map(saveGraduatedStudentDto, graduatedStudent);
+				person.addGraduatedStudent(graduatedStudent);
+			} else { // Create
+				GraduatedStudent graduatedStudent = new GraduatedStudent();
+				graduatedStudent = (GraduatedStudent) mapDtoToModel.map(saveGraduatedStudentDto, graduatedStudent);
+				person.addGraduatedStudent(graduatedStudent);
+			}
+		}
+
+		List<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = dto.getSaveInstitutionTeacherDtos();
+		for (int i = 0; i < person.getInstitutionTeachers().size(); i++) {
+			Boolean deleteThis = true;
+			for (int j = 0; j < saveInstitutionTeacherDtos.size(); j++) {
+				if (person.getInstitutionTeachers().get(i).getId() == saveInstitutionTeacherDtos.get(j).getId())
+					deleteThis = false;
+			}
+			if (deleteThis) {
+				person.removeInstitutionTeacher(person.getInstitutionTeachers().get(i)); // Delete
+				i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
+			}
+		}
+		for (int i = 0; i < saveInstitutionTeacherDtos.size(); i++) {
+			SaveInstitutionTeacherDto saveInstitutionTeacherDto = saveInstitutionTeacherDtos.get(i);
+			if (saveInstitutionTeacherDto.getId() != null && saveInstitutionTeacherDto.getId() > 0) { // Update
+				InstitutionTeacher institutionTeacher = iInstitutionTeacherRepository
+						.getOne(saveInstitutionTeacherDto.getId());
+				institutionTeacher = (InstitutionTeacher) mapDtoToModel.map(saveInstitutionTeacherDto,
+						institutionTeacher);
+				person.addInstitutionTeacher(institutionTeacher);
+			} else { // Create
+				InstitutionTeacher institutionTeacher = new InstitutionTeacher();
+				institutionTeacher = (InstitutionTeacher) mapDtoToModel.map(saveInstitutionTeacherDto,
+						institutionTeacher);
+				person.addInstitutionTeacher(institutionTeacher);
+			}
+		}
+
+		List<SaveSchoolTeacherDto> saveSchoolTeacherDtos = dto.getSaveSchoolTeacherDtos();
+		for (int i = 0; i < person.getSchoolTeachers().size(); i++) {
+			Boolean deleteThis = true;
+			for (int j = 0; j < saveSchoolTeacherDtos.size(); j++) {
+				if (person.getSchoolTeachers().get(i).getId() == saveSchoolTeacherDtos.get(j).getId())
+					deleteThis = false;
+			}
+			if (deleteThis) {
+				person.removeSchoolTeacher(person.getSchoolTeachers().get(i)); // Delete
+				i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
+			}
+		}
+		for (int i = 0; i < saveSchoolTeacherDtos.size(); i++) {
+			SaveSchoolTeacherDto saveSchoolTeacherDto = saveSchoolTeacherDtos.get(i);
+			if (saveSchoolTeacherDto.getId() != null && saveSchoolTeacherDto.getId() > 0) { // Update
+				SchoolTeacher schoolTeacher = iSchoolTeacherRepository.getOne(saveSchoolTeacherDto.getId());
+				schoolTeacher = (SchoolTeacher) mapDtoToModel.map(saveSchoolTeacherDto, schoolTeacher);
+				person.addSchoolTeacher(schoolTeacher);
+			} else { // Create
+				SchoolTeacher schoolTeacher = new SchoolTeacher();
+				schoolTeacher = (SchoolTeacher) mapDtoToModel.map(saveSchoolTeacherDto, schoolTeacher);
+				person.addSchoolTeacher(schoolTeacher);
+			}
+		}
+
+		List<SaveWorkerDto> saveWorkerDtos = dto.getSaveWorkerDtos();
+		for (int i = 0; i < person.getWorkers().size(); i++) {
+			Boolean deleteThis = true;
+			for (int j = 0; j < saveWorkerDtos.size(); j++) {
+				if (person.getWorkers().get(i).getId() == saveWorkerDtos.get(j).getId()) {
+					deleteThis = false;
+				}
+			}
+			if (deleteThis) {
+				person.removeWorker(person.getWorkers().get(i));
+				i--;
+			}
+		}
+		for (int i = 0; i < saveWorkerDtos.size(); i++) {
+			SaveWorkerDto saveWorkerDto = saveWorkerDtos.get(i);
+			if (saveWorkerDto.getId() != null && saveWorkerDto.getId() > 0) {
+				Worker worker = iWorkerRepository.getOne(saveWorkerDto.getId());
+				worker = (Worker) mapDtoToModel.map(saveWorkerDto, worker);
+				person.addWorker(worker);
+			} else {
+				Worker worker = new Worker();
+				worker = (Worker) mapDtoToModel.map(saveWorkerDto, worker);
+				person.addWorker(worker);
+			}
+		}
+		List<SaveSchoolerDto> saveSchoolerDtos = dto.getSaveSchoolerDtos();
+		for (int i = 0; i < person.getSchoolers().size(); i++) {
+			Boolean deleteThis = true;
+			for (int j = 0; j < saveSchoolerDtos.size(); j++) {
+				if (person.getSchoolers().get(i).getId() == saveSchoolerDtos.get(j).getId()) {
+					deleteThis = false;
+				}
+			}
+			if (deleteThis) {
+				person.removeSchooler(person.getSchoolers().get(i));
+				i--;
+			}
+		}
+		for (int i = 0; i < saveSchoolerDtos.size(); i++) {
+			SaveSchoolerDto saveSchoolerDto = saveSchoolerDtos.get(i);
+			if (saveSchoolerDto.getId() != null && saveSchoolerDto.getId() > 0) {
+				Schooler schooler = iSchoolerRepository.getOne(saveSchoolerDto.getId());
+				schooler = (Schooler) mapDtoToModel.map(saveSchoolerDto, schooler);
+				person.addSchooler(schooler);
+			} else {
+				Schooler schooler = new Schooler();
+				schooler = (Schooler) mapDtoToModel.map(saveSchoolerDto, schooler);
+				person.addSchooler(schooler);
+			}
+		}
 	}
 
 	@Override
 	public Person save(SavePersonDto dto, Person person) {
 		try {
 
-			person = (Person) mapDtoToModel.map(dto, person);
-
-			person.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
-
-			person.setPerArea(iAreaRepository.getOne(dto.getPerAreaId()));
-
-			person.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
-
-			if (dto.getTutorCode().contains("NoTutor")) {
-
-				// e nghĩ nên có một chuẩn để thống nhất nếu người đó ko là Tutor Vì Dto ko cho
-				// set null
-
-				person.setTutorCode("NoTutor");
-			} else {
-				// lấy những người có tutorcode à ko null
-				List<Person> personHasTutorCode = iPersonRepository.getPersonTutorCodeNotNULL();
-
-				int n = personHasTutorCode.size();
-				if (personHasTutorCode != null && n != 0 ) {
-
-					Person personMaxId = personHasTutorCode.get(n - 1);
-
-					if (personMaxId != null) {
-
-						String tutorCodeWithIdMaxorPreviousId = personMaxId.getTutorCode();// lấy mã đó ra từ Person
-																							// trước đó cuối
-
-						int count = TutorCodeGenerator
-								.generateResponsiveReserve(tutorCodeWithIdMaxorPreviousId.substring(6, 8));
-
-						if (tutorCodeWithIdMaxorPreviousId == null
-								|| TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == -1
-								|| TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == 2) {
-							count = 1;
-
-						} else if (TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == 3) {
-							count += 1;
-
-						}
-
-						String ResponseTutorCode = TutorCodeGenerator.generateResponsive((int) count);
-
-						person.setTutorCode(TutorCodeGenerator.generatorCode().concat(ResponseTutorCode));
-					}
-
-				} else {
-
-					String ResponseTutorCode = TutorCodeGenerator.generateResponsive((int) 1);
-
-					person.setTutorCode(TutorCodeGenerator.generatorCode().concat(ResponseTutorCode));
-				}
-			}
-
-			// save avatar
-
-			Avatar avatar = iFileEntityRepository.getOne(dto.getIdAvatar());
-
-			String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/file/downloadFile/")
-					.path(avatar.getNameFile()).toUriString();
-
-			person.setAvatar(urlDownload);
-
-			// Relationship
-			List<SaveRelationshipDto> saveRelationshipDtoWiths = dto.getSaveRelationshipDtosWith();
-			for (int i = 0; i < person.getRelationshipWith().size(); i++) {
-				Boolean deleteThis = true;
-				for (int j = 0; j < saveRelationshipDtoWiths.size(); j++) {
-					if (person.getRelationshipWith().get(i).getId() == saveRelationshipDtoWiths.get(j).getId())
-						deleteThis = false;
-				}
-				if (deleteThis) {
-					person.removeRelationshipWith(person.getRelationshipWith().get(i)); // Delete
-					i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
-				}
-			}
-
-			for (int i = 0; i < saveRelationshipDtoWiths.size(); i++) {
-				SaveRelationshipDto saveRelationshipDto = saveRelationshipDtoWiths.get(i);
-				if (saveRelationshipDto.getId() != null && saveRelationshipDto.getId() > 0) { // Update
-					Relationship relationship = iRelationshipRepository.getOne(saveRelationshipDto.getId());
-					relationship = (Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
-					relationship.setPersonB(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
-					person.addRelationshipWith(relationship);
-				} else { // Create
-					Relationship relationship = new Relationship();
-					relationship = (Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
-					relationship.setPersonB(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
-					person.addRelationshipWith(relationship);
-				}
-			}
-
-			// Certificate
-			List<Long> certificateIds = dto.getCertificateIds();
-			List<Certificate> certificates = new LinkedList<>();
-			for (int i = 0; i < certificateIds.size(); i++) {
-				Certificate certificate = iCertificateRepository.getOne(certificateIds.get(i));
-				certificates.add(certificate);
-			}
-			person.setCertificates(certificates);
-
-			List<SaveStudentDto> saveStudentDtos = dto.getSaveStudentDtos();
-			for (int i = 0; i < person.getStudents().size(); i++) {
-				Boolean deleteThis = true;
-				for (int j = 0; j < saveStudentDtos.size(); j++) {
-					if (person.getStudents().get(i).getId() == saveStudentDtos.get(j).getId())
-						deleteThis = false;
-				}
-				if (deleteThis) {
-					person.removeStudent(person.getStudents().get(i)); // Delete
-					i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
-				}
-			}
-			for (int i = 0; i < saveStudentDtos.size(); i++) {
-				SaveStudentDto saveStudentDto = saveStudentDtos.get(i);
-				if (saveStudentDto.getId() != null && saveStudentDto.getId() > 0) { // Update
-					Student student = iStudentRepository.getOne(saveStudentDto.getId());
-					student = (Student) mapDtoToModel.map(saveStudentDto, student);
-					person.addStudent(student);
-				} else { // Create
-					Student student = new Student();
-					student = (Student) mapDtoToModel.map(saveStudentDto, student);
-					person.addStudent(student);
-				}
-			}
-
-			List<SaveGraduatedStudentDto> saveGraduatedStudentDtos = dto.getSaveGraduatedStudentDtos();
-			for (int i = 0; i < person.getGraduatedStudents().size(); i++) {
-				Boolean deleteThis = true;
-				for (int j = 0; j < saveGraduatedStudentDtos.size(); j++) {
-					if (person.getGraduatedStudents().get(i).getId() == saveGraduatedStudentDtos.get(j).getId())
-						deleteThis = false;
-				}
-				if (deleteThis) {
-					person.removeGraduatedStudent(person.getGraduatedStudents().get(i)); // Delete
-					i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
-				}
-			}
-			for (int i = 0; i < saveGraduatedStudentDtos.size(); i++) {
-				SaveGraduatedStudentDto saveGraduatedStudentDto = saveGraduatedStudentDtos.get(i);
-				if (saveGraduatedStudentDto.getId() != null && saveGraduatedStudentDto.getId() > 0) { // Update
-					GraduatedStudent graduatedStudent = iGraduatedStudentRepository
-							.getOne(saveGraduatedStudentDto.getId());
-					graduatedStudent = (GraduatedStudent) mapDtoToModel.map(saveGraduatedStudentDto, graduatedStudent);
-					person.addGraduatedStudent(graduatedStudent);
-				} else { // Create
-					GraduatedStudent graduatedStudent = new GraduatedStudent();
-					graduatedStudent = (GraduatedStudent) mapDtoToModel.map(saveGraduatedStudentDto, graduatedStudent);
-					person.addGraduatedStudent(graduatedStudent);
-				}
-			}
-
-			List<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = dto.getSaveInstitutionTeacherDtos();
-			for (int i = 0; i < person.getInstitutionTeachers().size(); i++) {
-				Boolean deleteThis = true;
-				for (int j = 0; j < saveInstitutionTeacherDtos.size(); j++) {
-					if (person.getInstitutionTeachers().get(i).getId() == saveInstitutionTeacherDtos.get(j).getId())
-						deleteThis = false;
-				}
-				if (deleteThis) {
-					person.removeInstitutionTeacher(person.getInstitutionTeachers().get(i)); // Delete
-					i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
-				}
-			}
-			for (int i = 0; i < saveInstitutionTeacherDtos.size(); i++) {
-				SaveInstitutionTeacherDto saveInstitutionTeacherDto = saveInstitutionTeacherDtos.get(i);
-				if (saveInstitutionTeacherDto.getId() != null && saveInstitutionTeacherDto.getId() > 0) { // Update
-					InstitutionTeacher institutionTeacher = iInstitutionTeacherRepository
-							.getOne(saveInstitutionTeacherDto.getId());
-					institutionTeacher = (InstitutionTeacher) mapDtoToModel.map(saveInstitutionTeacherDto,
-							institutionTeacher);
-					person.addInstitutionTeacher(institutionTeacher);
-				} else { // Create
-					InstitutionTeacher institutionTeacher = new InstitutionTeacher();
-					institutionTeacher = (InstitutionTeacher) mapDtoToModel.map(saveInstitutionTeacherDto,
-							institutionTeacher);
-					person.addInstitutionTeacher(institutionTeacher);
-				}
-			}
-
-			List<SaveSchoolTeacherDto> saveSchoolTeacherDtos = dto.getSaveSchoolTeacherDtos();
-			for (int i = 0; i < person.getSchoolTeachers().size(); i++) {
-				Boolean deleteThis = true;
-				for (int j = 0; j < saveSchoolTeacherDtos.size(); j++) {
-					if (person.getSchoolTeachers().get(i).getId() == saveSchoolTeacherDtos.get(j).getId())
-						deleteThis = false;
-				}
-				if (deleteThis) {
-					person.removeSchoolTeacher(person.getSchoolTeachers().get(i)); // Delete
-					i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
-				}
-			}
-			for (int i = 0; i < saveSchoolTeacherDtos.size(); i++) {
-				SaveSchoolTeacherDto saveSchoolTeacherDto = saveSchoolTeacherDtos.get(i);
-				if (saveSchoolTeacherDto.getId() != null && saveSchoolTeacherDto.getId() > 0) { // Update
-					SchoolTeacher schoolTeacher = iSchoolTeacherRepository.getOne(saveSchoolTeacherDto.getId());
-					schoolTeacher = (SchoolTeacher) mapDtoToModel.map(saveSchoolTeacherDto, schoolTeacher);
-					person.addSchoolTeacher(schoolTeacher);
-				} else { // Create
-					SchoolTeacher schoolTeacher = new SchoolTeacher();
-					schoolTeacher = (SchoolTeacher) mapDtoToModel.map(saveSchoolTeacherDto, schoolTeacher);
-					person.addSchoolTeacher(schoolTeacher);
-				}
-			}
-
-			List<SaveWorkerDto> saveWorkerDtos = dto.getSaveWorkerDtos();
-			for (int i = 0; i < person.getWorkers().size(); i++) {
-				Boolean deleteThis = true;
-				for (int j = 0; j < saveWorkerDtos.size(); j++) {
-					if (person.getWorkers().get(i).getId() == saveWorkerDtos.get(j).getId()) {
-						deleteThis = false;
-					}
-				}
-				if (deleteThis) {
-					person.removeWorker(person.getWorkers().get(i));
-					i--;
-				}
-			}
-			for (int i = 0; i < saveWorkerDtos.size(); i++) {
-				SaveWorkerDto saveWorkerDto = saveWorkerDtos.get(i);
-				if (saveWorkerDto.getId() != null && saveWorkerDto.getId() > 0) {
-					Worker worker = iWorkerRepository.getOne(saveWorkerDto.getId());
-					worker = (Worker) mapDtoToModel.map(saveWorkerDto, worker);
-					person.addWorker(worker);
-				} else {
-					Worker worker = new Worker();
-					worker = (Worker) mapDtoToModel.map(saveWorkerDto, worker);
-					person.addWorker(worker);
-				}
-			}
-			List<SaveSchoolerDto> saveSchoolerDtos = dto.getSaveSchoolerDtos();
-			for (int i = 0; i < person.getSchoolers().size(); i++) {
-				Boolean deleteThis = true;
-				for (int j = 0; j < saveSchoolerDtos.size(); j++) {
-					if (person.getSchoolers().get(i).getId() == saveSchoolerDtos.get(j).getId()) {
-						deleteThis = false;
-					}
-				}
-				if (deleteThis) {
-					person.removeSchooler(person.getSchoolers().get(i));
-					i--;
-				}
-			}
-			for (int i = 0; i < saveSchoolerDtos.size(); i++) {
-				SaveSchoolerDto saveSchoolerDto = saveSchoolerDtos.get(i);
-				if (saveSchoolerDto.getId() != null && saveSchoolerDto.getId() > 0) {
-					Schooler schooler = iSchoolerRepository.getOne(saveSchoolerDto.getId());
-					schooler = (Schooler) mapDtoToModel.map(saveSchoolerDto, schooler);
-					person.addSchooler(schooler);
-				} else {
-					Schooler schooler = new Schooler();
-					schooler = (Schooler) mapDtoToModel.map(saveSchoolerDto, schooler);
-					person.addSchooler(schooler);
-				}
-			}
+			mapDto(person, dto);
 
 			return iPersonRepository.save(person);
 
@@ -392,272 +393,18 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 	@Override
 	public List<Person> createAll(List<SavePersonDto> dtos) {
 		try {
-			List<Person> persons=new LinkedList<>();
-			
+			List<Person> persons = new LinkedList<>();
+
 			for (SavePersonDto dto : dtos) {
-				Person person =new Person();
-				person = (Person) mapDtoToModel.map(dto, person);
+				Person person = new Person();
+				mapDto(person, dto);
 
-				person.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
-
-				person.setPerArea(iAreaRepository.getOne(dto.getPerAreaId()));
-
-				person.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
-
-				if (dto.getTutorCode().contains("NoTutor")) {
-
-					// e nghĩ nên có một chuẩn để thống nhất nếu người đó ko là Tutor Vì Dto ko cho
-					// set null
-
-					person.setTutorCode("NoTutor");
-				} else {
-					// lấy những người có tutorcode à ko null
-					List<Person> personHasTutorCode = iPersonRepository.getPersonTutorCodeNotNULL();
-
-					int n = personHasTutorCode.size();
-					if (personHasTutorCode != null && n != 0 ) {
-
-						Person personMaxId = personHasTutorCode.get(n - 1);
-
-						if (personMaxId != null) {
-
-							String tutorCodeWithIdMaxorPreviousId = personMaxId.getTutorCode();// lấy mã đó ra từ Person
-																								// trước đó cuối
-
-							int count = TutorCodeGenerator
-									.generateResponsiveReserve(tutorCodeWithIdMaxorPreviousId.substring(6, 8));
-
-							if (tutorCodeWithIdMaxorPreviousId == null
-									|| TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == -1
-									|| TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == 2) {
-								count = 1;
-
-							} else if (TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == 3) {
-								count += 1;
-
-							}
-
-							String ResponseTutorCode = TutorCodeGenerator.generateResponsive((int) count);
-
-							person.setTutorCode(TutorCodeGenerator.generatorCode().concat(ResponseTutorCode));
-						}
-
-					} else {
-
-						String ResponseTutorCode = TutorCodeGenerator.generateResponsive((int) 1);
-
-						person.setTutorCode(TutorCodeGenerator.generatorCode().concat(ResponseTutorCode));
-					}
-				}
-
-				// save avatar
-
-				Avatar avatar = iFileEntityRepository.getOne(dto.getIdAvatar());
-
-				String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/file/downloadFile/")
-						.path(avatar.getNameFile()).toUriString();
-
-				person.setAvatar(urlDownload);
-
-				// Relationship
-				List<SaveRelationshipDto> saveRelationshipDtoWiths = dto.getSaveRelationshipDtosWith();
-				for (int i = 0; i < person.getRelationshipWith().size(); i++) {
-					Boolean deleteThis = true;
-					for (int j = 0; j < saveRelationshipDtoWiths.size(); j++) {
-						if (person.getRelationshipWith().get(i).getId() == saveRelationshipDtoWiths.get(j).getId())
-							deleteThis = false;
-					}
-					if (deleteThis) {
-						person.removeRelationshipWith(person.getRelationshipWith().get(i)); // Delete
-						i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
-					}
-				}
-
-				for (int i = 0; i < saveRelationshipDtoWiths.size(); i++) {
-					SaveRelationshipDto saveRelationshipDto = saveRelationshipDtoWiths.get(i);
-					if (saveRelationshipDto.getId() != null && saveRelationshipDto.getId() > 0) { // Update
-						Relationship relationship = iRelationshipRepository.getOne(saveRelationshipDto.getId());
-						relationship = (Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
-						relationship.setPersonB(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
-						person.addRelationshipWith(relationship);
-					} else { // Create
-						Relationship relationship = new Relationship();
-						relationship = (Relationship) mapDtoToModel.map(saveRelationshipDto, relationship);
-						relationship.setPersonB(iPersonRepository.getOne(saveRelationshipDto.getIdPersonBy()));
-						person.addRelationshipWith(relationship);
-					}
-				}
-
-				// Certificate
-				List<Long> certificateIds = dto.getCertificateIds();
-				List<Certificate> certificates = new LinkedList<>();
-				for (int i = 0; i < certificateIds.size(); i++) {
-					Certificate certificate = iCertificateRepository.getOne(certificateIds.get(i));
-					certificates.add(certificate);
-				}
-				person.setCertificates(certificates);
-
-				List<SaveStudentDto> saveStudentDtos = dto.getSaveStudentDtos();
-				for (int i = 0; i < person.getStudents().size(); i++) {
-					Boolean deleteThis = true;
-					for (int j = 0; j < saveStudentDtos.size(); j++) {
-						if (person.getStudents().get(i).getId() == saveStudentDtos.get(j).getId())
-							deleteThis = false;
-					}
-					if (deleteThis) {
-						person.removeStudent(person.getStudents().get(i)); // Delete
-						i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
-					}
-				}
-				for (int i = 0; i < saveStudentDtos.size(); i++) {
-					SaveStudentDto saveStudentDto = saveStudentDtos.get(i);
-					if (saveStudentDto.getId() != null && saveStudentDto.getId() > 0) { // Update
-						Student student = iStudentRepository.getOne(saveStudentDto.getId());
-						student = (Student) mapDtoToModel.map(saveStudentDto, student);
-						person.addStudent(student);
-					} else { // Create
-						Student student = new Student();
-						student = (Student) mapDtoToModel.map(saveStudentDto, student);
-						person.addStudent(student);
-					}
-				}
-
-				List<SaveGraduatedStudentDto> saveGraduatedStudentDtos = dto.getSaveGraduatedStudentDtos();
-				for (int i = 0; i < person.getGraduatedStudents().size(); i++) {
-					Boolean deleteThis = true;
-					for (int j = 0; j < saveGraduatedStudentDtos.size(); j++) {
-						if (person.getGraduatedStudents().get(i).getId() == saveGraduatedStudentDtos.get(j).getId())
-							deleteThis = false;
-					}
-					if (deleteThis) {
-						person.removeGraduatedStudent(person.getGraduatedStudents().get(i)); // Delete
-						i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
-					}
-				}
-				for (int i = 0; i < saveGraduatedStudentDtos.size(); i++) {
-					SaveGraduatedStudentDto saveGraduatedStudentDto = saveGraduatedStudentDtos.get(i);
-					if (saveGraduatedStudentDto.getId() != null && saveGraduatedStudentDto.getId() > 0) { // Update
-						GraduatedStudent graduatedStudent = iGraduatedStudentRepository
-								.getOne(saveGraduatedStudentDto.getId());
-						graduatedStudent = (GraduatedStudent) mapDtoToModel.map(saveGraduatedStudentDto, graduatedStudent);
-						person.addGraduatedStudent(graduatedStudent);
-					} else { // Create
-						GraduatedStudent graduatedStudent = new GraduatedStudent();
-						graduatedStudent = (GraduatedStudent) mapDtoToModel.map(saveGraduatedStudentDto, graduatedStudent);
-						person.addGraduatedStudent(graduatedStudent);
-					}
-				}
-
-				List<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = dto.getSaveInstitutionTeacherDtos();
-				for (int i = 0; i < person.getInstitutionTeachers().size(); i++) {
-					Boolean deleteThis = true;
-					for (int j = 0; j < saveInstitutionTeacherDtos.size(); j++) {
-						if (person.getInstitutionTeachers().get(i).getId() == saveInstitutionTeacherDtos.get(j).getId())
-							deleteThis = false;
-					}
-					if (deleteThis) {
-						person.removeInstitutionTeacher(person.getInstitutionTeachers().get(i)); // Delete
-						i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
-					}
-				}
-				for (int i = 0; i < saveInstitutionTeacherDtos.size(); i++) {
-					SaveInstitutionTeacherDto saveInstitutionTeacherDto = saveInstitutionTeacherDtos.get(i);
-					if (saveInstitutionTeacherDto.getId() != null && saveInstitutionTeacherDto.getId() > 0) { // Update
-						InstitutionTeacher institutionTeacher = iInstitutionTeacherRepository
-								.getOne(saveInstitutionTeacherDto.getId());
-						institutionTeacher = (InstitutionTeacher) mapDtoToModel.map(saveInstitutionTeacherDto,
-								institutionTeacher);
-						person.addInstitutionTeacher(institutionTeacher);
-					} else { // Create
-						InstitutionTeacher institutionTeacher = new InstitutionTeacher();
-						institutionTeacher = (InstitutionTeacher) mapDtoToModel.map(saveInstitutionTeacherDto,
-								institutionTeacher);
-						person.addInstitutionTeacher(institutionTeacher);
-					}
-				}
-
-				List<SaveSchoolTeacherDto> saveSchoolTeacherDtos = dto.getSaveSchoolTeacherDtos();
-				for (int i = 0; i < person.getSchoolTeachers().size(); i++) {
-					Boolean deleteThis = true;
-					for (int j = 0; j < saveSchoolTeacherDtos.size(); j++) {
-						if (person.getSchoolTeachers().get(i).getId() == saveSchoolTeacherDtos.get(j).getId())
-							deleteThis = false;
-					}
-					if (deleteThis) {
-						person.removeSchoolTeacher(person.getSchoolTeachers().get(i)); // Delete
-						i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
-					}
-				}
-				for (int i = 0; i < saveSchoolTeacherDtos.size(); i++) {
-					SaveSchoolTeacherDto saveSchoolTeacherDto = saveSchoolTeacherDtos.get(i);
-					if (saveSchoolTeacherDto.getId() != null && saveSchoolTeacherDto.getId() > 0) { // Update
-						SchoolTeacher schoolTeacher = iSchoolTeacherRepository.getOne(saveSchoolTeacherDto.getId());
-						schoolTeacher = (SchoolTeacher) mapDtoToModel.map(saveSchoolTeacherDto, schoolTeacher);
-						person.addSchoolTeacher(schoolTeacher);
-					} else { // Create
-						SchoolTeacher schoolTeacher = new SchoolTeacher();
-						schoolTeacher = (SchoolTeacher) mapDtoToModel.map(saveSchoolTeacherDto, schoolTeacher);
-						person.addSchoolTeacher(schoolTeacher);
-					}
-				}
-
-				List<SaveWorkerDto> saveWorkerDtos = dto.getSaveWorkerDtos();
-				for (int i = 0; i < person.getWorkers().size(); i++) {
-					Boolean deleteThis = true;
-					for (int j = 0; j < saveWorkerDtos.size(); j++) {
-						if (person.getWorkers().get(i).getId() == saveWorkerDtos.get(j).getId()) {
-							deleteThis = false;
-						}
-					}
-					if (deleteThis) {
-						person.removeWorker(person.getWorkers().get(i));
-						i--;
-					}
-				}
-				for (int i = 0; i < saveWorkerDtos.size(); i++) {
-					SaveWorkerDto saveWorkerDto = saveWorkerDtos.get(i);
-					if (saveWorkerDto.getId() != null && saveWorkerDto.getId() > 0) {
-						Worker worker = iWorkerRepository.getOne(saveWorkerDto.getId());
-						worker = (Worker) mapDtoToModel.map(saveWorkerDto, worker);
-						person.addWorker(worker);
-					} else {
-						Worker worker = new Worker();
-						worker = (Worker) mapDtoToModel.map(saveWorkerDto, worker);
-						person.addWorker(worker);
-					}
-				}
-				List<SaveSchoolerDto> saveSchoolerDtos = dto.getSaveSchoolerDtos();
-				for (int i = 0; i < person.getSchoolers().size(); i++) {
-					Boolean deleteThis = true;
-					for (int j = 0; j < saveSchoolerDtos.size(); j++) {
-						if (person.getSchoolers().get(i).getId() == saveSchoolerDtos.get(j).getId()) {
-							deleteThis = false;
-						}
-					}
-					if (deleteThis) {
-						person.removeSchooler(person.getSchoolers().get(i));
-						i--;
-					}
-				}
-				for (int i = 0; i < saveSchoolerDtos.size(); i++) {
-					SaveSchoolerDto saveSchoolerDto = saveSchoolerDtos.get(i);
-					if (saveSchoolerDto.getId() != null && saveSchoolerDto.getId() > 0) {
-						Schooler schooler = iSchoolerRepository.getOne(saveSchoolerDto.getId());
-						schooler = (Schooler) mapDtoToModel.map(saveSchoolerDto, schooler);
-						person.addSchooler(schooler);
-					} else {
-						Schooler schooler = new Schooler();
-						schooler = (Schooler) mapDtoToModel.map(saveSchoolerDto, schooler);
-						person.addSchooler(schooler);
-					}
-				}
-				
 				persons.add(person);
 			}
-			
+
 			return iPersonRepository.saveAll(persons);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 		return null;
