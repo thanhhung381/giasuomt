@@ -32,10 +32,11 @@ const fetchTasks = () => {
 //        console.log(err);
 //    });
 
-axios.get('http://localhost:8080/api/task/findAll')
+axios.get('https://giasuomtdemo.herokuapp.com/api/task/findAll')
   .then(function (res) {       
         taskList = res.data.content;
         renderTasks();
+		clickTaskList(taskList);
   })
   .catch(function (error) {   
     // on error      
