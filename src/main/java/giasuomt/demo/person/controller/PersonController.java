@@ -62,18 +62,17 @@ public class PersonController extends GenericController<SavePersonDto, Person, L
 		return ResponseHandler.getResponse(persons, HttpStatus.OK);
 
 	}
-	
-	@GetMapping("/findByPhone4ends/{phone4end}")
-	public ResponseEntity<Object> findByPhone4Ends(String phone4end)
-	{
-		
-		if(!iPersonService.checkByPhonesExist(phone4end.concat("#")))
+
+	@GetMapping("/findByEndPhone/{phoneEnd}")
+	public ResponseEntity<Object> findByEndPhone(@RequestParam("phoneEnd") String phoneEnd) {
+
+		if (!iPersonService.checkByPhonesExist(phoneEnd.concat("#")))
 			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
 
-		List<Person> persons = iPersonService.findByPhonesHava$ends(phone4end);
+		List<Person> persons = iPersonService.findByEndPhone(phoneEnd);
 
 		return ResponseHandler.getResponse(persons, HttpStatus.OK);
-	
+
 	}
 
 }
