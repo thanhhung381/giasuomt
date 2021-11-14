@@ -123,7 +123,7 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 			// set null
 
 			person.setTutorCode("NoTutor");
-		} else {
+		} else if(dto.getTutorCode().contains("Tutor")) {
 			// lấy những người có tutorcode à ko null
 			List<Person> personHasTutorCode = iPersonRepository.getPersonTutorCodeNotNULL();
 
@@ -161,6 +161,10 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 
 				person.setTutorCode(TutorCodeGenerator.generatorCode().concat(ResponseTutorCode));
 			}
+		}
+		else
+		{
+			person.setTutorCode(dto.getTutorCode());//thêm Code Tutor có sẵn
 		}
 
 		// save avatar
@@ -408,6 +412,36 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public Person findByTutorCode(String tutorCode) {
+		
+		return iPersonRepository.findByTutorCode(tutorCode);
+	}
+
+	@Override
+	public boolean checkByTutorCodeExist(String tutorCode) {
+		
+		return iPersonRepository.countByTutorCode(tutorCode)==1;
+	}
+
+	@Override
+	public List<Person> findByPhones(String phones) {
+		
+		return iPersonRepository.findByPhonesContaining(phones);
+	}
+
+	@Override
+	public boolean checkByPhonesExist(String phones) {
+		
+		return iPersonRepository.countByPhonesContaining(phones)==1;
+	}
+
+	@Override
+	public List<Person> findByPhonesHava$ends(String phones) {
+	 
+		return iPersonRepository.findByPhonesContaining(phones.concat("#"));
 	}
 
 }

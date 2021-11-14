@@ -33,10 +33,47 @@ import giasuomt.demo.person.service.IPersonService;
 import giasuomt.demo.uploadfile.model.ResponsiveAvatar;
 import giasuomt.demo.uploadfile.service.IAvatarService;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 @RestController
 @RequestMapping(value = "/api/person")
 @AllArgsConstructor
 public class PersonController extends GenericController<SavePersonDto, Person, Long, BindingResult> {
+
+	private IPersonService iPersonService;
+
+	@GetMapping("/findByTutorCode/{tutorCode}")
+	public ResponseEntity<Object> findByTutorCode(@RequestParam("tutorCode") String tutorCode) {
+		if (!iPersonService.checkByTutorCodeExist(tutorCode))
+			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
+
+		Person person = iPersonService.findByTutorCode(tutorCode);
+
+		return ResponseHandler.getResponse(person, HttpStatus.OK);
+	}
+
+	@GetMapping("/findByPhones/{phones}")
+	public ResponseEntity<Object> findByPhones(@RequestParam("phones") String phones) {
+		if (!iPersonService.checkByPhonesExist(phones))
+			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
+
+		List<Person> persons = iPersonService.findByPhones(phones);
+
+		return ResponseHandler.getResponse(persons, HttpStatus.OK);
+
+	}
+	
+	@GetMapping("/findByPhone4ends/{phone4end}")
+	public ResponseEntity<Object> findByPhone4Ends(String phone4end)
+	{
+		
+		if(!iPersonService.checkByPhonesExist(phone4end.concat("#")))
+			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
+
+		List<Person> persons = iPersonService.findByPhonesHava$ends(phone4end);
+
+		return ResponseHandler.getResponse(persons, HttpStatus.OK);
+	
+	}
 
 }

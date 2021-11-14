@@ -116,6 +116,8 @@ public class SaveTaskDto {
 
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
 	
+	private String taskCode;
+	
 	
 	
 }

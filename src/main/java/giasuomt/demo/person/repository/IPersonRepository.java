@@ -20,8 +20,7 @@ public interface IPersonRepository extends JpaRepository<Person, Long> {
 	Area findByPerArea(@Param("nation") String nation,@Param("provincialLevel") String provincialLevel,@Param("district") String district,@Param("commune") String commune);
 
 
-	//forStudentRepository
-	Optional<Person> findByTutorCode(String tutorCode); 
+	//
 	//
 	@Query("SELECT p FROM Person p WHERE p.tutorCode IS NOT NULL AND length(p.tutorCode)=8")
 	List<Person> getPersonTutorCodeNotNULL();
@@ -30,8 +29,13 @@ public interface IPersonRepository extends JpaRepository<Person, Long> {
 	Long getMaxId();
 	
 	
+	Person findByTutorCode(String tutorCode);
 	
+	int countByTutorCode(String tutorCode);
 	
+	List<Person> findByPhonesContaining(String phones);
+	
+	int countByPhonesContaining(String phones);
 	
 	
 }

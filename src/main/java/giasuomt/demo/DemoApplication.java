@@ -21,6 +21,10 @@ public class DemoApplication {
 
 		SpringApplication.run(DemoApplication.class, args);
 		
+		String a="423421341234#";
+		
+		System.out.println(a.substring(a.indexOf('#')-4,a.indexOf('#')));
+		
 	}	
 	
 
