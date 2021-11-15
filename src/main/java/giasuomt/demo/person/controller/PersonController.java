@@ -61,7 +61,7 @@ public class PersonController extends GenericController<SavePersonDto, Person, L
 
 		return ResponseHandler.getResponse(persons, HttpStatus.OK);
 
-	}
+	}     
 
 	@GetMapping("/findByEndPhone/{phoneEnd}")
 	public ResponseEntity<Object> findByEndPhone(@RequestParam("phoneEnd") String phoneEnd) {
