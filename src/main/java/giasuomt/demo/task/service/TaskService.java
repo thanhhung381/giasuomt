@@ -1,19 +1,14 @@
 package giasuomt.demo.task.service;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.educational.model.Subject;
 import giasuomt.demo.educational.repository.ISubjectRepository;
 import giasuomt.demo.location.repository.IAreaRepository;
-import giasuomt.demo.person.model.Person;
-import giasuomt.demo.person.repository.IPersonRepository;
 import giasuomt.demo.task.dto.SaveApplicationDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
 import giasuomt.demo.task.dto.SaveTaskPlaceAddressDto;
@@ -44,7 +39,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 
 	private IRequireRepository iRequireRepository;
 
-	private IPersonRepository iPersonRepository;
+//	private ILearnerRepository iLearnerRepository;
 
 	private IApplicationRepository iApplicationRepository;
 
@@ -79,21 +74,21 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 		
 		
 
-		List<Long> registerIds = dto.getIdRegisters();
-		List<Person> registers = new ArrayList<>();
-		for (int i = 0; i < registerIds.size(); i++) {
-			Person register = iPersonRepository.getOne(registerIds.get(i));
-			registers.add(register);
-		}
-		task.setRegisters(registers);
-
-		List<Long> LearnerIds = dto.getIdRegisters();
-		List<Person> learners = new ArrayList<>();
-		for (int i = 0; i < LearnerIds.size(); i++) {
-			Person leaner = iPersonRepository.getOne(LearnerIds.get(i));
-			learners.add(leaner);
-		}
-		task.setLearners(learners);
+//		List<Long> registerIds = dto.getIdRegisters();
+//		List<Person> registers = new ArrayList<>();
+//		for (int i = 0; i < registerIds.size(); i++) {
+//			Person register = iPersonRepository.getOne(registerIds.get(i));
+//			registers.add(register);
+//		}
+//		task.setRegisters(registers);
+//
+//		List<Long> LearnerIds = dto.getIdRegisters();
+//		List<Person> learners = new ArrayList<>();
+//		for (int i = 0; i < LearnerIds.size(); i++) {
+//			Person leaner = iPersonRepository.getOne(LearnerIds.get(i));
+//			learners.add(leaner);
+//		}
+//		task.setLearners(learners);
 
 		// Subject vì sau khi nhập subject thì đã có tồn tại subjectgroup rồi
 		List<Long> subjectIds = dto.getIdSubjects();

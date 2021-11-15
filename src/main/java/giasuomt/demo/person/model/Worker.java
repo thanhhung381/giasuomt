@@ -40,7 +40,12 @@ public class Worker extends AbstractEntity {
 	
 
 	@ManyToOne
-	@JoinColumn(name = "person_id")
+	@JoinColumn(name = "tutor_id")
 	@JsonIgnore
-	private Person person;
+	private Tutor tutor;
+	
+	@ManyToOne
+	@JoinColumn(name = "learner_id")
+	@JsonIgnore
+	private Learner learner;
 }

@@ -33,7 +33,7 @@ public class GraduatedStudent extends AbstractEntity {
 	String majorCode;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "person_id")
+	@JoinColumn(name = "tutor_id")
 	@JsonIgnore
-	private Person person;
+	private Tutor tutor;
 }

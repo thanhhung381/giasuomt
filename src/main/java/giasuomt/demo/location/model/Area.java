@@ -8,7 +8,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
-import giasuomt.demo.person.model.Person;
+import giasuomt.demo.person.model.Learner;
+import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.task.model.TaskPlaceAddress;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,15 +37,19 @@ public class Area extends AbstractEntity {
 
 	@OneToMany(mappedBy = "tempArea", fetch = FetchType.LAZY)
 	@JsonIgnore 
-	private Set<Person> personsWithTempArea=new HashSet<>();
+	private Set<Tutor> tutorsWithTempArea=new HashSet<>();
 
 	@OneToMany(mappedBy = "perArea", fetch = FetchType.LAZY)
 	@JsonIgnore 
-	private Set<Person> personsWithPerArea=new HashSet<>();
+	private Set<Tutor> tutorsWithPerArea=new HashSet<>();
 
 	@OneToMany(mappedBy = "relArea", fetch = FetchType.LAZY)
 	@JsonIgnore 
-	private Set<Person> personsWithRelArea=new HashSet<>();	
+	private Set<Tutor> tutorsWithRelArea=new HashSet<>();	
+	
+	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
+	@JsonIgnore 
+	private Set<Learner> learnersWithArea=new HashSet<>();
 
 	
 	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)

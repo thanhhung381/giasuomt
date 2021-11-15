@@ -1,22 +1,14 @@
 package giasuomt.demo.job.model;
-
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import giasuomt.demo.commondata.model.AbstractEntity;
-import giasuomt.demo.finance.model.JobFinance;
-import giasuomt.demo.person.model.Person;
+import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
 import lombok.Setter;
@@ -34,8 +26,8 @@ public class Job extends AbstractEntity {
 	private Task task;
 
 	@ManyToOne
-	@JoinColumn(name = "person_id")
-	private Person person;
+	@JoinColumn(name = "tutor_id")
+	private Tutor tutor;
 
 	// Lấy application để lấy comment
 	@OneToOne(fetch = FetchType.LAZY)

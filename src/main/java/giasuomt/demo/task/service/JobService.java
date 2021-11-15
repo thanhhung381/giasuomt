@@ -1,14 +1,11 @@
 package giasuomt.demo.task.service;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.job.model.Job;
-import giasuomt.demo.person.repository.IPersonRepository;
+import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.dto.SaveJobDto;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.IJobRepository;
@@ -23,7 +20,7 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 	private ITaskRepository iTaskRepository;
 
-	private IPersonRepository iPersonRepository;
+	private ITutorRepository iTutorRepository;
 
 	private IApplicationRepository iApplicationRepository;
 
@@ -37,7 +34,7 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 		job.setApplication(iApplicationRepository.getOne(dto.getIdApplication()));
 
-		job.setPerson(iPersonRepository.getOne(dto.getIdPerson()));
+		job.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
 
 		job.setTask(iTaskRepository.getOne(dto.getIdTask()));
 
@@ -53,7 +50,7 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 		job.setApplication(iApplicationRepository.getOne(dto.getIdApplication()));
 
-		job.setPerson(iPersonRepository.getOne(dto.getIdPerson()));
+		job.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
 
 		job.setTask(iTaskRepository.getOne(dto.getIdTask()));
 
@@ -72,7 +69,7 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 				job.setApplication(iApplicationRepository.getOne(dto.getIdApplication()));
 
-				job.setPerson(iPersonRepository.getOne(dto.getIdPerson()));
+				job.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
 
 				job.setTask(iTaskRepository.getOne(dto.getIdTask()));
 				jobs.add(job);

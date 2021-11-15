@@ -30,8 +30,8 @@ public class InstitutionTeacher extends AbstractEntity {
 	private String subject;
 
 	@ManyToOne
-	@JoinColumn(name = "person_id")
+	@JoinColumn(name = "tutor_id")
 	@JsonIgnore
-	private Person person;
+	private Tutor tutor;
 
 }

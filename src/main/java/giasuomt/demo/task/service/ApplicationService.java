@@ -1,21 +1,15 @@
 package giasuomt.demo.task.service;
-
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.naming.LinkLoopException;
-
 import org.springframework.stereotype.Service;
-
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
-import giasuomt.demo.person.repository.IPersonRepository;
+import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.dto.SaveApplicationDto;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @Service
 @AllArgsConstructor
@@ -28,7 +22,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 	private IApplicationRepository iApplicationRepository;
 
-	private IPersonRepository iPersonRepository;
+	private ITutorRepository iTutorRepository;
 
 	public Application create(SaveApplicationDto dto) {
 
@@ -38,7 +32,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 		application.setTask(iTaskRepository.getOne(dto.getIdTask()));
 
-		application.setPerson(iPersonRepository.getOne(dto.getIdPerson()));
+		application.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
 
 		return save(dto, application);
 	}
@@ -52,7 +46,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 		application.setTask(iTaskRepository.getOne(dto.getIdTask()));
 
-		application.setPerson(iPersonRepository.getOne(dto.getIdPerson()));
+		application.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
 
 		return save(dto, application);
 
@@ -70,7 +64,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 				application.setTask(iTaskRepository.getOne(dto.getIdTask()));
 
-				application.setPerson(iPersonRepository.getOne(dto.getIdPerson()));
+				application.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
 				applications.add(application);
 				
 				

@@ -37,7 +37,7 @@ public class Schooler extends AbstractEntity {
 
 
 	@ManyToOne
-	@JoinColumn(name = "person_id")
+	@JoinColumn(name = "learner_id")
 	@JsonIgnore
-	private Person person;
+	private Learner learner;
 }

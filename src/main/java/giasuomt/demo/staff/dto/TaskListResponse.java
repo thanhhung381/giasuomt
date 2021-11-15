@@ -1,19 +1,13 @@
 package giasuomt.demo.staff.dto;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Version;
-
 import giasuomt.demo.educational.model.Subject;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.job.model.Job;
-import giasuomt.demo.person.model.Person;
-import giasuomt.demo.task.dto.SaveApplicationDto;
 import giasuomt.demo.task.model.Require;
 import giasuomt.demo.task.model.TaskPlaceAddress;
 import lombok.Getter;
@@ -119,9 +113,9 @@ public class TaskListResponse {
 
 	// NGƯỜI ĐĂNG KÝ và HỌC VIÊN
 
-	private List<Person> registers = new ArrayList<>();
-
-	private List<Person> learners = new ArrayList<>();
+//	private List<Person> registers = new ArrayList<>();
+//
+//	private List<Person> learners = new ArrayList<>();
 
 	private List<ApplicationResponse> applications = new ArrayList<>();
 

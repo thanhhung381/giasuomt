@@ -1,23 +1,19 @@
 package giasuomt.demo.person.dto;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import giasuomt.demo.commondata.dto.SaveUserDto;
-import giasuomt.demo.person.model.Worker;
+import giasuomt.demo.commondata.dto.SavePersonDto;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class SavePersonDto extends SaveUserDto implements Serializable{
-
-	private Long id;
+public class SaveTutorDto extends SavePersonDto implements Serializable{
+	private String tutorCode;
+	
+	//Arvatar
+	private Long idAvatar;
 
 	// THÔNG TIN CÁ NHÂN
 	private String tempAddNo;
@@ -35,10 +31,6 @@ public class SavePersonDto extends SaveUserDto implements Serializable{
 	private String perAddNote;
 
 	private Long perAreaId;
-
-	private String iDNo;
-
-	private LocalDateTime issuedOn;
 
 	private String infoImgs;
 
@@ -73,9 +65,6 @@ public class SavePersonDto extends SaveUserDto implements Serializable{
 	// luu School Teacher
 	private List<SaveSchoolTeacherDto> saveSchoolTeacherDtos = new LinkedList<>();
 
-	// luu schooler
-	private List<SaveSchoolerDto> saveSchoolerDtos = new LinkedList<>();
-
 	// luu worker
 	private List<SaveWorkerDto> saveWorkerDtos = new LinkedList<>();
 
@@ -85,11 +74,8 @@ public class SavePersonDto extends SaveUserDto implements Serializable{
 	// RelationShip
 	private List<SaveRelationshipDto> saveRelationshipDtosWith = new LinkedList<>();
 
-	// RegisteredUser
+
 	
 	
-	//Arvatar
-	private Long idAvatar;
-	
-	private String tutorCode;
+
 }
