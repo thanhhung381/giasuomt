@@ -2,6 +2,7 @@ package giasuomt.demo.person.service;
 
 import java.util.List;
 
+
 import org.springframework.web.multipart.MultipartFile;
 
 import giasuomt.demo.commondata.generic.IGenericService;
@@ -28,5 +29,9 @@ public interface IPersonService extends IGenericService<SavePersonDto, Person, L
 	public List<Person> findByEndPhone(String phones);
 
 	public boolean checkByPhonesExist(String phones);
+
+	public List<Person> findByFullnamesContain(String fullname);
+
+	public boolean checkFullnameExistContaining(String fullname);
 
 }

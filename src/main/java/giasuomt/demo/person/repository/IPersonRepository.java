@@ -38,5 +38,10 @@ public interface IPersonRepository extends JpaRepository<Person, Long> {
 	List<Person> findByPhonesContaining(String phones);
 
 	int countByPhonesContaining(String phones);
+	
+	List<Person> findByFullNameContaining(String fullName);
+	
+	int countByFullNameContaining(String fullName);
+	
 
 }

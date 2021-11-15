@@ -157,8 +157,6 @@ public class Person extends AbstractEntity {
 	private String tutorNotices;
 
 	private String advantageNote;
-	
-	
 
 	@OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
 	@JsonIgnore
@@ -178,11 +176,6 @@ public class Person extends AbstractEntity {
 	@JsonIgnore
 	private List<Task> learnerOfTasks = new LinkedList<>();
 
-
-	
-	
-	
-	
 // FOR API SAVE
 	public void addSchooler(Schooler schooler) {
 		schooler.setPerson(this);

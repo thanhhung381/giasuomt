@@ -74,5 +74,20 @@ public class PersonController extends GenericController<SavePersonDto, Person, L
 		return ResponseHandler.getResponse(persons, HttpStatus.OK);
 
 	}
+	
+	
+	@GetMapping("/findByFullname/{fullname}")
+	public ResponseEntity<Object> findByFullname(@RequestParam("fullname") String fullname) {
+
+		if (!iPersonService.checkFullnameExistContaining(fullname.toUpperCase()))
+			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
+
+		List<Person> persons = iPersonService.findByFullnamesContain(fullname.toUpperCase());
+
+		return ResponseHandler.getResponse(persons, HttpStatus.OK);
+
+	}
+
+	
 
 }

@@ -1,6 +1,7 @@
 package giasuomt.demo.person.service;
 
 import java.util.Arrays;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -15,7 +16,9 @@ import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generator.TutorCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
+import giasuomt.demo.commondata.generic.StandardFullName;
 import giasuomt.demo.location.repository.IAreaRepository;
+
 import giasuomt.demo.person.dto.SaveGraduatedStudentDto;
 import giasuomt.demo.person.dto.SaveInstitutionTeacherDto;
 import giasuomt.demo.person.dto.SavePersonDto;
@@ -82,7 +85,9 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 
 	@Override
 	public List<Person> findAll() {
+
 		return iPersonRepository.findAll();
+		
 	}
 
 	@Override
@@ -110,6 +115,8 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 
 	private void mapDto(Person person, SavePersonDto dto) {
 		person = (Person) mapDtoToModel.map(dto, person);
+
+		person.setFullName(dto.getFullName().toUpperCase());
 
 		person.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
 
@@ -424,7 +431,7 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 		return iPersonRepository.countByTutorCode(tutorCode) == 1;
 	}
 
-	@Override 
+	@Override
 	public List<Person> findByPhones(String phones) {
 
 		return iPersonRepository.findByPhonesContaining(phones);
@@ -440,6 +447,20 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 	public List<Person> findByEndPhone(String phones) {
 
 		return iPersonRepository.findByPhonesContaining(phones.concat("#"));
+	}
+
+	@Override
+	public List<Person> findByFullnamesContain(String fullname) {
+		
+		return iPersonRepository.findByFullNameContaining(fullname);
+	}
+
+
+
+	@Override
+	public boolean checkFullnameExistContaining(String fullname) {
+		
+		return iPersonRepository.countByFullNameContaining(fullname)==1;
 	}
 
 }
