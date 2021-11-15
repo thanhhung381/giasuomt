@@ -51,10 +51,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 	public Task create(SaveTaskDto dto) {
 		Task task = new Task();
 
-		// generate code
-		String responsCharactor = generateTaskCode(task);
-
-		task.setTaskCode(TaskCodeGenerator.generatorCode().concat(responsCharactor));
 		return save(dto, task);
 	}
 
@@ -64,7 +60,24 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 	}
 
 	private void mapDto(Task task, SaveTaskDto dto) {
+		
+		String taskCode=dto.getTaskCode();
+		
 		task = (Task) mapDtoToModel.map(dto, task);
+		if(taskCode.contains("NewTask") && taskCode!=null)
+		{
+			// generate code
+
+			
+			String responsCharactor = generateTaskCode();
+
+			task.setTaskCode(TaskCodeGenerator.generatorCode().concat(responsCharactor));
+			
+		}
+		else
+			task.setTaskCode(taskCode);
+		
+		
 
 		List<Long> registerIds = dto.getIdRegisters();
 		List<Person> registers = new ArrayList<>();
@@ -146,7 +159,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 		return iTaskRepository.countById(id) == 1;
 	}
 
-	private String generateTaskCode(Task task) {
+	private String generateTaskCode() {
 
 		String dayEnd = iTaskRepository.getTaskCodeEndOfDay();// Lấy mã cuối ngày so sánh
 
@@ -180,9 +193,11 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 			List<Task> tasks = new LinkedList<>();
 			for (SaveTaskDto dto : dtos) {
 				Task task = new Task();
+				String responsCharactor = generateTaskCode();
 
+				task.setTaskCode(TaskCodeGenerator.generatorCode().concat(responsCharactor));
 				mapDto(task, dto);
-				
+
 				tasks.add(task);
 			}
 
@@ -192,6 +207,18 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public Task findByTaskCode(String taskCode) {
+		
+		return iTaskRepository.findByTaskCode(taskCode);
+	}
+
+	@Override
+	public boolean checkTaskCodeExist(String taskcode) {
+		
+		return iTaskRepository.countByTaskCode(taskcode)==1;
 	}
 
 }

@@ -21,5 +21,9 @@ public interface ITaskRepository extends JpaRepository<Task, Long> {
 
 
 	int countById(Long id);
+	
+	int countByTaskCode(String taskCode);
+	
+	Task findByTaskCode(String taskCode);
 
 }

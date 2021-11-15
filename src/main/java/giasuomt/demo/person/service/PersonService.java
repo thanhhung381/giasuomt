@@ -1,6 +1,7 @@
 package giasuomt.demo.person.service;
 
 import java.util.Arrays;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -15,7 +16,9 @@ import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generator.TutorCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
+import giasuomt.demo.commondata.generic.StandardFullName;
 import giasuomt.demo.location.repository.IAreaRepository;
+
 import giasuomt.demo.person.dto.SaveGraduatedStudentDto;
 import giasuomt.demo.person.dto.SaveInstitutionTeacherDto;
 import giasuomt.demo.person.dto.SavePersonDto;
@@ -82,7 +85,9 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 
 	@Override
 	public List<Person> findAll() {
+
 		return iPersonRepository.findAll();
+		
 	}
 
 	@Override
@@ -111,6 +116,8 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 	private void mapDto(Person person, SavePersonDto dto) {
 		person = (Person) mapDtoToModel.map(dto, person);
 
+		person.setFullName(dto.getFullName().toUpperCase());
+
 		person.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
 
 		person.setPerArea(iAreaRepository.getOne(dto.getPerAreaId()));
@@ -123,7 +130,7 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 			// set null
 
 			person.setTutorCode("NoTutor");
-		} else {
+		} else if (dto.getTutorCode().contains("Tutor")) {
 			// lấy những người có tutorcode à ko null
 			List<Person> personHasTutorCode = iPersonRepository.getPersonTutorCodeNotNULL();
 
@@ -161,6 +168,8 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 
 				person.setTutorCode(TutorCodeGenerator.generatorCode().concat(ResponseTutorCode));
 			}
+		} else {
+			person.setTutorCode(dto.getTutorCode());// thêm Code Tutor có sẵn
 		}
 
 		// save avatar
@@ -408,6 +417,50 @@ public class PersonService extends GenericService<SavePersonDto, Person, Long> i
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public Person findByTutorCode(String tutorCode) {
+
+		return iPersonRepository.findByTutorCode(tutorCode);
+	}
+
+	@Override
+	public boolean checkByTutorCodeExist(String tutorCode) {
+
+		return iPersonRepository.countByTutorCode(tutorCode) == 1;
+	}
+
+	@Override
+	public List<Person> findByPhones(String phones) {
+
+		return iPersonRepository.findByPhonesContaining(phones);
+	}
+
+	@Override
+	public boolean checkByPhonesExist(String phones) {
+
+		return iPersonRepository.countByPhonesContaining(phones) == 1;
+	}
+
+	@Override
+	public List<Person> findByEndPhone(String phones) {
+
+		return iPersonRepository.findByPhonesContaining(phones.concat("#"));
+	}
+
+	@Override
+	public List<Person> findByFullnamesContain(String fullname) {
+		
+		return iPersonRepository.findByFullNameContaining(fullname);
+	}
+
+
+
+	@Override
+	public boolean checkFullnameExistContaining(String fullname) {
+		
+		return iPersonRepository.countByFullNameContaining(fullname)==1;
 	}
 
 }
