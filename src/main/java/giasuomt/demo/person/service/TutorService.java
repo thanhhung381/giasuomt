@@ -164,23 +164,23 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 
 	@Override
-	public List<Tutor> findByPhones(String phones) {
+	public List<Tutor> findByPhoneNumber(String phoneNumber) {
 
-		return iTutorRepository.findByPhonesContaining(phones);
+		return iTutorRepository.findByPhonesContaining(phoneNumber);
 	}
 
 	
 
 	@Override
-	public List<Tutor> findByEndPhone(String phones) {
+	public List<Tutor> findByEndPhoneNumber(String endPhoneNumber) {
 
-		return iTutorRepository.findByPhonesContaining(phones.concat("#"));
+		return iTutorRepository.findByPhonesContaining(endPhoneNumber.concat("#"));
 	}
 
 	@Override
-	public List<Tutor> findByFullnamesContain(String fullname) {
+	public List<Tutor> findByFullNameContain(String fullName) {
 		
-		return iTutorRepository.findByFullNameContaining(fullname);
+		return iTutorRepository.findByFullNameContaining(fullName);
 	}
 
 

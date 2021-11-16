@@ -28,42 +28,42 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		Tutor tutor = iTutorService.findByTutorCode(tutorCode);
 
 		if (tutor == null)
-			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
 
 		return ResponseHandler.getResponse(tutor, HttpStatus.OK);
 	}
 
-	@GetMapping("/findByPhones/{phones}")
-	public ResponseEntity<Object> findByPhones(@RequestParam("phones") String phones) {
+	@GetMapping("/findByPhoneNumber/{phoneNumber}")
+	public ResponseEntity<Object> findByPhones(@RequestParam("phoneNumber") String phoneNumber) {
 
-		List<Tutor> tutors = iTutorService.findByPhones(phones);
+		List<Tutor> tutors = iTutorService.findByPhoneNumber(phoneNumber);
 
 		if (tutors == null)
-			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
 
 		return ResponseHandler.getResponse(tutors, HttpStatus.OK);
 
 	}
 
-	@GetMapping("/findByEndPhone/{phoneEnd}")
-	public ResponseEntity<Object> findByEndPhone(@RequestParam("phoneEnd") String phoneEnd) {
+	@GetMapping("/findByEndPhoneNumber/{endPhoneNumber}")
+	public ResponseEntity<Object> findByEndPhone(@RequestParam("endPhoneNumber") String endPhoneNumber) {
 
-		List<Tutor> tutors = iTutorService.findByEndPhone(phoneEnd);
+		List<Tutor> tutors = iTutorService.findByEndPhoneNumber(endPhoneNumber);
 
 		if (tutors == null)
-			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
 
 		return ResponseHandler.getResponse(tutors, HttpStatus.OK);
 
 	}
 
-	@GetMapping("/findByFullname/{fullname}")
-	public ResponseEntity<Object> findByFullname(@RequestParam("fullname") String fullname) {
+	@GetMapping("/findByFullName/{fullName}")
+	public ResponseEntity<Object> findByFullname(@RequestParam("fullName") String fullName) {
 
-		List<Tutor> tutors = iTutorService.findByFullnamesContain(fullname.toUpperCase());
+		List<Tutor> tutors = iTutorService.findByFullNameContain(fullName.toUpperCase());
 
 		if (tutors == null)
-			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
 
 		return ResponseHandler.getResponse(tutors, HttpStatus.OK);
 
