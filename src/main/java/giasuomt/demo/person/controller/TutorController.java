@@ -1,4 +1,5 @@
 package giasuomt.demo.person.controller;
+
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,50 +24,49 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 
 	@GetMapping("/findByTutorCode/{tutorCode}")
 	public ResponseEntity<Object> findByTutorCode(@RequestParam("tutorCode") String tutorCode) {
-		if (!iTutorService.checkByTutorCodeExist(tutorCode))
-			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
 
 		Tutor tutor = iTutorService.findByTutorCode(tutorCode);
+
+		if (tutor == null)
+			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
 
 		return ResponseHandler.getResponse(tutor, HttpStatus.OK);
 	}
 
 	@GetMapping("/findByPhones/{phones}")
 	public ResponseEntity<Object> findByPhones(@RequestParam("phones") String phones) {
-		if (!iTutorService.checkByPhonesExist(phones))
-			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
 
 		List<Tutor> tutors = iTutorService.findByPhones(phones);
 
+		if (tutors == null)
+			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
+
 		return ResponseHandler.getResponse(tutors, HttpStatus.OK);
 
-	}     
+	}
 
 	@GetMapping("/findByEndPhone/{phoneEnd}")
 	public ResponseEntity<Object> findByEndPhone(@RequestParam("phoneEnd") String phoneEnd) {
 
-		if (!iTutorService.checkByPhonesExist(phoneEnd.concat("#")))
-			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
-
 		List<Tutor> tutors = iTutorService.findByEndPhone(phoneEnd);
+
+		if (tutors == null)
+			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
 
 		return ResponseHandler.getResponse(tutors, HttpStatus.OK);
 
 	}
-	
-	
+
 	@GetMapping("/findByFullname/{fullname}")
 	public ResponseEntity<Object> findByFullname(@RequestParam("fullname") String fullname) {
 
-		if (!iTutorService.checkFullnameExistContaining(fullname.toUpperCase()))
-			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
-
 		List<Tutor> tutors = iTutorService.findByFullnamesContain(fullname.toUpperCase());
+
+		if (tutors == null)
+			return ResponseHandler.getResponse("cant find any persons", HttpStatus.BAD_GATEWAY);
 
 		return ResponseHandler.getResponse(tutors, HttpStatus.OK);
 
 	}
-
-	
 
 }

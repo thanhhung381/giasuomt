@@ -210,10 +210,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 		return iTaskRepository.findByTaskCode(taskCode);
 	}
 
-	@Override
-	public boolean checkTaskCodeExist(String taskcode) {
-		
-		return iTaskRepository.countByTaskCode(taskcode)==1;
-	}
+
 
 }

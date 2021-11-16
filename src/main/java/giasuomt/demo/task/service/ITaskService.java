@@ -9,6 +9,6 @@ public interface ITaskService extends IGenericService<SaveTaskDto, Task, Long> {
 	
 	public Task findByTaskCode(String taskCode);
 	
-	public boolean checkTaskCodeExist(String taskcode);
+	
 	
 }
