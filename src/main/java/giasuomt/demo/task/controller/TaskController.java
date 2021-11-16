@@ -26,12 +26,14 @@ import lombok.AllArgsConstructor;
 public class TaskController extends GenericController<SaveTaskDto, Task, Long, BindingResult> {
 	private ITaskService iGenericService;
 
-
 	@GetMapping("/findByTaskCode/{taskCode}")
 	public ResponseEntity<Object> findByTaskCode(@RequestParam("taskCode") String taskCode) {
-		if (!iGenericService.checkTaskCodeExist(taskCode))
-			return ResponseHandler.getResponse("cant find any tasks", HttpStatus.BAD_REQUEST);
+
 		Task task = iGenericService.findByTaskCode(taskCode);
+
+		if (task == null)
+			return ResponseHandler.getResponse("cant find any tasks", HttpStatus.BAD_REQUEST);
+
 		return ResponseHandler.getResponse(task, HttpStatus.OK);
 	}
 

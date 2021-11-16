@@ -162,11 +162,6 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		return iTutorRepository.findByTutorCode(tutorCode);
 	}
 
-	@Override
-	public boolean checkByTutorCodeExist(String tutorCode) {
-
-		return iTutorRepository.countByTutorCode(tutorCode) == 1;
-	}
 
 	@Override
 	public List<Tutor> findByPhones(String phones) {
@@ -174,11 +169,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		return iTutorRepository.findByPhonesContaining(phones);
 	}
 
-	@Override
-	public boolean checkByPhonesExist(String phones) {
-
-		return iTutorRepository.countByPhonesContaining(phones) > 1;
-	}
+	
 
 	@Override
 	public List<Tutor> findByEndPhone(String phones) {
@@ -194,12 +185,6 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 
 
-	@Override
-	public boolean checkFullnameExistContaining(String fullname) {
-		
-		return iTutorRepository.countByFullNameContaining(fullname) > 1;
-	}
-	
 	
 	
 	private void mapDto(Tutor tutor, SaveTutorDto dto) {

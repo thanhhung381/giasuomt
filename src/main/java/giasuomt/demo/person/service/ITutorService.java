@@ -16,16 +16,16 @@ public interface ITutorService extends IGenericService<SaveTutorDto, Tutor, Long
 
 	public Tutor findByTutorCode(String tutorCode);
 
-	public boolean checkByTutorCodeExist(String tutorCode);
+	
 
 	public List<Tutor> findByPhones(String phones);
 
 	public List<Tutor> findByEndPhone(String phones);
 
-	public boolean checkByPhonesExist(String phones);
+
 
 	public List<Tutor> findByFullnamesContain(String fullname);
 
-	public boolean checkFullnameExistContaining(String fullname);
+
 
 }
