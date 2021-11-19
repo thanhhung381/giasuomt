@@ -8,7 +8,6 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
-import giasuomt.demo.person.model.Learner;
 import giasuomt.demo.person.model.Tutor;
 import lombok.Getter;
 import lombok.Setter;

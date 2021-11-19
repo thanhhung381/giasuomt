@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SaveRelationshipDto {
+public class SaveRegisterAndLearnerRelationshipDto {
 	
 	private Long id;
 

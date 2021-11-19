@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "tutor-tag")
+@Table(name = "tutor_tag")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class TutorTag extends Tag {
 	@ManyToMany(mappedBy = "tutorTags", fetch = FetchType.LAZY)

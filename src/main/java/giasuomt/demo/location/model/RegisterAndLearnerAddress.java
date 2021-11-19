@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "register-and-learner-address")
+@Table(name = "register_and_learner_address")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
 public class RegisterAndLearnerAddress extends AbstractEntity {
 	private String addType;
@@ -33,7 +33,7 @@ public class RegisterAndLearnerAddress extends AbstractEntity {
 	private Area area;
 	
 	@ManyToOne
-	@JoinColumn(name = "register-and-learner_id")
+	@JoinColumn(name = "register_and_learner_id")
 	@JsonIgnore
 	private RegisterAndLearner registerAndLearner;
 }

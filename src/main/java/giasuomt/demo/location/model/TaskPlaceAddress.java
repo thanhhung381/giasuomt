@@ -15,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "task-place-address")
+@Table(name = "task_place_address")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
 public class TaskPlaceAddress extends AbstractEntity {
 

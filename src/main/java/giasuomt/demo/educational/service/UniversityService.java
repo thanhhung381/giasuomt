@@ -1,16 +1,12 @@
 package giasuomt.demo.educational.service;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.educational.dto.SaveUniversityDto;
 import giasuomt.demo.educational.model.University;
 import giasuomt.demo.educational.repository.IUniversityRepository;
-import giasuomt.demo.person.repository.IRelationshipRepository;
 import lombok.AllArgsConstructor;
 
 @Service

@@ -101,7 +101,7 @@ public class Tutor extends Person {
 	private String voices;
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	@JoinTable(name = "tutor_tutor-tag", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "tutor-tag_id"))
+	@JoinTable(name = "tutor_tutor_tag", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "tutor_tag_id"))
 	private List<TutorTag> tutorTags = new LinkedList<>();
 
 	private String tutorNotices;
@@ -161,12 +161,5 @@ public class Tutor extends Person {
 		this.schoolTeachers.remove(schoolTeacher);
 	}
 
-//	public void removeRelationshipWith(Relationship relationship) {
-//		this.relationshipWith.remove(relationship);
-//	}
-//
-//	public void addRelationshipWith(Relationship relationship) {
-//		relationship.setPersonA(this);
-//		this.relationshipWith.add(relationship);
-//	}
+
 }

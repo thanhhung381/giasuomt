@@ -16,9 +16,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "person_relationsip")
+@Table(name = "register_and_learner_relationsip")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
-public class Relationship extends AbstractEntity {
+public class RegisterAndLearnerRelationship extends AbstractEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "person_a_id")

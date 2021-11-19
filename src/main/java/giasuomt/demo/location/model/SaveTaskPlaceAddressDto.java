@@ -1,11 +1,7 @@
-package giasuomt.demo.task.dto;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import giasuomt.demo.location.model.Area;
+package giasuomt.demo.location.model;
 import lombok.Getter;
 import lombok.Setter;
+
 @Getter
 @Setter
 public class SaveTaskPlaceAddressDto {
