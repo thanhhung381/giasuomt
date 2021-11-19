@@ -32,7 +32,6 @@ import giasuomt.demo.person.model.Schooler;
 import giasuomt.demo.person.model.Student;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.model.Worker;
-import giasuomt.demo.person.repository.ICertificateRepository;
 import giasuomt.demo.person.repository.IGraduatedStudentRepository;
 import giasuomt.demo.person.repository.IInstitutionTeacherRepository;
 import giasuomt.demo.person.repository.IRelationshipRepository;
@@ -41,6 +40,8 @@ import giasuomt.demo.person.repository.ISchoolerRepository;
 import giasuomt.demo.person.repository.IStudentRepository;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.person.repository.IWorkerRepository;
+import giasuomt.demo.tags.model.TutorTag;
+import giasuomt.demo.tags.repository.ITutorTagRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
 import giasuomt.demo.uploadfile.model.Avatar;
 import giasuomt.demo.uploadfile.model.ResponsiveAvatar;
@@ -69,13 +70,9 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 	private IGraduatedStudentRepository iGraduatedStudentRepository;
 
-	private ISchoolerRepository iSchoolerRepository;
-
 	private IWorkerRepository iWorkerRepository;
 
-	private ICertificateRepository iCertificateRepository;
-
-	private IRelationshipRepository iRelationshipRepository;
+	private ITutorTagRepository iTutorTagRepository;
 
 	private IAvatarRepository iFileEntityRepository;
 
@@ -236,14 +233,14 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 //			}
 //		}
 
-		// Certificate
-		List<Long> certificateIds = dto.getCertificateIds();
-		List<Certificate> certificates = new LinkedList<>();
-		for (int i = 0; i < certificateIds.size(); i++) {
-			Certificate certificate = iCertificateRepository.getOne(certificateIds.get(i));
-			certificates.add(certificate);
+		// Tags
+		List<Long> tutorTagIds = dto.getTutorTagIds();
+		List<TutorTag> tutorTags = new LinkedList<>();
+		for (int i = 0; i < tutorTagIds.size(); i++) {
+			TutorTag tutorTag = iTutorTagRepository.getOne(tutorTagIds.get(i));
+			tutorTags.add(tutorTag);
 		}
-		tutor.setCertificates(certificates);
+		tutor.setTutorTags(tutorTags);
 
 		List<SaveStudentDto> saveStudentDtos = dto.getSaveStudentDtos();
 		for (int i = 0; i < tutor.getStudents().size(); i++) {

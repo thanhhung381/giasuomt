@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.Person;
 import giasuomt.demo.location.model.Area;
+import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
 import lombok.Getter;
@@ -100,8 +101,8 @@ public class Tutor extends Person {
 	private String voices;
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	@JoinTable(name = "tutor_certificate", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "certificate_id"))
-	private List<Certificate> certificates = new LinkedList<>();
+	@JoinTable(name = "tutor_tutor-tag", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "tutor-tag_id"))
+	private List<TutorTag> tutorTags = new LinkedList<>();
 
 	private String tutorNotices;
 

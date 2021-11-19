@@ -69,10 +69,9 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 	private List<SaveWorkerDto> saveWorkerDtos = new LinkedList<>();
 
 	// Certificate
-	private List<Long> certificateIds = new LinkedList<>();
+	private List<Long> tutorTagIds = new LinkedList<>();
 
-	// RelationShip
-	private List<SaveRelationshipDto> saveRelationshipDtosWith = new LinkedList<>();
+
 
 
 	

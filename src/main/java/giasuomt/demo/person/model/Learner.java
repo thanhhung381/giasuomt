@@ -34,9 +34,9 @@ public class Learner extends Person {
 
 	private String addNote;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "area_id")
-	private Area area;
+//	@ManyToOne(fetch = FetchType.EAGER)
+//	@JoinColumn(name = "area_id")
+//	private Area area;
 
 	// MEDIA
 	private String avatar;
@@ -47,15 +47,15 @@ public class Learner extends Person {
 
 	private String infoImgs;
 
-	// HIỆN ĐANG LÀ
-	@OneToMany(mappedBy = "learner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Schooler> schoolers = new LinkedList<>();
-	
-	@OneToMany(mappedBy = "learner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Student> students = new LinkedList<>();
-
-	@OneToMany(mappedBy = "learner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Worker> workers = new LinkedList<>();
+//	// HIỆN ĐANG LÀ
+//	@OneToMany(mappedBy = "learner", cascade = CascadeType.ALL, orphanRemoval = true)
+//	private List<Schooler> schoolers = new LinkedList<>();
+//	
+//	@OneToMany(mappedBy = "learner", cascade = CascadeType.ALL, orphanRemoval = true)
+//	private List<Student> students = new LinkedList<>();
+//
+//	@OneToMany(mappedBy = "learner", cascade = CascadeType.ALL, orphanRemoval = true)
+//	private List<Worker> workers = new LinkedList<>();
 	
 	//PERSONAL RELATIONSHIP:
 //	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL, orphanRemoval = true)

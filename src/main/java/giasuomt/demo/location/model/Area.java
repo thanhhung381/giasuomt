@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.person.model.Learner;
 import giasuomt.demo.person.model.Tutor;
-import giasuomt.demo.task.model.TaskPlaceAddress;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,15 +45,16 @@ public class Area extends AbstractEntity {
 	@OneToMany(mappedBy = "relArea", fetch = FetchType.LAZY)
 	@JsonIgnore 
 	private Set<Tutor> tutorsWithRelArea=new HashSet<>();	
-	
-	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
-	@JsonIgnore 
-	private Set<Learner> learnersWithArea=new HashSet<>();
 
 	
 	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
+	@JsonIgnore 
+	private Set<RegisterAndLearnerAddress> registerAndLearnerAddresses = new HashSet<>();
+	
+
+	@OneToMany(mappedBy = "area", fetch = FetchType.LAZY)
 	@JsonIgnore  
-	Set<TaskPlaceAddress> taskPlaceAddresses;	
+	private Set<TaskPlaceAddress> taskPlaceAddresses = new HashSet<>();	
 	
 	
 	

@@ -35,6 +35,8 @@ import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.job.model.Job;
+import giasuomt.demo.location.model.TaskPlaceAddress;
+import giasuomt.demo.person.model.RegisterAndLearner;
 import giasuomt.demo.task.util.TaskStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -152,13 +154,13 @@ public class Task extends AbstractEntity {
 //	private Set<TaskSign> taskSigns;
 
 //NGƯỜI ĐĂNG KÝ và HỌC VIÊN
-//	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-//	@JoinTable(name = "task_register", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "register_id"))
-//	private List<Person> registers = new LinkedList<>();
-//
-//	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-//	@JoinTable(name = "task_learner", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "learner_id"))
-//	private List<Person> learners = new LinkedList<>();
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "task_register", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "register_id"))
+	private List<RegisterAndLearner> registers = new LinkedList<>();
+
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "task_learner", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "learner_id"))
+	private List<RegisterAndLearner> learners = new LinkedList<>();
 
 //ỨNG VIÊN ĐĂNG KÝ
 	@OneToMany(mappedBy = "task")
