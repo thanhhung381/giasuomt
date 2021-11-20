@@ -11,13 +11,13 @@ import org.springframework.validation.BindingResult;
 
 public class ResponseHandler {
 
-	public static ResponseEntity<Object> getResponse(Object taskList, Object personList, HttpStatus status) {
+	public static ResponseEntity<Object> getResponse(String content1Name, Object content1, String content2Name, Object content2, HttpStatus status) {
 		
 		Map<String, Object> map = new HashMap<>();
 		
-		map.put("tasks", taskList);
+		map.put(content1Name, content1);
 		
-		map.put("person belongs to task", personList);
+		map.put(content1Name, content2);
 
 		map.put("message", ListUtils.emptyStringList);
 

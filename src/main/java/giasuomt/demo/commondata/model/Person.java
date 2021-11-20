@@ -46,11 +46,11 @@ public class Person extends AbstractEntity {
 
 	private String fbs;
 
-	private String iDNo;
+	private String idCardNumber;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateUtils.DATE_FORMAT) // Quy định date format khi nó add đối
 																					// tượng thành Json để trả về
 																					// Clients
 	@DateTimeFormat(pattern = DateUtils.DATE_FORMAT) // Quy định date format để lưu xuống database
-	private LocalDateTime issuedOn;
+	private LocalDateTime idCardIssuedOn;
 }

@@ -25,6 +25,8 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class RegisterAndLearner extends Person {
+	private String vocative;
+	
 	@OneToMany(mappedBy = "registerAndLearner", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<RegisterAndLearnerAddress> registerAndLearnerAddresses = new LinkedList<>();// không có trước đó
 
@@ -60,8 +62,7 @@ public class RegisterAndLearner extends Person {
 	@JsonIgnore
 	private List<RegisterAndLearnerRelationship> relationshipBy = new LinkedList<>();
 	
-	
-	private String registerAndLearnerAddressNotices;
+
 	
 	
 	//LEARNER/REGISTER

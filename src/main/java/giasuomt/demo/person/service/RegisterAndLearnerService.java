@@ -171,7 +171,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 		registerAndLearner.setFullName(dto.getFullName().toUpperCase());
 
-		List<SaveRegisterAndLearnerAddressDto> saveRegisterAndLearnerAddressDtos = dto.getSaveRegisterAndLearnerAddressDtos();
+		List<SaveRegisterAndLearnerAddressDto> saveRegisterAndLearnerAddressDtos = dto.getRegisterAndLearnerAddresses();
 		for (int i = 0; i < registerAndLearner.getRegisterAndLearnerAddresses().size(); i++) {
 			boolean deleteThis = true;
 			for (int j = 0; j < saveRegisterAndLearnerAddressDtos.size(); j++) {
@@ -210,7 +210,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 		registerAndLearner.setAvatar(urlDownload);
 
 		// Relationship
-		List<SaveRegisterAndLearnerRelationshipDto> saveRegisterAndLearnerRelationshipDtoWiths = dto.getSaveRegisterAndLearnerRelationshipDtosWith();
+		List<SaveRegisterAndLearnerRelationshipDto> saveRegisterAndLearnerRelationshipDtoWiths = dto.getRegisterAndLearnerRelationships();
 		for (int i = 0; i < registerAndLearner.getRelationshipWith().size(); i++) {
 			Boolean deleteThis = true;
 			for (int j = 0; j < saveRegisterAndLearnerRelationshipDtoWiths.size(); j++) {
@@ -248,7 +248,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 		registerAndLearner.setRegisterAndLearnerTags(registerAndLearnerTags);
 
 		//Hiện đang là
-		List<SaveSchoolerDto> saveSchoolerDtos = dto.getSaveSchoolerDtos();
+		List<SaveSchoolerDto> saveSchoolerDtos = dto.getSchoolers();
 		for (int i = 0; i < registerAndLearner.getSchoolers().size(); i++) {
 			Boolean deleteThis = true;
 			for (int j = 0; j < saveSchoolerDtos.size(); j++) {
@@ -273,7 +273,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 			}
 		}
 		
-		List<SaveStudentDto> saveStudentDtos = dto.getSaveStudentDtos();
+		List<SaveStudentDto> saveStudentDtos = dto.getStudents();
 		for (int i = 0; i < registerAndLearner.getStudents().size(); i++) {
 			Boolean deleteThis = true;
 			for (int j = 0; j < saveStudentDtos.size(); j++) {
@@ -298,7 +298,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 			}
 		}
 
-		List<SaveWorkerDto> saveWorkerDtos = dto.getSaveWorkerDtos();
+		List<SaveWorkerDto> saveWorkerDtos = dto.getWorkers();
 		for (int i = 0; i < registerAndLearner.getWorkers().size(); i++) {
 			Boolean deleteThis = true;
 			for (int j = 0; j < saveWorkerDtos.size(); j++) {
@@ -324,7 +324,6 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 			}
 		}
 	}
-
 
 
 }

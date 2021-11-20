@@ -23,20 +23,20 @@ public class MainStaffController {
 	 
 	private IMainStaffService mainStaffService;
 	 
-	@GetMapping("/findAll")
-	public ResponseEntity<Object> findall() {
-		
-		List<TaskListResponse> mainList=mainStaffService.findAllTask(); 
-		
-		List<Tutor> tutorBelongToTaskList=mainStaffService.findAllTutorBelongToTask();
-		if(mainList==null && tutorBelongToTaskList!=null)
-			return ResponseHandler.getResponse("no content",tutorBelongToTaskList, HttpStatus.BAD_REQUEST);
-		else if(mainList!=null && tutorBelongToTaskList==null)
-			return ResponseHandler.getResponse(mainList,"no content", HttpStatus.BAD_REQUEST);
-		else if(mainList!=null && tutorBelongToTaskList==null)
-			return ResponseHandler.getResponse("no content","no content", HttpStatus.BAD_REQUEST);
-
-			
-		return ResponseHandler.getResponse(mainList,tutorBelongToTaskList, HttpStatus.OK);
-	}
+//	@GetMapping("/findAll")
+//	public ResponseEntity<Object> findall() {
+//		
+//		List<TaskListResponse> mainList=mainStaffService.findAllTask(); 
+//		
+//		List<Tutor> tutorBelongToTaskList=mainStaffService.findAllTutorBelongToTask();
+//		if(mainList==null && tutorBelongToTaskList!=null)
+//			return ResponseHandler.getResponse("no content",tutorBelongToTaskList, HttpStatus.BAD_REQUEST);
+//		else if(mainList!=null && tutorBelongToTaskList==null)
+//			return ResponseHandler.getResponse(mainList,"no content", HttpStatus.BAD_REQUEST);
+//		else if(mainList!=null && tutorBelongToTaskList==null)
+//			return ResponseHandler.getResponse("no content","no content", HttpStatus.BAD_REQUEST);
+//
+//			
+//		return ResponseHandler.getResponse(mainList,tutorBelongToTaskList, HttpStatus.OK);
+//	}
 }
