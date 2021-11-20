@@ -145,19 +145,16 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 	}
 
 
-//	@Override
-//	public List<RegisterAndLearner> findByPhoneNumber(String phoneNumber) {
-//
-//		return iRegisterAndLearnerRepository.findByPhonesContaining(phoneNumber);
-//	}
-//
-//	
-//
-//	@Override
-//	public List<RegisterAndLearner> findByEndPhoneNumber(String endPhoneNumber) {
-//
-//		return iRegisterAndLearnerRepository.findByPhonesContaining(endPhoneNumber.concat("#"));
-//	}
+
+	@Override
+	public List<RegisterAndLearner> findByPhoneNumber(String phoneNumber) {
+		return iRegisterAndLearnerRepository.findByPhonesContaining(phoneNumber);
+	}
+
+	@Override
+	public List<RegisterAndLearner> findByEndPhoneNumber(String endPhoneNumber) {
+		return iRegisterAndLearnerRepository.findByPhonesContaining(endPhoneNumber.concat("#"));
+	}
 //
 //	@Override
 //	public List<RegisterAndLearner> findByFullNameContain(String fullName) {
