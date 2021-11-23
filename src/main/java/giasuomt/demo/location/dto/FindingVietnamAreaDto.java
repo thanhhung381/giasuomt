@@ -6,11 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FindingDtoArea {
+public class FindingVietnamAreaDto {
 	
-	private String nation;
-	
-	private String state;
+//	private String nation;
+//	
+//	private String state;
 	
 	private String provincialLevel;
 	

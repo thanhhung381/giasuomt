@@ -60,7 +60,7 @@ public class RegisterAndLearner extends Person {
 
 	@OneToMany(mappedBy = "personB", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
-	private List<RegisterAndLearnerRelationship> relationshipBy = new LinkedList<>();
+	private List<RegisterAndLearnerRelationship> relationshipBy = new LinkedList<>();  
 	
 
 	

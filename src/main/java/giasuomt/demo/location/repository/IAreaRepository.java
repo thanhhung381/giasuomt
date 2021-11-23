@@ -13,9 +13,16 @@ import giasuomt.demo.location.model.Area;
 @Repository
 public interface IAreaRepository extends JpaRepository<Area, Long> {
 	
-	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.provincialLevel=:provincialLevel AND a.district=:district AND a.commune=:commune AND a.state=:state ")
+	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.provincialLevel=:provincialLevel AND a.district=:district AND a.commune=:commune")
 	List<Area> findByNationAndProvincialLevelAndDistrictAndCommune(@Param("nation") String nation,@Param("provincialLevel") String provincialLevel
-			,@Param("district") String district,@Param("commune") String commune,@Param("state") String state);
+			,@Param("district") String district,@Param("commune") String commune);
+	
+	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.provincialLevel=:provincialLevel AND a.district=:district")
+	List<Area> findByNationAndProvincialLevelAndStateAndDistrict(@Param("nation") String nation,@Param("provincialLevel") String provincialLevel, @Param("district") String district);
+	
+	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.provincialLevel=:provincialLevel")
+	List<Area> findByNationAndProvincialLevelAndState(@Param("nation") String nation,@Param("provincialLevel") String provincialLevel);
+	
 	
 	@Query("SELECT a FROM Area a WHERE a.nation=:nation")
 	List<Area> findByNation(@Param("nation") String nation);
@@ -23,13 +30,9 @@ public interface IAreaRepository extends JpaRepository<Area, Long> {
 	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.state=:state")
 	List<Area> findByNationAndState(@Param("nation") String nation,@Param("state") String state);
 	
-	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.provincialLevel=:provincialLevel  AND a.state=:state")
-	List<Area> findByNationAndProvincialLevelAndState(@Param("nation") String nation,@Param("provincialLevel") String provincialLevel,
-			@Param("state") String state);
+
 	
-	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.provincialLevel=:provincialLevel  AND a.state=:state AND a.district=:district")
-	List<Area> findByNationAndProvincialLevelAndStateAndDistrict(@Param("nation") String nation,@Param("provincialLevel") String provincialLevel,
-			@Param("state") String state,@Param("district") String district);
+
 	
 	
 	

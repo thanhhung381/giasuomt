@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.validation.Valid;
-
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -12,7 +11,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
-import giasuomt.demo.location.dto.FindingDtoArea;
+import giasuomt.demo.location.dto.FindingVietnamAreaDto;
 import giasuomt.demo.location.dto.SaveAreaDto;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
@@ -60,33 +59,25 @@ public class AreaService extends GenericService<SaveAreaDto, Area, Long> impleme
 
 	// findByNationAndProvincialLevelAndDistrictAndCommune
 	@Override
-	public List<Area> findByNationAndProvincialLevelAndDistrictAndCommune(FindingDtoArea dtoArea) {
+	public List<Area> findByNationAndProvincialLevelAndDistrictAndCommune(FindingVietnamAreaDto dtoArea) {
 
-		String nation = dtoArea.getNation();
-		String state = dtoArea.getState();
 		String provincialLevel = dtoArea.getProvincialLevel();
 		String district = dtoArea.getDistrict();
 		String commune = dtoArea.getCommune();
 
-		if (nation != null) {
-			if (state != null && provincialLevel != null && district != null && commune != null) {
-				return iAreaRepository.findByNationAndProvincialLevelAndDistrictAndCommune(nation, provincialLevel,
-						district, commune, state);
-			}
-			if (state != null && provincialLevel != null && district != null) {
-				return iAreaRepository.findByNationAndProvincialLevelAndStateAndDistrict(nation, provincialLevel, state,
-						district);
-			}
-			if (state != null && provincialLevel != null) {
-				return iAreaRepository.findByNationAndProvincialLevelAndState(nation, provincialLevel, state);
-			} else if (state != null) {
-				return iAreaRepository.findByNationAndState(nation, state);
-			} else
-				return iAreaRepository.findByNation(nation);
-		} else
-
-			return null;
-
+		String nation = "Việt Nam";
+		
+		if (provincialLevel != null && district != null && commune != null) {
+			return iAreaRepository.findByNationAndProvincialLevelAndDistrictAndCommune(nation, provincialLevel, district, commune);
+		}
+		else if (provincialLevel != null && district != null) {
+			return iAreaRepository.findByNationAndProvincialLevelAndStateAndDistrict(nation, provincialLevel, district);
+		}
+		else if (provincialLevel != null) {
+			return iAreaRepository.findByNationAndProvincialLevelAndState(nation, provincialLevel);
+		}  
+				
+		return null;
 	}
 
 
