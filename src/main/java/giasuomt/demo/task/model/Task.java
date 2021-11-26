@@ -6,12 +6,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -20,6 +23,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GeneratorType;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,6 +32,7 @@ import giasuomt.demo.comment.model.Comment;
 import giasuomt.demo.comment.model.TaskComment;
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.model.AbstractEntity;
+import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.util.DateUtils;
 import giasuomt.demo.educational.model.Subject;
 import giasuomt.demo.finance.util.AmoutPerTime;
@@ -46,10 +51,13 @@ import lombok.Setter;
 @Entity
 @Table(name = "task")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
-public class Task extends AbstractEntity {
+public class Task extends AbstractEntityNotId {
 	// @Unique
 	// @NotBlank
-	private String taskCode; // Cần viết tự generate theo dạng MB1991
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(nullable = false)
+	private String id; // Cần viết tự generae theo dạng MB1991 
 	
 	
 
@@ -57,7 +65,7 @@ public class Task extends AbstractEntity {
 //TÌNH TRẠNG LỚP
 //	@Enumerated(EnumType.STRING) 
 //	@NotNull  //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
-//	private TaskStatus status;
+//	private TaskStatus status; 
 
 //NƠI HỌC
 	private String taskPlaceType;

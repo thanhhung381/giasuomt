@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
+import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
 import lombok.Getter;

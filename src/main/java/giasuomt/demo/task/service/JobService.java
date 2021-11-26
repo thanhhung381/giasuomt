@@ -36,7 +36,7 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 		job.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
 
-		job.setTask(iTaskRepository.getOne(dto.getIdTask()));
+		job.setTask(iTaskRepository.findById(dto.getIdTask()).get());
 
 		return save(dto, job);
 	}

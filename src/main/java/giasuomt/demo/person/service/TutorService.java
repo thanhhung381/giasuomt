@@ -70,7 +70,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	public Tutor create(SaveTutorDto dto) {
 		Tutor tutor = new Tutor();
 		
-		dto.setTutorCode(generateTutorCode());
+		tutor.setId(Long.parseLong(generateTutorCode()));
 		
 		return save(dto, tutor);
 	}
@@ -80,7 +80,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		Tutor tutor = iTutorRepository.getOne(dto.getId());
 		
-		dto.setTutorCode(tutor.getTutorCode()); //Để đảm bảo là tutorCode ko được phép update khi save
+		// dto.setTutorCode(tutor.getId()); //Để đảm bảo là tutorCode ko được phép update khi save
 
 		String avatarURL = tutor.getAvatar();
 
@@ -119,6 +119,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	@Override
 	public List<Tutor> createAll(List<SaveTutorDto> dtos) {
 		try {
+			
 			List<Tutor> tutors = new LinkedList<>();
 
 			for (SaveTutorDto dto : dtos) {
@@ -139,7 +140,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	@Override
 	public Tutor findByTutorCode(String tutorCode) {
 
-		return iTutorRepository.findByTutorCode(tutorCode);
+		return iTutorRepository.findByIdOrTutorCode(tutorCode);
 	}
 
 
@@ -369,7 +370,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 			if (personMaxId != null) {
 
-				String tutorCodeWithIdMaxorPreviousId = personMaxId.getTutorCode();// lấy mã đó ra từ Person
+				String tutorCodeWithIdMaxorPreviousId = String.valueOf(personMaxId.getId());// lấy mã đó ra từ Person
 																					// trước đó cuối
 
 				int count = TutorCodeGenerator

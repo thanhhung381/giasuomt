@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SaveTutorDto extends SavePersonDto implements Serializable{
-	private String tutorCode;
+
 	
 	//Arvatar
 	private Long idAvatar;

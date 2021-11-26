@@ -1,5 +1,7 @@
 package giasuomt.demo.person.repository;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,15 +25,17 @@ public interface ITutorRepository extends JpaRepository<Tutor, Long> {
 
 	//
 	//
-	@Query("SELECT p FROM Tutor p WHERE p.tutorCode IS NOT NULL AND length(p.tutorCode)=8")
+	@Query("SELECT p FROM Tutor p WHERE p.id IS NOT NULL")  //AND length(p.id)=8
 	List<Tutor> getPersonTutorCodeNotNULL();
 
 	@Query("SELECT MAX(id) FROM Tutor")
 	Long getMaxId();
+	
+	
+	@Query("SELECT t FROM Tutor t WHERE t.id=:id")
+	Tutor findByIdOrTutorCode(String id);
 
-	Tutor findByTutorCode(String tutorCode);
-
-	int countByTutorCode(String tutorCode);
+	int countById(Long id);
 
 	List<Tutor> findByPhonesContaining(String phones);
 
@@ -42,4 +46,5 @@ public interface ITutorRepository extends JpaRepository<Tutor, Long> {
 	int countByFullNameContaining(String fullName);
 	
 
+	
 }

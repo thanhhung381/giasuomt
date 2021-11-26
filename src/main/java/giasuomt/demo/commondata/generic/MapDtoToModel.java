@@ -28,7 +28,7 @@ public class MapDtoToModel<E extends Object, T extends Object> {  //map từ th�
 				//parse dto getter to model setter
 				String modelSetterName = dtoGetterName.replaceFirst("get","set"); //Đặt Setter cho model với đk tên các thuộc tính của dto phải giống với thuộc tính đó ở model. HOẶC: Nếu dto có thuộc tính nào khác name với model, thì ở model tự viết 1 setter giống với name của thuộc tính đó ở dto.
 				if(dtoPropertyValue != null && dtoPropertyValue.getClass() != new HashSet<>().getClass() && dtoPropertyValue.getClass() != new ArrayList<>().getClass() 
-						&& dtoPropertyValue.getClass() != Long.class ) {
+						&& dtoPropertyValue.getClass() != Long.class ) {//	
 					//get properties type
 					Class<?>[] modelSetterPropertyTypeClasses = model.getClass().getMethod(modelSetterName, dtoPropertyValue.getClass()).getParameterTypes();
 					Class<?> modelSetterPropertyType = modelSetterPropertyTypeClasses[0]; //Do mình biết setter nào đó nó sẽ chỉ có 1 tham số.

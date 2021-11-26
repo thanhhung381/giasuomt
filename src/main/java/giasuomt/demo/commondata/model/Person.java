@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass // để các lớp con có thể kế thừa lại được các annotation của lớp này
 @EntityListeners(AuditingEntityListener.class) // để model này lấy được @EnableJpaAuditing đã Config ở bên // JpaConfig.java để @CreatedDate,@LastModifiedDate có hiệu lực
-public class Person extends AbstractEntity {
+public class Person extends AbstractEntityNotId {
 //	@Size(min = 3, max = 50, message = "{user.username.size}")
 //	@Column(unique = true) // để các giá trị username ko được trùng nhau
 	private String username;

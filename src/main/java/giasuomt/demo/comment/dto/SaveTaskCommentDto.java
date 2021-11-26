@@ -9,7 +9,7 @@ public class SaveTaskCommentDto {
 
 	private Long id;
 
-	private Long idTask;
+	private String idTask;
 
 	private Long parrentCommentId;
 
