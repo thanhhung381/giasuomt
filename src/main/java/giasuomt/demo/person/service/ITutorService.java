@@ -4,7 +4,7 @@ import giasuomt.demo.commondata.generic.IGenericService;
 import giasuomt.demo.person.dto.SaveTutorDto;
 import giasuomt.demo.person.model.Tutor;
 
-public interface ITutorService extends IGenericService<SaveTutorDto, Tutor, Long> {
+public interface ITutorService extends IGenericService<SaveTutorDto, Tutor,Long> {
 
 	public Tutor create(SaveTutorDto dto);
 
@@ -16,13 +16,9 @@ public interface ITutorService extends IGenericService<SaveTutorDto, Tutor, Long
 
 	public Tutor findByTutorCode(String tutorCode);
 
-	
-
 	public List<Tutor> findByPhoneNumber(String phoneNumber);
 
 	public List<Tutor> findByEndPhoneNumber(String endPhoneNumber);
-
-
 
 	public List<Tutor> findByFullNameContain(String fullName);
 

@@ -1,5 +1,6 @@
 package giasuomt.demo.task.controller;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +20,13 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/task")
 @RestController
 @AllArgsConstructor
-public class TaskController extends GenericController<SaveTaskDto, Task, Long, BindingResult> {
+public class TaskController extends GenericController<SaveTaskDto, Task, String, BindingResult> {
 	private ITaskService iTaskService;
 
 	@GetMapping("/findByTaskCode/{taskCode}")
 	public ResponseEntity<Object> findByTaskCode(@RequestParam("taskCode") String taskCode) {
 
-		Task task = iTaskService.findByTaskCode(taskCode);
+		Optional<Task> task = iTaskService.findByTaskCode(taskCode);
 
 		if (task == null)
 			return ResponseHandler.getResponse("cant find any tasks", HttpStatus.BAD_REQUEST);

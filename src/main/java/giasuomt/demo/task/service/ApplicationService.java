@@ -1,12 +1,16 @@
 package giasuomt.demo.task.service;
+
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.dto.SaveApplicationDto;
 import giasuomt.demo.task.model.Application;
+import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
 import lombok.AllArgsConstructor;
@@ -30,7 +34,9 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 		application = (Application) mapDtoToModel.map(dto, application);
 
-		application.setTask(iTaskRepository.getOne(dto.getIdTask()));
+		Optional<Task> task = iTaskRepository.findByIdString(dto.getIdTask());
+
+		application.setTask(task.get());
 
 		application.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
 
@@ -55,8 +61,8 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 	@Override
 	public List<Application> createAll(List<SaveApplicationDto> dtos) {
 		try {
-			
-			List<Application> applications=new LinkedList<>();
+
+			List<Application> applications = new LinkedList<>();
 			for (SaveApplicationDto dto : dtos) {
 				Application application = new Application();
 
@@ -66,11 +72,10 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 				application.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
 				applications.add(application);
-				
-				
+
 			}
 			return iApplicationRepository.saveAll(applications);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import giasuomt.demo.commondata.model.AbstractEntity;
+import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-public abstract class GenericController<DTO, T extends AbstractEntity, ID, BindingResult> {
+public abstract class GenericController<DTO, T extends AbstractEntityNotId, ID, BindingResult> {
+	
 	@Autowired
 	private IGenericService<DTO, T, ID> iGenericService;
 	

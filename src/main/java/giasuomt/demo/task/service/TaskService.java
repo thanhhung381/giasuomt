@@ -1,7 +1,10 @@
 package giasuomt.demo.task.service;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
@@ -25,7 +28,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class TaskService extends GenericService<SaveTaskDto, Task, Long> implements ITaskService {
+public class TaskService extends GenericService<SaveTaskDto, Task, String> implements ITaskService {
 
 	private ITaskRepository iTaskRepository;
 
@@ -50,29 +53,20 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 	}
 
 	public Task update(SaveTaskDto dto) {
-		Task task = iTaskRepository.getOne(dto.getId());
-		return save(dto, task);
+		Optional<Task> task = iTaskRepository.findByIdString(dto.getId());
+		return save(dto, task.get());
 	}
 
 	private void mapDto(Task task, SaveTaskDto dto) {
-		
-		String taskCode=dto.getTaskCode();
-		
+
+	//	String taskCode = dto.getId();
+
 		task = (Task) mapDtoToModel.map(dto, task);
-		if(taskCode.contains("NewTask") && taskCode!=null)
-		{
-			// generate code
 
-			
-			String responsCharactor = generateTaskCode();
+		
+		String responsCharactor = generateTaskCode();
 
-			task.setTaskCode(TaskCodeGenerator.generatorCode().concat(responsCharactor));
-			
-		}
-		else
-			task.setTaskCode(taskCode);
-		
-		
+	    task.setId(TaskCodeGenerator.generatorCode().concat(responsCharactor));
 
 		List<Long> registerIds = dto.getIdRegisters();
 		List<RegisterAndLearner> registers = new ArrayList<>();
@@ -90,7 +84,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 		}
 		task.setLearners(learners);
 
-		
 		// Subject vì sau khi nhập subject thì đã có tồn tại subjectgroup rồi
 		List<Long> subjectIds = dto.getIdSubjects();
 		List<Subject> subjects = new ArrayList<>();
@@ -104,7 +97,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 		List<Require> requires = new ArrayList<>();
 		for (int i = 0; i < requireIds.size(); i++) {
 			Require require = iRequireRepository.getOne(requireIds.get(i));
-			requires.add(require);
+			requires.add(require);	
 		}
 		task.setRequires(requires);
 
@@ -151,20 +144,20 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 		return null;
 	}
 
-	private boolean checkExistID(Long id) {
-		return iTaskRepository.countById(id) == 1;
-	}
-
 	private String generateTaskCode() {
 
-		String dayEnd = iTaskRepository.getTaskCodeEndOfDay();// Lấy mã cuối ngày so sánh
-
+		int n=iTaskRepository.findAll().size()-1;
+		
 		// lấy stt task id trước đó
 		int count = 0;
 
-		if (dayEnd != null) {
+		
+		if (n > 0) {
+			
+			String dayEnd = iTaskRepository.findAll().get(n).getId();// Lấy mã cuối ngày so sánh
+			
 			count = TaskCodeGenerator.generateResponsiveReserve(dayEnd.substring(4, 6));
-			System.out.println(count);
+		//	System.out.println(count);
 
 			if (TaskCodeGenerator.AutoGennerate(dayEnd) == -1 || TaskCodeGenerator.AutoGennerate(dayEnd) == 2)// check
 																												// // ko
@@ -176,7 +169,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 
 			}
 
-		} else {
+		} else if(n<=0) {
 			count = 1;
 		}
 		String responsCharacter = TaskCodeGenerator.generateResponsive(count);
@@ -191,7 +184,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 				Task task = new Task();
 				String responsCharactor = generateTaskCode();
 
-				task.setTaskCode(TaskCodeGenerator.generatorCode().concat(responsCharactor));
+				task.setId(TaskCodeGenerator.generatorCode().concat(responsCharactor));
 				mapDto(task, dto);
 
 				tasks.add(task);
@@ -206,12 +199,11 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 	}
 
 	@Override
-	public Task findByTaskCode(String taskCode) {
-		
-		return iTaskRepository.findByTaskCode(taskCode);
+	public Optional<Task> findByTaskCode(String taskCode) {
+
+		return iTaskRepository.findByIdString(taskCode);
 	}
 
-	
 //	//Tìm ra danh sách Registers và Learners theo Id
 //	@Override
 //	public List<RegisterAndLearner> findRegistersById(Long id) {
@@ -222,10 +214,5 @@ public class TaskService extends GenericService<SaveTaskDto, Task, Long> impleme
 //	public List<RegisterAndLearner> findLearnersById(Long id) {
 //		return iTaskRepository.findLearnersById(id);
 //	}
-
-
-
-
-
 
 }

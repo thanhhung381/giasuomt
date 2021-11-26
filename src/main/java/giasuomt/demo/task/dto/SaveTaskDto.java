@@ -29,7 +29,7 @@ import lombok.Setter;
 @Getter
 public class SaveTaskDto {
 
-	private Long id;
+	private String id;
 
 	// NƠI HỌC
 
@@ -110,7 +110,7 @@ public class SaveTaskDto {
 
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
 	
-	private String taskCode;
+	
 	
 	
 	

@@ -50,7 +50,7 @@ public class MainStaffService implements IMainStaffService {
 
 	private void taskMapToTaskResponse(Task task, TaskListResponse listResponse) {
 		listResponse = (TaskListResponse) mapDtoToModel.map(task, listResponse);
-		listResponse.setId(task.getId());
+	//	listResponse.setId(task.getId());
 		listResponse.setVersion(task.getVersion());
 		listResponse.setApplications(applicationToMapByList(task.getApplications()));
 		listResponse.setJobs(task.getJobs());

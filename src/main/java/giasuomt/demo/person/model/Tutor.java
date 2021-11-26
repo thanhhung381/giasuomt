@@ -33,7 +33,8 @@ import lombok.Setter;
 public class Tutor extends Person {
 	//@Column(updatable = false) //Column này ko update được
 	// @Column(unique = true)
-	private String tutorCode; // Cần viết tự generate theo dạng 8 số
+	@Id
+	private Long id; // Cần viết tự generate theo dạng 8 số
 	
 	private String tempAddNo;
 
