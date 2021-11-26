@@ -55,8 +55,8 @@ public class Task extends AbstractEntityNotId {
 	// @Unique
 	// @NotBlank
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	@Column(nullable = false)
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	//@Column(nullable = false)
 	private String id; // Cần viết tự generae theo dạng MB1991 
 	
 	

@@ -22,7 +22,7 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 
 	private String tempAddNote;
 
-	private Long tempAreaId;
+	private String tempAreaId;
 
 	private String perAddNo;
 
@@ -30,7 +30,7 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 
 	private String perAddNote;
 
-	private Long perAreaId;
+	private String perAreaId;
 
 	private String infoImgs;
 
@@ -50,7 +50,7 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 
 	private String yRelCoo;
 
-	private Long relAreaId;
+	private String relAreaId;
 
 	// HIỆN ĐANG LÀ
 	// Lưu Student

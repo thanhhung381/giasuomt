@@ -20,5 +20,5 @@ public class SaveRegisterAndLearnerAddressDto {
 	
 	private String yCoo;
 	
-	private Long idArea;
+	private String idArea;
 }

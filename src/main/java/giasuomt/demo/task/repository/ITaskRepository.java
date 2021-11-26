@@ -24,7 +24,7 @@ public interface ITaskRepository extends JpaRepository<Task, String> {
 //	Task findByTaskCode(String taskCode);
 
 	@Query("SELECT t FROM Task t WHERE t.id=:id")
-	Optional<Task> findByIdString(String id);
+	Task findByIdString(String id);
 	
 ////	@Query("SELECT t.registers FROM Task t WHERE t.id=id")
 //	List<RegisterAndLearner> findRegistersById(Long id);

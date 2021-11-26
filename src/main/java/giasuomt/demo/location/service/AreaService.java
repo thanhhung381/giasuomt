@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
+import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.location.dto.FindingVietnamAreaDto;
 import giasuomt.demo.location.dto.SaveAreaDto;
 import giasuomt.demo.location.model.Area;
@@ -19,7 +20,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class AreaService extends GenericService<SaveAreaDto, Area, Long> implements IAreaService {
+public class AreaService extends GenericService<SaveAreaDto, Area, String> implements IAreaService {
 
 	private IAreaRepository iAreaRepository;
 
@@ -32,6 +33,9 @@ public class AreaService extends GenericService<SaveAreaDto, Area, Long> impleme
 		
 		area = (Area) mapper.map(dto, area);
 		
+		area.setId(StringUltilsForAreaID.concatIdArea(dto.getNation(),dto.getState(), dto.getCommune(), dto.getProvincialLevel(), dto.getDistrict()));
+		
+		
 		return save(dto, area);
 	}
 
@@ -39,9 +43,12 @@ public class AreaService extends GenericService<SaveAreaDto, Area, Long> impleme
 	
 	@Override
 	public Area update(SaveAreaDto dto) {
-		Area area = iAreaRepository.getOne(dto.getId());
+		Area area = iAreaRepository.findByIdString(dto.getId());
 
 		area = (Area) mapper.map(dto, area);
+		
+	//	area.setId(StringUltilsForAreaID.concatIdArea(dto.getNation(),dto.getState(), dto.getCommune(), dto.getProvincialLevel(), dto.getDistrict()));
+		
 		
 		return save(dto, area);
 	}

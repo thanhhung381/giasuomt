@@ -6,7 +6,7 @@ import giasuomt.demo.location.dto.FindingVietnamAreaDto;
 import giasuomt.demo.location.dto.SaveAreaDto;
 import giasuomt.demo.location.model.Area;
 
-public interface IAreaService extends IGenericService<SaveAreaDto, Area, Long> {
+public interface IAreaService extends IGenericService<SaveAreaDto, Area, String> {
 
 	boolean checkExistIdofArea(Long id);
 	

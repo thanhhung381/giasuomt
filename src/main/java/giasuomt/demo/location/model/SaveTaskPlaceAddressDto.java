@@ -31,5 +31,5 @@ public class SaveTaskPlaceAddressDto {
 	private String relYCoo;
 	
 	
-	private Long idArea;
+	private String idArea;
 }
