@@ -11,6 +11,6 @@ public class SaveApplicationDto {
 	
 	private String idTask;
 
-	private Long idPerson;
+	private Long idTutor;
 	
 }
