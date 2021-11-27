@@ -5,11 +5,13 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
+import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.person.model.Tutor;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +21,10 @@ import lombok.Setter;
 @Entity
 @Table(name = "area")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
-public class Area extends AbstractEntity {
+public class Area extends AbstractEntityNotId {
+	
+	@Id
+	private String id;
 	
 	protected String nation;
 	

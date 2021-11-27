@@ -49,25 +49,29 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 	public Task create(SaveTaskDto dto) {
 		Task task = new Task();
 
+		task = (Task) mapDtoToModel.map(dto, task);
+		
+		String responsCharactor = generateTaskCode();
+
+		task.setId(TaskCodeGenerator.generatorCode().concat(responsCharactor));
+		
 		return save(dto, task);
 	}
 
 	public Task update(SaveTaskDto dto) {
-		Optional<Task> task = iTaskRepository.findByIdString(dto.getId());
-		return save(dto, task.get());
+		Task task = iTaskRepository.findByIdString(dto.getId());
+		
+		task =(Task) mapDtoToModel.map(dto, task);
+		
+		return save(dto, task);
 	}
 
 	private void mapDto(Task task, SaveTaskDto dto) {
 
-	//	String taskCode = dto.getId();
+		// String taskCode = dto.getId();
 
-		task = (Task) mapDtoToModel.map(dto, task);
-
+	
 		
-		String responsCharactor = generateTaskCode();
-
-	    task.setId(TaskCodeGenerator.generatorCode().concat(responsCharactor));
-
 		List<Long> registerIds = dto.getIdRegisters();
 		List<RegisterAndLearner> registers = new ArrayList<>();
 		for (int i = 0; i < registerIds.size(); i++) {
@@ -97,7 +101,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		List<Require> requires = new ArrayList<>();
 		for (int i = 0; i < requireIds.size(); i++) {
 			Require require = iRequireRepository.getOne(requireIds.get(i));
-			requires.add(require);	
+			requires.add(require);
 		}
 		task.setRequires(requires);
 
@@ -119,7 +123,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 			if (placeAddressDto.getId() != null && placeAddressDto.getId() > 0) {
 				TaskPlaceAddress taskPlaceAddress = iTaskPlaceAddressRepository.getOne(placeAddressDto.getId());
 				taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
-				taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
+				taskPlaceAddress.setArea(iAreaRepository.findByIdString(placeAddressDto.getIdArea()));
 				task.addTaskPlaceAddress(taskPlaceAddress);
 			} else {
 				TaskPlaceAddress taskPlaceAddress = new TaskPlaceAddress();
@@ -146,32 +150,36 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private String generateTaskCode() {
 
-		int n=iTaskRepository.findAll().size()-1;
-		
+		int n = iTaskRepository.findAll().size();
+
 		// lấy stt task id trước đó
 		int count = 0;
 
-		
 		if (n > 0) {
-			
-			String dayEnd = iTaskRepository.findAll().get(n).getId();// Lấy mã cuối ngày so sánh
-			
-			count = TaskCodeGenerator.generateResponsiveReserve(dayEnd.substring(4, 6));
-		//	System.out.println(count);
+			String dayEnd = iTaskRepository.findAll().get(n - 1).getId();// Lấy mã cuối ngày so sánh
 
-			if (TaskCodeGenerator.AutoGennerate(dayEnd) == -1 || TaskCodeGenerator.AutoGennerate(dayEnd) == 2)// check
-																												// // ko
-			{
+			if (dayEnd != null) {
+				count = TaskCodeGenerator.generateResponsiveReserve(dayEnd.substring(4, 6));
+				// System.out.println(count);
+
+				if (TaskCodeGenerator.AutoGennerate(dayEnd) == -1 || TaskCodeGenerator.AutoGennerate(dayEnd) == 2)// check
+																													// //
+																													// ko
+				{
+					count = 1;
+
+				} else if (TaskCodeGenerator.AutoGennerate(dayEnd) == 3) {
+					count += 1;
+
+				}
+
+			} else {
 				count = 1;
-
-			} else if (TaskCodeGenerator.AutoGennerate(dayEnd) == 3) {
-				count += 1;
-
 			}
-
-		} else if(n<=0) {
+		} else {
 			count = 1;
 		}
+
 		String responsCharacter = TaskCodeGenerator.generateResponsive(count);
 		return responsCharacter;
 	}
@@ -182,9 +190,12 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 			List<Task> tasks = new LinkedList<>();
 			for (SaveTaskDto dto : dtos) {
 				Task task = new Task();
-				String responsCharactor = generateTaskCode();
+			//	String responsCharactor = generateTaskCode();
 
-				task.setId(TaskCodeGenerator.generatorCode().concat(responsCharactor));
+//				task.setId(TaskCodeGenerator.generatorCode().concat(responsCharactor));
+				
+				
+				//mã có sẵn
 				mapDto(task, dto);
 
 				tasks.add(task);
@@ -201,7 +212,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 	@Override
 	public Optional<Task> findByTaskCode(String taskCode) {
 
-		return iTaskRepository.findByIdString(taskCode);
+		return null;
 	}
 
 //	//Tìm ra danh sách Registers và Learners theo Id

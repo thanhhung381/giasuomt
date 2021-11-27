@@ -34,9 +34,9 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 		application = (Application) mapDtoToModel.map(dto, application);
 
-		Optional<Task> task = iTaskRepository.findByIdString(dto.getIdTask());
+		Task task = iTaskRepository.findByIdString(dto.getIdTask());
 
-		application.setTask(task.get());
+		application.setTask(task);
 
 		application.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
 

@@ -7,6 +7,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import giasuomt.demo.commondata.generator.TutorCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
+import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.person.dto.SaveGraduatedStudentDto;
 import giasuomt.demo.person.dto.SaveInstitutionTeacherDto;
@@ -170,13 +171,22 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	
 	private void mapDto(Tutor tutor, SaveTutorDto dto) {
 		tutor = (Tutor) mapDtoToModel.map(dto, tutor);
+		
 
 		tutor.setFullName(dto.getFullName().toUpperCase());
 
+		
+		
+		
+		
 		tutor.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
 
+	
+		
 		tutor.setPerArea(iAreaRepository.getOne(dto.getPerAreaId()));
 
+		
+		
 		tutor.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
 
 		// save avatar

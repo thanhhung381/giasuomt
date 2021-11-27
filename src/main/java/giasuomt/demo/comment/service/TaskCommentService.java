@@ -41,7 +41,7 @@ public class TaskCommentService extends GenericService<SaveTaskCommentDto, TaskC
 			taskComment.setParentComment(iTaskCommentRepository.getOne(dto.getParrentCommentId()));
 		}
 
-		taskComment.setTask(iTaskRepository.findByIdString(dto.getIdTask()).get());
+		taskComment.setTask(iTaskRepository.getOne(dto.getIdTask()));
 
 		return save(dto, taskComment);
 	}
@@ -66,7 +66,7 @@ public class TaskCommentService extends GenericService<SaveTaskCommentDto, TaskC
 	}
 
 	public void deleteTaskComment(Long id) {
-
+ 
 		iTaskCommentRepository.deleteByParrentComment(id);
 
 		iTaskCommentRepository.deleteById(id);

@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @RestController // Tức là server sẽ trả JSON về client
 @RequestMapping("/api/area") // Ghi nhận yêu cầu gọi api của Client
 @AllArgsConstructor
-public class AreaController extends GenericController<SaveAreaDto, Area, Long, BindingResult> {
+public class AreaController extends GenericController<SaveAreaDto, Area, String, BindingResult> {
 
 	private IAreaService iAreaService;
 
