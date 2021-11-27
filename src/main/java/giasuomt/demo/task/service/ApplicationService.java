@@ -38,7 +38,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 		application.setTask(task);
 
-		application.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
+		application.setTutor(iTutorRepository.getOne(dto.getIdTutor()));
 
 		return save(dto, application);
 	}
@@ -52,7 +52,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 		application.setTask(iTaskRepository.getOne(dto.getIdTask()));
 
-		application.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
+		application.setTutor(iTutorRepository.getOne(dto.getIdTutor()));
 
 		return save(dto, application);
 
@@ -70,7 +70,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 				application.setTask(iTaskRepository.getOne(dto.getIdTask()));
 
-				application.setTutor(iTutorRepository.getOne(dto.getIdPerson()));
+				application.setTutor(iTutorRepository.getOne(dto.getIdTutor()));
 				applications.add(application);
 
 			}
