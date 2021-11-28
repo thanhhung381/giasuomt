@@ -71,7 +71,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 				application.setTask(iTaskRepository.getOne(dto.getIdTask()));
 
 				application.setTutor(iTutorRepository.getOne(dto.getIdTutor()));
-				applications.add(application);
+				applications.add(application); 
 
 			}
 			return iApplicationRepository.saveAll(applications);
