@@ -26,9 +26,9 @@ public class StringUltilsForAreaID {
 			
 		if(nation.contains("Việt Nam"))
 		{
-			return nomolizeForm(nation) +"-"+nomolizeForm(provincialLevel)+"-"+nomolizeForm(district)+"-"+nomolizeForm(commune);
+			return (nomolizeForm(nation) +"-"+nomolizeForm(provincialLevel)+"-"+nomolizeForm(district)+"-"+nomolizeForm(commune)).replace(".","");
 		}
-		return nomolizeForm(nation) +"-"+nomolizeForm(provincialLevel)+"-"+nomolizeForm(district)+"-"+nomolizeForm(commune)+"-"+nomolizeForm(state);
+		return (nomolizeForm(nation) +"-"+nomolizeForm(provincialLevel)+"-"+nomolizeForm(district)+"-"+nomolizeForm(commune)+"-"+nomolizeForm(state)).replace(".","");
 		
 	}
 }	
