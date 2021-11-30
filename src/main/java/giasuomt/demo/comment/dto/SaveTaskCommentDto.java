@@ -12,5 +12,7 @@ public class SaveTaskCommentDto {
 	private String idTask;
 
 	private Long parrentCommentId;
+	
+	private String content;
 
 }
