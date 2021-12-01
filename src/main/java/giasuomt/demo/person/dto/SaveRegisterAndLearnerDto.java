@@ -33,6 +33,7 @@ public class SaveRegisterAndLearnerDto extends SavePersonDto implements Serializ
 	private List<Long> registerAndLearnerTagIds = new LinkedList<>();
 	
 
+	private String note;
 	
 	
 	//RELATIONSHIP

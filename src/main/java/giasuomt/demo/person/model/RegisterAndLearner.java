@@ -73,6 +73,7 @@ public class RegisterAndLearner extends Person {
 	private List<RegisterAndLearnerRelationship> relationshipBy = new LinkedList<>();  
 	
 
+	private String note;
 	
 	
 	//LEARNER/REGISTER
