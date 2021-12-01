@@ -189,12 +189,12 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 			if (saveRegisterAndLearnerAddressDto.getId() != null && saveRegisterAndLearnerAddressDto.getId() > 0) {
 				RegisterAndLearnerAddress registerAndLearnerAddress = iRegisterAndLearnerAddressRepository.getOne(saveRegisterAndLearnerAddressDto.getId());
 				registerAndLearnerAddress = (RegisterAndLearnerAddress) mapDtoToModel.map(saveRegisterAndLearnerAddressDto, registerAndLearnerAddress);
-				registerAndLearnerAddress.setArea(iAreaRepository.findByIdString(saveRegisterAndLearnerAddressDto.getIdArea()));
+				registerAndLearnerAddress.setArea(iAreaRepository.getOne(saveRegisterAndLearnerAddressDto.getIdArea()));
 				registerAndLearner.addRegisterAndLearnerAddress(registerAndLearnerAddress);
 			} else {
 				RegisterAndLearnerAddress registerAndLearnerAddress = new RegisterAndLearnerAddress();
 				registerAndLearnerAddress = (RegisterAndLearnerAddress) mapDtoToModel.map(saveRegisterAndLearnerAddressDto, registerAndLearnerAddress);
-				registerAndLearnerAddress.setArea(iAreaRepository.findByIdString(saveRegisterAndLearnerAddressDto.getIdArea()));
+				registerAndLearnerAddress.setArea(iAreaRepository.getOne(saveRegisterAndLearnerAddressDto.getIdArea()));
 				registerAndLearner.addRegisterAndLearnerAddress(registerAndLearnerAddress);
 			}
 		}

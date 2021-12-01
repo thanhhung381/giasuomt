@@ -43,7 +43,7 @@ public class AreaService extends GenericService<SaveAreaDto, Area, String> imple
 	
 	@Override
 	public Area update(SaveAreaDto dto) {
-		Area area = iAreaRepository.findByIdString(dto.getId());
+		Area area = iAreaRepository.getOne(dto.getId());
 
 		area = (Area) mapper.map(dto, area);
 		

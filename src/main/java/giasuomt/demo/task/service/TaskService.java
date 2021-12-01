@@ -123,7 +123,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 			if (placeAddressDto.getId() != null && placeAddressDto.getId() > 0) {
 				TaskPlaceAddress taskPlaceAddress = iTaskPlaceAddressRepository.getOne(placeAddressDto.getId());
 				taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
-				taskPlaceAddress.setArea(iAreaRepository.findByIdString(placeAddressDto.getIdArea()));
+				taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
 				task.addTaskPlaceAddress(taskPlaceAddress);
 			} else {
 				TaskPlaceAddress taskPlaceAddress = new TaskPlaceAddress();
