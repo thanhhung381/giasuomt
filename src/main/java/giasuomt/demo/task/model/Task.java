@@ -24,6 +24,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GeneratorType;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -183,28 +184,33 @@ public class Task extends AbstractEntityNotId {
 	
 	
 	
-	public void removeApplication(Application application)
-	{
+	public void removeApplication(Application application){
 		this.applications.remove(application);
-	}
+	};
 	
-	public void addApplication(Application application)
-	{
+	public void addApplication(Application application){
 		application.setTask(this);
 		this.applications.add(application);
-	}
+	};
 	
 	
 	
 	public void addTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress) {
 		taskPlaceAddress.setTask(this);
 		this.taskPlaceAddresses.add(taskPlaceAddress);
-	}
+	};
 
 	public void removeTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress) {
 		this.taskPlaceAddresses.remove(taskPlaceAddress);
-	}
+	};
 
+	public void addSubject(Subject subject) {
+		subject.getTasks().add(this);
+		this.subjects.add(subject);
+	};
 
+	public void removeSubject(Subject subject) {
+		this.subjects.remove(subject);
+	};
 
 }

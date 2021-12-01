@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
@@ -17,13 +19,14 @@ import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.location.repository.ITaskPlaceAddressRepository;
 import giasuomt.demo.person.model.RegisterAndLearner;
 import giasuomt.demo.person.repository.IRegisterAndLearnerRepository;
+import giasuomt.demo.task.dto.AddSubjectToTaskDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
 import giasuomt.demo.task.model.Require;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.IRequireRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
-
+import giasuomt.demo.task.util.TaskAppearanceGenerator;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -212,7 +215,42 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	@Override
 	public Optional<Task> findByTaskCode(String taskCode) {
+		return null;
+	}
 
+	
+	//Add Subject to Task
+	@Override
+	public Task addSubjectToTask(AddSubjectToTaskDto dto) {
+		try {
+			Task task = iTaskRepository.getOne(dto.getTaskId());
+			Subject subject = iSubjectRepository.getOne(dto.getSubjectId());
+			if(!task.getSubjects().contains(subject)) {
+				task.addSubject(subject);
+				task.setSubjectApperance(TaskAppearanceGenerator.generateSubjectAppearance(task.getSubjects()));
+				task = iTaskRepository.save(task);
+			};	
+			return task;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	//Add Subject from Task
+	@Override
+	public Task deleteSubjectFromTask(AddSubjectToTaskDto dto) {
+		try {
+			Task task = iTaskRepository.getOne(dto.getTaskId());
+			Subject subject = iSubjectRepository.getOne(dto.getSubjectId());
+			if(task.getSubjects().contains(subject)) {
+				task.removeSubject(subject);
+			
+				task = iTaskRepository.save(task);
+			};	
+			return task;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
