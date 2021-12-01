@@ -33,7 +33,7 @@ public interface ITutorRepository extends JpaRepository<Tutor, Long> {
 	
 	
 	@Query("SELECT t FROM Tutor t WHERE t.id=:id")
-	Tutor findByIdOrTutorCode(String id);
+	Tutor findByIdOrTutorCode(Long id);
 
 	int countById(Long id);
 
@@ -43,7 +43,16 @@ public interface ITutorRepository extends JpaRepository<Tutor, Long> {
 	
 	List<Tutor> findByFullNameContaining(String fullName);
 	
+	@Query("SELECT t.englishFullname FROM Tutor t WHERE t.englishFullname=:englishFullname")
+	List<String> showFullName(String englishFullname); 
+	
+	
 	int countByFullNameContaining(String fullName);
+	
+	
+	List<Tutor> findByEnglishFullnameContaining(String englishFullname);
+	
+	
 	
 
 	

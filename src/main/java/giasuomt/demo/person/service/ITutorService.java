@@ -14,12 +14,16 @@ public interface ITutorService extends IGenericService<SaveTutorDto, Tutor,Long>
 
 	public void delete(Long id);
 
-	public Tutor findByTutorCode(String tutorCode);
+	public Tutor findByTutorCode(Long tutorCode);
 
 	public List<Tutor> findByPhoneNumber(String phoneNumber);
 
 	public List<Tutor> findByEndPhoneNumber(String endPhoneNumber);
 
 	public List<Tutor> findByFullNameContain(String fullName);
+	
+	public List<Tutor> findByEnglishFullName(String fullname);
+	
+	public List<String> findByfullnameAndShowName(String fullname);
 
 }
