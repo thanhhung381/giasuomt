@@ -1,16 +1,20 @@
 package giasuomt.demo.task.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class SaveApplicationDto {
+public class SaveRegistrationDto {
 	
 	private Long id;
 	
 	private String taskId;
 
-	private Long tutorId;
+	private Long registerAndLearnerId;
+	
+	private String registerAndLearnerAre;
 	
 }

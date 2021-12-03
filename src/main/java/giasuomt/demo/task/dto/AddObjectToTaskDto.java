@@ -4,8 +4,10 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class AddSubjectToTaskDto {
-	private Long subjectId;
+public class AddObjectToTaskDto {
+	private String attributeName;
+	
+	private Long objectId;
 	
 	private String taskId;
 }

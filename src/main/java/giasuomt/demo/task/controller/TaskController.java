@@ -7,7 +7,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
-import giasuomt.demo.task.dto.AddSubjectToTaskDto;
+import giasuomt.demo.task.dto.AddObjectToTaskDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.service.ITaskService;
@@ -38,7 +37,7 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String,
 		return ResponseHandler.getResponse(task, HttpStatus.OK);
 	}
 
-
+	//API để trả về object Task rỗng cho front-end
 	@GetMapping("/getTaskObject")
 	public ResponseEntity<Object> getTaskObject() {
 		return ResponseHandler.getResponse(new SaveTaskDto(), HttpStatus.OK);
@@ -46,23 +45,26 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String,
 	
 	
 	//Add Subject to Task
-	@PostMapping("/add/addSubjectToTask")
-	public ResponseEntity<Object> create(@Valid @RequestBody AddSubjectToTaskDto dto, BindingResult errors) {
+	@PostMapping("/addObject")
+	public ResponseEntity<Object> addObject(@Valid @RequestBody AddObjectToTaskDto dto, BindingResult errors) {
 		if (((Errors) errors).hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-		
-		Task updatedTask = iTaskService.addSubjectToTask(dto);
+
+		Task updatedTask = iTaskService.addObject(dto);
 		
 		return ResponseHandler.getResponse(updatedTask, HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/delete/deleteSubjectFromTask")
-	public ResponseEntity<Object> delete(@Valid @RequestBody AddSubjectToTaskDto dto, BindingResult errors) {
+	//Delete Subject from Task
+	@DeleteMapping("/deleteObject")
+	public ResponseEntity<Object> deleteObject(@Valid @RequestBody AddObjectToTaskDto dto, BindingResult errors) {
 		if (((Errors) errors).hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
 		
-		Task updatedTask = iTaskService.deleteSubjectFromTask(dto);
+		Task updatedTask = iTaskService.deleteObject(dto);
 		
 		return ResponseHandler.getResponse(updatedTask, HttpStatus.OK);
 	}
+	
+
 }

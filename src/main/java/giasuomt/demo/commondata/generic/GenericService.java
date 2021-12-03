@@ -2,15 +2,9 @@ package giasuomt.demo.commondata.generic;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Service;
-
-import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
-import giasuomt.demo.person.dto.SaveTutorDto;
-import giasuomt.demo.person.model.Tutor;
+
 
 public abstract class GenericService<DTO, T extends AbstractEntityNotId, ID> implements IGenericService<DTO, T, ID> {
 	@Autowired
@@ -61,9 +55,12 @@ public abstract class GenericService<DTO, T extends AbstractEntityNotId, ID> imp
 		return repository.existsById(id);
 	}
 
-
+	
+	@Override
 	public List<T> createAll(List<DTO> dtos) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 }

@@ -129,7 +129,7 @@ public class Task extends AbstractEntityNotId {
 	@Enumerated(EnumType.STRING)
 	private UnitOfMoney unitOfSalary;
 
-//	private AmoutPerTime salaryPerTime;
+	private AmoutPerTime salaryPerTime;
 
 //PHÍ THU
 	@Enumerated(EnumType.STRING)
@@ -162,24 +162,19 @@ public class Task extends AbstractEntityNotId {
 //	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
 //	private Set<TaskSign> taskSigns;
 
-//NGƯỜI ĐĂNG KÝ và HỌC VIÊN
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	@JoinTable(name = "task_register", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "register_id"))
-	private List<RegisterAndLearner> registers = new LinkedList<>();
-
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	@JoinTable(name = "task_learner", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "learner_id"))
-	private List<RegisterAndLearner> learners = new LinkedList<>();
+//NGƯỜI ĐĂNG KÝ/HỌC VIÊN	
+	@OneToMany(mappedBy = "task")
+	private List<Registration> registrations = new LinkedList<>();	
 
 //ỨNG VIÊN ĐĂNG KÝ
 	@OneToMany(mappedBy = "task")
-	private List<Application> applications=new LinkedList<>();
+	private List<Application> applications = new LinkedList<>();
 
 //GIAO JOB
 	@OneToMany(mappedBy = "task")
 	private List<Job> jobs=new LinkedList<>();
 
-//số Task khởi tạo	
+
 
 	
 	
@@ -211,6 +206,8 @@ public class Task extends AbstractEntityNotId {
 
 	public void removeSubject(Subject subject) {
 		this.subjects.remove(subject);
-	};
+	}
+
+
 
 }
