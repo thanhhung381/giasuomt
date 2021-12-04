@@ -43,14 +43,16 @@ public interface ITutorRepository extends JpaRepository<Tutor, Long> {
 	
 	List<Tutor> findByFullNameContaining(String fullName);
 	
-	@Query("SELECT t.englishFullname FROM Tutor t WHERE t.englishFullname=:englishFullname")
-	List<String> showFullName(String englishFullname); 
+	@Query("SELECT t.fullName FROM Tutor t WHERE t.englishFullName LIKE CONCAT('%',:englishFullName,'%')")
+	List<String> findByEnglishNameAndShowFullName(@Param("englishFullName") String englishFullName); 
 	
+	@Query("SELECT t.fullName FROM Tutor t WHERE t.fullName LIKE CONCAT('%',:fullName,'%')")
+	List<String>  showFullname(@Param("fullName") String fullName);
 	
 	int countByFullNameContaining(String fullName);
 	
 	
-	List<Tutor> findByEnglishFullnameContaining(String englishFullname);
+	List<Tutor> findByEnglishFullNameContaining(String englishFullName);
 	
 	
 	

@@ -177,9 +177,9 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		tutor.setFullName(dto.getFullName().toUpperCase());
 
 		
-		tutor.setEnglishFullname(StringUltilsForAreaID.removeAccent(dto.getFullName()).toLowerCase());
+		tutor.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toLowerCase());
 		
-		
+		 
 		tutor.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
 
 	
@@ -409,13 +409,19 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	@Override
 	public List<Tutor> findByEnglishFullName(String fullname) {
 		
-		return iTutorRepository.findByEnglishFullnameContaining(fullname);
+		return iTutorRepository.findByEnglishFullNameContaining(fullname);
 	}
 
 	@Override
-	public List<String> findByfullnameAndShowName(String fullname) {
+	public List<String> findByEngfullnameAndShowFullName(String fullname) {
 
-		return iTutorRepository.showFullName(fullname);
+		return iTutorRepository.findByEnglishNameAndShowFullName(fullname);
+	}
+
+	@Override
+	public List<String> findByfullnameAndShowFullName(String fullname) {
+		
+		return iTutorRepository.showFullname(fullname);
 	}
 
 }

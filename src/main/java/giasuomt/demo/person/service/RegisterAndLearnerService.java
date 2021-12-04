@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
+import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.location.model.RegisterAndLearnerAddress;
 import giasuomt.demo.location.model.SaveRegisterAndLearnerAddressDto;
 import giasuomt.demo.location.model.SaveTaskPlaceAddressDto;
@@ -170,6 +171,8 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 		registerAndLearner = (RegisterAndLearner) mapDtoToModel.map(dto, registerAndLearner);
 
 		registerAndLearner.setFullName(dto.getFullName().toUpperCase());
+		
+		registerAndLearner.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName().toLowerCase()));
 
 		List<SaveRegisterAndLearnerAddressDto> saveRegisterAndLearnerAddressDtos = dto.getRegisterAndLearnerAddresses();
 		for (int i = 0; i < registerAndLearner.getRegisterAndLearnerAddresses().size(); i++) {
@@ -323,6 +326,42 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 				registerAndLearner.addWorker(worker);
 			}
 		}
+	}
+
+	@Override
+	public List<RegisterAndLearner> findByFullNameContaining(String fullName) {
+		
+		return iRegisterAndLearnerRepository.findByFullNameContaining(fullName);
+	}
+
+	@Override
+	public List<RegisterAndLearner> findByEnglishFullNameContaining(String englishFullName) {
+		
+		return iRegisterAndLearnerRepository.findByEnglishFullNameContaining(englishFullName);
+	}
+
+	@Override
+	public List<String> findByEnglishNameAndShowEngLishFullName(String englishFullName) {
+		
+		return iRegisterAndLearnerRepository.findByEnglishNameAndShowFullName(englishFullName);
+	}
+
+	@Override
+	public List<String> findByFullNameAndShowFullName(String fullName) {
+		
+		return iRegisterAndLearnerRepository.findByFullNameAndShowFullName(fullName);
+	}
+
+	@Override
+	public List<RegisterAndLearner> findByVocativeAndFullName(String vocative, String fullName) {
+		
+		return iRegisterAndLearnerRepository.findByVocativeAndFullNameContaining(vocative, fullName);
+	}
+
+	@Override
+	public List<String> findByVocativeAndFullNameAndShowFullName(String vocative, String fullName) {
+		
+		return iRegisterAndLearnerRepository.findByVocativeAndFullNameAndShowFullName(vocative, fullName);
 	}
 
 

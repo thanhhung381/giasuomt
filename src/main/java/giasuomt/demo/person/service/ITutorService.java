@@ -24,6 +24,8 @@ public interface ITutorService extends IGenericService<SaveTutorDto, Tutor,Long>
 	
 	public List<Tutor> findByEnglishFullName(String fullname);
 	
-	public List<String> findByfullnameAndShowName(String fullname);
+	public List<String> findByfullnameAndShowFullName(String fullname);
+	
+	public List<String> findByEngfullnameAndShowFullName(String fullname); 
 
 }
