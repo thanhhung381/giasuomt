@@ -65,7 +65,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		 
 		if (tutors.isEmpty())
 		{
-			List<Tutor> tutorsByEngName=iTutorService.findByEnglishFullName(fullName);
+			List<Tutor> tutorsByEngName=iTutorService.findByEnglishFullName(fullName.toUpperCase());
 			if(tutorsByEngName.isEmpty())
 				return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
 			return ResponseHandler.getResponse(tutorsByEngName, HttpStatus.BAD_GATEWAY);
@@ -83,7 +83,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		 
 		if (tutorNames.isEmpty())
 		{
-			List<String> tutorEngNames=iTutorService.findByEngfullnameAndShowFullName(fullNameShowName);
+			List<String> tutorEngNames=iTutorService.findByEngfullnameAndShowFullName(fullNameShowName.toUpperCase());
 			if(tutorEngNames.isEmpty())
 				return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
 			 return ResponseHandler.getResponse(tutorEngNames, HttpStatus.OK);

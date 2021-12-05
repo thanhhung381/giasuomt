@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
+import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.educational.dto.SaveSchoolDto;
 import giasuomt.demo.educational.model.School;
 import giasuomt.demo.educational.repository.ISchoolRepository;
@@ -26,6 +27,9 @@ public class SchoolService extends GenericService<SaveSchoolDto, School, Long> i
 		School school = new School();
 
 		school = (School) mapDtoToModel.map(dto, school);
+		
+		school.setName(dto.getName().toUpperCase());
+		school.setEnglishName(StringUltilsForAreaID.removeAccent(dto.getName()).toUpperCase());
 
 		return save(dto, school);
 	}
@@ -36,6 +40,9 @@ public class SchoolService extends GenericService<SaveSchoolDto, School, Long> i
 		School school = iSchoolRepository.getOne(dto.getId());
 
 		school = (School) mapDtoToModel.map(dto, school);
+		
+		school.setName(dto.getName().toUpperCase());
+		school.setEnglishName(StringUltilsForAreaID.removeAccent(dto.getName()).toUpperCase());
 
 		return save(dto, school);
 	}

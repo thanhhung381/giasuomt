@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
+import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.educational.dto.SaveMajorDto;
 import giasuomt.demo.educational.model.Major;
 import giasuomt.demo.educational.repository.IMajorRepository;
@@ -32,6 +33,9 @@ public class MajorService extends GenericService<SaveMajorDto, Major, Long> impl
 		major = (Major) mapDtoToModel.map(dto, major);
 
 		major.setUniversity(iUniversityRepository.getOne(dto.getIdUniversity()));
+		
+		major.setName(dto.getName().toUpperCase());
+		major.setEnglishName(StringUltilsForAreaID.removeAccent(dto.getName()).toUpperCase());
 
 		return save(dto, major);
 	}
@@ -43,6 +47,9 @@ public class MajorService extends GenericService<SaveMajorDto, Major, Long> impl
 		major = (Major) mapDtoToModel.map(dto, major);
 
 		major.setUniversity(iUniversityRepository.getOne(dto.getIdUniversity()));
+		
+		major.setName(dto.getName().toUpperCase());
+		major.setEnglishName(StringUltilsForAreaID.removeAccent(dto.getName()).toUpperCase());
 
 		return save(dto, major);
 	}

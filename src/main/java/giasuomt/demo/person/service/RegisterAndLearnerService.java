@@ -172,7 +172,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 		registerAndLearner.setFullName(dto.getFullName().toUpperCase());
 		
-		registerAndLearner.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName().toLowerCase()));
+		registerAndLearner.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName().toUpperCase()));
 
 		List<SaveRegisterAndLearnerAddressDto> saveRegisterAndLearnerAddressDtos = dto.getRegisterAndLearnerAddresses();
 		for (int i = 0; i < registerAndLearner.getRegisterAndLearnerAddresses().size(); i++) {

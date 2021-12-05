@@ -55,7 +55,7 @@ public class RegisterAndLearnerController
 
 		if (registerAndLearners.isEmpty()) {
 			List<RegisterAndLearner> registerAndLearnersWithEnglishFullName = iRegisterAndLearnerService
-					.findByEnglishFullNameContaining(fullname);
+					.findByEnglishFullNameContaining(fullname.toUpperCase());
 			if (registerAndLearnersWithEnglishFullName.isEmpty())
 				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
 			return ResponseHandler.getResponse(registerAndLearnersWithEnglishFullName, HttpStatus.OK);
@@ -73,7 +73,7 @@ public class RegisterAndLearnerController
 
 		if (registerAndLearners.isEmpty()) {
 			List<String> registerAndLearnersWithEnglishFullName = iRegisterAndLearnerService
-					.findByEnglishNameAndShowEngLishFullName(fullname);
+					.findByEnglishNameAndShowEngLishFullName(fullname.toUpperCase());
 			if (registerAndLearnersWithEnglishFullName.isEmpty())
 				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
 			return ResponseHandler.getResponse(registerAndLearnersWithEnglishFullName, HttpStatus.OK);
@@ -93,7 +93,7 @@ public class RegisterAndLearnerController
 		if (registerAndLearners.isEmpty()) {
 
 			List<RegisterAndLearner> registerAndLearnersWithEnglishFullName = iRegisterAndLearnerService
-					.findByVocativeAndEnglishFullNameContaining(vocative, fullname);
+					.findByVocativeAndEnglishFullNameContaining(vocative, fullname.toUpperCase());
 			if (registerAndLearnersWithEnglishFullName.isEmpty())
 				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
 			return ResponseHandler.getResponse(registerAndLearnersWithEnglishFullName, HttpStatus.OK);
@@ -112,7 +112,7 @@ public class RegisterAndLearnerController
 		if (registerAndLearners.isEmpty()) {
 
 			List<String> RegisterAndLearnerServiceWithEnglishFullName = iRegisterAndLearnerService
-					.findByVocativeAndEnglishFullNameAndShowFullName(vocative, fullname);
+					.findByVocativeAndEnglishFullNameAndShowFullName(vocative, fullname.toUpperCase());
 			if (RegisterAndLearnerServiceWithEnglishFullName.isEmpty())
 				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
 			return ResponseHandler.getResponse(RegisterAndLearnerServiceWithEnglishFullName, HttpStatus.OK);

@@ -177,7 +177,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		tutor.setFullName(dto.getFullName().toUpperCase());
 
 		
-		tutor.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toLowerCase());
+		tutor.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toUpperCase());
 		
 		 
 		tutor.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
