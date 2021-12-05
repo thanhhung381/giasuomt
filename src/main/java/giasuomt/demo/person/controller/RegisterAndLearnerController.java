@@ -29,7 +29,7 @@ public class RegisterAndLearnerController
 		List<RegisterAndLearner> registerAndLearners = iRegisterAndLearnerService.findByPhoneNumber(phoneNumber);
 
 		if (registerAndLearners.isEmpty())
-			return ResponseHandler.getResponse("cant find any RegisterAndLearner", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
 
 		return ResponseHandler.getResponse(registerAndLearners, HttpStatus.OK);
 
@@ -41,12 +41,12 @@ public class RegisterAndLearnerController
 		List<RegisterAndLearner> registerAndLearners = iRegisterAndLearnerService.findByEndPhoneNumber(endPhoneNumber);
 
 		if (registerAndLearners.isEmpty())
-			return ResponseHandler.getResponse("cant find any RegisterAndLearner", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
 
 		return ResponseHandler.getResponse(registerAndLearners, HttpStatus.OK);
 
 	}
-
+ 
 	@GetMapping("/findByFullNameAndReturnObject/{fullname}")
 	public ResponseEntity<Object> findByFullnameAndReturnObject(@RequestParam("fullname") String fullname) {
 
@@ -57,7 +57,7 @@ public class RegisterAndLearnerController
 			List<RegisterAndLearner> registerAndLearnersWithEnglishFullName = iRegisterAndLearnerService
 					.findByEnglishFullNameContaining(fullname);
 			if (registerAndLearnersWithEnglishFullName.isEmpty())
-				return ResponseHandler.getResponse("cant find any RegisterAndLearner", HttpStatus.BAD_GATEWAY);
+				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
 			return ResponseHandler.getResponse(registerAndLearnersWithEnglishFullName, HttpStatus.OK);
 		}
 
@@ -65,46 +65,58 @@ public class RegisterAndLearnerController
 
 	}
 
-	@GetMapping("/findByFullNameAndReturnStringFullname/{fullname}")
+	@GetMapping("/findByFullNameAndReturnFullName/{fullname}")
 	public ResponseEntity<Object> findByFullnameAndReturnStringFullname(@RequestParam("fullname") String fullname) {
 
-		List<String> registerAndLearners = iRegisterAndLearnerService.findByFullNameAndShowFullName(fullname.toUpperCase());
+		List<String> registerAndLearners = iRegisterAndLearnerService
+				.findByFullNameAndShowFullName(fullname.toUpperCase());
 
 		if (registerAndLearners.isEmpty()) {
 			List<String> registerAndLearnersWithEnglishFullName = iRegisterAndLearnerService
 					.findByEnglishNameAndShowEngLishFullName(fullname);
 			if (registerAndLearnersWithEnglishFullName.isEmpty())
-				return ResponseHandler.getResponse("cant find any RegisterAndLearner", HttpStatus.BAD_GATEWAY);
+				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
 			return ResponseHandler.getResponse(registerAndLearnersWithEnglishFullName, HttpStatus.OK);
 		}
 
 		return ResponseHandler.getResponse(registerAndLearners, HttpStatus.OK);
 
 	}
-	
-	@GetMapping("/findByFullNameAndVocativeAndReturnObject/{fullname}/{vocative}")
-	public ResponseEntity<Object> findByFullnameAndVocativeAndReturnObject(@RequestParam("fullname") String fullname,@RequestParam("vocative") String vocative) {
 
-		List<RegisterAndLearner> registerAndLearners = iRegisterAndLearnerService.findByVocativeAndFullName(vocative,fullname.toUpperCase());
+	@GetMapping("/findByFullNameAndVocativeAndReturnObject/{fullname}/{vocative}")
+	public ResponseEntity<Object> findByFullnameAndVocativeAndReturnObject(@RequestParam("fullname") String fullname,
+			@RequestParam("vocative") String vocative) {
+
+		List<RegisterAndLearner> registerAndLearners = iRegisterAndLearnerService.findByVocativeAndFullName(vocative,
+				fullname.toUpperCase());
 
 		if (registerAndLearners.isEmpty()) {
-		
-				return ResponseHandler.getResponse("cant find any RegisterAndLearner", HttpStatus.BAD_GATEWAY);
-			
+
+			List<RegisterAndLearner> registerAndLearnersWithEnglishFullName = iRegisterAndLearnerService
+					.findByVocativeAndEnglishFullNameContaining(vocative, fullname);
+			if (registerAndLearnersWithEnglishFullName.isEmpty())
+				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse(registerAndLearnersWithEnglishFullName, HttpStatus.OK);
 		}
 
 		return ResponseHandler.getResponse(registerAndLearners, HttpStatus.OK);
 	}
 
 	@GetMapping("/findByFullNameAndVocativeAndReturnFullName/{fullname}/{vocative}")
-	public ResponseEntity<Object> findByFullnameAndVocativeAndReturnFullName(@RequestParam("fullname") String fullname,@RequestParam("vocative") String vocative) {
+	public ResponseEntity<Object> findByFullnameAndVocativeAndReturnFullName(@RequestParam("fullname") String fullname,
+			@RequestParam("vocative") String vocative) {
 
-		List<String> registerAndLearners = iRegisterAndLearnerService.findByVocativeAndFullNameAndShowFullName(vocative,fullname.toUpperCase());
+		List<String> registerAndLearners = iRegisterAndLearnerService.findByVocativeAndFullNameAndShowFullName(vocative,
+				fullname.toUpperCase());
 
 		if (registerAndLearners.isEmpty()) {
-		
-				return ResponseHandler.getResponse("cant find any RegisterAndLearner", HttpStatus.BAD_GATEWAY);
-			
+
+			List<String> RegisterAndLearnerServiceWithEnglishFullName = iRegisterAndLearnerService
+					.findByVocativeAndEnglishFullNameAndShowFullName(vocative, fullname);
+			if (RegisterAndLearnerServiceWithEnglishFullName.isEmpty())
+				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse(RegisterAndLearnerServiceWithEnglishFullName, HttpStatus.OK);
+
 		}
 
 		return ResponseHandler.getResponse(registerAndLearners, HttpStatus.OK);

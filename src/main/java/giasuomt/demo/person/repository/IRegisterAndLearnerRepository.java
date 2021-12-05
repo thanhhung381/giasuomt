@@ -30,5 +30,10 @@ public interface IRegisterAndLearnerRepository extends JpaRepository<RegisterAnd
 	List<String> findByVocativeAndFullNameAndShowFullName(@Param("vocative") String vocative,@Param("fullName") String fullName);
 
 	
+	List<RegisterAndLearner> findByVocativeAndEnglishFullNameContaining(String vocative,String englishFullName);
+	
+	@Query("SELECT r.fullName FROM RegisterAndLearner r WHERE r.vocative=:vocative AND r.englishFullName LIKE CONCAT('%',:englishFullName,'%')")
+	List<String> findByVocativeAndEnglishNameAndShowFullName(@Param("vocative") String vocative,@Param("englishFullName") String englishFullName);
+	
 	
 }

@@ -30,10 +30,13 @@ public interface IRegisterAndLearnerService
 	List<String> findByEnglishNameAndShowEngLishFullName(String englishFullName);
 
 	List<String> findByFullNameAndShowFullName(String fullName);
-	
-	List<RegisterAndLearner> findByVocativeAndFullName(String vocative,String fullName);
-	
-	List<String> findByVocativeAndFullNameAndShowFullName( String vocative, String fullName);
 
+	List<RegisterAndLearner> findByVocativeAndFullName(String vocative, String fullName);
+
+	List<String> findByVocativeAndFullNameAndShowFullName(String vocative, String fullName);
+
+	List<RegisterAndLearner> findByVocativeAndEnglishFullNameContaining(String vocative, String englishName);
+
+	List<String> findByVocativeAndEnglishFullNameAndShowFullName(String vocative, String englishName);
 
 }
