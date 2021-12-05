@@ -9,7 +9,7 @@ public class SaveJobDto {
 	
 	private Long id;
 	
-	private Long idTask;
+	private String idTask;
 	
 	private Long idPerson;
 	

@@ -1,0 +1,150 @@
+/* DANH SÁCH LỚP - LEFT SIDEBAR */
+.list-task-staff {
+    flex-basis: 18%;
+    margin: 0 0 0 0.5%;
+    background-color: var(--background-sidebar-color);
+    color: var(--text-for-background-sidebar-color);
+    cursor: pointer;
+    border-radius: 30px;
+    border: 10px solid var(--white-color);
+    position: relative; 
+    height:900px;
+}
+
+.list-task-staff__search-box {
+    margin: 0.8rem 0.8rem;
+    box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+}
+
+.list-task-staff__list-msl{
+    overflow-y: scroll;  
+    height:85%;
+}
+.list-task-staff__list-msl::-webkit-scrollbar-track {
+	border-radius: 30px;
+	background-color: var(--background-sidebar-color);
+}
+.list-task-staff__list-msl::-webkit-scrollbar {
+	width: 8px;
+	background-color: var(--background-sidebar-color);
+}
+.list-task-staff__list-msl::-webkit-scrollbar-thumb {
+	border-radius: 50px;
+	background-color: var(--hover-background-sidebar-color);
+}
+.list-task-staff__list-msl::-webkit-scrollbar-thumb:hover {
+    background-color: var(--special-text-for-background-sidebar-color);
+}
+
+
+.list-task-staff__loai-msl{
+    font-size: 1.8rem;
+}
+
+
+.list-task-staff__list-msl{
+    font-size: 1.6rem;
+}
+.list-task-staff__list-msl__msl{
+    padding: 4% 6%;
+    display: flex;
+    column-gap: 0.8rem;
+    box-shadow: none;
+    transition: 0.5s;
+}
+.list-task-staff__list-msl__msl:hover {
+    box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;  
+    font-size: 1.8rem;
+}
+.list-task-staff__list-msl__msl-change-style {
+    font-size: 1.8rem;
+    box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;  
+    background-color: var(--hover-background-sidebar-color);
+}
+
+.list-task-staff__list-msl__msl .so-ung-vien {
+    font-size: 1.4rem;
+    color: var(--special-text-for-background-sidebar-color);
+}
+.list-task-staff__list-msl__msl .phu-huynh-ok {
+    margin-left: auto; /*Để đẩy qua phải*/
+}
+.phu-huynh-ok {
+    font-size: 1.8rem;
+    color: var(--light-darkblue-color);
+    padding: 0 0.2rem;
+}
+.phu-huynh-ok:hover {
+    color: var(--phu-huynh-ok-color);
+}
+.ung-vien-ok {
+    font-size: 1.8rem;
+    color: var(--light-darkblue-color);
+    padding: 0 0.2rem;
+}
+.ung-vien-ok:hover {
+    color: var(--ung-vien-ok-color);
+}
+.can-chu-y {
+    font-size: 1.6rem;
+    color: var(--light-darkblue-color);
+    padding: 0 0.2rem;
+}
+.can-chu-y:hover {
+    color: var(--can-chu-y-color);
+}
+.xu-li-gap {
+    font-size: 1.6rem;
+    color: var(--light-darkblue-color);
+    padding: 0 0.2rem;
+}
+.xu-li-gap:hover {
+    color: var(--can-xu-li-gap-color);
+}
+
+/* SIDEBAR BOTTOM */
+.list-task-staff__bottom { 
+    position: absolute;
+    bottom: -0.5%;
+    border-radius: 10px;
+}
+.list-task-staff__bottom img {
+    width: 100%;
+}
+.list-task-staff__them-lop-moi {
+    position: absolute;
+    top: -19%;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.list-task-staff__bottom div {
+    position:absolute;
+}
+.list-task-staff__bottom .time-order {
+    font-size: 2.6rem;
+    top: 35%;
+    left: 10%;
+}
+.list-task-staff__bottom .candidates-order {
+    font-size: 2.6rem;
+    top: 32%;
+    left: 25%;
+}
+.list-task-staff__bottom .phu-huynh-ok {
+    top: 23%;
+    left: 62%;
+}
+.list-task-staff__bottom .ung-vien-ok {
+    top: 61%;
+    left: 64%;
+}
+.list-task-staff__bottom .can-chu-y {
+    top: 45%;
+    left: 77%;
+}
+.list-task-staff__bottom .xu-li-gap {
+    top: 45%;
+    left: 90%;
+}

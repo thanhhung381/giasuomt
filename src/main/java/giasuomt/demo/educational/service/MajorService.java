@@ -1,5 +1,8 @@
 package giasuomt.demo.educational.service;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.hibernate.jpa.internal.ManagedFlushCheckerLegacyJpaImpl;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +45,28 @@ public class MajorService extends GenericService<SaveMajorDto, Major, Long> impl
 		major.setUniversity(iUniversityRepository.getOne(dto.getIdUniversity()));
 
 		return save(dto, major);
+	}
+
+	@Override
+	public List<Major> createAll(List<SaveMajorDto> dtos) {
+		try {
+
+			List<Major> majors = new LinkedList<>();
+			for (SaveMajorDto dto : dtos) {
+				Major major = new Major();
+
+				major = (Major) mapDtoToModel.map(dto, major);
+
+				major.setUniversity(iUniversityRepository.getOne(dto.getIdUniversity()));
+
+				majors.add(major);
+			}
+
+			return iMajorRepository.saveAll(majors);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

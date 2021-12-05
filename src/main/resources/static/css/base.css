@@ -1,0 +1,113 @@
+:root {  
+    /* --background-color: rgb(235, 235, 235); */
+    --background-color: #f5f7fc;
+    --text-for-background-color: #7A7A7A;
+    --speacial-text-for-background-color: black;
+    --background-for-background-color: #abb5bb;  
+
+    --background-sidebar-color: #0e163d;
+    --hover-background-sidebar-color: #21d3c467;
+    --text-for-background-sidebar-color: #a6b3b4;
+    --special-text-for-background-sidebar-color: #21d3c4b4;
+    --hover-special-text-for-background-sidebar-color: rgba(8, 235, 216, 0.918);
+
+    --background-special-color: #21d3c436;
+    --text-for-background-special-color: #09113a;
+    --speacial-text-for-background-special-color: #00867b;
+
+    --background-div-color: #f652a10e;
+    /* --background-div-color: #0e163d0e; */
+    --text-for-background-div-color: var(--text-for-background-color);
+    --speacial-text-for-background-div-color: var(--speacial-text-for-background-color);
+    --text-button-for-background-div-color: #973062;
+    --text-button-hover-for-background-div-color: #e04b93;
+    --background-special-div-color: #21d3c436;
+    --text-for-background-special-div-color: #09113a;
+    --comment-background-color: #ffffff7a;
+
+    --light-background-color-1: #0e163d;
+    --text-for-light-background-color-1: var();
+
+    
+
+    /* --background-color: rgb(235, 235, 235);
+    --text-for-background-color: #7A7A7A;
+    --speacial-text-for-background-color: black;
+
+    --background-sidebar-color: #806167;
+    --text-for-background-sidebar-color: #a6b3b4;
+    --special-text-for-background-sidebar-color: #21d3c4b4;
+    --hover-background-sidebar-color: #21d3c467;
+
+    --background-special-color: #a4d4c4;
+    --text-for-background-special-color: #09113a;
+    --speacial-text-for-background-special-color: #177e75;
+
+    --background-div-color: rgba(255, 236, 228, 0.397);
+    --background-special-div-color: #21d3c436;
+    --text-for-background-special-div-color: #09113a; */
+
+
+
+    --white-color: #ffffff;
+    --bacground-comfort-color: #18191A;
+    --light-silver-color: #f0f5f7;
+    --silver-color: #a6b3b4;
+    --quite-line-silver-color: #e1e5e7;
+    --dark-silver-color:#7A7A7A;
+    --silver-color-clicked: #3399de;
+    --black-color: #000;
+    --lightblue-color: #e5edf8;
+    --blue-color: #1967D2;
+    --darkblue-color: #18202c;
+    --light-darkblue-color: #2a364b;
+    --darkblue-color-hover: #232f3e;
+    --red-color:#de1f44;
+    --red-color-hover: #a01d37;
+    --so-ung-vien-color: teal;
+    --phu-huynh-ok-color: yellowgreen;
+    --ung-vien-ok-color: rgb(0, 225, 255);
+    --can-chu-y-color: rgb(219, 219, 0);
+    --can-xu-li-gap-color: rgb(255, 196, 0);
+
+    --may-be-color: rgba(202, 129, 46, 0.966);
+
+    --female-icon-color: rgb(241, 0, 101);
+    --male-icon-color: rgb(0, 16, 241);
+
+    --light-pink-color: rgb(255, 240, 247);
+    
+}
+
+* {
+    box-sizing: inherit;
+}
+
+html {
+    font-family: 'Mitr', sans-serif;
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    box-sizing: border-box;
+}
+html, body {
+    height: 100%;
+}
+
+/* Chuẩn bị class .grid để làm responsive */
+.grid {
+    width: 1200px;  /*Để nếu màn hình lớn hơn 1200px thì set cho nó là 1200px*/
+    max-width: 100%; /*Để nếu màn hình nhỏ hơn 1200px thì set cho nó là bự nhất có thể 100% của màn hình đó*/
+    margin: 0 auto; /*Để nó tự động căn giữa cái khối có class này khi nằm trong 1 khối khác*/
+}
+.grid__full-width{  /* Để nếu ko muốn sử dụng thằng grid ở trên thì dùng thằng này*/
+    width: 100%;   
+}
+
+.grid__row{  
+    display: flex;  /* Để những thử nằm trong class .grid__row này sẽ nằm trên cùng 1 hàng ngang, bởi vì nó có cùng 1 main axis nằm ngang*/
+    flex-wrap: wrap;  /*Để nếu độ dài thằng con vượt quá của thằng .grid__row này thì nó sẽ bị nhảy xuống hàng*/
+}
+
+
+
+

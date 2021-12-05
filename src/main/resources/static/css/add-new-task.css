@@ -1,0 +1,467 @@
+/* PHÂN TRANG - LAYOUT (margin, padding)*/
+body {
+    padding: 1rem;
+}
+.app {
+    display: flex;
+    column-gap: 1rem;  
+}
+.ls {
+    flex-basis: 20%;
+}
+.lm {
+    flex-basis: 30%;
+}
+.rm {
+    flex-basis: 28%;
+}
+.rs {
+    flex-basis: 22%;
+}
+
+.ls .them-lop-moi-but {
+    font-size: 1.8rem;
+    color: #1b9b9c;
+    text-align: center;
+    margin: 1rem 5rem;
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    border: 1px solid #1b9b9c;
+}
+.ls .them-lop-moi-but:hover {
+    background-color: #1b9b9c;
+    color: honeydew;
+}
+.ls .them-lop-moi-but:active {
+    box-shadow: inset 2px 2px 2px #cbced1, inset -2px -2px 2px white;
+}
+
+.ls_register, .ls_learner {
+    border-radius: 20px;
+    padding: 0.8rem 1.5rem;
+}
+.dropdown-toggle {
+    cursor: pointer;
+    display: flex;
+    padding: 0 2rem 0 1rem;
+    justify-content: space-between;
+}
+.dropdown-toggle .fas {
+    align-self: center;
+    font-size: 1.7rem;
+}
+
+
+.ls_register_l1 {
+    display: flex;
+    column-gap: 0.7rem;
+}
+.ls_register_l1 .input-container {
+    flex-basis: 67%;
+    margin-bottom: 0;
+}
+.ls_register_l1 .gender-container {
+    flex-basis: 33%;
+    align-self: center;
+    margin-top:1.5rem;
+}
+
+
+.lm {
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.5rem;
+}
+.lm_l1, .lm_l2 {
+    display: flex;
+    column-gap: 2rem;
+    
+}
+.lm_l1 div, .lm_l2 div {
+    flex-basis: 50%;
+}
+
+
+.ls_them-learner {
+    font-size: 1.5rem;
+    padding: 3rem 0 1.5rem 2rem;
+    color: green;
+}
+.ls_them-learner span {
+    cursor: pointer;
+}
+.ls_them-learner span:hover {
+    font-size: 1.6rem;
+}
+
+
+.rs_save {
+    display: flex;
+    column-gap: 2rem;
+    margin: 1rem 0;
+}
+.rs_save-button,
+.rs_save-public-button {
+    flex-basis: 50%;
+    text-align: center;
+    padding: 1.5rem 2rem;
+    font-size: 1.8rem;
+    border-radius: 20px;
+    box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white;  
+    cursor: pointer;
+    /* box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white; */
+}
+.rs_save-button {
+    background-color: rgba(0, 128, 0, 0.411);
+    color: rgb(63, 63, 63);
+}
+.rs_save-button:hover {
+    background-color: rgba(0, 128, 0, 0.561);
+}
+.rs_save-public-button {
+    background-color: rgba(0, 128, 0, 0.829);
+    color: whitesmoke;
+}
+.rs_save-public-button:hover {
+    background-color: green;
+    color: whitesmoke;
+}
+.rs_save-button:active,
+.rs_save-public-button:active {
+    box-shadow: inset 2px 2px 2px #cbced1, inset -2px -2px 2px white;
+}
+
+
+
+
+
+
+/* COLOR - color, backround-color */
+body {
+    background-color: var(--background-color);
+}
+.ls_register {
+    background-color: var(--background-for-background-color);
+}
+.ls_learner {
+    background-color: thistle;
+}
+
+.learner-relationship {
+    background-color: var(--background-for-background-color);
+    color: var(--speacial-text-for-background-color);
+    margin-bottom: 1rem;
+}
+
+#selection-noi-hoc .selection_head,
+#selection-noi-hoc .selection_area_option:hover > .selection_area_option_div,
+#selection-noi-hoc .selection_area_option__area_option:hover > .selection_area_option__area_option_div,
+#selection-noi-hoc .selection_area_option__area_option__area_option:hover > .selection_area_option__area_option__area_option_div {
+    background-color: rgba(222, 184, 135, 0.418);
+}
+#selection-mon-hoc .selection_head,
+#selection-mon-hoc .selection_area_option:hover > .selection_area_option_div,
+#selection-mon-hoc .selection_area_option__area_option:hover > .selection_area_option__area_option_div,
+#selection-mon-hoc .selection_area_option__area_option__area_option:hover > .selection_area_option__area_option__area_option_div {
+    background-color: rgba(216, 191, 216, 0.459);
+}
+#selection-yeu-cau .selection_head,
+#selection-yeu-cau .selection_area_option:hover > .selection_area_option_div,
+#selection-yeu-cau .selection_area_option__area_option:hover > .selection_area_option__area_option_div,
+#selection-yeu-cau .selection_area_option__area_option__area_option:hover > .selection_area_option__area_option__area_option_div {
+    background-color: #21d3c42d;
+}
+#selection-thoi-gian .selection_head,
+#selection-thoi-gian .selection_area_option:hover > .selection_area_option_div,
+#selection-thoi-gian .selection_area_option__area_option:hover > .selection_area_option__area_option_div,
+#selection-thoi-gian .selection_area_option__area_option__area_option:hover > .selection_area_option__area_option__area_option_div {
+    background-color: #abb5bb46;
+}
+
+
+
+
+
+
+
+
+/* ADDRESS */
+.add {
+    border-radius: 20px;
+    background-color: rgb(161, 161, 161);
+    padding: 1rem;
+}
+.add_l1 {
+    display: flex;
+    column-gap: 1rem;
+    margin-bottom: 1rem;
+}
+.add_l1 .no {
+    width: 50%;
+}
+.add_l1 .pro {
+    width: 50%;
+}
+.add_l2 {
+    margin-bottom: 1rem;
+}
+.add_l2 .st {
+    width: 100%;
+}
+.add_l3 {
+    display: flex;
+    column-gap: 1rem;
+    margin-bottom: 1rem;
+}
+.add_l3 .dist, .add_l3 .ward {
+    width: 50%;
+}
+.add_l4 input::placeholder {
+    font-style: italic;
+}
+.select {
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    padding: 0.4rem 1.5rem;
+    font-size: 1.5rem;
+}
+.select:hover {
+    box-shadow: 1px 2px 6px #e2e4e6, -1px -2px 6px rgb(202, 202, 202);
+}
+.select:active {
+    box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
+}
+
+
+
+/* GENDER */
+.gender-container {
+    display: flex;
+    font-size: 1.5rem;
+    height: fit-content;
+}
+.female { 
+    border-right: 1px solid rgb(170, 170, 170);
+    padding: 1rem 1rem;
+    border-radius: 20px 0 0 20px;
+    cursor: pointer;
+    background-color: rgb(245, 245, 245);
+    color: var(--text-for-background-color);
+    box-shadow: 3px 3px 6px #b3b6b9, 3px 3px 6px rgb(235, 235, 235); 
+}
+.female:hover {
+    background-color: rgb(255, 192, 203);
+}
+.female-clicked, .female:active {
+    background-color: rgb(250, 158, 173);
+    color:whitesmoke
+}
+.male {  
+    padding: 1rem 0.3rem;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    background-color: rgb(245, 245, 245);
+    color: var(--text-for-background-color);
+    box-shadow: 3px 3px 6px #b3b6b9, 3px 3px 6px rgb(235, 235, 235); 
+}
+.male:hover {
+    background-color: #8fa1fd;
+}
+.male-clicked, .male:active {
+    background-color: #6b83fd;
+    color:whitesmoke
+}
+.gender-container i {
+    margin-right: 0.4rem;
+}
+
+
+
+/* SELECTION (ở phần tư vấn lớp) */
+/* Có kết hợp với phần JS */
+.selection {
+    font-size: 1.5rem;
+    position: relative;
+}
+.selection_head {
+    border-radius: 20px;
+    background-color: var(--background-for-background-color); /*Màu này sẽ đc chỉnh sửa tuỳ vào id - xem ở trên*/
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: 6px 6px 6px #cbced1, -6px -6px 6px white; 
+}
+.selection_head:active {
+    box-shadow: inset 6px 6px 6px #95989b, inset -5px -3px 6px rgb(246, 246, 246);
+}
+
+.selection_area, 
+.selection_area_option__area,
+.selection_area_option__area_option__area {
+    padding: 1rem 0rem;;
+    position: absolute;
+    border-radius: 20px;
+    border: 0.5px solid var(--background-for-background-color);
+    background-color: whitesmoke;
+    width: 100%;
+    z-index: 1;
+    display: none;
+}
+.selection_area_option, 
+.selection_area_option__area_option,
+.selection_area_option__area_option__area_option {
+    position: relative;
+    padding: 0.5rem 1rem; 
+    cursor: pointer;
+}
+.selection_area_option_div,
+.selection_area_option__area_option_div,
+.selection_area_option__area_option__area_option_div {
+    padding: 1rem 2rem; 
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.selection_area_option:hover > .selection_area_option_div,
+.selection_area_option__area_option:hover > .selection_area_option__area_option_div,
+.selection_area_option__area_option__area_option:hover > .selection_area_option__area_option__area_option_div {
+    background-color: var(--background-for-background-color); /*Màu này sẽ đc chỉnh sửa tuỳ vào id - xem ở trên*/
+}
+
+.selection_area_option__area,
+.selection_area_option__area_option__area {
+    top: -1rem;
+    left: 100%;
+}
+
+
+
+
+/* RESULTS */
+/* Xem thêm common.js RESULT */
+.results {
+    display: flex;
+    flex-wrap: wrap;
+}
+.result {
+    position: relative;
+    border-radius: 20px;
+    background-color:thistle; /*Màu này sẽ đc chỉnh sửa tuỳ vào id - xem ở trên*/
+    cursor: pointer;
+    width: fit-content;
+    height: fit-content;
+    padding: 1rem 2rem;
+    margin: 1rem;
+    font-size: 1.5rem;
+}
+.result i, .result-input i {
+    position: absolute;
+    bottom: 75%;
+    left: 90%;
+    font-size: 1.8rem;
+    color: rgb(144, 106, 106);
+    display: none;
+}
+.result i:hover, .result-input i:hover {
+    color: rgb(109, 0, 0);
+}
+
+.result-input {
+    position: relative;
+    border-radius: 20px;
+    background-color:thistle;
+    cursor: pointer;
+    padding: 0.7rem 2rem 0.3rem 2rem;
+    margin: 1rem;
+    font-size: 1.5rem;
+}
+.result-input textarea{
+    border: none;
+    outline: none;
+    background-color: thistle;
+    width: 50px;
+}
+
+
+
+/* HỌC PHÍ */
+.hoc-phi {
+    display: flex;
+    column-gap: 0.5rem;
+    padding: 1rem 1rem;
+    border-radius: 20px;
+    background-color: darkseagreen;
+    color: rgb(63, 63, 63);;
+}
+.hoc-phi h2 {
+    flex-basis: 20%;
+    text-align: center;
+}
+.hoc-phi input {
+    flex-basis: 35%;
+    border:none;
+    outline: none;
+    padding: auto;
+    margin: 0;
+}
+.hoc-phi span {
+    flex-basis: 20%;
+    font-size: 1.5rem;
+    align-self: center;
+}
+.hoc-phi select {
+    flex-basis: 25%;
+    margin: 0;
+}
+
+
+/* EDIT PHÍ NHẬN LỚP, PHÍ LIÊN KẾT */
+.ti_edit-fee {
+    display:flex;
+    column-gap: 0.5rem;
+    margin: 0.5rem 0;
+}
+.ti_edit-fee select {
+    flex-basis: 30%;
+    text-align-last:center;
+    background-color: #abb5bb46;
+    color: black;
+    font-size: 1.4rem;
+}
+.ti_edit-fee input {
+    flex-basis: 30%;
+    text-align: center;
+    font-size: 1.5rem;
+}
+.ti_edit-fee span {
+    flex-basis: 10%;
+    align-self: center;
+    font-size: 1.4rem;
+    text-align: center;
+}
+.ti_edit-fee_them-phi-lk {
+    font-size: 1.4rem;
+    margin: 0.5rem 0.5rem;
+}
+.ti_edit-fee_them-phi-lk span:hover {
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+.ti_edit-fee_them-phi-lk span:active {
+    font-size: 1.4rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+

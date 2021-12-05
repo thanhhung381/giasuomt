@@ -1,5 +1,8 @@
 package giasuomt.demo.task.service;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import giasuomt.demo.commondata.generic.GenericService;
@@ -33,6 +36,25 @@ public class RequireService extends GenericService<SaveRequireDto, Require, Long
 		require = (Require) mapDtoToModel.map(dto, require);
 
 		return save(dto, require);
+	}
+
+	@Override
+	public List<Require> createAll(List<SaveRequireDto> dtos) {
+		try {
+			List<Require> requires = new LinkedList<>();
+			for (SaveRequireDto dto : dtos) {
+				Require require = new Require();
+
+				require = (Require) mapDtoToModel.map(dto, require);
+
+				requires.add(require);
+			}
+
+			return iRequireRepository.saveAll(requires);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

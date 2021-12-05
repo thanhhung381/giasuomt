@@ -42,7 +42,12 @@ public class Student extends AbstractEntity {
 	private String majorCode;
 
 	@ManyToOne
-	@JoinColumn(name = "person_id")
+	@JoinColumn(name = "tutor_id")
 	@JsonIgnore
-	private Person person;
+	private Tutor tutor;
+	
+	@ManyToOne
+	@JoinColumn(name = "register_and_learner_id")
+	@JsonIgnore
+	private RegisterAndLearner registerAndLearner;
 }

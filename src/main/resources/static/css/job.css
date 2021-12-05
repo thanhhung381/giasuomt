@@ -1,0 +1,371 @@
+.main-job {
+    display: flex;
+    column-gap: 1.5rem;
+    background-color: var(--background-color);
+    padding: 1.2rem 0;
+}
+
+.search-box {
+    background-color: white;
+}
+
+
+.main-job__giao-lop {
+    flex-basis: 64%;
+    padding: 0rem 1rem 0rem 0rem;
+}
+
+
+
+.main-job__giao-lop_container {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+}
+.main-job__giao-lop_container__head {
+    display: flex;
+    column-gap: 2rem;
+    color: var(--speacial-text-for-background-special-color);
+}
+.main-job__giao-lop_container__head__title {
+    flex-basis: 10%;
+    font-size: 2.2rem;
+}
+.main-job__giao-lop_container__head__hr {
+    flex-basis: 80%;
+    align-self: center;
+}
+.main-job__giao-lop_container__head__icon {
+    flex-basis: 5%;
+    font-size: 2.2rem;
+    text-align: end;
+    cursor: pointer;
+}
+
+
+.main-job__giao-lop_container__bien-ban {
+    display: flex;
+    column-gap: 2rem;
+    font-size: 1.5rem;
+}
+.main-job__giao-lop_container__bien-ban > div {
+    border-radius: 20px;
+    padding: 2rem 2rem 1rem 2rem;
+    background-image: linear-gradient(to bottom right, rgba(255, 255, 0, 0.205), rgba(255, 0, 0, 0.226));
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+}
+
+.main-job__giao-lop_container__bien-ban__left {
+    flex-basis: 30%;
+}
+.main-job__giao-lop_container__bien-ban__left > div {
+    display: flex;
+    column-gap: 1rem;
+}
+.main-job__giao-lop_container__bien-ban__left > div > div {
+    flex-basis: 50%;
+}
+.main-job__giao-lop_container__bien-ban__left .line4 > div {
+    text-align: center;
+    padding: 0.5rem 0;
+    border-radius: 10px;
+    background-color: beige;
+}
+.main-job__giao-lop_container__bien-ban__left .line4 > div:hover {
+    cursor: pointer;
+    background-color: rgb(218, 218, 214);
+}
+
+.main-job__giao-lop_container__bien-ban__center {
+    flex-basis: 40%;
+}
+
+.main-job__giao-lop_container__bien-ban__right {
+    flex-basis: 30%;
+}
+
+
+
+
+
+.main-job__giao-lop_container__cap-nhat {
+    display: flex;
+    column-gap: 2rem;
+}
+
+.main-job__giao-lop_container__cap-nhat__tai-chinh {
+    flex-basis: 30%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+/* TÀI CHÍNH TAGS */
+.da-tra {background-image: linear-gradient(to top, #ff90b0, #feb1c8);color: #feeef3;}
+.da-tra_title {background-color: #ff90b0;}
+.da-tra_hinh-thuc {background-color: #feb1c8;}
+.da-thu {background-image: linear-gradient(to top, #70b8ff, #85c5ff);color: #feeef3;}
+.da-thu_title {background-color: #70b8ff;}
+.da-thu_hinh-thuc {background-color: #92cbfe;}
+.khuyen-mai {background-image: linear-gradient(to top, #ffbc70, #ffc98c);color: #feeef3;}
+.khuyen-mai_title {background-color: #ffbc70;}
+.can-hoan-phi {background-image: linear-gradient(to top, rgb(223, 223, 223), rgb(231, 231, 231));color: #6b6064;}
+.can-hoan-phi_title {background-color: rgb(223, 223, 223);}
+
+.tc-tag {
+    position: relative;
+    transform-style: preserve-3d;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    align-self: center;
+    width: 300px;
+    padding: 2rem;
+    margin-top: 2.8rem;
+    border-radius: 15px;
+    font-size: 1.5rem;
+}
+.tc-tag_title {
+    position: absolute;
+    top: -2.8rem;
+    left: 0;
+    transform: translateZ(-1px);
+    padding: 0.8rem 2.5rem;
+    width: fit-content;
+    height: 50px;
+    border-radius: 15px;
+    color: black;
+}
+.tc-tag_bill {
+    position: absolute;
+    top: -2.1rem;
+    right: 1.5rem;
+    color:black;
+    display: flex;
+    column-gap: 1.5rem;
+}
+.tc-tag_bill span {
+    cursor: pointer;
+}
+.tc-tag_bill i {
+    cursor: pointer;
+    color: cadetblue;
+}
+.tc-tag_title i {
+    position: absolute;
+    top: 7px;
+    right: -17px;
+    font-size: 1.5rem;
+    color: rgb(160, 0, 0);
+    cursor: pointer;
+}
+
+.tc-tag_l1,
+.tc-tag_l2 {
+    display: flex;
+    column-gap: 1rem;
+}
+.tc-tag_l1_hinh-thuc {
+    flex-basis: 30%;
+    border-radius: 10px;
+    padding: 0.3rem;
+    border: 1px solid #feeef3;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+    color: #feeef3;
+}
+.tc-tag_l1_thoi-gian {
+    align-self: center;
+    text-align: end;
+}
+.tc-tag_l2 input {
+    flex-basis: 50%;
+}
+.tc-tag_l2 span {
+    flex-basis: 50%;
+    align-self: center;
+}
+
+.tc-add-button {
+    display: flex;
+    column-gap: 1rem;
+    width: 300px;
+    align-self: center;
+}
+.tc-add-button div {
+    flex-basis: 50%;
+    border-radius: 15px;
+    padding: 1rem 2rem;
+    align-self: center;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+}
+.tc-add-button__plus {
+    color: #70b8ff;
+    border: 1px solid #70b8ff;
+}
+.tc-add-button__plus:hover {
+    color: whitesmoke;
+    background-color: #70b8ff;
+}
+.tc-add-button__minus {
+    color: #ff90b0;
+    border: 1px solid #ff90b0;
+}
+.tc-add-button__minus:hover {
+    color: whitesmoke;
+    background-color: #ff90b0;
+}
+.tc-add-button__khuyen-mai {
+    color: #ffbc70;
+    border: 1px solid #ffbc70;
+}
+.tc-add-button__khuyen-mai:hover {
+    color: whitesmoke;
+    background-color: #ffbc70;
+}
+.tc-add-button__can-hoan-phi {
+    color: #999999;
+    border: 1px solid #999999;
+}
+.tc-add-button__can-hoan-phi:hover {
+    color: whitesmoke;
+    background-color: #999999;
+}
+.tc-tag_l4 {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+.tc-tag_l4 div {
+    display: flex;
+    /* column-gap: 0.5rem; */
+}
+.tc-tag_l4 div .key {
+    flex-basis: 25%;
+    text-decoration: underline;
+    align-self: center;
+}
+.tc-tag_l4 div input {
+    flex-basis: 70%;
+    outline: none;
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+}
+.tc-tag_l4 div i {
+    flex-basis: 5%;
+    cursor: pointer;
+    color: #5f9ea0;
+    align-self: center;
+}
+
+
+/* CẬP NHẬT TÌNH HÌNH */
+.main-job__giao-lop_container__cap-nhat__tinh-hinh {
+    flex-basis: 40%;
+    padding: 0 1rem;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+}
+.main-job__giao-lop_container__cap-nhat__tinh-hinh__title {
+    font-size: 2.2rem;
+}
+.main-job__giao-lop_container__cap-nhat__tinh-hinh__title i{
+    color: var(--speacial-text-for-background-special-color);
+    cursor: pointer;
+}
+.block-event_character div {
+    font-size: 1.2rem;
+}
+.block-event_content_head_title {
+    font-size: 1.6rem;
+}
+.block-event_content_head_date {
+    font-style: italic;
+    font-size: 1.4rem;
+}
+.block-event_content_special {
+    font-style: italic;
+    font-size: 1.4rem;
+}
+.block-event_content_body {
+    font-size: 1.4rem;
+}
+
+
+
+
+
+
+/* RESULT*/
+.main-job__giao-lop_container__cap-nhat__ket-qua {
+    flex-basis: 30%;
+}  
+
+.main-job__giao-lop_container__cap-nhat__ket-qua__result-option {
+    display: flex;
+    column-gap: 1rem;
+}
+.main-job__giao-lop_container__cap-nhat__ket-qua__result-option div {
+    flex-basis: 50%;
+    text-align: center;
+    font-size: 2.2rem;
+    cursor: pointer;
+    padding: 1rem 2rem;
+    color: rgb(139, 139, 139);
+    border-radius: 15px;
+    border: 1px solid rgb(139, 139, 139);
+}
+.result-option-good:hover {
+    color:green;
+    border-color: green;
+}
+.result-option-good:active {
+    color:whitesmoke;
+    background-color: green;
+}
+.result-option-fail:hover {
+    color:rgb(218, 0, 0);
+    border-color: rgb(218, 0, 0);
+}
+.result-option-fail:active {
+    color:whitesmoke;
+    background-color: rgb(218, 0, 0);
+}
+
+.main-job__giao-lop_container__cap-nhat__ket-qua__fail {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+}
+.main-job__giao-lop_container__cap-nhat__ket-qua__fail select {
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 1.4rem;
+    outline: none;
+    border-color: rgb(218, 0, 0);
+}
+.main-job__giao-lop_container__cap-nhat__ket-qua__fail .tim-gia-su-khac {
+    font-size: 1.8rem;
+    display: flex;
+    column-gap: 2rem;
+    justify-content: center;
+}
+.main-job__giao-lop_container__cap-nhat__ket-qua__fail .tim-gia-su-khac input{
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(2); /* IE */
+    -moz-transform: scale(2); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(2); /* Opera */
+    transform: scale(2);
+}

@@ -1,10 +1,7 @@
 package giasuomt.demo.task.dto;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,21 +10,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-
 import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-
 import giasuomt.demo.commondata.util.DateUtils;
 import giasuomt.demo.educational.model.Subject;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;
 import giasuomt.demo.finance.util.UnitOfMoney;
-import giasuomt.demo.person.model.Person;
+import giasuomt.demo.location.model.SaveTaskPlaceAddressDto;
+import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.task.model.Require;
-import giasuomt.demo.task.model.TaskPlaceAddress;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,7 +29,7 @@ import lombok.Setter;
 @Getter
 public class SaveTaskDto {
 
-	private Long id;
+	private String id;
 
 	// NƠI HỌC
 
@@ -115,4 +109,9 @@ public class SaveTaskDto {
 	private UnitOfMoney unitOfAffiliateFee;
 
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
+	
+	
+	
+	
+	
 }

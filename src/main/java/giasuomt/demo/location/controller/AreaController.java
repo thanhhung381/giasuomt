@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
-import giasuomt.demo.location.dto.FindingDtoArea;
+import giasuomt.demo.location.dto.FindingVietnamAreaDto;
 import giasuomt.demo.location.dto.SaveAreaDto;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.service.IAreaService;
@@ -20,21 +19,22 @@ import lombok.AllArgsConstructor;
 @RestController // Tức là server sẽ trả JSON về client
 @RequestMapping("/api/area") // Ghi nhận yêu cầu gọi api của Client
 @AllArgsConstructor
-public class AreaController extends GenericController<SaveAreaDto, Area, Long, BindingResult> {
+public class AreaController extends GenericController<SaveAreaDto, Area, String, BindingResult> {
 
 	private IAreaService iAreaService;
 
 	
 
 	// findByNationAndProvincialLevelAndDistrictAndCommune
-	@PostMapping("/findByBasicLocationInArea")
+	@PostMapping("/findVietnamArea")
 	public ResponseEntity<Object> findByNationAndProvincialLevelAndDistrictAndCommune(
-			@Valid @RequestBody FindingDtoArea dtoFinding, BindingResult errors) {
-		List<Area> areas = iAreaService.findByNationAndProvincialLevelAndDistrictAndCommune(dtoFinding);
+			@Valid @RequestBody FindingVietnamAreaDto findingVietnamAreaDto, BindingResult errors) {
+		List<Area> areas = iAreaService.findByNationAndProvincialLevelAndDistrictAndCommune(findingVietnamAreaDto);
 		if (areas == null)
 			return ResponseHandler.getResponse("Do not exist Area", HttpStatus.BAD_REQUEST);
 		return ResponseHandler.getResponse(areas, HttpStatus.OK);
 	}
+	
 
 
 

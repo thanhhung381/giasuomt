@@ -1,17 +1,20 @@
 package giasuomt.demo.task.model;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -19,15 +22,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.annotations.GeneratorType;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import giasuomt.demo.comment.model.Comment;
+import giasuomt.demo.comment.model.TaskComment;
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.model.AbstractEntity;
+import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.util.DateUtils;
 import giasuomt.demo.educational.model.Subject;
 import giasuomt.demo.finance.util.AmoutPerTime;
@@ -35,7 +40,8 @@ import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.job.model.Job;
-import giasuomt.demo.person.model.Person;
+import giasuomt.demo.location.model.TaskPlaceAddress;
+import giasuomt.demo.person.model.RegisterAndLearner;
 import giasuomt.demo.task.util.TaskStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,10 +51,13 @@ import lombok.Setter;
 @Entity
 @Table(name = "task")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
-public class Task extends AbstractEntity {
+public class Task extends AbstractEntityNotId {
 	// @Unique
 	// @NotBlank
-	private String taskCode; // Cần viết tự generate theo dạng MB1991
+	@Id
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	//@Column(nullable = false)
+	private String id; // Cần viết tự generae theo dạng MB1991 
 	
 	
 
@@ -56,20 +65,20 @@ public class Task extends AbstractEntity {
 //TÌNH TRẠNG LỚP
 //	@Enumerated(EnumType.STRING) 
 //	@NotNull  //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
-//	private TaskStatus status;
+//	private TaskStatus status; 
 
 //NƠI HỌC
 	private String taskPlaceType;
 
 	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<TaskPlaceAddress> taskPlaceAddresses = new ArrayList<>();// không có trước đó
+	private List<TaskPlaceAddress> taskPlaceAddresses = new LinkedList<>();// không có trước đó
 
 //MÔN HỌC
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_subject", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
-	private List<Subject> subjects = new ArrayList<>();
+	private List<Subject> subjects = new LinkedList<>();
 
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
@@ -84,7 +93,7 @@ public class Task extends AbstractEntity {
 	// cho API hiển thị thông tin lớp)
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_require", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "require_id"))
-	private List<Require> requires = new ArrayList<>();
+	private List<Require> requires = new LinkedList<>();
 
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
@@ -144,10 +153,9 @@ public class Task extends AbstractEntity {
 
 	@Enumerated(EnumType.STRING)
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
-
 //COMMENTS (Nếu có)
-//    @OneToMany(mappedBy = "task")
-	// private Set<Comment> comments;
+    @OneToMany(mappedBy = "task")
+	private List<TaskComment> comments=new LinkedList<>();
 
 //ĐÁNH DẤU (Nếu có)
 //	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
@@ -156,22 +164,35 @@ public class Task extends AbstractEntity {
 //NGƯỜI ĐĂNG KÝ và HỌC VIÊN
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_register", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "register_id"))
-	private List<Person> registers = new ArrayList<>();
+	private List<RegisterAndLearner> registers = new LinkedList<>();
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_learner", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "learner_id"))
-	private List<Person> learners = new ArrayList<>();
+	private List<RegisterAndLearner> learners = new LinkedList<>();
 
 //ỨNG VIÊN ĐĂNG KÝ
 	@OneToMany(mappedBy = "task")
-	private List<Application> applications=new ArrayList<>();
+	private List<Application> applications=new LinkedList<>();
 
 //GIAO JOB
 	@OneToMany(mappedBy = "task")
-	private List<Job> jobs=new ArrayList<>();
+	private List<Job> jobs=new LinkedList<>();
 
 //số Task khởi tạo	
 
+	
+	
+	
+	public void removeApplication(Application application)
+	{
+		this.applications.remove(application);
+	}
+	
+	public void addApplication(Application application)
+	{
+		application.setTask(this);
+		this.applications.add(application);
+	}
 	
 	
 	

@@ -1,8 +1,8 @@
 package giasuomt.demo.location.service;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.validation.Valid;
-
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -11,7 +11,8 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
-import giasuomt.demo.location.dto.FindingDtoArea;
+import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
+import giasuomt.demo.location.dto.FindingVietnamAreaDto;
 import giasuomt.demo.location.dto.SaveAreaDto;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
@@ -19,8 +20,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-@CacheConfig(cacheNames = "areaCache")
-public class AreaService extends GenericService<SaveAreaDto, Area, Long> implements IAreaService {
+public class AreaService extends GenericService<SaveAreaDto, Area, String> implements IAreaService {
 
 	private IAreaRepository iAreaRepository;
 
@@ -33,23 +33,27 @@ public class AreaService extends GenericService<SaveAreaDto, Area, Long> impleme
 		
 		area = (Area) mapper.map(dto, area);
 		
+		area.setId(StringUltilsForAreaID.concatIdArea(dto.getNation(),dto.getState(), dto.getCommune(), dto.getProvincialLevel(), dto.getDistrict()));
+		
+		
 		return save(dto, area);
 	}
 
 
-	@CachePut(value = "areas", key = "#dto.getId()")
+	
 	@Override
 	public Area update(SaveAreaDto dto) {
 		Area area = iAreaRepository.getOne(dto.getId());
 
 		area = (Area) mapper.map(dto, area);
 		
+	//	area.setId(StringUltilsForAreaID.concatIdArea(dto.getNation(),dto.getState(), dto.getCommune(), dto.getProvincialLevel(), dto.getDistrict()));
+		
+		
 		return save(dto, area);
 	}
 	
 	
-
-
 
 	
 	
@@ -62,33 +66,25 @@ public class AreaService extends GenericService<SaveAreaDto, Area, Long> impleme
 
 	// findByNationAndProvincialLevelAndDistrictAndCommune
 	@Override
-	public List<Area> findByNationAndProvincialLevelAndDistrictAndCommune(FindingDtoArea dtoArea) {
+	public List<Area> findByNationAndProvincialLevelAndDistrictAndCommune(FindingVietnamAreaDto dtoArea) {
 
-		String nation = dtoArea.getNation();
-		String state = dtoArea.getState();
 		String provincialLevel = dtoArea.getProvincialLevel();
 		String district = dtoArea.getDistrict();
 		String commune = dtoArea.getCommune();
 
-		if (nation != null) {
-			if (state != null && provincialLevel != null && district != null && commune != null) {
-				return iAreaRepository.findByNationAndProvincialLevelAndDistrictAndCommune(nation, provincialLevel,
-						district, commune, state);
-			}
-			if (state != null && provincialLevel != null && district != null) {
-				return iAreaRepository.findByNationAndProvincialLevelAndStateAndDistrict(nation, provincialLevel, state,
-						district);
-			}
-			if (state != null && provincialLevel != null) {
-				return iAreaRepository.findByNationAndProvincialLevelAndState(nation, provincialLevel, state);
-			} else if (state != null) {
-				return iAreaRepository.findByNationAndState(nation, state);
-			} else
-				return iAreaRepository.findByNation(nation);
-		} else
-
-			return null;
-
+		String nation = "Việt Nam";
+		
+		if (provincialLevel != null && district != null && commune != null) {
+			return iAreaRepository.findByNationAndProvincialLevelAndDistrictAndCommune(nation, provincialLevel, district, commune);
+		}
+		else if (provincialLevel != null && district != null) {
+			return iAreaRepository.findByNationAndProvincialLevelAndStateAndDistrict(nation, provincialLevel, district);
+		}
+		else if (provincialLevel != null) {
+			return iAreaRepository.findByNationAndProvincialLevelAndState(nation, provincialLevel);
+		}  
+				
+		return null;
 	}
 
 
@@ -109,6 +105,28 @@ public class AreaService extends GenericService<SaveAreaDto, Area, Long> impleme
 	public boolean checkExistCommune(String commune) {
 
 		return iAreaRepository.countByCommune(commune) >= 1;
+	}
+
+
+
+	@Override
+	public List<Area> createAll(List<SaveAreaDto> dtos) {
+		try {
+			List<Area> areas=new ArrayList<>();
+			for ( SaveAreaDto areaDto : dtos) {
+				Area area=new Area();
+				area = (Area)mapper.map(areaDto, area);
+				area.setId(StringUltilsForAreaID.concatIdArea(areaDto.getNation(),areaDto.getState(), areaDto.getCommune(), areaDto.getProvincialLevel(), areaDto.getDistrict()));
+				areas.add(area);
+				
+			}
+			
+			return iAreaRepository.saveAll(areas);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 

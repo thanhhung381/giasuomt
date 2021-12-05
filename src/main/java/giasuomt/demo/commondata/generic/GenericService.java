@@ -5,10 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
+
 import giasuomt.demo.commondata.model.AbstractEntity;
+import giasuomt.demo.commondata.model.AbstractEntityNotId;
+import giasuomt.demo.person.dto.SaveTutorDto;
+import giasuomt.demo.person.model.Tutor;
 
-
-public abstract class GenericService<DTO, T extends AbstractEntity, ID> implements IGenericService<DTO, T, ID> {
+public abstract class GenericService<DTO, T extends AbstractEntityNotId, ID> implements IGenericService<DTO, T, ID> {
 	@Autowired
 	private JpaRepository<T, ID> repository; // Cần phải viết @Component GenericRepository (viết ở trong JpaConfig.java)
 												// nó mới inject cái repository này được
@@ -18,7 +22,7 @@ public abstract class GenericService<DTO, T extends AbstractEntity, ID> implemen
 		return repository.findAll();
 	}
 	
-//	@CachePut(value = "entity", key = "#entity.id")
+
 	@Override
 	public T save(DTO dto, T entity) {
 		try {
@@ -33,7 +37,8 @@ public abstract class GenericService<DTO, T extends AbstractEntity, ID> implemen
 
 	}
 
-	@Cacheable(value = "areas", key = "#id")
+	
+	
 	@Override
 	public Optional<T> findById(ID id) {
 		return repository.findById(id);
@@ -54,5 +59,11 @@ public abstract class GenericService<DTO, T extends AbstractEntity, ID> implemen
 	public boolean checkExistIdOfT(ID id) {
 
 		return repository.existsById(id);
+	}
+
+
+	public List<T> createAll(List<DTO> dtos) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,13 +1,12 @@
 package giasuomt.demo.educational.service;
-
+import java.util.LinkedList;
+import java.util.List;
 import org.springframework.stereotype.Service;
-
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.educational.dto.SaveUniversityDto;
 import giasuomt.demo.educational.model.University;
 import giasuomt.demo.educational.repository.IUniversityRepository;
-import giasuomt.demo.person.repository.IRelationshipRepository;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -35,6 +34,22 @@ public class UniversityService extends GenericService<SaveUniversityDto, Univers
 		university = (University) mapDtoToModel.map(dto, university);
 
 		return save(dto, university);
+	}
+
+	@Override
+	public List<University> createAll(List<SaveUniversityDto> dtos) {
+		try {
+			List<University> universities=new LinkedList<>();
+			for (SaveUniversityDto dto : dtos) {
+				University university = new University();
+				university = (University) mapDtoToModel.map(dto, university);
+				universities.add(university);
+			}
+			return iUniversityRepository.saveAll(universities);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

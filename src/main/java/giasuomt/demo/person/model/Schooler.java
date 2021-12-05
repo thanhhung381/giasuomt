@@ -22,6 +22,8 @@ public class Schooler extends AbstractEntity {
 	private String confirmImgs;
 
 	private String nowLevel;
+	
+	private String note;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_TIME_FORMAT) // Quy định date format khi nó add đối tượng thành Json để trả về Clients
 	@DateTimeFormat(pattern = DateTimeUtils.DATE_TIME_FORMAT) // Quy định date format để lưu xuống database
@@ -37,7 +39,7 @@ public class Schooler extends AbstractEntity {
 
 
 	@ManyToOne
-	@JoinColumn(name = "person_id")
+	@JoinColumn(name = "register_and_learner_id")
 	@JsonIgnore
-	private Person person;
+	private RegisterAndLearner registerAndLearner;
 }

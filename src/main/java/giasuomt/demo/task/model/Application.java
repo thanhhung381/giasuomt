@@ -1,7 +1,8 @@
 package giasuomt.demo.task.model;
-
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,14 +11,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import giasuomt.demo.comment.model.ApplicationComment;
 import giasuomt.demo.comment.model.Comment;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.job.model.Job;
-import giasuomt.demo.person.model.Person;
+import giasuomt.demo.person.model.Tutor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,12 +34,13 @@ public class Application extends AbstractEntity {
 	private Task task;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "person_id")
-	private Person person;
+	@JoinColumn(name = "tutor_id")
+	private Tutor tutor;
 	
 	//Comments
-//    @OneToMany(mappedBy = "application")
- //   private Set<Comment> comments;
+    @OneToMany(mappedBy = "application")
+    @JsonIgnore
+    private List<ApplicationComment> comments=new LinkedList<>();
     
 //    //Đánh dấu
 //	@OneToMany(mappedBy = "application", fetch = FetchType.EAGER)

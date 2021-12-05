@@ -1,7 +1,12 @@
 package giasuomt.demo.uploadfile.controller;
 import java.io.IOException;
 import java.util.List;
+
+
 import javax.servlet.http.HttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +23,7 @@ import giasuomt.demo.uploadfile.model.Avatar;
 import giasuomt.demo.uploadfile.model.ResponsiveAvatar;
 import giasuomt.demo.uploadfile.service.IAvatarService;
 import lombok.AllArgsConstructor;
+
 
 @RequestMapping("/api/file")
 @RestController

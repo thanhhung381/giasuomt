@@ -19,6 +19,8 @@ public class SaveSchoolerDto {
 	private String confirmImgs;
 
 	private String nowLevel;
+	
+	private String note;
 
 	private LocalDateTime nowLevelUpdatedAt;
 

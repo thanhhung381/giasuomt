@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import giasuomt.demo.commondata.model.AbstractEntity;
+import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-public abstract class GenericController<DTO, T extends AbstractEntity, ID, BindingResult> {
+public abstract class GenericController<DTO, T extends AbstractEntityNotId, ID, BindingResult> {
+	
 	@Autowired
 	private IGenericService<DTO, T, ID> iGenericService;
 	
@@ -26,7 +28,7 @@ public abstract class GenericController<DTO, T extends AbstractEntity, ID, Bindi
 	@GetMapping("/findAll")
 	public ResponseEntity<Object> findall() {
 		List<T> ts = iGenericService.findAll();
-		if (ts.isEmpty())
+		if (ts==null)
 			return ResponseHandler.getResponse("There is no data.", HttpStatus.OK);
 			
 		return ResponseHandler.getResponse(ts, HttpStatus.OK);
@@ -41,6 +43,17 @@ public abstract class GenericController<DTO, T extends AbstractEntity, ID, Bindi
 		
 		return ResponseHandler.getResponse(createdT, HttpStatus.OK);
 	}
+	
+	@PostMapping("/createAll")
+	public ResponseEntity<Object> create(@Valid @RequestBody List<DTO> dto, BindingResult errors) {
+		if (((Errors) errors).hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		
+		List<T> createdT = iGenericService.createAll(dto);
+		
+		return ResponseHandler.getResponse(createdT, HttpStatus.OK);
+	}
+	
 	
 	@PutMapping("/update")
 	public ResponseEntity<Object> update(@Valid @RequestBody DTO dto, BindingResult errors) {
@@ -65,8 +78,10 @@ public abstract class GenericController<DTO, T extends AbstractEntity, ID, Bindi
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<Object> findById(@PathVariable("id") ID id) {
 		Optional<T> t = iGenericService.findById(id);
+
 //		if (t.isEmpty())
 		if (t == null)
+
 			return ResponseHandler.getResponse("There is no data.", HttpStatus.OK);
 			
 		return ResponseHandler.getResponse(t, HttpStatus.OK);

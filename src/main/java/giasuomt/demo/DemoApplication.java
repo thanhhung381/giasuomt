@@ -1,6 +1,8 @@
 package giasuomt.demo;
 
 import java.nio.file.Path;
+
+
 import java.nio.file.Paths;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -10,8 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.util.StringUtils;
 
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
+import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.util.DateTimeUtils;
-import io.netty.util.internal.SystemPropertyUtil;
+
 
 @SpringBootApplication
 public class DemoApplication {
@@ -20,8 +23,11 @@ public class DemoApplication {
 
 		SpringApplication.run(DemoApplication.class, args);
 		
+		
+		
+		
 	}	
 	
-
+ 
 }
  

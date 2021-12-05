@@ -1,16 +1,19 @@
 package giasuomt.demo.task.service;
 
-import org.springframework.stereotype.Service;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
-import giasuomt.demo.person.repository.IPersonRepository;
+import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.dto.SaveApplicationDto;
 import giasuomt.demo.task.model.Application;
+import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +26,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 	private IApplicationRepository iApplicationRepository;
 
-	private IPersonRepository iPersonRepository;
+	private ITutorRepository iTutorRepository;
 
 	public Application create(SaveApplicationDto dto) {
 
@@ -31,9 +34,11 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 		application = (Application) mapDtoToModel.map(dto, application);
 
-		application.setTask(iTaskRepository.getOne(dto.getIdTask()));
+		Task task = iTaskRepository.findByIdString(dto.getIdTask());
 
-		application.setPerson(iPersonRepository.getOne(dto.getIdPerson()));
+		application.setTask(task);
+
+		application.setTutor(iTutorRepository.getOne(dto.getIdTutor()));
 
 		return save(dto, application);
 	}
@@ -47,10 +52,36 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 		application.setTask(iTaskRepository.getOne(dto.getIdTask()));
 
-		application.setPerson(iPersonRepository.getOne(dto.getIdPerson()));
+		application.setTutor(iTutorRepository.getOne(dto.getIdTutor()));
 
 		return save(dto, application);
 
+	}
+
+	@Override
+	public List<Application> createAll(List<SaveApplicationDto> dtos) {
+		try {
+
+			List<Application> applications = new LinkedList<>();
+			for (SaveApplicationDto dto : dtos) {
+				Application application = new Application();
+
+				application = (Application) mapDtoToModel.map(dto, application);
+
+				application.setTask(iTaskRepository.getOne(dto.getIdTask()));
+
+				application.setTutor(iTutorRepository.getOne(dto.getIdTutor()));
+
+				applications.add(application); 
+
+
+			}
+			return iApplicationRepository.saveAll(applications);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
