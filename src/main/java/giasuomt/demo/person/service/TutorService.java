@@ -7,6 +7,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import giasuomt.demo.commondata.generator.TutorCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
+import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.person.dto.SaveGraduatedStudentDto;
@@ -139,7 +140,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	}
 
 	@Override
-	public Tutor findByTutorCode(String tutorCode) {
+	public Tutor findByTutorCode(Long tutorCode) {
 
 		return iTutorRepository.findByIdOrTutorCode(tutorCode);
 	}
@@ -176,9 +177,9 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		tutor.setFullName(dto.getFullName().toUpperCase());
 
 		
+		tutor.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toLowerCase());
 		
-		
-		
+		 
 		tutor.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
 
 	
@@ -403,6 +404,24 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			ResponseTutorCode = TutorCodeGenerator.generateResponsive((int) 1);
 		}
 		return TutorCodeGenerator.generatorCode().concat(ResponseTutorCode);
+	}
+
+	@Override
+	public List<Tutor> findByEnglishFullName(String fullname) {
+		
+		return iTutorRepository.findByEnglishFullNameContaining(fullname);
+	}
+
+	@Override
+	public List<String> findByEngfullnameAndShowFullName(String fullname) {
+
+		return iTutorRepository.findByEnglishNameAndShowFullName(fullname);
+	}
+
+	@Override
+	public List<String> findByfullnameAndShowFullName(String fullname) {
+		
+		return iTutorRepository.showFullname(fullname);
 	}
 
 }

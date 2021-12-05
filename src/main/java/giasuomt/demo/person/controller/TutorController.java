@@ -23,7 +23,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 	private ITutorService iTutorService;
 
 	@GetMapping("/findByTutorCode/{tutorCode}")
-	public ResponseEntity<Object> findByTutorCode(@RequestParam("tutorCode") String tutorCode) {
+	public ResponseEntity<Object> findByTutorCode(@RequestParam("tutorCode") Long tutorCode) {
 
 		Tutor tutor = iTutorService.findByTutorCode(tutorCode);
 
@@ -38,7 +38,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 
 		List<Tutor> tutors = iTutorService.findByPhoneNumber(phoneNumber);
 
-		if (tutors == null)
+		if (tutors.isEmpty())
 			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
 
 		return ResponseHandler.getResponse(tutors, HttpStatus.OK);
@@ -50,7 +50,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 
 		List<Tutor> tutors = iTutorService.findByEndPhoneNumber(endPhoneNumber);
 
-		if (tutors == null)
+		if (tutors.isEmpty())
 			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
 
 		return ResponseHandler.getResponse(tutors, HttpStatus.OK);
@@ -58,15 +58,40 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 	}
 
 	@GetMapping("/findByFullName/{fullName}")
-	public ResponseEntity<Object> findByFullname(@RequestParam("fullName") String fullName) {
+	public ResponseEntity<Object> findByFullnameAndReturnObject(@RequestParam("fullName") String fullName) {
 
-		List<Tutor> tutors = iTutorService.findByFullNameContain(fullName.toUpperCase());
-
-		if (tutors == null)
-			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
-
+		 List<Tutor> tutors = iTutorService.findByFullNameContain(fullName.toUpperCase());
+		 
+		 
+		if (tutors.isEmpty())
+		{
+			List<Tutor> tutorsByEngName=iTutorService.findByEnglishFullName(fullName);
+			if(tutorsByEngName.isEmpty())
+				return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse(tutorsByEngName, HttpStatus.BAD_GATEWAY);
+		}
+		
 		return ResponseHandler.getResponse(tutors, HttpStatus.OK);
 
 	}
+	
+	@GetMapping("/findByFullNameAndReturnName/{fullNameShowName}")
+	public ResponseEntity<Object> findByFullnameAndReturnFullName(@RequestParam("fullNameShowName") String fullNameShowName) {
+
+		
+		List<String> tutorNames=iTutorService.findByfullnameAndShowFullName(fullNameShowName.toUpperCase());
+		 
+		if (tutorNames.isEmpty())
+		{
+			List<String> tutorEngNames=iTutorService.findByEngfullnameAndShowFullName(fullNameShowName);
+			if(tutorEngNames.isEmpty())
+				return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
+			 return ResponseHandler.getResponse(tutorEngNames, HttpStatus.OK);
+		}
+		
+		return ResponseHandler.getResponse(tutorNames, HttpStatus.OK);
+
+	}
+	
 
 }
