@@ -1,10 +1,10 @@
 package giasuomt.demo.task.service;
-
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-
+import javax.validation.Valid;
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
@@ -17,13 +17,14 @@ import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.location.repository.ITaskPlaceAddressRepository;
 import giasuomt.demo.person.model.RegisterAndLearner;
 import giasuomt.demo.person.repository.IRegisterAndLearnerRepository;
+import giasuomt.demo.task.dto.AddObjectToTaskDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
 import giasuomt.demo.task.model.Require;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.IRequireRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
-
+import giasuomt.demo.task.util.TaskAppearanceGenerator;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -71,22 +72,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		// String taskCode = dto.getId();
 
 	
-		
-		List<Long> registerIds = dto.getIdRegisters();
-		List<RegisterAndLearner> registers = new ArrayList<>();
-		for (int i = 0; i < registerIds.size(); i++) {
-			RegisterAndLearner register = iRegisterAndLearnerRepository.getOne(registerIds.get(i));
-			registers.add(register);
-		}
-		task.setRegisters(registers);
-
-		List<Long> LearnerIds = dto.getIdRegisters();
-		List<RegisterAndLearner> learners = new ArrayList<>();
-		for (int i = 0; i < LearnerIds.size(); i++) {
-			RegisterAndLearner leaner = iRegisterAndLearnerRepository.getOne(LearnerIds.get(i));
-			learners.add(leaner);
-		}
-		task.setLearners(learners);
 
 		// Subject vì sau khi nhập subject thì đã có tồn tại subjectgroup rồi
 		List<Long> subjectIds = dto.getIdSubjects();
@@ -212,19 +197,59 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	@Override
 	public Optional<Task> findByTaskCode(String taskCode) {
-
 		return null;
 	}
 
-//	//Tìm ra danh sách Registers và Learners theo Id
-//	@Override
-//	public List<RegisterAndLearner> findRegistersById(Long id) {
-//		return iTaskRepository.findRegistersById(id);
-//	}
-//
-//	@Override
-//	public List<RegisterAndLearner> findLearnersById(Long id) {
-//		return iTaskRepository.findLearnersById(id);
-//	}
+	
+	//Add Object to Task
+	@Override
+	public Task addObject(AddObjectToTaskDto dto) {
+		try {
+			Task task = iTaskRepository.getOne(dto.getTaskId());
+
+			switch (dto.getAttributeName()) {
+			case "subjects":
+				Subject subject = iSubjectRepository.getOne(dto.getObjectId());			
+				if(!task.getSubjects().contains(subject)) {
+					task.addSubject(subject);
+					task.setSubjectApperance(TaskAppearanceGenerator.generateSubjectAppearance(task.getSubjects()));
+				};					
+				break;
+			default:
+				break;
+			};
+
+			return iTaskRepository.save(task);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	//Delete Object from Task
+	@Override
+	public Task deleteObject(AddObjectToTaskDto dto) {
+		try {
+			Task task = iTaskRepository.getOne(dto.getTaskId());
+			
+			switch (dto.getAttributeName()) {
+			case "subjects":
+				Subject subject = iSubjectRepository.getOne(dto.getObjectId());
+				if(task.getSubjects().contains(subject)) {
+					task.removeSubject(subject);
+				};				
+				break;
+			default:
+				break;
+			};
+			
+			return iTaskRepository.save(task);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
 
 }

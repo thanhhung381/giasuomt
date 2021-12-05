@@ -24,6 +24,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GeneratorType;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -128,7 +129,7 @@ public class Task extends AbstractEntityNotId {
 	@Enumerated(EnumType.STRING)
 	private UnitOfMoney unitOfSalary;
 
-//	private AmoutPerTime salaryPerTime;
+	private AmoutPerTime salaryPerTime;
 
 //PHÍ THU
 	@Enumerated(EnumType.STRING)
@@ -161,48 +162,50 @@ public class Task extends AbstractEntityNotId {
 //	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
 //	private Set<TaskSign> taskSigns;
 
-//NGƯỜI ĐĂNG KÝ và HỌC VIÊN
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	@JoinTable(name = "task_register", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "register_id"))
-	private List<RegisterAndLearner> registers = new LinkedList<>();
-
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	@JoinTable(name = "task_learner", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "learner_id"))
-	private List<RegisterAndLearner> learners = new LinkedList<>();
+//NGƯỜI ĐĂNG KÝ/HỌC VIÊN	
+	@OneToMany(mappedBy = "task")
+	private List<Registration> registrations = new LinkedList<>();	
 
 //ỨNG VIÊN ĐĂNG KÝ
 	@OneToMany(mappedBy = "task")
-	private List<Application> applications=new LinkedList<>();
+	private List<Application> applications = new LinkedList<>();
 
 //GIAO JOB
 	@OneToMany(mappedBy = "task")
 	private List<Job> jobs=new LinkedList<>();
 
-//số Task khởi tạo	
+
 
 	
 	
 	
-	public void removeApplication(Application application)
-	{
+	public void removeApplication(Application application){
 		this.applications.remove(application);
-	}
+	};
 	
-	public void addApplication(Application application)
-	{
+	public void addApplication(Application application){
 		application.setTask(this);
 		this.applications.add(application);
-	}
+	};
 	
 	
 	
 	public void addTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress) {
 		taskPlaceAddress.setTask(this);
 		this.taskPlaceAddresses.add(taskPlaceAddress);
-	}
+	};
 
 	public void removeTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress) {
 		this.taskPlaceAddresses.remove(taskPlaceAddress);
+	};
+
+	public void addSubject(Subject subject) {
+		subject.getTasks().add(this);
+		this.subjects.add(subject);
+	};
+
+	public void removeSubject(Subject subject) {
+		this.subjects.remove(subject);
 	}
 
 

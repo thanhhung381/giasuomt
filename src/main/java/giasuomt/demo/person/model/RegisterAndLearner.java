@@ -3,6 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +21,8 @@ import giasuomt.demo.commondata.model.Person;
 import giasuomt.demo.location.model.RegisterAndLearnerAddress;
 import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.tags.model.RegisterAndLearnerTag;
+import giasuomt.demo.task.model.Application;
+import giasuomt.demo.task.model.Registration;
 import giasuomt.demo.task.model.Task;
 import lombok.Getter;
 import lombok.Setter;
@@ -76,16 +79,10 @@ public class RegisterAndLearner extends Person {
 	private String note;
 	
 	
-	//LEARNER/REGISTER
-	@ManyToMany(mappedBy = "registers")
+//LEARNER/REGISTER	
+	@OneToMany(mappedBy = "registerAndLearner", fetch = FetchType.LAZY)
 	@JsonIgnore
-	private List<Task> registerOfTasks = new LinkedList<>();
-
-	@ManyToMany(mappedBy = "learners")
-	@JsonIgnore
-	private List<Task> learnerOfTasks = new LinkedList<>();
-	
-	
+	private List<Registration> registrations = new LinkedList<>();	
 	
 	
 	
