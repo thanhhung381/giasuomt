@@ -364,5 +364,17 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 		return iRegisterAndLearnerRepository.findByVocativeAndFullNameAndShowFullName(vocative, fullName);
 	}
 
+	@Override
+	public List<RegisterAndLearner> findByVocativeAndEnglishFullNameContaining(String vocative, String englishName) {
+	
+		return iRegisterAndLearnerRepository.findByVocativeAndEnglishFullNameContaining(vocative, englishName);
+	}
+
+	@Override
+	public List<String> findByVocativeAndEnglishFullNameAndShowFullName(String vocative, String englishName) {
+		
+		return iRegisterAndLearnerRepository.findByVocativeAndEnglishNameAndShowFullName(vocative, englishName);
+	}
+
 
 }
