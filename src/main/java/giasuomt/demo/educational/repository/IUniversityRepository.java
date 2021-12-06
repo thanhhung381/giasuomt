@@ -17,7 +17,7 @@ public interface IUniversityRepository extends JpaRepository<University, Long> {
 	
 	List<University> findByCode(String code);
 	
-	List<University> findByNameAbbr(String nameAbbr);
+	List<University> findByNameAbbrContaining(String nameAbbr);
 	
 	List<University> findByUniversityTypesContainingAndNameContaining(String universityTypes,String name);
 	

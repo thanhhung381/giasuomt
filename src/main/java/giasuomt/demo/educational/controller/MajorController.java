@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import giasuomt.demo.commondata.generic.GenericController;
+import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.educational.dto.SaveMajorDto;
 import giasuomt.demo.educational.model.Major;
@@ -38,7 +39,7 @@ public class MajorController extends GenericController<SaveMajorDto, Major, Long
 	public ResponseEntity<Object> findByName(@RequestParam("name") String name) {
 		List<Major> majors = iMajorService.findByNameContaining(name.toUpperCase());
 		if (majors.isEmpty()) {
-			List<Major> majorWithEnglishName = iMajorService.findByEnglishNameContaining(name.toUpperCase());
+			List<Major> majorWithEnglishName = iMajorService.findByEnglishNameContaining(StringUltilsForAreaID.removeAccent(name.toUpperCase()));
 			if (majorWithEnglishName.isEmpty())
 				return ResponseHandler.getResponse("cant find any majors", HttpStatus.BAD_REQUEST);
 			return ResponseHandler.getResponse(majorWithEnglishName, HttpStatus.OK);
@@ -63,7 +64,7 @@ public class MajorController extends GenericController<SaveMajorDto, Major, Long
 		List<Major> majors = iMajorService.findByUniversityIdAndName(idUniversity, name.toUpperCase());
 		if (majors.isEmpty()) {
 			List<Major> majorWithEnglishName = iMajorService.findByUniversityIdAndEnglishName(idUniversity,
-					name.toUpperCase());
+					StringUltilsForAreaID.removeAccent(name.toUpperCase()));
 			if (majorWithEnglishName.isEmpty())
 				return ResponseHandler.getResponse("cant find any majors", HttpStatus.BAD_REQUEST);
 			return ResponseHandler.getResponse(majorWithEnglishName, HttpStatus.OK);

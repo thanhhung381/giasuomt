@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import giasuomt.demo.commondata.generic.GenericController;
+import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.person.dto.SaveRegisterAndLearnerDto;
 import giasuomt.demo.person.model.RegisterAndLearner;
@@ -55,7 +56,7 @@ public class RegisterAndLearnerController
 
 		if (registerAndLearners.isEmpty()) {
 			List<RegisterAndLearner> registerAndLearnersWithEnglishFullName = iRegisterAndLearnerService
-					.findByEnglishFullNameContaining(fullname.toUpperCase());
+					.findByEnglishFullNameContaining(StringUltilsForAreaID.removeAccent(fullname.toUpperCase()));
 			if (registerAndLearnersWithEnglishFullName.isEmpty())
 				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
 			return ResponseHandler.getResponse(registerAndLearnersWithEnglishFullName, HttpStatus.OK);
@@ -73,7 +74,7 @@ public class RegisterAndLearnerController
 
 		if (registerAndLearners.isEmpty()) {
 			List<String> registerAndLearnersWithEnglishFullName = iRegisterAndLearnerService
-					.findByEnglishNameAndShowEngLishFullName(fullname.toUpperCase());
+					.findByEnglishNameAndShowEngLishFullName(StringUltilsForAreaID.removeAccent(fullname.toUpperCase()));
 			if (registerAndLearnersWithEnglishFullName.isEmpty())
 				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
 			return ResponseHandler.getResponse(registerAndLearnersWithEnglishFullName, HttpStatus.OK);
@@ -93,7 +94,7 @@ public class RegisterAndLearnerController
 		if (registerAndLearners.isEmpty()) {
 
 			List<RegisterAndLearner> registerAndLearnersWithEnglishFullName = iRegisterAndLearnerService
-					.findByVocativeAndEnglishFullNameContaining(vocative, fullname.toUpperCase());
+					.findByVocativeAndEnglishFullNameContaining(vocative, StringUltilsForAreaID.removeAccent(fullname.toUpperCase()));
 			if (registerAndLearnersWithEnglishFullName.isEmpty())
 				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
 			return ResponseHandler.getResponse(registerAndLearnersWithEnglishFullName, HttpStatus.OK);
@@ -112,7 +113,7 @@ public class RegisterAndLearnerController
 		if (registerAndLearners.isEmpty()) {
 
 			List<String> RegisterAndLearnerServiceWithEnglishFullName = iRegisterAndLearnerService
-					.findByVocativeAndEnglishFullNameAndShowFullName(vocative, fullname.toUpperCase());
+					.findByVocativeAndEnglishFullNameAndShowFullName(vocative, StringUltilsForAreaID.removeAccent(fullname.toUpperCase()));
 			if (RegisterAndLearnerServiceWithEnglishFullName.isEmpty())
 				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
 			return ResponseHandler.getResponse(RegisterAndLearnerServiceWithEnglishFullName, HttpStatus.OK);

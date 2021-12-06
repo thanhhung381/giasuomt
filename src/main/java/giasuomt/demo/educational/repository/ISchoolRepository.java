@@ -9,6 +9,7 @@ import giasuomt.demo.educational.model.School;
 
 @Repository
 public interface ISchoolRepository extends JpaRepository<School, Long> {
+	
 	List<School> findByNameContaining(String name);
 	
 	List<School> findByEnglishNameContaining(String englishName);
