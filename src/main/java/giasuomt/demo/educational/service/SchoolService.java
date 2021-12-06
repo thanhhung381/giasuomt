@@ -66,4 +66,53 @@ public class SchoolService extends GenericService<SaveSchoolDto, School, Long> i
 		return null;
 	}
 
+	@Override
+	public List<School> findByNameContaining(String name) {
+		
+		return iSchoolRepository.findByNameContaining(name);
+	}
+
+	@Override
+	public List<School> findByEnglishNameContaining(String englishName) {
+
+		return iSchoolRepository.findByEnglishNameContaining(englishName);
+	}
+
+	@Override
+	public List<School> findByDistrictAndNameContaining(String district, String name) {
+
+		return iSchoolRepository.findByDistrictAndNameContaining(district, name);
+	}
+
+	@Override
+	public List<School> findByDistrictAndEnglishNameContaining(String district, String englishName) {
+
+		return iSchoolRepository.findByDistrictAndEnglishNameContaining(district, englishName);
+	}
+
+	@Override
+	public List<School> findBySchoolTypesAndNameContaining(String schoolTypes, String name) {
+
+		return iSchoolRepository.findBySchoolTypesAndNameContaining(schoolTypes, name);
+	}
+
+	@Override
+	public List<School> findBySchoolTypesAndEnglishNameContaining(String schoolTypes, String englishName) {
+		return iSchoolRepository.findBySchoolTypesAndEnglishNameContaining(schoolTypes, englishName);
+	}
+
+	@Override
+	public List<School> findBySchoolTypesAndDistrictAndNameContaining(String schoolTypes, String district,
+			String name) {
+		
+		return iSchoolRepository.findBySchoolTypesAndDistrictAndNameContaining(schoolTypes, district, name);
+	}
+
+	@Override
+	public List<School> findBySchoolTypesAndDistrictAndEnglishNameContaining(String schoolTypes, String district,
+			String englishName) {
+	
+		return iSchoolRepository.findBySchoolTypesAndDistrictAndEnglishNameContaining(schoolTypes, district, englishName);
+	}
+
 }

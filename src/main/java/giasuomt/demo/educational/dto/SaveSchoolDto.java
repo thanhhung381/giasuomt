@@ -16,4 +16,6 @@ public class SaveSchoolDto {
     private String code;
     
     private String schoolTypes;
+    
+    private String district;
 }
