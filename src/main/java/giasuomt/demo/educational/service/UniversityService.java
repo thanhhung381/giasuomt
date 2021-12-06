@@ -21,7 +21,7 @@ public class UniversityService extends GenericService<SaveUniversityDto, Univers
 	private MapDtoToModel mapDtoToModel;
 
 	public University create(SaveUniversityDto dto) {
-
+ 
 		University university = new University();
 		
 		university = (University) mapDtoToModel.map(dto, university);
@@ -59,6 +59,43 @@ public class UniversityService extends GenericService<SaveUniversityDto, Univers
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public List<University> findByNameContaining(String name) {
+		
+		return iUniversityRepository.findByNameContaining(name);
+	}
+
+	@Override
+	public List<University> findByEnglishNameContaining(String englishName) {
+		
+		return iUniversityRepository.findByEnglishNameContaining(englishName);
+	}
+
+	@Override
+	public List<University> findByCode(String code) {
+	
+		return iUniversityRepository.findByCode(code);
+	}
+
+	@Override
+	public List<University> findByNameAbbr(String nameAbbr) {
+		
+		return iUniversityRepository.findByNameAbbr(nameAbbr);
+	}
+
+	@Override
+	public List<University> findByUniversityTypesContainingAndNameContaining(String universityTypes, String name) {
+	
+		return iUniversityRepository.findByUniversityTypesContainingAndNameContaining(universityTypes, name);
+	}
+
+	@Override
+	public List<University> findByUniversityTypesContainingAndEnglishNameContaining(String universityTypes,
+			String name) {
+
+		return iUniversityRepository.findByUniversityTypesContainingAndEnglishNameContaining(universityTypes, name);
 	}
 
 }
