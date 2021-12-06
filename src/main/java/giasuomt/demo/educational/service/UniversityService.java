@@ -82,7 +82,7 @@ public class UniversityService extends GenericService<SaveUniversityDto, Univers
 	@Override
 	public List<University> findByNameAbbr(String nameAbbr) {
 		
-		return iUniversityRepository.findByNameAbbr(nameAbbr);
+		return iUniversityRepository.findByNameAbbrContaining(nameAbbr);
 	}
 
 	@Override

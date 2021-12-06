@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import giasuomt.demo.commondata.generic.GenericController;
+import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.educational.dto.SaveUniversityDto;
 import giasuomt.demo.educational.model.University;
@@ -29,10 +30,10 @@ public class UniversityController extends GenericController<SaveUniversityDto, U
 		List<University> universitiesByName = iUniversityService.findByNameContaining(name.toUpperCase());
 		if (universitiesByName.isEmpty()) {
 			List<University> universitiesByEngLishName = iUniversityService
-					.findByEnglishNameContaining(name.toUpperCase());
+					.findByEnglishNameContaining(StringUltilsForAreaID.removeAccent(name.toUpperCase()));
 			if (universitiesByEngLishName.isEmpty())
 				return ResponseHandler.getResponse("can't find any universities", HttpStatus.BAD_REQUEST);
-			return ResponseHandler.getResponse(universitiesByEngLishName, HttpStatus.BAD_REQUEST);
+			return ResponseHandler.getResponse(universitiesByEngLishName, HttpStatus.OK);
 		}
 		return ResponseHandler.getResponse(universitiesByName, HttpStatus.OK);
 	}
@@ -62,10 +63,10 @@ public class UniversityController extends GenericController<SaveUniversityDto, U
 				.findByUniversityTypesContainingAndNameContaining(universityTypes, name.toUpperCase());
 		if (universitiesByUniverTypesAndName.isEmpty()) {
 			List<University> universitiesByUniverTypesAndEngName = iUniversityService
-					.findByUniversityTypesContainingAndEnglishNameContaining(universityTypes, name.toUpperCase());
+					.findByUniversityTypesContainingAndEnglishNameContaining(universityTypes, StringUltilsForAreaID.removeAccent(name.toUpperCase()));
 			if (universitiesByUniverTypesAndEngName.isEmpty())
 				return ResponseHandler.getResponse("can't find any universities", HttpStatus.BAD_REQUEST);
-			return ResponseHandler.getResponse(universitiesByUniverTypesAndEngName, HttpStatus.BAD_REQUEST);
+			return ResponseHandler.getResponse(universitiesByUniverTypesAndEngName, HttpStatus.OK);
 		}
 		return ResponseHandler.getResponse(universitiesByUniverTypesAndName, HttpStatus.OK);
 	}
