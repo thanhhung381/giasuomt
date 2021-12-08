@@ -33,7 +33,6 @@ public class Application extends AbstractEntity {
 	
 	//Comments
     @OneToMany(mappedBy = "application")
-    @JsonIgnore
     private List<ApplicationComment> comments=new LinkedList<>();
     
 //    //Đánh dấu
