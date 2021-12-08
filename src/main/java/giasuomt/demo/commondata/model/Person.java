@@ -26,6 +26,8 @@ public class Person extends AbstractEntityNotId {
 	// THÔNG TIN CÁ NHÂN
 	// @NotBlank
 	private String fullName;
+	
+	private String englishFullName;
 
 	// @NotNull //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
 	private String gender;

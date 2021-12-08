@@ -19,6 +19,8 @@ public class Major extends AbstractEntity {
 	
         private String name;
         
+        private String englishName;
+        
         private String code;
         
         @ManyToOne

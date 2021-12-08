@@ -18,5 +18,7 @@ public class SaveApplicationCommentDto {
 	private Long idApplication;
 
 	private Long idParentComment;
+	
+	private String content;
  
 }

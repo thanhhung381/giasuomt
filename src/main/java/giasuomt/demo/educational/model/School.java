@@ -16,9 +16,9 @@ import lombok.Setter;
 public class School extends AbstractEntity {
     private String name;
     
-    private String nameAbbr;
-    
-    private String code;
+    private String englishName;
     
     private String schoolTypes;
+    
+    private String district;
 }

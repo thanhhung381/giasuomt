@@ -1,9 +1,6 @@
 package giasuomt.demo.task.service;
-
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
@@ -17,8 +14,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class ApplicationService extends GenericService<SaveApplicationDto, Application, Long>
-		implements IApplicationService {
+public class ApplicationService extends GenericService<SaveApplicationDto, Application, Long> implements IApplicationService {
 
 	private MapDtoToModel mapDtoToModel;
 
@@ -34,11 +30,11 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 		application = (Application) mapDtoToModel.map(dto, application);
 
-		Task task = iTaskRepository.findByIdString(dto.getIdTask());
+		Task task = iTaskRepository.findByIdString(dto.getTaskId());
 
 		application.setTask(task);
 
-		application.setTutor(iTutorRepository.getOne(dto.getIdTutor()));
+		application.setTutor(iTutorRepository.getOne(dto.getTutorId()));
 
 		return save(dto, application);
 	}
@@ -50,9 +46,9 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 		application = (Application) mapDtoToModel.map(dto, application);
 
-		application.setTask(iTaskRepository.getOne(dto.getIdTask()));
+		application.setTask(iTaskRepository.getOne(dto.getTaskId()));
 
-		application.setTutor(iTutorRepository.getOne(dto.getIdTutor()));
+		application.setTutor(iTutorRepository.getOne(dto.getTutorId()));
 
 		return save(dto, application);
 
@@ -68,10 +64,12 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 				application = (Application) mapDtoToModel.map(dto, application);
 
-				application.setTask(iTaskRepository.getOne(dto.getIdTask()));
+				application.setTask(iTaskRepository.getOne(dto.getTaskId()));
 
-				application.setTutor(iTutorRepository.getOne(dto.getIdTutor()));
-				applications.add(application);
+				application.setTutor(iTutorRepository.getOne(dto.getTutorId()));
+
+				applications.add(application); 
+
 
 			}
 			return iApplicationRepository.saveAll(applications);

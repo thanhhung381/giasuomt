@@ -1,13 +1,10 @@
 package giasuomt.demo.commondata.generic;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import org.springframework.validation.BindingResult;
@@ -86,5 +83,7 @@ public abstract class GenericController<DTO, T extends AbstractEntityNotId, ID, 
 			
 		return ResponseHandler.getResponse(t, HttpStatus.OK);
 	}
+	
+	
 
 }

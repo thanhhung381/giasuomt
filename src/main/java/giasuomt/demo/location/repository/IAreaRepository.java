@@ -30,8 +30,8 @@ public interface IAreaRepository extends JpaRepository<Area, String> {
 	@Query("SELECT a FROM Area a WHERE a.nation=:nation AND a.state=:state")
 	List<Area> findByNationAndState(@Param("nation") String nation,@Param("state") String state);
 	
-	@Query("SELECT a.id FROM Area a WHERE a.id=:id ")
-	Area findByIdString(String id);
+//	@Query("SELECT a.id FROM Area a WHERE a.id=:id ")
+//	Area findByIdString(String id);
 	
 
 	

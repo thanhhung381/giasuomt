@@ -22,6 +22,8 @@ import lombok.Setter;
 public class University extends AbstractEntity {
     private String name;
     
+    private String englishName;
+    
     private String nameAbbr;
     
     private String code;

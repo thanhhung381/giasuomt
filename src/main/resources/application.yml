@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/giasuomt
     username: postgres
-    password: khangdeptrai
+    password: khangdeptrai 
   #JPA Configuration
   jpa:
     show-sql: true #để xem câu sql mà nó tự sinh

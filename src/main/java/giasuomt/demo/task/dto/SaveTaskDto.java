@@ -60,15 +60,6 @@ public class SaveTaskDto {
 
 	private String requireNote;
 
-	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
-	// bảng subjects)
-	// Đây cũng là trường để lưu lại lịch sử nếu sau này nếu có chỉnh sửa database
-	// của bảng Subject
-	// NGƯỜI ĐĂNG KÝ và HỌC VIÊN
-
-	private List<Long> idRegisters = new ArrayList<>();
-
-	private List<Long> idLearners = new ArrayList<>();
 
 	private int lessonNumber; // Số buổi
 

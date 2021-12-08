@@ -61,6 +61,7 @@ public class TaskCommentService extends GenericService<SaveTaskCommentDto, TaskC
 		}
 
 		taskComment.setTask(iTaskRepository.getOne(dto.getIdTask()));
+		taskComment.setContent(dto.getContent());
 
 		return save(dto, taskComment);
 	}

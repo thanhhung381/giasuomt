@@ -1,11 +1,6 @@
 package giasuomt.demo.commondata.generic;
-
 import java.util.List;
 import java.util.Optional;
-
-import javax.validation.Valid;
-
-import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 
 public interface IGenericService<DTO, T extends AbstractEntityNotId, ID> {
@@ -25,5 +20,6 @@ public interface IGenericService<DTO, T extends AbstractEntityNotId, ID> {
 	List<T> createAll(List<DTO> dtos);
 
 	boolean checkExistIdOfT(ID id);
+
 
 }
