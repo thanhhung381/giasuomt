@@ -1,4 +1,5 @@
 package giasuomt.demo.person.model;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -36,4 +37,10 @@ public class GraduatedStudent extends AbstractEntity {
 	@JoinColumn(name = "tutor_id")
 	@JsonIgnore
 	private Tutor tutor;
+
+	@Override
+	public String toString() {
+		return "Tốt nghiệp " + institutionType + " " + institutionName + "-" + majorName + "-(" + graduatedYear + ")";
+	}
+
 }

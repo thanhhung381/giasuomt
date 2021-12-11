@@ -18,6 +18,7 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.Person;
+import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.task.model.Application;
@@ -113,8 +114,9 @@ public class Tutor extends Person {
 	@JsonIgnore
 	private List<Application> applications = new LinkedList<>();
 
-	// @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
-	// private Set<Job> jobs;
+	 @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
+	 @JsonIgnore
+	 private List<Job> jobs=new LinkedList<>();
 
 // FOR API SAVE
 	public void addWorker(Worker worker) {

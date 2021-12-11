@@ -13,6 +13,9 @@ public abstract class GenericService<DTO, T extends AbstractEntityNotId, ID> imp
 	
 	@Override
 	public List<T> findAll() {
+		
+		
+		
 		return repository.findAll();
 	}
 	
