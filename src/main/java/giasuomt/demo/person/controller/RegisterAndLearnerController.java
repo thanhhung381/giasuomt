@@ -30,7 +30,7 @@ public class RegisterAndLearnerController
 		List<RegisterAndLearner> registerAndLearners = iRegisterAndLearnerService.findByPhoneNumber(phoneNumber);
 
 		if (registerAndLearners.isEmpty())
-			return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.OK);
 
 		return ResponseHandler.getResponse(registerAndLearners, HttpStatus.OK);
 
@@ -42,7 +42,7 @@ public class RegisterAndLearnerController
 		List<RegisterAndLearner> registerAndLearners = iRegisterAndLearnerService.findByEndPhoneNumber(endPhoneNumber);
 
 		if (registerAndLearners.isEmpty())
-			return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.OK);
 
 		return ResponseHandler.getResponse(registerAndLearners, HttpStatus.OK);
 
@@ -58,7 +58,7 @@ public class RegisterAndLearnerController
 			List<RegisterAndLearner> registerAndLearnersWithEnglishFullName = iRegisterAndLearnerService
 					.findByEnglishFullNameContaining(StringUltilsForAreaID.removeAccent(fullname.toUpperCase()));
 			if (registerAndLearnersWithEnglishFullName.isEmpty())
-				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
+				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.OK);
 			return ResponseHandler.getResponse(registerAndLearnersWithEnglishFullName, HttpStatus.OK);
 		}
 
@@ -76,7 +76,7 @@ public class RegisterAndLearnerController
 			List<String> registerAndLearnersWithEnglishFullName = iRegisterAndLearnerService
 					.findByEnglishNameAndShowEngLishFullName(StringUltilsForAreaID.removeAccent(fullname.toUpperCase()));
 			if (registerAndLearnersWithEnglishFullName.isEmpty())
-				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
+				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.OK);
 			return ResponseHandler.getResponse(registerAndLearnersWithEnglishFullName, HttpStatus.OK);
 		}
 
@@ -96,7 +96,7 @@ public class RegisterAndLearnerController
 			List<RegisterAndLearner> registerAndLearnersWithEnglishFullName = iRegisterAndLearnerService
 					.findByVocativeAndEnglishFullNameContaining(vocative, StringUltilsForAreaID.removeAccent(fullname.toUpperCase()));
 			if (registerAndLearnersWithEnglishFullName.isEmpty())
-				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
+				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.OK);
 			return ResponseHandler.getResponse(registerAndLearnersWithEnglishFullName, HttpStatus.OK);
 		}
 
@@ -115,7 +115,7 @@ public class RegisterAndLearnerController
 			List<String> RegisterAndLearnerServiceWithEnglishFullName = iRegisterAndLearnerService
 					.findByVocativeAndEnglishFullNameAndShowFullName(vocative, StringUltilsForAreaID.removeAccent(fullname.toUpperCase()));
 			if (RegisterAndLearnerServiceWithEnglishFullName.isEmpty())
-				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.BAD_GATEWAY);
+				return ResponseHandler.getResponse("cant find any Register and Learner", HttpStatus.OK);
 			return ResponseHandler.getResponse(RegisterAndLearnerServiceWithEnglishFullName, HttpStatus.OK);
 
 		}

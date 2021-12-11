@@ -29,7 +29,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		Tutor tutor = iTutorService.findByTutorCode(tutorCode);
 
 		if (tutor == null)
-			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.OK);
 
 		return ResponseHandler.getResponse(tutor, HttpStatus.OK);
 	}
@@ -40,7 +40,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		List<Tutor> tutors = iTutorService.findByPhoneNumber(phoneNumber);
 
 		if (tutors.isEmpty())
-			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.OK);
 
 		return ResponseHandler.getResponse(tutors, HttpStatus.OK);
 
@@ -52,7 +52,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		List<Tutor> tutors = iTutorService.findByEndPhoneNumber(endPhoneNumber);
 
 		if (tutors.isEmpty())
-			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
+			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.OK);
 
 		return ResponseHandler.getResponse(tutors, HttpStatus.OK);
 
@@ -68,7 +68,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		{
 			List<Tutor> tutorsByEngName=iTutorService.findByEnglishFullName(StringUltilsForAreaID.removeAccent(fullName.toUpperCase()));
 			if(tutorsByEngName.isEmpty())
-				return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
+				return ResponseHandler.getResponse("cant find any tutors", HttpStatus.OK);
 			return ResponseHandler.getResponse(tutorsByEngName, HttpStatus.OK);
 		}
 		
@@ -86,7 +86,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		{
 			List<String> tutorEngNames=iTutorService.findByEngfullnameAndShowFullName(StringUltilsForAreaID.removeAccent(fullNameShowName.toUpperCase()));
 			if(tutorEngNames.isEmpty())
-				return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_GATEWAY);
+				return ResponseHandler.getResponse("cant find any tutors", HttpStatus.OK);
 			 return ResponseHandler.getResponse(tutorEngNames, HttpStatus.OK);
 		}
 		
