@@ -8,11 +8,11 @@ import lombok.Setter;
 @Setter
 @MappedSuperclass //để các lớp con có thể kế thừa lại được các annotation của lớp này
 public class Tag extends AbstractEntity {
-	private String tagType;
+	protected String tagType;
 	
-	private String tagGroup;
+	protected String tagGroup;
 	
-	private String tagName;
+	protected String tagName;
 	
-	private String description;
+	protected String description;
 }

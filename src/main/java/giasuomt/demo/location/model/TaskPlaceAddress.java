@@ -12,6 +12,14 @@ import giasuomt.demo.task.model.Task;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * @author Admin
+ *
+ */
+/**
+ * @author Admin
+ *
+ */
 @Getter
 @Setter
 @Entity
@@ -39,7 +47,18 @@ public class TaskPlaceAddress extends AbstractEntity {
 	private String relXCoo;
 	
 	private String relYCoo;
+	 
 	
+	
+	@Override
+	public String toString() {
+		return  exactAddNumber +","+ exactAddStreet+ ","+area.commune+","+area.district+
+				","+area.provincialLevel +"("+exactAddNote +")"+"-"
+				+  relAddNumber + "," + relAddStreet + ","+area.commune+","+area.district+","+area.provincialLevel +"("+relAddNote+")";
+	}
+	
+	
+
 	@ManyToOne
 	@JoinColumn(name = "area_id")
 	private Area area;

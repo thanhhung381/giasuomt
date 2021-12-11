@@ -36,4 +36,13 @@ public class SchoolTeacher extends AbstractEntity {
         @JoinColumn(name = "tutor_id")
         @JsonIgnore
         private Tutor tutor;
+
+
+		@Override
+		public String toString() {
+			return "Giáo viên " + institutionType  + " " + institutionName
+					+ "-" + subject ;
+		}
+        
+        
 }

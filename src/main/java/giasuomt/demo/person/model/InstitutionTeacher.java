@@ -34,4 +34,14 @@ public class InstitutionTeacher extends AbstractEntity {
 	@JsonIgnore
 	private Tutor tutor;
 
+	@Override
+	public String toString() {
+		return "Giáo viên " + institutionType  + " " + institutionName
+				+ "-" + subject ;
+	}
+	
+	
+	
+	
+
 }

@@ -1,4 +1,5 @@
 package giasuomt.demo.person.model;
+
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -25,7 +26,9 @@ public class Student extends AbstractEntity {
 
 	private String nowLevel;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_TIME_FORMAT) // Quy định date format khi nó add đối tượng thành Json để trả về Clients
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_TIME_FORMAT) // Quy định date format khi
+																							// nó add đối tượng thành
+																							// Json để trả về Clients
 	@DateTimeFormat(pattern = DateTimeUtils.DATE_TIME_FORMAT) // Quy định date format để lưu xuống database
 	private LocalDateTime nowLevelUpdatedAt;
 
@@ -45,9 +48,15 @@ public class Student extends AbstractEntity {
 	@JoinColumn(name = "tutor_id")
 	@JsonIgnore
 	private Tutor tutor;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "register_and_learner_id")
 	@JsonIgnore
 	private RegisterAndLearner registerAndLearner;
+
+	@Override
+	public String toString() {
+		return "Sinh viên năm "+nowLevel + "-" + institutionType + " " + institutionName + "-" + majorName;
+	}
+
 }
