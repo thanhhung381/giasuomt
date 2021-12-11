@@ -20,4 +20,13 @@ public class TutorTag extends Tag {
 	@ManyToMany(mappedBy = "tutorTags", fetch = FetchType.LAZY)
 	@JsonIgnore 
 	private List<Tutor> tutor = new LinkedList<>();
+
+	@Override
+	public String toString() {
+		return  tagType + "-" + tagGroup + "-" + tagName+ "-" + description;
+	}
+
+	
+	
+	
 }

@@ -48,4 +48,12 @@ public class Worker extends AbstractEntity {
 	@JoinColumn(name = "register_and_learner_id")
 	@JsonIgnore
 	private RegisterAndLearner registerAndLearner;
+
+	@Override
+	public String toString() {
+		return "Làm việc tại " + company + "-" + jobPosition;
+	}
+	
+	
+	
 }

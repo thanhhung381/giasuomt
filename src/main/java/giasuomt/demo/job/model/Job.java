@@ -1,4 +1,8 @@
 package giasuomt.demo.job.model;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -33,6 +37,18 @@ public class Job extends AbstractEntity {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "application_id", referencedColumnName = "id")
 	private Application application;
+	
+	
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	private TaskByTheTimeCreatingJob taskByTheTimeCreatingJob;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	private TutorByTheTimeCreatingJob tutorByTheTimeCreatingJob; 
+	
+	
+	
+	
 
 //Thông tin Task và Tutor tại thời điểm giao (để lưu trữ lại)
 //	private String taskOldJson;
@@ -51,12 +67,15 @@ public class Job extends AbstractEntity {
 //	private String contractSignAt; //Online, Offline, hoặc tại địa chỉ chi nhánh nào đó
 
 //Nhân viên giao lớp đã xác minh, và dặn dò Tutor tại thời điểm giao:
-//	private String verifiedTutorInfo; //- Đã xác nhận: hình, CMND, thẻ SV, thẻ GV, bằng cấp, chứng chỉ, thành tích, kinh nghiệm, năng lực
+	private String verifiedTutorInfo; //- Đã xác nhận: hình, CMND, thẻ SV, thẻ GV, bằng cấp, chứng chỉ, thành tích, kinh nghiệm, năng lực
 
-//	private String adviceToTutor; //Đã dặn dò:gọi PH ngay, gọi xong báo, báo sau khi dạy 1 buổi đầu, báo ngay khi có vấn đề
+	private String adviceToTutor; //Đã dặn dò:gọi PH ngay, gọi xong báo, báo sau khi dạy 1 buổi đầu, báo ngay khi có vấn đề
 
 //Giấy tờ giữ lại
-//	private String retainedIdentification;
+	private String retainedIdentification;
+	
+	@ElementCollection // nếu sử dụng kiểu dữ liệu List vâng vâng
+	private List<String> retainedImgsIdentification=new LinkedList<>();
 
 //TÀI CHÍNH	
 //	@OneToMany(mappedBy = "job", fetch = FetchType.EAGER)
@@ -70,7 +89,7 @@ public class Job extends AbstractEntity {
 //	private String jobResult;
 
 //(Tìm thêm gia sư nếu fail?) YES or NO
-	private boolean findAnotherTutorIfFail = true;
+//	private boolean findAnotherTutorIfFail = true;
 
 //REVIEWS
 //	@OneToMany(mappedBy = "job", fetch = FetchType.EAGER)

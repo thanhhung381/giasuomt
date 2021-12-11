@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.util.DateTimeUtils;
+import giasuomt.demo.location.model.TaskPlaceAddress;
 
 
 @SpringBootApplication
