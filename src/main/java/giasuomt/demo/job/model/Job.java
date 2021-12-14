@@ -11,6 +11,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
@@ -27,6 +31,7 @@ import lombok.Getter;
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class Job extends AbstractEntity {
+	
 	@ManyToOne
 	@JoinColumn(name = "task_id")
 	@JsonIgnore
@@ -75,6 +80,7 @@ public class Job extends AbstractEntity {
 	private String adviceToTutor; //Đã dặn dò:gọi PH ngay, gọi xong báo, báo sau khi dạy 1 buổi đầu, báo ngay khi có vấn đề
 
 //Giấy tờ giữ lại
+	
 	private String retainedIdentification;
 	
 	@ElementCollection // nếu sử dụng kiểu dữ liệu List vâng vâng
@@ -86,14 +92,16 @@ public class Job extends AbstractEntity {
 	private List<JobFinance> jobFinances=new LinkedList<>();
 
 //TÌNH HÌNH
-//	@OneToMany(mappedBy = "job", fetch = FetchType.EAGER)
-//	private Set<JobProgress> jobProgresses;
+	@OneToMany(mappedBy = "job", fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+	@JsonIgnore
+	private List<JobProgress> jobProgresses=new LinkedList<>();
 
 //KẾT QUẢ
 //	private String jobResult;
 
 //(Tìm thêm gia sư nếu fail?) YES or NO
-//	private boolean findAnotherTutorIfFail = true;
+//	private boolean findAnotherTutorIfFail ;
 
 //REVIEWS
 //	@OneToMany(mappedBy = "job", fetch = FetchType.EAGER)
