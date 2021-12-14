@@ -46,8 +46,8 @@ public class Job extends AbstractEntity {
 	@JoinColumn(name = "application_id", referencedColumnName = "id")
 	private Application application;
 	
-	
-	
+
+//Thông tin Task và Tutor tại thời điểm giao (để lưu trữ lại)	
 	@OneToOne(fetch = FetchType.LAZY)
 	private TaskByTheTimeCreatingJob taskByTheTimeCreatingJob;
 	
@@ -55,13 +55,6 @@ public class Job extends AbstractEntity {
 	private TutorByTheTimeCreatingJob tutorByTheTimeCreatingJob; 
 	
 	
-	
-	
-
-//Thông tin Task và Tutor tại thời điểm giao (để lưu trữ lại)
-//	private String taskOldJson;
-
-//	private String tutorOldJson;
 
 //Link GGT, Link HĐ, Hình thức giao (hợp đồng đc kí tại)
 //	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
