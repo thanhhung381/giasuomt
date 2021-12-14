@@ -207,7 +207,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 		Avatar avatar = iFileEntityRepository.getOne(dto.getIdAvatar());
 
-		String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/file/downloadFile/")
+		String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/avatar/downloadFile/")
 				.path(avatar.getNameFile()).toUriString();
 
 		registerAndLearner.setAvatar(urlDownload);

@@ -17,13 +17,14 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class JobProgress extends AbstractEntity {
+	
 	private String name;
 	
 	private String content;
 
-//	@ManyToOne
-//	@JoinColumn(name = "job_id")
-//	private Job job;
+	@ManyToOne
+	@JoinColumn(name = "job_id")
+	private Job job;
 	
 
 	

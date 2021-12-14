@@ -8,6 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +17,13 @@ import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.task.dto.AddObjectToTaskDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
+import giasuomt.demo.task.dto.UpdateFreeTimeDto;
+import giasuomt.demo.task.dto.UpdateHourDto;
+import giasuomt.demo.task.dto.UpdateLessonDto;
+import giasuomt.demo.task.dto.UpdateRequireDto;
+import giasuomt.demo.task.dto.UpdateSalaryDto;
+import giasuomt.demo.task.dto.UpdateSubjectDto;
+import giasuomt.demo.task.dto.UpdateTaskPlaceAddresseDto;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.service.ITaskService;
 import lombok.AllArgsConstructor;
@@ -66,5 +74,80 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String,
 		return ResponseHandler.getResponse(updatedTask, HttpStatus.OK);
 	}
 	
-
+	@PutMapping("/updateSubject")
+	public ResponseEntity<Object> updateSubject(@RequestBody UpdateSubjectDto dto,BindingResult errors)
+	{
+		if (((Errors) errors).hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		
+		Task updatedSubject = iTaskService.updateSubject(dto);
+		
+		return ResponseHandler.getResponse(updatedSubject, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateRequire")
+	public ResponseEntity<Object> updateRequire(@RequestBody UpdateRequireDto dto,BindingResult errors)
+	{
+		if (((Errors) errors).hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		
+		Task updatedRequire = iTaskService.updateRequire(dto);
+		
+		return ResponseHandler.getResponse(updatedRequire, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateLesson")
+	public ResponseEntity<Object> updateLesson(@RequestBody UpdateLessonDto dto,BindingResult errors)
+	{
+		if (((Errors) errors).hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		
+		Task updatedLesson = iTaskService.UpdateLesson(dto);
+		
+		return ResponseHandler.getResponse(updatedLesson, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateHour")
+	public ResponseEntity<Object> updateHour(@RequestBody UpdateHourDto dto,BindingResult errors)
+	{
+		if (((Errors) errors).hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		
+		Task updatedHour = iTaskService.updateHour(dto);
+		
+		return ResponseHandler.getResponse(updatedHour, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateFreeTime")
+	public ResponseEntity<Object> updateFreeTime(@RequestBody UpdateFreeTimeDto dto,BindingResult errors)
+	{
+		if (((Errors) errors).hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		
+		Task updatedFreeTime = iTaskService.updateFreeTime(dto);
+		
+		return ResponseHandler.getResponse(updatedFreeTime, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateSalary")
+	public ResponseEntity<Object> updateSalary(@RequestBody UpdateSalaryDto dto,BindingResult errors)
+	{
+		if (((Errors) errors).hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		
+		Task updatedSalary = iTaskService.updateSalary(dto);
+		
+		return ResponseHandler.getResponse(updatedSalary, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateTaskPlaceAddress")
+	public ResponseEntity<Object> updateTaskPlaceAddress(@RequestBody UpdateTaskPlaceAddresseDto dto,BindingResult errors)
+	{
+		if (((Errors) errors).hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		
+		Task updateTaskPlaceAddress = iTaskService.updateTaskPlaceAddress(dto);
+		
+		return ResponseHandler.getResponse(updateTaskPlaceAddress, HttpStatus.OK);
+	}
 }

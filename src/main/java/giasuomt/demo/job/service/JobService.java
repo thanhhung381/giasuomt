@@ -65,7 +65,7 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		for (int i = 0; i < retainedImgsIdentificationId.size(); i++) {
 
 			Avatar avatar = iAvatarRepository.getOne(retainedImgsIdentificationId.get(i));
-			String urlDownLoad = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/file/downloadFile/")
+			String urlDownLoad = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/avatar/downloadFile/")
 					.path(avatar.getNameFile()).toUriString();
 			retainedImgsIdentification.add(urlDownLoad);
 

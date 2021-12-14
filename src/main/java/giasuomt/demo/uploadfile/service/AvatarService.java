@@ -1,6 +1,7 @@
 package giasuomt.demo.uploadfile.service;
 
 import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -51,7 +52,7 @@ public class AvatarService implements IAvatarService {
 	}
 
 	public void map(Avatar entity, ResponsiveAvatar responsiveFile) {
-		String download = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/file/downloadFile/")
+		String download = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/avatar/downloadFile/")
 				.path(entity.getNameFile()).toUriString();
 
 		responsiveFile.setId(entity.getId());

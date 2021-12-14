@@ -1,42 +1,36 @@
-package giasuomt.demo.finance.model;
+package giasuomt.demo.finance.dto;
+
+import lombok.Setter;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.finance.util.JobFinanceType;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.finance.util.WayOfPaying;
 import giasuomt.demo.job.model.Job;
 import lombok.Getter;
-import lombok.Setter;
 
-@Entity
-@Table(name = "job_finance")
 @Getter
 @Setter
-@JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
-public class JobFinance extends AbstractEntity {
+public class SaveJobFinanceDto {
 	
-	@Enumerated(EnumType.STRING)
+	
+	private Long id;
+	
 	private JobFinanceType type;
 	
-	@Enumerated(EnumType.STRING)
+
 	private WayOfPaying wayOfPaying;
 	
-	@ElementCollection
-	private List<String> billImg=new LinkedList<>();
+
+	private List<Long> billImgId=new LinkedList<>();
 	
 	private int amountOfMoney;
 	
@@ -44,9 +38,8 @@ public class JobFinance extends AbstractEntity {
 	
 	private String note;
 
-	@ManyToOne
-	@JoinColumn(name = "job_id")
-	private Job job;
+
+	private Long  jobId;
 	
 	//STK (nếu có) - thường dùng cho yêu cầu hoàn phí
 	private String accountNumber;
@@ -54,8 +47,4 @@ public class JobFinance extends AbstractEntity {
 	private String accoundBank;
 	
 	private String accountName;
-	
-	
-
-	
 }

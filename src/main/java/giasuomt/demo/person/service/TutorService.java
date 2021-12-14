@@ -194,7 +194,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		Avatar avatar = iFileEntityRepository.getOne(dto.getIdAvatar());
 
-		String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/file/downloadFile/")
+		String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/avatar/downloadFile/")
 				.path(avatar.getNameFile()).toUriString();
 
 		tutor.setAvatar(urlDownload);
