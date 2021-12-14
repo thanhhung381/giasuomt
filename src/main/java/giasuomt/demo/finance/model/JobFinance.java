@@ -36,7 +36,7 @@ public class JobFinance extends AbstractEntity {
 	private WayOfPaying wayOfPaying;
 	
 	@ElementCollection
-	private List<String> billImg=new LinkedList<>();
+	private List<String> billImgs = new LinkedList<>();
 	
 	private int amountOfMoney;
 	

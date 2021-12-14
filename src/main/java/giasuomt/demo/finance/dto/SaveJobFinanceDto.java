@@ -30,7 +30,7 @@ public class SaveJobFinanceDto {
 	private WayOfPaying wayOfPaying;
 	
 
-	private List<Long> billImgId=new LinkedList<>();
+	private List<Long> billImgsId=new LinkedList<>();
 	
 	private int amountOfMoney;
 	

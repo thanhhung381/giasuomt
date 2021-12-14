@@ -62,7 +62,7 @@ public class JobFinanceService extends GenericService<SaveJobFinanceDto, JobFina
 		
 		
 		
-		List<Long> billImagesId=jobFinanceDto.getBillImgId();
+		List<Long> billImagesId=jobFinanceDto.getBillImgsId();
 		
 		List<String> billImages=new LinkedList<>();
 		
@@ -76,7 +76,7 @@ public class JobFinanceService extends GenericService<SaveJobFinanceDto, JobFina
 			billImages.add(urlDownload);
 			
 		}
-		jobFinance.setBillImg(billImages);
+		jobFinance.setBillImgs(billImages);
 		
 		
 	} 	

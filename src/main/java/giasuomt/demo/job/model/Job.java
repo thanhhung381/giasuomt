@@ -87,26 +87,26 @@ public class Job extends AbstractEntity {
 	private List<String> retainedImgsIdentification=new LinkedList<>();
 
 //TÀI CHÍNH	
-	@OneToMany(mappedBy = "job", fetch = FetchType.EAGER)
-	@JsonIgnore
+	@OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
 	private List<JobFinance> jobFinances=new LinkedList<>();
 
 //TÌNH HÌNH
-	@OneToMany(mappedBy = "job", fetch = FetchType.EAGER)
-	@Fetch(FetchMode.SUBSELECT)
-	@JsonIgnore
+	@OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
+//	@Fetch(FetchMode.SUBSELECT)
 	private List<JobProgress> jobProgresses=new LinkedList<>();
 
 //KẾT QUẢ
-//	private String jobResult;
-
+	private String jobResult;
+	
+	private String failReason;
+	
 //(Tìm thêm gia sư nếu fail?) YES or NO
-//	private boolean findAnotherTutorIfFail ;
+	private boolean findAnotherTutorIfFail ;
 
 //REVIEWS
-//	@OneToMany(mappedBy = "job", fetch = FetchType.EAGER)
-//	private Set<JobReview> jobReviews;
+	@OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
+	private List<JobReview> jobReviews;
 
-//getter,setter
+
 
 }
