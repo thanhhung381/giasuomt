@@ -2,16 +2,19 @@ package giasuomt.demo.job.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
+import giasuomt.demo.finance.model.JobFinance;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
@@ -78,8 +81,9 @@ public class Job extends AbstractEntity {
 	private List<String> retainedImgsIdentification=new LinkedList<>();
 
 //TÀI CHÍNH	
-//	@OneToMany(mappedBy = "job", fetch = FetchType.EAGER)
-//	private Set<JobFinance> jobFinances;
+	@OneToMany(mappedBy = "job", fetch = FetchType.EAGER)
+	@JsonIgnore
+	private List<JobFinance> jobFinances=new LinkedList<>();
 
 //TÌNH HÌNH
 //	@OneToMany(mappedBy = "job", fetch = FetchType.EAGER)
