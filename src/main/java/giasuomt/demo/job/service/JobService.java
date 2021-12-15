@@ -17,6 +17,7 @@ import giasuomt.demo.job.model.TutorByTheTimeCreatingJob;
 import giasuomt.demo.job.repository.IJobRepository;
 import giasuomt.demo.job.repository.ITaskByTheTimeCreatingJobRepository;
 import giasuomt.demo.job.repository.ITutorByTheTimeCreatingJobRepository;
+import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
@@ -72,13 +73,13 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 		}
 		job.setRetainedImgsIdentification(retainedImgsIdentification);
-		
-		//save Task Time Creating Job
+
+		// save Task Time Creating Job
 		TaskByTheTimeCreatingJob taskByTheTimeCreatingJob = new TaskByTheTimeCreatingJob();
 		taskByTheTimeCreatingJob = (TaskByTheTimeCreatingJob) mapDtoToModel.map(iTaskRepository.getOne(dto.getTaskId()),
 				taskByTheTimeCreatingJob);
 		taskByTheTimeCreatingJob.setId(dto.getTaskId());
-		//take place address
+		// take place address
 		List<String> taskPlaceAddress = new LinkedList<>();
 		for (int i = 0; i < iTaskRepository.getOne(dto.getTaskId()).getTaskPlaceAddresses().size(); i++) {
 			String attributeOfTaskPlaceTask = iTaskRepository.getOne(dto.getTaskId()).getTaskPlaceAddresses().get(i)
@@ -90,61 +91,57 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		job.setTaskByTheTimeCreatingJob(taskByTheTimeCreatingJob);
 		iTaskByTheTimeCreatingJobRepository.save(taskByTheTimeCreatingJob);
 
-		
-		//Tutor By Time Creating Job
+		// Tutor By Time Creating Job
 		TutorByTheTimeCreatingJob tutorByTheTimeCreatingJob = new TutorByTheTimeCreatingJob();
 		tutorByTheTimeCreatingJob = (TutorByTheTimeCreatingJob) mapDtoToModel
 				.map(iTutorRepository.getOne(dto.getTutorId()), tutorByTheTimeCreatingJob);
 		tutorByTheTimeCreatingJob.setId(dto.getTutorId());
-		//Tutor Tags
-		List<String> tutorTags=new LinkedList<>();
-		for(int i=0;i<iTutorRepository.getOne(dto.getTutorId()).getTutorTags().size();i++)
-		{
-			String attributeOfTutorTags=iTutorRepository.getOne(dto.getTutorId()).getTutorTags().get(i).toString();
+		// Tutor Tags
+		List<String> tutorTags = new LinkedList<>();
+		for (int i = 0; i < iTutorRepository.getOne(dto.getTutorId()).getTutorTags().size(); i++) {
+			String attributeOfTutorTags = iTutorRepository.getOne(dto.getTutorId()).getTutorTags().get(i).toString();
 			tutorTags.add(attributeOfTutorTags);
 		}
 		tutorByTheTimeCreatingJob.setTutorTags(tutorTags);
-		//students
-		List<String> students=new LinkedList<>();
-		for(int i=0;i<iTutorRepository.getOne(dto.getTutorId()).getStudents().size();i++)
-		{
-			String attributeOfStudent=iTutorRepository.getOne(dto.getTutorId()).getStudents().get(i).toString(); 
+		// students
+		List<String> students = new LinkedList<>();
+		for (int i = 0; i < iTutorRepository.getOne(dto.getTutorId()).getStudents().size(); i++) {
+			String attributeOfStudent = iTutorRepository.getOne(dto.getTutorId()).getStudents().get(i).toString();
 			students.add(attributeOfStudent);
 		}
 		tutorByTheTimeCreatingJob.setStudents(students);
-		//Instituton Teacher
-		List<String> institutionTeachers=new LinkedList<>();
-		for(int i=0;i<iTutorRepository.getOne(dto.getTutorId()).getInstitutionTeachers().size();i++)
-		{
-			String attributeOfInstitution=iTutorRepository.getOne(dto.getTutorId()).getInstitutionTeachers().get(i).toString();
+		// Instituton Teacher
+		List<String> institutionTeachers = new LinkedList<>();
+		for (int i = 0; i < iTutorRepository.getOne(dto.getTutorId()).getInstitutionTeachers().size(); i++) {
+			String attributeOfInstitution = iTutorRepository.getOne(dto.getTutorId()).getInstitutionTeachers().get(i)
+					.toString();
 			institutionTeachers.add(attributeOfInstitution);
 		}
 		tutorByTheTimeCreatingJob.setInstitutionTeachers(institutionTeachers);
-		//Graduated Student
-		List<String> graduatedStudents=new LinkedList<>();
-		for(int i=0;i<iTutorRepository.getOne(dto.getTutorId()).getGraduatedStudents().size();i++)
-		{
-			String attributeOfGraduatedStudent=iTutorRepository.getOne(dto.getTutorId()).getGraduatedStudents().get(i).toString();
+		// Graduated Student
+		List<String> graduatedStudents = new LinkedList<>();
+		for (int i = 0; i < iTutorRepository.getOne(dto.getTutorId()).getGraduatedStudents().size(); i++) {
+			String attributeOfGraduatedStudent = iTutorRepository.getOne(dto.getTutorId()).getGraduatedStudents().get(i)
+					.toString();
 			graduatedStudents.add(attributeOfGraduatedStudent);
 		}
 		tutorByTheTimeCreatingJob.setGraduatedStudents(graduatedStudents);
-		//School Teacher
-		List<String> schoolTeachers=new LinkedList<>();
-		for(int i=0;i<iTutorRepository.getOne(dto.getTutorId()).getSchoolTeachers().size();i++)
-		{
-			String attributeOfSchoolTeacher=iTutorRepository.getOne(dto.getTutorId()).getSchoolTeachers().get(i).toString();
+		// School Teacher
+		List<String> schoolTeachers = new LinkedList<>();
+		for (int i = 0; i < iTutorRepository.getOne(dto.getTutorId()).getSchoolTeachers().size(); i++) {
+			String attributeOfSchoolTeacher = iTutorRepository.getOne(dto.getTutorId()).getSchoolTeachers().get(i)
+					.toString();
 			schoolTeachers.add(attributeOfSchoolTeacher);
 		}
 		tutorByTheTimeCreatingJob.setSchoolTeachers(schoolTeachers);
 		// Workers
-		List<String> workers=new LinkedList<>();
-		for(int i=0;i<iTutorRepository.getOne(dto.getTutorId()).getWorkers().size();i++)
-		{
-			String attributeOfWorker=iTutorRepository.getOne(dto.getTutorId()).getWorkers().get(i).toString();
+		List<String> workers = new LinkedList<>();
+		for (int i = 0; i < iTutorRepository.getOne(dto.getTutorId()).getWorkers().size(); i++) {
+			String attributeOfWorker = iTutorRepository.getOne(dto.getTutorId()).getWorkers().get(i).toString();
 			workers.add(attributeOfWorker);
 		}
 		tutorByTheTimeCreatingJob.setWorkers(workers);
-		
+
 		job.setTutorByTheTimeCreatingJob(tutorByTheTimeCreatingJob);
 		iTutorByTheTimeCreatingJobRepository.save(tutorByTheTimeCreatingJob);
 
@@ -161,23 +158,47 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 		return null;
 	}
-	
-	
-	public Job updateJobResult(UpdateJobResultDto dto)
-	{
-		Job job=iJobRepository.getOne(dto.getId());
-		
-		
+
+	public Job updateJobResult(UpdateJobResultDto dto) {
+		Job job = iJobRepository.getOne(dto.getId());
+
 		job.setJobResult(dto.getJobResult());
-		
+
 		job.setFailReason(dto.getFailReason());
-		
+
 		job.setFindAnotherTutorIfFail(dto.getFindAnotherTutorIfFail());
-		
+
+		Tutor tutor = iTutorRepository.getOne(job.getTutor().getId());
+
+		updateExpForTutor(tutor);
+
 		return iJobRepository.save(job);
-		
+
 	}
-	
+
+	private void updateExpForTutor(Tutor tutor) {
+		Double countExp = tutor.getExp();
+
+		List<Job> allJobs = tutor.getJobs();
+		for (int i = 0; i < allJobs.size(); i++) {
+
+			if (allJobs.get(i).getFailReason().equals("success")) {
+				countExp += 1.0;
+			}
+
+			else if (allJobs.get(i).getFailReason().equals("PH/HV chê")
+					|| allJobs.get(i).getFailReason().equals("do lỗi G")) {
+				countExp -= 1;
+			} else {
+				countExp = 0.0;
+			}
+
+		}
+
+		tutor.setExp(countExp);
+
+	}
+
 	@Override
 	public Job update(SaveJobDto dto) {
 

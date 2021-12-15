@@ -9,9 +9,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.job.dto.SaveJobReviewDto;
+import giasuomt.demo.job.model.Job;
 import giasuomt.demo.job.model.JobReview;
 import giasuomt.demo.job.repository.IJobRepository;
 import giasuomt.demo.job.repository.IJobReviewRepository;
+import giasuomt.demo.person.model.Tutor;
+import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.uploadfile.model.BillImage;
 import giasuomt.demo.uploadfile.model.FeedBackImage;
 import giasuomt.demo.uploadfile.repository.IFeedBackImageRepository;
@@ -27,6 +30,8 @@ public class JobReviewService extends GenericService<SaveJobReviewDto, JobReview
 	private IFeedBackImageRepository iFeedBackImageRepository;
 
 	private IJobRepository iJobRepository;
+
+	private ITutorRepository iTutorRepository;
 
 	private MapDtoToModel mapDtoToModel;
 
@@ -74,12 +79,31 @@ public class JobReviewService extends GenericService<SaveJobReviewDto, JobReview
 	@Override
 	public JobReview update(SaveJobReviewDto dto) {
 
-		
 		JobReview jobReview = iJobReviewRepository.getOne(dto.getId());
 
 		jobReview.setJob(iJobRepository.getOne(dto.getJobId()));
-		
-		return save(dto,jobReview);
+
+		Tutor tutor = iTutorRepository.getOne(jobReview.getJob().getTutor().getId());
+
+		updateExpForTutor(tutor, dto);
+
+		return save(dto, jobReview);
 	}
 
+	private void updateExpForTutor(Tutor tutor, SaveJobReviewDto dto) {
+		Double countExp = tutor.getExp();
+
+		if (dto.getStarsNumber() >= 4.0 && dto.getStarsNumber() < 5.0) {
+			countExp += 1.0;
+		} else if (dto.getStarsNumber() == 5.0) {
+			countExp += 2.0;
+		} else if (dto.getStarsNumber() <= 2) {
+			countExp -= 1;
+		} else {
+			countExp = 0.0;
+		}
+
+		tutor.setExp(countExp);
+
+	}
 }
