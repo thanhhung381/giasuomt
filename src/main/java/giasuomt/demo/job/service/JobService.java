@@ -182,12 +182,12 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		List<Job> allJobs = tutor.getJobs();
 		for (int i = 0; i < allJobs.size(); i++) {
 
-			if (allJobs.get(i).getFailReason().equals("success")) {
+			if (allJobs.get(i).getFailReason().contains("success")) {
 				countExp += 1.0;
 			}
 
-			else if (allJobs.get(i).getFailReason().equals("PH/HV chê")
-					|| allJobs.get(i).getFailReason().equals("do lỗi G")) {
+			else if (allJobs.get(i).getFailReason().contains("PH/HV chê")
+					|| allJobs.get(i).getFailReason().contains("do lỗi GS")) {
 				countExp -= 1;
 			} else {
 				countExp = 0.0;
