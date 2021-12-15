@@ -193,7 +193,7 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 				countExp = 0.0;
 			}
 
-		}
+		}   
 
 		tutor.setExp(countExp);
 
