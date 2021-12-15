@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
@@ -46,6 +47,7 @@ public class JobFinance extends AbstractEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "job_id")
+	@JsonIgnore
 	private Job job;
 	
 	//STK (nếu có) - thường dùng cho yêu cầu hoàn phí
