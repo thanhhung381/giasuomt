@@ -70,7 +70,7 @@ public class JobFinanceService extends GenericService<SaveJobFinanceDto, JobFina
 		{
 			BillImage billImage=iBillImageRepository.getOne(billImagesId.get(i));
 			
-			String urlDownload=ServletUriComponentsBuilder.fromCurrentContextPath().path("")
+			String urlDownload=ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/billImage/downloadFile/")
 					.path(billImage.getNameFile()).toUriString();
 			
 			billImages.add(urlDownload);

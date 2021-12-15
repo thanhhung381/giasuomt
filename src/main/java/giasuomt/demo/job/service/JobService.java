@@ -10,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.job.dto.SaveJobDto;
+import giasuomt.demo.job.dto.UpdateJobResultDto;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.job.model.TaskByTheTimeCreatingJob;
 import giasuomt.demo.job.model.TutorByTheTimeCreatingJob;
@@ -160,7 +161,23 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 		return null;
 	}
-
+	
+	
+	public Job updateJobResult(UpdateJobResultDto dto)
+	{
+		Job job=iJobRepository.getOne(dto.getId());
+		
+		
+		job.setJobResult(dto.getJobResult());
+		
+		job.setFailReason(dto.getFailReason());
+		
+		job.setFindAnotherTutorIfFail(dto.getFindAnotherTutorIfFail());
+		
+		return iJobRepository.save(job);
+		
+	}
+	
 	@Override
 	public Job update(SaveJobDto dto) {
 

@@ -3,6 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -94,11 +96,12 @@ public class Job extends AbstractEntity {
 	private String failReason;
 	
 //(Tìm thêm gia sư nếu fail?) YES or NO
-	private boolean findAnotherTutorIfFail ;
+	@Type(type = "true_false")//xác định cách biểu diễn  boolean khi lưu xuống db
+	private Boolean findAnotherTutorIfFail ;
 
 //REVIEWS
 	@OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
-	private List<JobReview> jobReviews;
+	private List<JobReview> jobReviews=new LinkedList<>();
 
 
 
