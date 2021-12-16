@@ -100,8 +100,8 @@ public class Job extends AbstractEntity {
 	private Boolean findAnotherTutorIfFail ;
 
 //REVIEWS
-	@OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
-	private List<JobReview> jobReviews=new LinkedList<>();
+	@OneToOne
+	private JobReview jobReviews;
 
 
 

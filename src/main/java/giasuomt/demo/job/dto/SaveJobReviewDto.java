@@ -15,7 +15,7 @@ public class SaveJobReviewDto {
 	
 	private Long id;
 	
-	private String starsNumber;
+	private Double starsNumber;
 	
 	private String feedback;
 	

@@ -8,6 +8,7 @@ import giasuomt.demo.commondata.generator.TutorCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
+import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.person.dto.SaveGraduatedStudentDto;
@@ -189,6 +190,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		
 		
 		tutor.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
+		
+		tutor.setExp(0.0);
 
 		// save avatar
 
@@ -424,4 +427,37 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		return iTutorRepository.showFullname(fullname);
 	}
 
+	private Double updateExpForTutor(Tutor tutor)
+	{
+		Double countExp=0.0;
+		
+		List<Job> allJobs=tutor.getJobs();
+		for(int i=0;i<allJobs.size();i++)
+		{
+			if( (allJobs.get(i).getJobReviews().getStarsNumber()>=4.0 && allJobs.get(i).getJobReviews().getStarsNumber()<5.0)     
+				|| allJobs.get(i).getJobResult().equals("success") )
+			{
+				countExp+=1.0;
+			}
+			else if(allJobs.get(i).getJobReviews().getStarsNumber()==5.0)
+			{
+				countExp+=2.0;
+			}
+			else if (allJobs.get(i).getJobReviews().getStarsNumber()<=2 || allJobs.get(i).getJobResult().equals("PH/HV chê") || 
+					allJobs.get(i).getJobResult().equals("Pdo lỗi GS")	)
+			{
+				countExp-=1;
+			}
+			else
+			{
+				countExp=0.0;
+			}
+			
+			
+		}
+		
+		return countExp;
+	}
+	
+	
 }

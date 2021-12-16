@@ -117,6 +117,10 @@ public class Tutor extends Person {
 	 @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
 	 @JsonIgnore
 	 private List<Job> jobs=new LinkedList<>();
+	 
+	 
+	 private Double exp;
+	 
 
 // FOR API SAVE
 	public void addWorker(Worker worker) {
