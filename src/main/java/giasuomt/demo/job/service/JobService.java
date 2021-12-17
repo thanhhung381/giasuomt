@@ -168,12 +168,20 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		job.setFailReason(dto.getFailReason());
 
 		job.setFindAnotherTutorIfFail(dto.getFindAnotherTutorIfFail());
+		
+		
+		job = iJobRepository.save(job);
+		
 
 		Tutor tutor = iTutorRepository.getOne(job.getTutor().getId());
 
-		ExperienceForTutor.updateExpForTutor(tutor, null);
+		
+		tutor=ExperienceForTutor.updateExpForTutor(tutor);
 
-		return iJobRepository.save(job);
+		
+		iTutorRepository.save(tutor);
+		
+		return job;
 
 	}
 
