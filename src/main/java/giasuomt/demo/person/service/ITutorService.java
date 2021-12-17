@@ -2,6 +2,7 @@ package giasuomt.demo.person.service;
 import java.util.List;
 import giasuomt.demo.commondata.generic.IGenericService;
 import giasuomt.demo.person.dto.SaveTutorDto;
+import giasuomt.demo.person.dto.UpdateRegisteredSubject;
 import giasuomt.demo.person.model.Tutor;
 
 public interface ITutorService extends IGenericService<SaveTutorDto, Tutor,Long> {
@@ -27,5 +28,7 @@ public interface ITutorService extends IGenericService<SaveTutorDto, Tutor,Long>
 	public List<String> findByfullnameAndShowFullName(String fullname);
 	
 	public List<String> findByEngfullnameAndShowFullName(String fullname); 
+	
+	public Tutor updateRegisteredSubjects(UpdateRegisteredSubject dto);
 
 }

@@ -1,6 +1,7 @@
 package giasuomt.demo.person.service;
 
 import java.util.ArrayList;
+
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ import giasuomt.demo.person.dto.SaveSchoolTeacherDto;
 import giasuomt.demo.person.dto.SaveStudentDto;
 import giasuomt.demo.person.dto.SaveTutorDto;
 import giasuomt.demo.person.dto.SaveWorkerDto;
+import giasuomt.demo.person.dto.UpdateRegisteredSubject;
+
 import giasuomt.demo.person.model.GraduatedStudent;
 import giasuomt.demo.person.model.InstitutionTeacher;
 import giasuomt.demo.person.model.SchoolTeacher;
@@ -427,6 +430,23 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	public List<String> findByfullnameAndShowFullName(String fullname) {
 
 		return iTutorRepository.showFullname(fullname);
+	}
+
+	public Tutor updateRegisteredSubjects(UpdateRegisteredSubject dto) {
+
+		Tutor tutor = iTutorRepository.getOne(dto.getId());
+
+		List<Long> subjectIds = dto.getRegisteredSubjectIds();
+		List<Subject> subjects = new ArrayList<>();
+		for (int i = 0; i < subjectIds.size(); i++) {
+			Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
+			subjects.add(subject);
+
+		}
+		tutor.setRegisteredSubjects(subjects);
+
+		return iTutorRepository.save(tutor);
+
 	}
 
 }
