@@ -71,9 +71,9 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 	// TAGS
 	private List<Long> tutorTagIds = new LinkedList<>();
 
+	//Registered Subjects 
 
-
-
+	private List<Long> registeredSubjectIds = new LinkedList<>();
 	
 	
 

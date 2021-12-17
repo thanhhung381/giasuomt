@@ -1,4 +1,5 @@
 package giasuomt.demo.person.model;
+
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.Person;
+import giasuomt.demo.educational.model.Subject;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.tags.model.TutorTag;
@@ -32,11 +34,11 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class Tutor extends Person {
-	//@Column(updatable = false) //Column này ko update được
+	// @Column(updatable = false) //Column này ko update được
 	// @Column(unique = true)
 	@Id
 	private Long id; // Cần viết tự generate theo dạng 8 số
-	
+
 	private String tempAddNo;
 
 	private String tempAddSt;
@@ -114,13 +116,15 @@ public class Tutor extends Person {
 	@JsonIgnore
 	private List<Application> applications = new LinkedList<>();
 
-	 @OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
-	 @JsonIgnore
-	 private List<Job> jobs=new LinkedList<>();
-	 
-	 
-	 private Double exp;
-	 
+	@OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<Job> jobs = new LinkedList<>();
+
+	private Double exp;
+
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "tutor_Subject", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
+	private List<Subject> registeredSubjects = new LinkedList<>();
 
 // FOR API SAVE
 	public void addWorker(Worker worker) {
@@ -167,6 +171,5 @@ public class Tutor extends Person {
 	public void removeSchoolTeacher(SchoolTeacher schoolTeacher) {
 		this.schoolTeachers.remove(schoolTeacher);
 	}
-
 
 }

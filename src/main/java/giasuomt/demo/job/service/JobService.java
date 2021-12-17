@@ -17,6 +17,7 @@ import giasuomt.demo.job.model.TutorByTheTimeCreatingJob;
 import giasuomt.demo.job.repository.IJobRepository;
 import giasuomt.demo.job.repository.ITaskByTheTimeCreatingJobRepository;
 import giasuomt.demo.job.repository.ITutorByTheTimeCreatingJobRepository;
+import giasuomt.demo.person.Ultils.ExperienceForTutor;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.repository.IApplicationRepository;
@@ -170,34 +171,13 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 		Tutor tutor = iTutorRepository.getOne(job.getTutor().getId());
 
-		updateExpForTutor(tutor);
+		ExperienceForTutor.updateExpForTutor(tutor, null);
 
 		return iJobRepository.save(job);
 
 	}
 
-	private void updateExpForTutor(Tutor tutor) {
-		Double countExp = tutor.getExp();
 
-		List<Job> allJobs = tutor.getJobs();
-		for (int i = 0; i < allJobs.size(); i++) {
-
-			if (allJobs.get(i).getFailReason().contains("success")) {
-				countExp += 1.0;
-			}
-
-			else if (allJobs.get(i).getFailReason().contains("PH/HV chê")
-					|| allJobs.get(i).getFailReason().contains("do lỗi GS")) {
-				countExp -= 1;
-			} else {
-				countExp = 0.0;
-			}
-
-		}   
-
-		tutor.setExp(countExp);
-
-	}
 
 	@Override
 	public Job update(SaveJobDto dto) {

@@ -13,6 +13,7 @@ import giasuomt.demo.job.model.Job;
 import giasuomt.demo.job.model.JobReview;
 import giasuomt.demo.job.repository.IJobRepository;
 import giasuomt.demo.job.repository.IJobReviewRepository;
+import giasuomt.demo.person.Ultils.ExperienceForTutor;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.uploadfile.model.BillImage;
@@ -85,25 +86,10 @@ public class JobReviewService extends GenericService<SaveJobReviewDto, JobReview
 
 		Tutor tutor = iTutorRepository.getOne(jobReview.getJob().getTutor().getId());
 
-		updateExpForTutor(tutor, dto);
+		ExperienceForTutor.updateExpForTutor(tutor, dto);
 
 		return save(dto, jobReview);
 	}
 
-	private void updateExpForTutor(Tutor tutor, SaveJobReviewDto dto) {
-		Double countExp = tutor.getExp();
 
-		if (dto.getStarsNumber() >= 4.0 && dto.getStarsNumber() < 5.0) {
-			countExp += 1.0;
-		} else if (dto.getStarsNumber() == 5.0) {
-			countExp += 2.0;
-		} else if (dto.getStarsNumber() <= 2) {
-			countExp -= 1;
-		} else {
-			countExp = 0.0;
-		}
-
-		tutor.setExp(countExp);
-
-	}
 }
