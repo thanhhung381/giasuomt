@@ -9,6 +9,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -22,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.util.DateUtils;
 import giasuomt.demo.educational.model.Subject;
@@ -43,7 +46,11 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class TaskByTheTimeCreatingJob extends AbstractEntityNotId {
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long keyId;
+
 	// @GeneratedValue(strategy = GenerationType.SEQUENCE)
 	// @Column(nullable = false)
 	private String id; // Cần viết tự generae theo dạng MB1991
@@ -55,9 +62,6 @@ public class TaskByTheTimeCreatingJob extends AbstractEntityNotId {
 
 //NƠI HỌC
 	private String taskPlaceType;
-
-
-
 
 	private String subjectApperance;
 
@@ -125,8 +129,8 @@ public class TaskByTheTimeCreatingJob extends AbstractEntityNotId {
 
 	@Enumerated(EnumType.STRING)
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
-	
+
 	@ElementCollection
 	private List<String> taskPlaceAddresses = new LinkedList<>();
-	
+
 }

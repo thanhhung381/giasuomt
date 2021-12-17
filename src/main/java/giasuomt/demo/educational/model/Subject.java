@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
+import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.task.model.Task;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,8 +37,13 @@ public class Subject extends AbstractEntity {
 	@JoinColumn(name = "subject_group_id")
 	private SubjectGroup subjectGroup;
 	
-	@ManyToMany(mappedBy = "subjects", fetch = FetchType.EAGER)  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+	@ManyToMany(mappedBy = "subjects", fetch = FetchType.LAZY)  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
 	@JsonIgnore
 	private List<Task> tasks = new LinkedList<>(); //truyền id;
+	
+	@ManyToMany(mappedBy = "registeredSubjects", fetch = FetchType.LAZY)  //Để JSP ignore cột này khi truy vấn, để ko bị lập vô tận
+	@JsonIgnore
+	private List<Tutor> tutors = new LinkedList<>(); //truyền id;
+	
 
 }
