@@ -84,12 +84,15 @@ public class JobReviewService extends GenericService<SaveJobReviewDto, JobReview
 
 		jobReview.setJob(iJobRepository.getOne(dto.getJobId()));
 
+		 jobReview  = save(dto, jobReview);
+
 		Tutor tutor = iTutorRepository.getOne(jobReview.getJob().getTutor().getId());
 
-		ExperienceForTutor.updateExpForTutor(tutor, dto);
+		tutor=ExperienceForTutor.updateExpForTutor(tutor);
 
-		return save(dto, jobReview);
+		iTutorRepository.save(tutor);
+
+		return jobReview ;
 	}
-
 
 }
