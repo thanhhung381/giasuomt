@@ -18,6 +18,7 @@ import giasuomt.demo.job.repository.IJobRepository;
 import giasuomt.demo.job.repository.ITaskByTheTimeCreatingJobRepository;
 import giasuomt.demo.job.repository.ITutorByTheTimeCreatingJobRepository;
 import giasuomt.demo.person.Ultils.ExperienceForTutor;
+import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.repository.IApplicationRepository;
@@ -75,6 +76,12 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		}
 		job.setRetainedImgsIdentification(retainedImgsIdentification);
 
+		
+		//Subject Group Sure 
+		
+		
+		
+		
 		// save Task Time Creating Job
 		TaskByTheTimeCreatingJob taskByTheTimeCreatingJob = new TaskByTheTimeCreatingJob();
 		taskByTheTimeCreatingJob = (TaskByTheTimeCreatingJob) mapDtoToModel.map(iTaskRepository.getOne(dto.getTaskId()),
@@ -152,7 +159,15 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		try {
 			mapDto(dto, job);
 
-			return iJobRepository.save(job);
+			job=iJobRepository.save(job);
+			
+			Tutor tutor=iTutorRepository.getOne(job.getTutor().getId());
+			
+			tutor=UpdateSubjectGroupMaybeAndSure.generateSubjectGroupSureInTutor(tutor);
+			
+			iTutorRepository.save(tutor);
+			
+			return job;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

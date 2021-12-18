@@ -4,10 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import giasuomt.demo.educational.model.Subject;
+import giasuomt.demo.job.model.Job;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.task.model.Application;
 
-public class UpdateRegisterdSubjectAndCreateAppilcation {
+public class UpdateSubjectGroupMaybeAndSure {
 
 	public static Tutor generateSubjectGroupMaybeInTutor(Tutor tutor) {
 
@@ -30,13 +31,32 @@ public class UpdateRegisterdSubjectAndCreateAppilcation {
 			}
 		}
 
-		tutor.setSubjectGroupMaybe(removeDuplicateElenmet(tempString).toString().replace("[", "").replace("]", ""));
+		tutor.setSubjectGroupMaybe(removeDuplicateElemet(tempString).toString().replace("[", "").replace("]", ""));
 
 		return tutor;
 
 	}
 
-	public static List<String> removeDuplicateElenmet(List<String> string) {
+	public static Tutor generateSubjectGroupSureInTutor(Tutor tutor) {
+		List<String> temp = new LinkedList<>();
+
+		List<Job> jobs = tutor.getJobs();
+		for (int i = 0; i < jobs.size(); i++) {
+			if (jobs.get(i).getJobResult().contains("success")) {
+				List<Subject> subjects = jobs.get(i).getTask().getSubjects();
+				for (int j = 0; j < subjects.size(); j++) {
+					temp.add(subjects.get(j).getSubjectGroup().getShortName());
+				}
+			}
+		}
+
+		tutor.setSubjectGroupSure(removeDuplicateElemet(temp).toString().replace("[", "").replace("]", ""));
+
+		return tutor;
+
+	}
+
+	private static List<String> removeDuplicateElemet(List<String> string) {
 		List<String> temp = new LinkedList<>();
 
 		for (int i = 0; i < string.size(); i++) {
