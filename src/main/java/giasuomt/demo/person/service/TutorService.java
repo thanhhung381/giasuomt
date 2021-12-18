@@ -16,6 +16,7 @@ import giasuomt.demo.educational.repository.ISubjectRepository;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
+import giasuomt.demo.person.Ultils.UpdateRegisterdSubjectAndCreateAppilcation;
 import giasuomt.demo.person.dto.SaveGraduatedStudentDto;
 import giasuomt.demo.person.dto.SaveInstitutionTeacherDto;
 import giasuomt.demo.person.dto.SaveSchoolTeacherDto;
@@ -443,7 +444,11 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			subjects.add(subject);
 
 		}
+		
 		tutor.setRegisteredSubjects(subjects);
+		// cập nhật xong 
+		tutor=UpdateRegisterdSubjectAndCreateAppilcation.generateSubjectGroupMaybeInTutor(tutor);
+		
 
 		return iTutorRepository.save(tutor);
 
