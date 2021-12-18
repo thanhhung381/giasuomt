@@ -27,7 +27,27 @@ public class DemoApplication {
 
 		SpringApplication.run(DemoApplication.class, args);
 		
+		List<String> khang=new LinkedList<>();
 		
+		khang.add("a");
+		
+		khang.add("b");
+		
+		khang.add("c");
+		
+		khang.add("d");
+		
+		khang.add("a"); 
+		
+		khang.add("a"); 
+		
+		khang.add("d");
+		
+		
+		
+		System.out.println("khi chưa sử dụng "+khang.toString());
+		
+		System.out.println("hàm sử dụng "+UpdateRegisterdSubjectAndCreateAppilcation.removeDuplicateElenmet(khang).toString());
 		
 	}
  
