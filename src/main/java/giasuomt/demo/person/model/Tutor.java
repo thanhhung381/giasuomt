@@ -125,6 +125,12 @@ public class Tutor extends Person {
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "tutor_Subject", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
 	private List<Subject> registeredSubjects = new LinkedList<>();
+	
+	
+	//Subject Group
+	private String subjectGroupMaybe;
+	
+	private String subjectGroupSure;
 
 // FOR API SAVE
 	public void addWorker(Worker worker) {
