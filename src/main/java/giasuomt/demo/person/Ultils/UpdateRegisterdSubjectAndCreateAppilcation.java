@@ -1,5 +1,6 @@
 package giasuomt.demo.person.Ultils;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import giasuomt.demo.educational.model.Subject;
@@ -9,9 +10,8 @@ import giasuomt.demo.task.model.Application;
 public class UpdateRegisterdSubjectAndCreateAppilcation {
 
 	public static Tutor generateSubjectGroupMaybeInTutor(Tutor tutor) {
-		String subjectGroupByRegisteredSubject = "";
 
-		String subjectGroupByApplication = "";
+		List<String> tempString = new LinkedList<>();
 
 		List<Subject> allRegisterdSubjects = tutor.getRegisteredSubjects();
 		for (int i = 0; i < allRegisterdSubjects.size() - 1; i++) {
@@ -30,18 +30,15 @@ public class UpdateRegisterdSubjectAndCreateAppilcation {
 					if (allRegisterdSubjects.get(i).getSubjectGroup().getShortName()
 							.contains(allRegisterdSubjects.get(j).getSubjectGroup().getShortName())) {
 
-						allRegisterdSubjects.remove(j).getSubjectGroup().getShortName();
+						allRegisterdSubjects.remove(j);
 						j--;
 					}
 
 				}
 
 			}
-			subjectGroupByRegisteredSubject = subjectGroupByRegisteredSubject
-					.concat(allRegisterdSubjects.get(i).getSubjectGroup().getShortName() + " ");
-
+			tempString.add(allRegisterdSubjects.get(i).getSubjectGroup().getShortName());
 		}
-		System.out.println(subjectGroupByRegisteredSubject);
 
 		List<Application> applications = tutor.getApplications();
 		if (!applications.isEmpty()) {
@@ -63,22 +60,49 @@ public class UpdateRegisterdSubjectAndCreateAppilcation {
 						for (int l = k + 1; l < subjectFromTask.size(); l++) {
 							if (subjectFromTask.get(k).getSubjectGroup().getShortName()
 									.contains(subjectFromTask.get(l).getSubjectGroup().getShortName())) {
-								subjectFromTask.remove(l).getSubjectGroup().getShortName();
+								subjectFromTask.remove(l);
 								l--;
 							}
 						}
 					}
 
-					subjectGroupByApplication = subjectGroupByApplication
-							.concat(subjectFromTask.get(k).getSubjectGroup().getShortName() + " ");
+					tempString.add(subjectFromTask.get(k).getSubjectGroup().getShortName());
 				}
 			}
 		}
 
-		tutor.setSubjectGroupMaybe(subjectGroupByRegisteredSubject+subjectGroupByApplication);
-		
+		tutor.setSubjectGroupMaybe(removeDuplicateElenmet(tempString).toString().replace("[", "").replace("]", ""));
+
 		return tutor;
 
+	}
+
+	private static List<String> removeDuplicateElenmet(List<String> string) {
+		List<String> temp = new LinkedList<>();
+
+		for (int i = 0; i < string.size() - 1; i++) {
+			boolean check = false;
+			for (int j = 0; j < i; j++) {
+				if (string.get(i).contains(string.get(j))) {
+					check = true;
+					break;
+				}
+			}
+
+			if (check == true) {
+				for (int j = i + 1; j < string.size(); j++) {
+					if (string.get(i).contains(string.get(j))) {
+						string.remove(j);
+						j--;
+					}
+				}
+			}
+
+			temp.add(string.get(i));
+
+		}
+
+		return temp;
 	}
 
 }
