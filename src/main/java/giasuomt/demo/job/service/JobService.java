@@ -24,7 +24,9 @@ import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
 import giasuomt.demo.uploadfile.model.Avatar;
+import giasuomt.demo.uploadfile.model.RetainedImgsIdentification;
 import giasuomt.demo.uploadfile.repository.IAvatarRepository;
+import giasuomt.demo.uploadfile.repository.IRetainedImgsIdentificationRepository;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -35,7 +37,7 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 	private IApplicationRepository iApplicationRepository;
 
-	private IAvatarRepository iAvatarRepository;
+	private IRetainedImgsIdentificationRepository iRetainedImgsIdentificationRepository;
 
 	private ITutorRepository iTutorRepository;
 
@@ -68,20 +70,17 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		List<String> retainedImgsIdentification = new LinkedList<>();
 		for (int i = 0; i < retainedImgsIdentificationId.size(); i++) {
 
-			Avatar avatar = iAvatarRepository.getOne(retainedImgsIdentificationId.get(i));
-			String urlDownLoad = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/avatar/downloadFile/")
-					.path(avatar.getNameFile()).toUriString();
+			RetainedImgsIdentification avatar = iRetainedImgsIdentificationRepository
+					.getOne(retainedImgsIdentificationId.get(i));
+			String urlDownLoad = ServletUriComponentsBuilder.fromCurrentContextPath()
+					.path("/api/RetainedImgsIdentification/downloadFile/").path(avatar.getNameFile()).toUriString();
 			retainedImgsIdentification.add(urlDownLoad);
 
 		}
 		job.setRetainedImgsIdentification(retainedImgsIdentification);
 
-		
-		//Subject Group Sure 
-		
-		
-		
-		
+		// Subject Group Sure
+
 		// save Task Time Creating Job
 		TaskByTheTimeCreatingJob taskByTheTimeCreatingJob = new TaskByTheTimeCreatingJob();
 		taskByTheTimeCreatingJob = (TaskByTheTimeCreatingJob) mapDtoToModel.map(iTaskRepository.getOne(dto.getTaskId()),
@@ -159,14 +158,14 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		try {
 			mapDto(dto, job);
 
-			job=iJobRepository.save(job);
-			
-			Tutor tutor=iTutorRepository.getOne(job.getTutor().getId());
-			
-			tutor=UpdateSubjectGroupMaybeAndSure.generateSubjectGroupSureInTutor(tutor);
-			
+			job = iJobRepository.save(job);
+
+			Tutor tutor = iTutorRepository.getOne(job.getTutor().getId());
+
+			tutor = UpdateSubjectGroupMaybeAndSure.generateSubjectGroupSureInTutor(tutor);
+
 			iTutorRepository.save(tutor);
-			
+
 			return job;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -183,24 +182,18 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		job.setFailReason(dto.getFailReason());
 
 		job.setFindAnotherTutorIfFail(dto.getFindAnotherTutorIfFail());
-		
-		
+
 		job = iJobRepository.save(job);
-		
 
 		Tutor tutor = iTutorRepository.getOne(job.getTutor().getId());
 
-		
-		tutor=ExperienceForTutor.updateExpForTutor(tutor);
+		tutor = ExperienceForTutor.updateExpForTutor(tutor);
 
-		
 		iTutorRepository.save(tutor);
-		
+
 		return job;
 
 	}
-
-
 
 	@Override
 	public Job update(SaveJobDto dto) {

@@ -52,16 +52,24 @@ public class TaskCommentService extends GenericService<SaveTaskCommentDto, TaskC
 		TaskComment taskComment = iTaskCommentRepository.getOne(dto.getId());
 
 		taskComment = (TaskComment) mapDtoToModel.map(dto, taskComment);
-
-		if (dto.getParrentCommentId() == 0)// comment đầu tiên //nếu nhập sai id thì có thể validation sau
+		
+		if(taskComment.getParentComment()==null) // kiểm tra comment đó phải là comment cha hay ko
 		{
-			taskComment.setParentComment(null);
-		} else {
-			taskComment.setParentComment(iTaskCommentRepository.getOne(dto.getParrentCommentId()));
-		}
+			
 
-		taskComment.setTask(iTaskRepository.getOne(dto.getIdTask()));
-		taskComment.setContent(dto.getContent());
+			taskComment.setTask(iTaskRepository.getOne(dto.getIdTask()));
+			taskComment.setContent(dto.getContent());
+		}
+		else
+		{
+			
+		
+			taskComment.setParentComment(iTaskCommentRepository.getOne(dto.getParrentCommentId()));
+
+			taskComment.setTask(iTaskRepository.getOne(dto.getIdTask()));
+			
+			taskComment.setContent(dto.getContent());
+		}
 
 		return save(dto, taskComment);
 	}

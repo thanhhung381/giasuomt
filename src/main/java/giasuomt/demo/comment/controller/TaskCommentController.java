@@ -26,10 +26,10 @@ public class TaskCommentController extends GenericController<SaveTaskCommentDto,
 
 	private ITaskCommentService iTaskCommentService;
 
-	@DeleteMapping("/delete/{idTaskComment}")
-	public ResponseEntity<Object> deleteTaskComment(@RequestParam("idTaskComment") Long idTaskComment) {
+	@DeleteMapping("/deleteByTaskCommnent/{idTask}")
+	public ResponseEntity<Object> deleteTaskComment(@RequestParam("idTask") Long idTask) {
 
-		iTaskCommentService.deleteTaskComment(idTaskComment);
+		iTaskCommentService.deleteTaskComment(idTask);
 
 		return ResponseHandler.getResponse("Delete successfully", HttpStatus.OK);
 	}
