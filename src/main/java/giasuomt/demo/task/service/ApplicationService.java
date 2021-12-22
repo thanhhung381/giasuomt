@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
-import giasuomt.demo.person.Ultils.UpdateRegisterdSubjectAndCreateAppilcation;
+import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.dto.SaveApplicationDto;
@@ -46,7 +46,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 		
 		Tutor tutor=iTutorRepository.getOne(application.getTutor().getId());
 		
-		tutor=  UpdateRegisterdSubjectAndCreateAppilcation.generateSubjectGroupMaybeInTutor(tutor);
+		tutor=  UpdateSubjectGroupMaybeAndSure.generateSubjectGroupMaybeInTutor(tutor);
 		
 		iTutorRepository.save(tutor);
 		
