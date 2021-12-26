@@ -4,6 +4,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 
 @Configuration  //để nó biết đây là 1 file config
@@ -14,7 +15,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		//Enable CORS - xem lại tài liệu để hiểu CORS là gì - nói ngắn gọn là ở đây mình cấu hình để cho phép nguồn nào (domain nào) có thể gửi HttpRequest tới Server của mình được, và có thể gởi Request tới API nào được, API nào không.
 		http.cors();  //enable filter cors
 		http.csrf().disable();  //disable csrf tạm thời để mình dev //để ko bị báo lỗi 403 với các api create
-	    http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()); //enable cors
+	    //http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()); //enable cors
 
 		//config authentication (xác thực) cho các API. Chứ chưa làm đến việc authorization (phân quyền) cho các API.
 		http.antMatcher("/api/**").authorizeRequests() 
@@ -25,4 +26,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //			.anyRequest().authenticated(); //anthenticated (bảo mật) tất cả các request còn lại - để tránh việc kẻ xấu vô khám phá xem mình còn những trang gì nữa ko...
 		
 	}
+	
+
 }
