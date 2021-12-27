@@ -1,4 +1,5 @@
 package giasuomt.demo.security.config;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,9 +26,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    http.cors().configurationSource(request -> {
 	    	CorsConfiguration cors = new CorsConfiguration();
 	    	cors.applyPermitDefaultValues();
+	    	
 	        //cors.setAllowedOrigins(List.of("*"));
-	        cors.setAllowedMethods(List.of("GET", "POST"));
-	        cors.setAllowedHeaders(List.of("Access-Control-Allow-Origin", "Origin"));;
+	    	
+	    	ArrayList<String> methodList = new ArrayList<String>();
+	    	methodList.add("GET");
+	    	methodList.add("POST");
+	    	methodList.add("PUT");
+	    	methodList.add("DELETE");
+	        cors.setAllowedMethods(methodList);
+	        
+	    	ArrayList<String> headerList = new ArrayList<String>();
+	    	headerList.add("Access-Control-Allow-Origin");
+	    	headerList.add("Origin");       
+	        cors.setAllowedHeaders(headerList);
+	        
 	        return cors;
 	      }); //enable cors
 
