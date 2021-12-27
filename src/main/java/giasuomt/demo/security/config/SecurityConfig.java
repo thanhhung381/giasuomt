@@ -27,12 +27,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    	
 	        //cors.setAllowedOrigins(List.of("*"));
 	    	
-//	    	ArrayList<String> methodList = new ArrayList<String>();
-//	    	methodList.add("GET");
-//	    	methodList.add("PUT");
-//	    	methodList.add("DELETE");
-//	    	methodList.add("POST");
-//	        cors.setAllowedMethods(methodList); //để cho phép các methods này
+	    	ArrayList<String> methodList = new ArrayList<String>();
+	    	methodList.add("GET");
+	    	methodList.add("PUT");
+	    	methodList.add("DELETE");
+	    	methodList.add("POST");
+	        cors.setAllowedMethods(methodList); //để cho phép các methods này
 //	        
 //	    	ArrayList<String> headerList = new ArrayList<String>();
 //	    	headerList.add("Access-Control-Allow-Origin");
