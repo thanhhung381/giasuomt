@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		//Enable CORS - xem lại tài liệu để hiểu CORS là gì - nói ngắn gọn là ở đây mình cấu hình để cho phép nguồn nào (domain nào) có thể gửi HttpRequest tới Server của mình được, và có thể gởi Request tới API nào được, API nào không.
 		http.cors();  //enable filter cors
-		http.csrf().disable();  //disable csrf tạm thời để mình dev //để ko bị báo lỗi 403 với các api create
+		//http.csrf().disable();  //disable csrf tạm thời để mình dev //để ko bị báo lỗi 403 với các api create
 	    
 	    http.cors().configurationSource(request -> { //enable cors
 	    	CorsConfiguration cors = new CorsConfiguration();
@@ -41,6 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	        
 	        return cors;
 	      }); //enable cors
+	    
+	    http.csrf().disable();  //disable csrf tạm thời để mình dev //để ko bị báo lỗi 403 với các api create
 
 		//config authentication (xác thực) cho các API. Chứ chưa làm đến việc authorization (phân quyền) cho các API.
 		http.antMatcher("/api/**").authorizeRequests() 
