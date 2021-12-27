@@ -20,10 +20,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.cors();  //enable filter cors
 		http.csrf().disable();  //disable csrf tạm thời để mình dev //để ko bị báo lỗi 403 với các api create
 
-	    //http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues().setAllowedMethods(allowedMethods)); //enable cors
+	    //http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()); //enable cors
 	    
 	    http.cors().configurationSource(request -> {
 	    	CorsConfiguration cors = new CorsConfiguration();
+	    	cors.applyPermitDefaultValues();
 	        cors.setAllowedOrigins(List.of("http://localhost:8080", "http://127.0.0.1:5500/", "http://example.com"));
 	        cors.setAllowedMethods(List.of("*"));
 	        cors.setAllowedHeaders(List.of("*"));
