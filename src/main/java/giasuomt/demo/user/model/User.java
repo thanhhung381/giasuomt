@@ -62,4 +62,8 @@ public class User extends AbstractEntity {
 	@ManyToMany(mappedBy = "users",fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Role> roles=new LinkedList<>();
+	
+	
+
+	
 }

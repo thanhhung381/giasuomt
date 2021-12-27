@@ -19,5 +19,8 @@ spring:
       enabled: true
       file-size-threshold: 2KB      max-file-size: 200MB      max-request-size: 220MB
       
-
+gsomt:
+  app:
+    jwt-secret: apiofgsomt
+    jwt-duration: 360000000
             
