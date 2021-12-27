@@ -52,6 +52,7 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 
 	private String relAreaId;
 
+	private Long idUser;
 	// HIỆN ĐANG LÀ
 	// Lưu Student
 	private List<SaveStudentDto> saveStudentDtos = new LinkedList<>();

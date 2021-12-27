@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,6 +26,7 @@ import giasuomt.demo.location.model.Area;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
+import giasuomt.demo.user.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,7 +35,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
-public class Tutor extends Person {
+public class Tutor extends Person { 
 	// @Column(updatable = false) //Column này ko update được
 	// @Column(unique = true)
 	@Id
@@ -126,6 +128,9 @@ public class Tutor extends Person {
 	@JoinTable(name = "tutor_Subject", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
 	private List<Subject> registeredSubjects = new LinkedList<>();
 	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	private User user;
 	
 	//Subject Group
 	private String subjectGroupMaybe;

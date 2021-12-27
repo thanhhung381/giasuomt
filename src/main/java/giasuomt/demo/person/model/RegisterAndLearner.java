@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GeneratorType;
@@ -24,6 +25,7 @@ import giasuomt.demo.tags.model.RegisterAndLearnerTag;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Registration;
 import giasuomt.demo.task.model.Task;
+import giasuomt.demo.user.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -77,6 +79,10 @@ public class RegisterAndLearner extends Person {
 	
 
 	private String note;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
+	private User user;
 	
 	
 //LEARNER/REGISTER	
