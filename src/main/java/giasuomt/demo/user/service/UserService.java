@@ -18,12 +18,12 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 	private IUserRepository iUserRepository;
 
 	private MapDtoToModel mapDtoToModel;
-	
+
 	private PasswordEncoder passwordEncoder;
 
 	public User create(SaveUserDto dto) {
 		User user = new User();
-		return save(user,dto);
+		return save(user, dto);
 	}
 
 	public User save(User user, SaveUserDto dto) {
@@ -42,13 +42,14 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 	public void mapDto(SaveUserDto dto, User user) {
 		user = (User) mapDtoToModel.map(dto, user);
 		user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
 	}
 
 	@Override
 	public User update(SaveUserDto dto) {
-		
+
 		User user = iUserRepository.getOne(dto.getId());
-		return save(user,dto);
+		return save(user, dto);
 	}
 
 }

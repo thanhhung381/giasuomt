@@ -24,4 +24,7 @@ public class SaveUserDto {
 	private String email;
 
 	private String phones;
+	
+	private String confirmPassword;
+	
 }
