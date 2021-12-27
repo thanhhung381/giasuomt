@@ -42,6 +42,8 @@ import giasuomt.demo.tags.model.RegisterAndLearnerTag;
 import giasuomt.demo.tags.repository.IRegisterAndLearnerTagRepository;
 import giasuomt.demo.uploadfile.model.Avatar;
 import giasuomt.demo.uploadfile.repository.IAvatarRepository;
+import giasuomt.demo.user.model.User;
+import giasuomt.demo.user.repository.IUserRepository;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -71,6 +73,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 	private IAvatarRepository iFileEntityRepository;
 	
+	private IUserRepository iUserRepository;
 
 	@Override
 	public List<RegisterAndLearner> findAll() {
@@ -326,6 +329,14 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 				registerAndLearner.addWorker(worker);
 			}
 		}
+		//user
+		User user=iUserRepository.getOne(dto.getIdUser());
+		registerAndLearner.setUsername(user.getUsername());
+		registerAndLearner.setPassword(user.getPassword());
+		registerAndLearner.setPhones(user.getPhones());
+		registerAndLearner.setEmails(dto.getEmails());
+		
+		registerAndLearner.setUser(user);
 	}
 
 	@Override

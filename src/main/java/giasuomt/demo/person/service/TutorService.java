@@ -41,6 +41,8 @@ import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.tags.repository.ITutorTagRepository;
 import giasuomt.demo.uploadfile.model.Avatar;
 import giasuomt.demo.uploadfile.repository.IAvatarRepository;
+import giasuomt.demo.user.model.User;
+import giasuomt.demo.user.repository.IUserRepository;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -72,6 +74,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 	private ISubjectRepository iSubjectRepository;
 
+	private IUserRepository iUserRepository;
+	
 	@Override
 	public List<Tutor> findAll() {
 
@@ -374,6 +378,17 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 				tutor.addWorker(worker);
 			}
 		}
+		//User
+		User user=iUserRepository.getOne(dto.getIdUser());
+		
+		tutor.setUsername(user.getUsername());
+		tutor.setPassword(user.getPassword());
+		tutor.setPhones(user.getPhones());
+		tutor.setEmails(dto.getEmails());
+		
+		tutor.setUser(user);
+		
+		
 	}
 
 	private String generateTutorCode() {
