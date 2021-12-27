@@ -22,13 +22,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	    http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()); //enable cors
 	    
-	    http.cors().configurationSource(request -> {
-	    	CorsConfiguration cors = new CorsConfiguration();
-	        //cors.setAllowedOrigins(List.of("*"));
-	        cors.setAllowedMethods(List.of("GET","PUT","POST","DELETE"));
-	        //cors.setAllowedHeaders(List.of("*"));
-	        return cors;
-	      }); //enable cors
+//	    http.cors().configurationSource(request -> {
+//	    	CorsConfiguration cors = new CorsConfiguration();
+//	        //cors.setAllowedOrigins(List.of("*"));
+//	        cors.setAllowedMethods(List.of("GET","PUT","POST","DELETE"));
+//	        //cors.setAllowedHeaders(List.of("*"));
+//	        return cors;
+//	      }); //enable cors
 
 		//config authentication (xác thực) cho các API. Chứ chưa làm đến việc authorization (phân quyền) cho các API.
 		http.antMatcher("/api/**").authorizeRequests() 
