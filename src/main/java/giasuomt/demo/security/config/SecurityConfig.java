@@ -1,4 +1,6 @@
 package giasuomt.demo.security.config;
+import java.util.ArrayList;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -56,7 +58,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		//Enable CORS - xem lại tài liệu để hiểu CORS là gì - nói ngắn gọn là ở đây mình cấu hình để cho phép nguồn nào (domain nào) có thể gửi HttpRequest tới Server của mình được, và có thể gởi Request tới API nào được, API nào không.
 		http.cors();  //enable filter cors
 		http.csrf().disable();  //disable csrf tạm thời để mình dev //để ko bị báo lỗi 403 với các api create
-	    http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()); //enable cors
+	    http.cors().configurationSource(request -> { //enable cors
+	    	CorsConfiguration cors = new CorsConfiguration();
+	    	cors.applyPermitDefaultValues();
+	    	
+	        //cors.setAllowedOrigins(List.of("*"));
+	    	
+	    	ArrayList<String> methodList = new ArrayList<String>();
+	    	methodList.add("GET");
+	    	methodList.add("POST");
+	    	methodList.add("PUT");
+	    	methodList.add("DELETE");
+	        cors.setAllowedMethods(methodList); //để cho phép các methods này
+	        
+	    	ArrayList<String> headerList = new ArrayList<String>();
+	    	headerList.add("Access-Control-Allow-Origin");
+	    	headerList.add("Origin");       
+	        cors.setAllowedHeaders(headerList); //để cho phép các request header này
+	        
+	        return cors;
+	      }); //enable cors
 
 		//config authentication (xác thực) cho các API. Chứ chưa làm đến việc authorization (phân quyền) cho các API.
 		http.antMatcher("/api/**").authorizeRequests() 
