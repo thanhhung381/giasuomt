@@ -27,5 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 	}
 	
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**");
+    }
+	
 
 }
