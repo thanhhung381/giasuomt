@@ -23,15 +23,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    
 	    http.cors().configurationSource(request -> { //enable cors
 	    	CorsConfiguration cors = new CorsConfiguration();
-	    	//cors.applyPermitDefaultValues();
+	    	cors.applyPermitDefaultValues();
 	    	
 	        //cors.setAllowedOrigins(List.of("*"));
 	    	
 	    	ArrayList<String> methodList = new ArrayList<String>();
 	    	methodList.add("GET");
-	    	methodList.add("POST");
 	    	methodList.add("PUT");
 	    	methodList.add("DELETE");
+	    	methodList.add("POST");
 	        cors.setAllowedMethods(methodList); //để cho phép các methods này
 	        
 	    	ArrayList<String> headerList = new ArrayList<String>();
