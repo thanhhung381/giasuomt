@@ -8,7 +8,9 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,4 +39,10 @@ public class AbstractEntityNotId  implements Serializable{
 	@DateTimeFormat(pattern = DateTimeUtils.DATE_TIME_FORMAT) //Quy định date format để lưu xuống database
 	@Column(name = "updated_at", nullable = false)
 	protected LocalDateTime updatedAt;
+	
+	@CreatedBy
+	protected String createdBy;  
+//	
+	@LastModifiedBy
+	protected String updatedBy;
 }

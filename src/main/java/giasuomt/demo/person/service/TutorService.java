@@ -379,14 +379,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			}
 		}
 		//User
-		User user=iUserRepository.getOne(dto.getIdUser());
-		
-		tutor.setUsername(user.getUsername());
-		tutor.setPassword(user.getPassword());
-		tutor.setPhones(user.getPhones());
-		tutor.setEmails(dto.getEmails());
-		
-		tutor.setUser(user);
+
 		
 		
 	}

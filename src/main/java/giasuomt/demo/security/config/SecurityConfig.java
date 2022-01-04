@@ -4,26 +4,35 @@ import java.util.ArrayList;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
+import giasuomt.demo.security.jwt.JwtAuthorizationFilter;
 import lombok.AllArgsConstructor;
 
 
 @Configuration  //để nó biết đây là 1 file config
 @EnableWebSecurity  //để nó biết đây là config cho Spring Security
+@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = false,jsr250Enabled = false)
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	private UserDetailsService userDetailsService;
 	
+	
+	private JwtAuthorizationFilter jwtAuthorizationFilter;
 	
 	@Bean
 	public PasswordEncoder getPassword()
@@ -36,10 +45,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(getPassword());
 		
+		Authentication authentication;
+		
+		
+		
 	}
 	
 	
-	
+
 	
 	
 	
@@ -84,6 +97,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.anyRequest().authenticated(); //anthenticated (bảo mật) tất cả các request còn lại - để tránh việc kẻ xấu vô khám phá xem mình còn những trang gì nữa ko...
 		
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		//add jwt filter 
+		http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Override

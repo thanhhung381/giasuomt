@@ -8,11 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Component;
 
 @Configuration
-@EnableJpaAuditing(auditorAwareRef = "auditorAware") // @EnableJpaAuditing để sử dụng được
-														// @CreatedDate,@LastModifiedDate, @CreatedBy, @ModifiedBy ở bên
-														// các model (AbstractEntity)
-														// auditorAwareRef = "auditorAware" là reference tới hàm mà mình
-														// viết để lấy thông tin user
+@EnableJpaAuditing(auditorAwareRef = "auditorAware") 
 public class JpaConfig {
 
 	// Auditor Aware là cấu hình để dùng được các annotation @CreatedBy, @ModifiedBy
@@ -30,3 +26,8 @@ public class JpaConfig {
 
 	}
 }
+//@EnableJpaAuditing để sử dụng được
+// @CreatedDate,@LastModifiedDate, @CreatedBy, @ModifiedBy ở bên
+// các model (AbstractEntity)
+// auditorAwareRef = "auditorAware" là reference tới hàm mà mình
+// viết để lấy thông tin user

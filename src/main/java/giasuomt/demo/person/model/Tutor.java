@@ -128,7 +128,7 @@ public class Tutor extends Person {
 	@JoinTable(name = "tutor_Subject", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
 	private List<Subject> registeredSubjects = new LinkedList<>();
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "tutor")
 	@JsonIgnore
 	private User user;
 	

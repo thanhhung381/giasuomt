@@ -35,7 +35,7 @@ public class SaveRegisterAndLearnerDto extends SavePersonDto implements Serializ
 
 	private String note;
 	
-	private Long idUser;
+	
 	
 	//RELATIONSHIP
 	private List<SaveRegisterAndLearnerRelationshipDto> registerAndLearnerRelationships = new LinkedList<>();

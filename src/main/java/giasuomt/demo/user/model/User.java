@@ -4,11 +4,15 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -52,18 +56,22 @@ public class User extends AbstractEntity {
 	
 	private String phones;
 	
-	@OneToOne(mappedBy = "user")
+	@OneToOne
 	private Tutor tutor;
 	
-	@OneToOne(mappedBy = "user")
+	@OneToOne
 	private RegisterAndLearner registerAndLearner;
 	
 	
-	@ManyToMany(mappedBy = "users",fetch = FetchType.LAZY)
-	@JsonIgnore
+	
+	@ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.EAGER)
+	@JoinTable(name = "User_Role_GSOMT",joinColumns = @JoinColumn(name="id_User"),inverseJoinColumns =  @JoinColumn(name="id_Role"))
 	private List<Role> roles=new LinkedList<>();
 	
 	
-
+	public void removeTutor(Role role)
+	{
+		this.roles.remove(role);
+	}
 	
 }
