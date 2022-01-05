@@ -17,9 +17,7 @@ import lombok.Setter;
 public class Person extends AbstractEntityNotId {
 //	@Size(min = 3, max = 50, message = "{user.username.size}")
 //	@Column(unique = true) // để các giá trị username ko được trùng nhau
-	private String username;
-
-	private String password;
+	
 
 	private String registeredStatus;
 

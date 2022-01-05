@@ -330,13 +330,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 			}
 		}
 		//user
-		User user=iUserRepository.getOne(dto.getIdUser());
-		registerAndLearner.setUsername(user.getUsername());
-		registerAndLearner.setPassword(user.getPassword());
-		registerAndLearner.setPhones(user.getPhones());
-		registerAndLearner.setEmails(dto.getEmails());
 		
-		registerAndLearner.setUser(user);
 	}
 
 	@Override

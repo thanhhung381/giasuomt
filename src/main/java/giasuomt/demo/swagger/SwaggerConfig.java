@@ -24,6 +24,8 @@ public class SwaggerConfig {
     @Bean
     public Docket api() { 
         return new Docket(DocumentationType.SWAGGER_2)  
+          .securitySchemes(Arrays.asList(apiKey())) //để đặt được cái apiKey của thằng swagger
+          .securityContexts(Arrays.asList(securityContext())) //nhận được cái JWT 
           .select()                                  
           .apis(RequestHandlerSelectors.basePackage("giasuomt.demo"))                                   
           .build()                                    
@@ -38,4 +40,28 @@ public class SwaggerConfig {
     			.license("MIT2")
     			.build();
     }
+    //api key đẽ cho mình nhập jwt dô và xuất hiện cái nút Authorization
+    private ApiKey apiKey()
+    {
+    	return new ApiKey("JWT", "Authorization", "header"); //header truyền vào cookie vào passAs truyền vào header có tên là Authorization
+    }
+    
+    // khởi tạo
+    private SecurityContext securityContext()
+    {
+    	return SecurityContext.builder()
+    			.securityReferences(securityReferences()).build();            // builder(): ko tạo instance liền mà bắt mình nhập thông tin trước xong sau đó mới tạo 
+    }
+    
+    private List<SecurityReference> securityReferences()
+    {
+    	AuthorizationScope authorizationScope=new AuthorizationScope("global", "All application can access"); //
+    	
+    	AuthorizationScope[] authorizationScopes=new AuthorizationScope[1];
+    	
+    	authorizationScopes[0]=authorizationScope;
+    	
+    	return Arrays.asList(new SecurityReference("JWT", authorizationScopes)); //string refference là tham chiếu tới apiKey nào
+    }
+    
 }

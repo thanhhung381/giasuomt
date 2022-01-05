@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -39,7 +40,7 @@ public class Role extends AbstractEntity {
 
 	private String description;
 	
-	@ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
-	@JoinTable(name = "User_Role_GSOMT",joinColumns = @JoinColumn(name="id_Role"),inverseJoinColumns = @JoinColumn(name="id_User"))
+	@ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
+	@JsonIgnore
 	private List<User> users=new LinkedList<>();
 }

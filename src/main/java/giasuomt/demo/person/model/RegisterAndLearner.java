@@ -80,7 +80,7 @@ public class RegisterAndLearner extends Person {
 
 	private String note;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "registerAndLearner")
 	@JsonIgnore
 	private User user;
 	

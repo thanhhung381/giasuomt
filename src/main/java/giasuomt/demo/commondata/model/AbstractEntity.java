@@ -40,12 +40,7 @@ public class AbstractEntity extends AbstractEntityNotId {
 	protected Long id; //(khai báo là protected để các lớp con có thể truy cập vô để kế thừa)
 	
 	
-//
-//	@CreatedBy
-//	protected String createdBy;  
-//	
-//	@LastModifiedBy
-//	protected String updatedBy;
+	
 //	
 //	
 

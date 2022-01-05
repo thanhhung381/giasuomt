@@ -5,6 +5,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import org.springframework.validation.BindingResult;
@@ -23,10 +25,11 @@ public abstract class GenericController<DTO, T extends AbstractEntityNotId, ID, 
 	
 
 	@GetMapping("/findAll")
+	@PreAuthorize("hasAuthority('tutor-role')")
 	public ResponseEntity<Object> findall() {
 		List<T> ts = iGenericService.findAll();
 		if (ts==null)
-			return ResponseHandler.getResponse("There is no data.", HttpStatus.OK);
+			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
 			
 		return ResponseHandler.getResponse(ts, HttpStatus.OK);
 	}
@@ -79,7 +82,7 @@ public abstract class GenericController<DTO, T extends AbstractEntityNotId, ID, 
 //		if (t.isEmpty())
 		if (t == null)
 
-			return ResponseHandler.getResponse("There is no data.", HttpStatus.OK);
+			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
 			
 		return ResponseHandler.getResponse(t, HttpStatus.OK);
 	}
