@@ -2,7 +2,9 @@ package giasuomt.demo.user.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.uploadfile.service.IAvatarService;
 import giasuomt.demo.user.dto.SaveUserDto;
 import giasuomt.demo.user.dto.UpdateRegisterAndLearnerForUser;
+import giasuomt.demo.user.dto.UpdateAndDeleteRoleForUser;
 import giasuomt.demo.user.dto.UpdateTutorForUser;
 import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.service.IUserService;
@@ -56,5 +59,36 @@ public class UserController extends GenericController<SaveUserDto, User, Long, B
 		return ResponseHandler.getResponse(registerAndLearnerUpdateForUser, HttpStatus.OK);
 
 	}
+	
+	@PreAuthorize("hasAuthority('admin-role')")
+	@PutMapping("/updateRoleForUser")
+	public ResponseEntity<Object> updateAndDeleteRoleForUser(@RequestBody UpdateAndDeleteRoleForUser dto,
+			BindingResult errors) {
+
+		User roleUpdateForUser = iUserService.updateRoleForUser(dto);
+
+		if (errors.hasErrors()) {
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		}
+
+		return ResponseHandler.getResponse(roleUpdateForUser, HttpStatus.OK);
+
+	}
+	
+	@PreAuthorize("hasAuthority('admin-role')")
+	@DeleteMapping("/deleteRoleForUser")
+	public ResponseEntity<Object> deleteRoleForUser(@RequestBody UpdateAndDeleteRoleForUser dto,
+			BindingResult errors) {
+
+		User roleDeleteForUser = iUserService.deleteRoleForUser(dto);
+
+		if (errors.hasErrors()) {
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		}
+
+		return ResponseHandler.getResponse(roleDeleteForUser, HttpStatus.OK);
+
+	}
+	
 	
 }

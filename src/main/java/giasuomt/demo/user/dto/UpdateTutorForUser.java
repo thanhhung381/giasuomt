@@ -8,5 +8,5 @@ import lombok.Setter;
 public class UpdateTutorForUser {
 	private Long id;
 	
-	private Long idUser;
+	private Long idTutor;
 }
