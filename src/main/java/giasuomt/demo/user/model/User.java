@@ -69,7 +69,9 @@ public class User extends AbstractEntity {
 	private List<Role> roles=new LinkedList<>();
 	
 	
-	public void removeTutor(Role role)
+
+	
+	public void removeRole(Role role)
 	{
 		this.roles.remove(role);
 	}

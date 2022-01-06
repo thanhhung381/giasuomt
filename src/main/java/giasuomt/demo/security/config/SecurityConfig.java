@@ -51,16 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 	}
 	
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	@Override //Mình Override lại thằng configure(HttpSecurity http) (có sẵn trong Spring Security) -> để mình config việc nó security trên các cái Http Request của mình.
 	protected void configure(HttpSecurity http) throws Exception {

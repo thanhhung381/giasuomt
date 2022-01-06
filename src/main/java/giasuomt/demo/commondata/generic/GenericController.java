@@ -25,7 +25,7 @@ public abstract class GenericController<DTO, T extends AbstractEntityNotId, ID, 
 	
 
 	@GetMapping("/findAll")
-	@PreAuthorize("hasAuthority('tutor-role')")
+//	@PreAuthorize("hasAuthority('tutor-role')")
 	public ResponseEntity<Object> findall() {
 		List<T> ts = iGenericService.findAll();
 		if (ts==null)
