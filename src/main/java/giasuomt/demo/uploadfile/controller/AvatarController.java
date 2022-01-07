@@ -30,54 +30,55 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AvatarController {
 
-	private IAvatarService entityService;
-
-	@PostMapping("/create")
-	public ResponseEntity<Object> upload(@RequestParam("file") MultipartFile file) throws IOException {
-
-		String filename = StringUtils.cleanPath(file.getOriginalFilename());
-
-		if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
-
-			ResponsiveAvatar responsiveFile = new ResponsiveAvatar();// tránh lộ mã data
-
-			Avatar entity = entityService.save(file);
-
-			entityService.map(entity, responsiveFile);
-
-			return ResponseHandler.getResponse(responsiveFile, HttpStatus.CREATED);
-		}
-
-		else
-			return ResponseHandler.getResponse("You have to upload files which have type of .jpg, .png, .jpeg ",
-					HttpStatus.BAD_REQUEST);
-
-	}
-
-	@GetMapping("/findall")
-	public ResponseEntity<Object> findAll() {
-
-		List<ResponsiveAvatar> fileEntities = entityService.findAll();
-
-		if (fileEntities.isEmpty())
-			return ResponseHandler.getResponse("There is no data", HttpStatus.BAD_REQUEST);
-
-		return new ResponseEntity<>(fileEntities, HttpStatus.OK);
-
-	}
-
-	@GetMapping("/downloadFile/{filename}")
-	public ResponseEntity<byte[]> downloadFile(@PathVariable("filename") String filename, HttpServletRequest request) {
-
-		Avatar doc = entityService.getByNameFile(filename);
-
-		String mimeType = request.getServletContext().getMimeType(doc.getNameFile());
-
-		return ResponseEntity.ok().contentType(MediaType.parseMediaType(mimeType))
-				.header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION,
-						"inline;fileName=" + doc.getNameFile())
-				.body(doc.getData());
-
-	}
+	/*
+	 * private IAvatarService entityService;
+	 * 
+	 * @PostMapping("/create") public ResponseEntity<Object>
+	 * upload(@RequestParam("file") MultipartFile file) throws IOException {
+	 * 
+	 * String filename = StringUtils.cleanPath(file.getOriginalFilename());
+	 * 
+	 * if (filename.contains(".jpeg") || filename.contains(".jpg") ||
+	 * filename.contains(".png")) {
+	 * 
+	 * ResponsiveAvatar responsiveFile = new ResponsiveAvatar();// tránh lộ mã data
+	 * 
+	 * Avatar entity = entityService.save(file);
+	 * 
+	 * entityService.map(entity, responsiveFile);
+	 * 
+	 * return ResponseHandler.getResponse(responsiveFile, HttpStatus.CREATED); }
+	 * 
+	 * else return ResponseHandler.
+	 * getResponse("You have to upload files which have type of .jpg, .png, .jpeg ",
+	 * HttpStatus.BAD_REQUEST);
+	 * 
+	 * }
+	 * 
+	 * @GetMapping("/findall") public ResponseEntity<Object> findAll() {
+	 * 
+	 * List<ResponsiveAvatar> fileEntities = entityService.findAll();
+	 * 
+	 * if (fileEntities.isEmpty()) return
+	 * ResponseHandler.getResponse("There is no data", HttpStatus.BAD_REQUEST);
+	 * 
+	 * return new ResponseEntity<>(fileEntities, HttpStatus.OK);
+	 * 
+	 * }
+	 * 
+	 * @GetMapping("/downloadFile/{filename}") public ResponseEntity<byte[]>
+	 * downloadFile(@PathVariable("filename") String filename, HttpServletRequest
+	 * request) {
+	 * 
+	 * Avatar doc = entityService.getByNameFile(filename);
+	 * 
+	 * String mimeType = request.getServletContext().getMimeType(doc.getNameFile());
+	 * 
+	 * return ResponseEntity.ok().contentType(MediaType.parseMediaType(mimeType))
+	 * .header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION,
+	 * "inline;fileName=" + doc.getNameFile()) .body(doc.getData());
+	 * 
+	 * }
+	 */
 
 }
