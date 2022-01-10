@@ -40,6 +40,7 @@ import giasuomt.demo.person.repository.IWorkerRepository;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.tags.repository.ITutorTagRepository;
 import giasuomt.demo.uploadfile.model.Avatar;
+import giasuomt.demo.uploadfile.repository.IAWSAvatarRepository;
 import giasuomt.demo.uploadfile.repository.IAvatarRepository;
 import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
@@ -75,6 +76,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	private ISubjectRepository iSubjectRepository;
 
 	private IUserRepository iUserRepository;
+	
+	private IAWSAvatarRepository iawsAvatarRepository;
 	
 	@Override
 	public List<Tutor> findAll() {
@@ -196,12 +199,12 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		// save avatar
 
-		Avatar avatar = iFileEntityRepository.getOne(dto.getIdAvatar());
+		//Avatar avatar = iFileEntityRepository.getOne(dto.getIdAvatar());
 
-		String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/avatar/downloadFile/")
-				.path(avatar.getNameFile()).toUriString();
+		//String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/avatar/downloadFile/")
+		//		.path(avatar.getNameFile()).toUriString();
 
-		tutor.setAvatar(urlDownload);
+		tutor.setAvatar(iawsAvatarRepository.getOne(dto.getIdAvatar()).getUrlImage());
 
 		// Relationship
 //		List<SaveRelationshipDto> saveRelationshipDtoWiths = dto.getSaveRelationshipDtosWith();

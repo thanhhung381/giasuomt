@@ -22,5 +22,10 @@ spring:
 gsomt:
   app:
     jwt-secret: apiofgsomt
-    jwt-duration: 360000000
+    jwt-duration: 360000000 
+amazon:
+  endPointURl: https://s3.ap-southeast-1.amazonaws.com/testgsomtcloud/
+  accesskey: AKIAUDLYPJWXS2ZHFXZ2                        #tạo user
+  secretkey: 5f8YzEv2bbai+UrVJfrdwb9fvwkilpvzHVHS/3Sg       #   
+  bucketname: testgsomtcloud
             
