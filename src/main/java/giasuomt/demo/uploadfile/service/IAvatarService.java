@@ -9,11 +9,11 @@ import giasuomt.demo.uploadfile.model.ResponsiveAvatar;
 
 public interface IAvatarService {
 
-	public Avatar save(MultipartFile multipartFile);
+//	public Avatar save(MultipartFile multipartFile);
 
-	public Avatar getByNameFile(String nameFile);
+//	public Avatar getByNameFile(String nameFile);
 
-	void map(Avatar entity, ResponsiveAvatar responsiveFile);
+//	void map(Avatar entity, ResponsiveAvatar responsiveFile);
 
-	public List<ResponsiveAvatar> findAll();
+//	public List<ResponsiveAvatar> findAll();
 }
