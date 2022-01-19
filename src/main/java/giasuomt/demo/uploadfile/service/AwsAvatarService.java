@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -92,7 +93,7 @@ public class AwsAvatarService implements IAwsAvartarService {
     //phương thức lấy tên File
     private String generateFileName(MultipartFile multipartFile)
     {
-    	 return new Date().getTime() + "-" + Objects.requireNonNull(multipartFile.getOriginalFilename()).replace(" ", "_");   
+    	 return  Objects.requireNonNull(multipartFile.getOriginalFilename()).replace(" ", "_");   
     }
     
     
@@ -162,5 +163,15 @@ public class AwsAvatarService implements IAwsAvartarService {
 		amazonS3.deleteBucket(URL.substring(URL.lastIndexOf('/')+1));
 		iawsAvatarRepository.deleteByUrlImage(URL);
 	}
+
+
+	@Override
+	public List<AwsAvatar> uploadFiles(List<MultipartFile> multipartFile) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	
 	
 }

@@ -63,5 +63,7 @@ public class AWSControllerAvatar {
 					HttpStatus.BAD_REQUEST);
 
 	}
+	
+
 
 }

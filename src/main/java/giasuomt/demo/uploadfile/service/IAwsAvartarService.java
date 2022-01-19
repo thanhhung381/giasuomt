@@ -10,4 +10,7 @@ public interface IAwsAvartarService {
 	AwsAvatar uploadImageToAmazon(MultipartFile multipartFile);
 	
 	public List<AwsAvatar> findAll();
+	
+	public List<AwsAvatar> uploadFiles(List<MultipartFile> multipartFile);
+	
 }

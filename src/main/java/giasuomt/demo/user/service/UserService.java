@@ -41,10 +41,16 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 
 		if (findAll().isEmpty()) {
 
-			List<Role> roles = user.getRoles();
+			// nếu rỗng tạo admin-role
+			String nameRole = "admin-role";
 
-			Role role = iRoleRepository.findByRoleNameBy("admin-role");
-			roles.add(role);
+			Role role = new Role().addRoleName(nameRole);
+
+			iRoleRepository.save(role);
+
+			List<Role> roles = user.getRoles();
+			Role roleAdmin = iRoleRepository.findByRoleNameBy(nameRole);
+			roles.add(roleAdmin);
 
 			user.setRoles(roles);
 			return save(user, dto);
@@ -157,14 +163,12 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 		List<Role> roles = user.getRoles();
 
 		try {
-			
 
-				for (int i = 0; i < listRoleId.size(); i++) {
-					Role role = iRoleRepository.getOne(listRoleId.get(i));
-					roles.add(role);
-				}
-				user.setRoles(roles);
-		
+			for (int i = 0; i < listRoleId.size(); i++) {
+				Role role = iRoleRepository.getOne(listRoleId.get(i));
+				roles.add(role);
+			}
+			user.setRoles(roles);
 
 			return iUserRepository.save(user);
 		} catch (Exception e) {
@@ -176,7 +180,7 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 
 	@Override
 	public User deleteRoleForUser(UpdateAndDeleteRoleForUser dto) {
-	
+
 		User user = iUserRepository.getOne(dto.getId());
 
 		List<Long> listRoleId = dto.getIdRole();
@@ -184,21 +188,17 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 		List<Role> roles = user.getRoles();
 
 		try {
-			
 
-				for (int i = 0; i < listRoleId.size(); i++) {
-					for(int j=0;j<roles.size();j++)
-					{
-						Role role = iRoleRepository.getOne(listRoleId.get(i));
-						if(role.getId()==roles.get(j).getId())
-						{
-							user.removeRole(roles.get(j));
-							j--;
-						}
+			for (int i = 0; i < listRoleId.size(); i++) {
+				for (int j = 0; j < roles.size(); j++) {
+					Role role = iRoleRepository.getOne(listRoleId.get(i));
+					if (role.getId() == roles.get(j).getId()) {
+						user.removeRole(roles.get(j));
+						j--;
 					}
 				}
-				user.setRoles(roles);
-		
+			}
+			user.setRoles(roles);
 
 			return iUserRepository.save(user);
 		} catch (Exception e) {

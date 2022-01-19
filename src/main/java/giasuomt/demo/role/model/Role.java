@@ -43,4 +43,10 @@ public class Role extends AbstractEntity {
 	@ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<User> users=new LinkedList<>();
+	
+	public Role addRoleName(String name)
+	{
+		this.name=name;
+		return this;
+	}
 }
