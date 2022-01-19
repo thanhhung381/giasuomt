@@ -12,10 +12,8 @@ spring:
     show-sql: true #để xem câu sql mà nó tự sinh
     generate-ddl: true #để thằng Hibernate tự nhìn Object và tạo database được
     hibernate:
-      ddl-auto: update
-#      ddl-auto: create-drop 
- 
-         servlet:     multipart:
+      ddl-auto: create-drop
+      # ddl-auto: create-drop   servlet:     multipart:
       enabled: true
       file-size-threshold: 2KB      max-file-size: 200MB      max-request-size: 220MB
       
