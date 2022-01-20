@@ -1,6 +1,7 @@
 package giasuomt.demo.job.service;
 
 import java.util.LinkedList;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -16,10 +17,9 @@ import giasuomt.demo.job.repository.IJobReviewRepository;
 import giasuomt.demo.person.Ultils.ExperienceForTutor;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
-import giasuomt.demo.uploadfile.model.BillImage;
-import giasuomt.demo.uploadfile.model.FeedBackImage;
-import giasuomt.demo.uploadfile.repository.IFeedBackImageRepository;
-import giasuomt.demo.uploadfile.service.IFeedBackImageService;
+import giasuomt.demo.uploadfile.model.FeedbackImageAws;
+import giasuomt.demo.uploadfile.repository.IFeedbackImageAwsRepository;
+import giasuomt.demo.uploadfile.service.IFeedBackImageAwsService;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -28,7 +28,7 @@ public class JobReviewService extends GenericService<SaveJobReviewDto, JobReview
 
 	private IJobReviewRepository iJobReviewRepository;
 
-	private IFeedBackImageRepository iFeedBackImageRepository;
+	private IFeedbackImageAwsRepository iFeedBackImageRepository;
 
 	private IJobRepository iJobRepository;
 
@@ -53,15 +53,13 @@ public class JobReviewService extends GenericService<SaveJobReviewDto, JobReview
 		List<String> feedbacks = new LinkedList<>();
 
 		for (int i = 0; i < feedbackImagesId.size(); i++) {
-			FeedBackImage feedBackImage = iFeedBackImageRepository.getOne(feedbackImagesId.get(i));
+			FeedbackImageAws feedBackImage = iFeedBackImageRepository.getOne(feedbackImagesId.get(i));
 
-			String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath()
-					.path("/api/billImage/downloadFile/").path(feedBackImage.getNameFile()).toUriString();
-
-			feedbacks.add(urlDownload);
+			feedbacks.add(feedBackImage.getUrlFeedbackImage());
 
 		}
 		jobReview.setFeedbackImgs(feedbacks);
+
 	}
 
 	public JobReview save(SaveJobReviewDto dto, JobReview jobReview) {
@@ -84,15 +82,15 @@ public class JobReviewService extends GenericService<SaveJobReviewDto, JobReview
 
 		jobReview.setJob(iJobRepository.getOne(dto.getJobId()));
 
-		 jobReview  = save(dto, jobReview);
+		jobReview = save(dto, jobReview);
 
 		Tutor tutor = iTutorRepository.getOne(jobReview.getJob().getTutor().getId());
 
-		tutor=ExperienceForTutor.updateExpForTutor(tutor);
+		tutor = ExperienceForTutor.updateExpForTutor(tutor);
 
 		iTutorRepository.save(tutor);
 
-		return jobReview ;
+		return jobReview;
 	}
 
 }

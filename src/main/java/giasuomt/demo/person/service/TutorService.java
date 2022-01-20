@@ -39,9 +39,9 @@ import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.person.repository.IWorkerRepository;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.tags.repository.ITutorTagRepository;
-import giasuomt.demo.uploadfile.model.Avatar;
-import giasuomt.demo.uploadfile.repository.IAWSAvatarRepository;
-import giasuomt.demo.uploadfile.repository.IAvatarRepository;
+
+import giasuomt.demo.uploadfile.repository.IAvatarAwsRepository;
+import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
 import lombok.AllArgsConstructor;
@@ -52,6 +52,8 @@ import lombok.AllArgsConstructor;
 public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> implements ITutorService {
 
 	private MapDtoToModel mapDtoToModel;
+
+	private AwsClientS3 awsClientS3;
 
 	// Repository
 
@@ -71,14 +73,14 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 	private ITutorTagRepository iTutorTagRepository;
 
-	private IAvatarRepository iFileEntityRepository;
+	private IAvatarAwsRepository iFileEntityRepository;
 
 	private ISubjectRepository iSubjectRepository;
 
 	private IUserRepository iUserRepository;
-	
-	private IAWSAvatarRepository iawsAvatarRepository;
-	
+
+	private IAvatarAwsRepository iawsAvatarRepository;
+
 	@Override
 	public List<Tutor> findAll() {
 
@@ -105,9 +107,11 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		String avatarURL = tutor.getAvatar();
 
-		String[] sep = avatarURL.split("/");
+		
 
-		iFileEntityRepository.deleteByNameFile(sep[6]);
+		awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+		
+		iFileEntityRepository.deleteBysUrlAvatar(avatarURL);
 
 		return save(dto, tutor);
 	}
@@ -199,12 +203,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		// save avatar
 
-		//Avatar avatar = iFileEntityRepository.getOne(dto.getIdAvatar());
-
-		//String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/avatar/downloadFile/")
-		//		.path(avatar.getNameFile()).toUriString();
-
-		tutor.setAvatar(iawsAvatarRepository.getOne(dto.getIdAvatar()).getUrlImage());
+		tutor.setAvatar(iawsAvatarRepository.getOne(dto.getIdAvatar()).getUrlAvatar());
 
 		// Relationship
 //		List<SaveRelationshipDto> saveRelationshipDtoWiths = dto.getSaveRelationshipDtosWith();
@@ -381,10 +380,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 				tutor.addWorker(worker);
 			}
 		}
-		//User
+		// User
 
-		
-		
 	}
 
 	private String generateTutorCode() {
@@ -455,11 +452,10 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			subjects.add(subject);
 
 		}
-		
+
 		tutor.setRegisteredSubjects(subjects);
-		// cập nhật xong 
-		tutor=UpdateSubjectGroupMaybeAndSure.generateSubjectGroupMaybeInTutor(tutor);
-		
+		// cập nhật xong
+		tutor = UpdateSubjectGroupMaybeAndSure.generateSubjectGroupMaybeInTutor(tutor);
 
 		return iTutorRepository.save(tutor);
 
