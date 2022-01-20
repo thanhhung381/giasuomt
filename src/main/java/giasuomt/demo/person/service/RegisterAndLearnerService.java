@@ -99,9 +99,11 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 		
 		String avatarURL = registerAndLearner.getAvatar();
 
-		iFileEntityRepository.deleteBysUrlAvatar(avatarURL);
+		
 
 		awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+		
+		iFileEntityRepository.deleteBysUrlAvatar(avatarURL);
 		
 		return save(dto, registerAndLearner);
 	}
