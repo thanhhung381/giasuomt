@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
@@ -62,6 +64,8 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 		String responsCharactor = generateTaskCode();
 
+		
+		System.out.println(responsCharactor);
 		task.setId(TaskCodeGenerator.generatorCode().concat(responsCharactor));
 
 		return save(dto, task);
@@ -130,7 +134,9 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		try {
 
 			mapDto(task, dto);
-
+			
+			iTaskRepository.flush();
+			
 			return iTaskRepository.save(task);
 
 		} catch (Exception e) {
@@ -142,38 +148,48 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private String generateTaskCode() {
 
-		int n = iTaskRepository.findAll().size();
+	
+			
+			List<Task> listTask=iTaskRepository.findAll();
+			
+			
+			
+			int n = listTask.size();
 
-		// lấy stt task id trước đó
-		int count = 0;
+			// lấy stt task id trước đó
+			int count = 0;
 
-		if (n > 0) {
-			String dayEnd = iTaskRepository.findAll().get(n - 1).getId();// Lấy mã cuối ngày so sánh
+			if (n > 0) {
+				String dayEnd = listTask.get(n - 1).getId();// Lấy mã cuối ngày so sánh
 
-			if (dayEnd != null) {
-				count = TaskCodeGenerator.generateResponsiveReserve(dayEnd.substring(4, 6));
-				// System.out.println(count);
+				
+				
+				if (dayEnd != null) {
+					count = TaskCodeGenerator.generateResponsiveReserve(dayEnd.substring(4, 6));
+					 
 
-				if (TaskCodeGenerator.AutoGennerate(dayEnd) == -1 || TaskCodeGenerator.AutoGennerate(dayEnd) == 2)// check
-																													// //
-																													// ko
-				{
+					if (TaskCodeGenerator.AutoGennerate(dayEnd) == -1 || TaskCodeGenerator.AutoGennerate(dayEnd) == 2)// check
+																														// //
+																														// ko
+					{
+						count = 1;
+
+					} else if (TaskCodeGenerator.AutoGennerate(dayEnd) == 3) {
+						count += 1;
+
+					}
+
+				} else {
 					count = 1;
-
-				} else if (TaskCodeGenerator.AutoGennerate(dayEnd) == 3) {
-					count += 1;
-
 				}
-
 			} else {
 				count = 1;
 			}
-		} else {
-			count = 1;
-		}
 
-		String responsCharacter = TaskCodeGenerator.generateResponsive(count);
-		return responsCharacter;
+			String responsCharacter = TaskCodeGenerator.generateResponsive(count);
+			return responsCharacter;
+		
+		
 	}
 
 	@Override
