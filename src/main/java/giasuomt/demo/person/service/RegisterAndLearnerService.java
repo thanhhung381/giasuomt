@@ -1,5 +1,6 @@
 package giasuomt.demo.person.service;
 import java.util.LinkedList;
+
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,8 +41,8 @@ import giasuomt.demo.person.repository.IRegisterAndLearnerRepository;
 import giasuomt.demo.person.repository.IWorkerRepository;
 import giasuomt.demo.tags.model.RegisterAndLearnerTag;
 import giasuomt.demo.tags.repository.IRegisterAndLearnerTagRepository;
-import giasuomt.demo.uploadfile.model.Avatar;
-import giasuomt.demo.uploadfile.repository.IAvatarRepository;
+import giasuomt.demo.uploadfile.repository.IAvatarAwsRepository;
+import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
 import lombok.AllArgsConstructor;
@@ -52,6 +53,8 @@ import lombok.AllArgsConstructor;
 public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLearnerDto, RegisterAndLearner, Long> implements IRegisterAndLearnerService {
 
 	private MapDtoToModel mapDtoToModel;
+	
+	private AwsClientS3 awsClientS3;
 
 	// Repository
 
@@ -71,7 +74,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 	
 	private IRegisterAndLearnerRelationshipRepository iRegisterAndLearnerRelationshipRepository;
 
-	private IAvatarRepository iFileEntityRepository;
+	private IAvatarAwsRepository iFileEntityRepository;
 	
 	private IUserRepository iUserRepository;
 
@@ -96,9 +99,11 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 		
 		String avatarURL = registerAndLearner.getAvatar();
 
-		String[] sep = avatarURL.split("/");
+		
 
-		iFileEntityRepository.deleteByNameFile(sep[6]);
+		awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+		
+		iFileEntityRepository.deleteBysUrlAvatar(avatarURL);
 		
 		return save(dto, registerAndLearner);
 	}
@@ -208,12 +213,9 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 		// save avatar
 
-		Avatar avatar = iFileEntityRepository.getOne(dto.getIdAvatar());
-
-		String urlDownload = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/avatar/downloadFile/")
-				.path(avatar.getNameFile()).toUriString();
-
-		registerAndLearner.setAvatar(urlDownload);
+		
+		  registerAndLearner.setAvatar(iFileEntityRepository.getById(dto.getIdAvatar()).getUrlAvatar());
+		 
 
 		// Relationship
 		List<SaveRegisterAndLearnerRelationshipDto> saveRegisterAndLearnerRelationshipDtoWiths = dto.getRegisterAndLearnerRelationships();

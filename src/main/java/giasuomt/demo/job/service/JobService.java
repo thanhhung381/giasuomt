@@ -1,6 +1,7 @@
 package giasuomt.demo.job.service;
 
 import java.util.LinkedList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,8 @@ import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
-import giasuomt.demo.uploadfile.model.Avatar;
-import giasuomt.demo.uploadfile.model.RetainedImgsIdentification;
-import giasuomt.demo.uploadfile.repository.IAvatarRepository;
-import giasuomt.demo.uploadfile.repository.IRetainedImgsIdentificationRepository;
+import giasuomt.demo.uploadfile.model.RetainedImgsIdentificationAws;
+import giasuomt.demo.uploadfile.repository.IRetainedImgsIdentificationAwsRepository;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -37,7 +36,7 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 	private IApplicationRepository iApplicationRepository;
 
-	private IRetainedImgsIdentificationRepository iRetainedImgsIdentificationRepository;
+	private IRetainedImgsIdentificationAwsRepository iRetainedImgsIdentificationRepository;
 
 	private ITutorRepository iTutorRepository;
 
@@ -68,13 +67,13 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		// thêm ảnh
 		List<Long> retainedImgsIdentificationId = dto.getRetainedImgsIdentificationId();
 		List<String> retainedImgsIdentification = new LinkedList<>();
+
 		for (int i = 0; i < retainedImgsIdentificationId.size(); i++) {
 
-			RetainedImgsIdentification avatar = iRetainedImgsIdentificationRepository
+			RetainedImgsIdentificationAws avatar = iRetainedImgsIdentificationRepository
 					.getOne(retainedImgsIdentificationId.get(i));
-			String urlDownLoad = ServletUriComponentsBuilder.fromCurrentContextPath()
-					.path("/api/RetainedImgsIdentification/downloadFile/").path(avatar.getNameFile()).toUriString();
-			retainedImgsIdentification.add(urlDownLoad);
+			
+			retainedImgsIdentification.add(avatar.getUrlRetainedImgsIdentification());
 
 		}
 		job.setRetainedImgsIdentification(retainedImgsIdentification);

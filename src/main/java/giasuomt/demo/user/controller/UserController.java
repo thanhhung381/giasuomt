@@ -15,7 +15,7 @@ import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.person.dto.UpdateRegisteredSubject;
 import giasuomt.demo.person.model.Tutor;
-import giasuomt.demo.uploadfile.service.IAvatarService;
+import giasuomt.demo.uploadfile.service.IAvatarAwsService;
 import giasuomt.demo.user.dto.SaveUserDto;
 import giasuomt.demo.user.dto.UpdateRegisterAndLearnerForUser;
 import giasuomt.demo.user.dto.UpdateAndDeleteRoleForUser;
