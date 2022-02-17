@@ -59,6 +59,7 @@ public class TutorCodeGenerator {
 			String date = dateArrayString[0];
 
 			int dayNow = Integer.parseInt(date);// thoi gian hien tai
+			
 			/// lấy ngày tháng truyền tham số
 			int yearEnd = Integer.parseInt(twoHeadNoofYear.concat(day.substring(0, 2)));
 

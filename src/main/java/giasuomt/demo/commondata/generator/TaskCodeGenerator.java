@@ -3,6 +3,7 @@ package giasuomt.demo.commondata.generator;
 import java.sql.Date;
 
 import java.time.LocalDateTime;
+import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -95,7 +96,7 @@ public class TaskCodeGenerator {
 
 			char yearSep = sepYear.charAt(0);// lấy kí tự ANSSI
 
-			int yearOrigin = 2021;// lấy ngày làm chuẩn
+			int yearOrigin = Calendar.getInstance().get(Calendar.YEAR);// lấy ngày làm chuẩn
 
 			int standardFirstLetter = 67;// mã ancii nếu muốn lấy in thường mình trừ cho 32 là
 
