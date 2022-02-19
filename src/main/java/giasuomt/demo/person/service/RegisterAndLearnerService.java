@@ -214,7 +214,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 		// save avatar
 
 		
-		  registerAndLearner.setAvatar(iFileEntityRepository.getById(dto.getIdAvatar()).getUrlAvatar());
+		  registerAndLearner.setAvatar(iFileEntityRepository.getOne(dto.getIdAvatar()).getUrlAvatar());
 		 
 
 		// Relationship
