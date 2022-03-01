@@ -26,6 +26,7 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 
 	private IUserRepository iUserRepository;
 
+
 	private MapDtoToModel mapDtoToModel;
 
 	private PasswordEncoder passwordEncoder;
@@ -205,6 +206,14 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean findByJWT(String JWT) {
+		if(iUserRepository.findByUsername(JWT).isEmpty())
+		   return false;
+		return true;
+		
 	}
 
 }

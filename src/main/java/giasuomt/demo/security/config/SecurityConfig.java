@@ -73,13 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	        
 	    	ArrayList<String> headerList = new ArrayList<String>();
 	    	headerList.add("Access-Control-Allow-Origin");
-	    	headerList.add("Access-Control-Allow-Credentials");
-	    	headerList.add("Origin");  
-	    	headerList.add("*");  
-	        cors.setAllowedHeaders(headerList); //để cho phép các request header này
-	        
-	        return cors;
-	      }); //enable cors
+
 
 	    
 		//config authentication (xác thực) cho các API. Chứ chưa làm đến việc authorization (phân quyền) cho các API.

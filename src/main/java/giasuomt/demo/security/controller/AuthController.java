@@ -36,9 +36,12 @@ public class AuthController {
 	
 	
 	@PostMapping("/api/login")
-	public ResponseEntity<Object> login(@RequestBody LoginDto dto,BindingResult bindingResult, HttpServletResponse response){
-		//Tiến hành lấy username và password ra để đi check xem có authenticate (xác thực) được user để có 1 authentication hay ko?
-		Authentication authentication=null; //Đầu tiên tạo 1 authentication và gán bằng null
+
+	public ResponseEntity<Object> login(@RequestBody LoginDto dto,BindingResult bindingResult)
+	{
+		Authentication authentication=null;
+
+
 		
 		try {
 			//authenticate (xác thực) theo username và password của user, và nếu thành công thì nó sẽ trả về 1 authentication
@@ -86,7 +89,7 @@ public class AuthController {
 			e.printStackTrace();
 		}
 		
-		return ResponseHandler.getResponse("username and password is invalid",HttpStatus.OK);
+		return ResponseHandler.getResponse("username and password is invalid",HttpStatus.BAD_REQUEST);
 		
 	}
 	

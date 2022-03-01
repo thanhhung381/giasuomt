@@ -1,10 +1,13 @@
 package giasuomt.demo.user.controller;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,15 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.generic.GenericService;
+import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.person.dto.UpdateRegisteredSubject;
 import giasuomt.demo.person.model.Tutor;
+import giasuomt.demo.security.jwt.JwtUltils;
 import giasuomt.demo.uploadfile.service.IAvatarAwsService;
+import giasuomt.demo.user.dto.ResponseUser;
 import giasuomt.demo.user.dto.SaveUserDto;
 import giasuomt.demo.user.dto.UpdateRegisterAndLearnerForUser;
 import giasuomt.demo.user.dto.UpdateAndDeleteRoleForUser;
 import giasuomt.demo.user.dto.UpdateTutorForUser;
+import giasuomt.demo.user.dto.findJWT;
 import giasuomt.demo.user.model.User;
+import giasuomt.demo.user.repository.IUserRepository;
 import giasuomt.demo.user.service.IUserService;
 import lombok.AllArgsConstructor;
 
@@ -29,6 +37,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserController extends GenericController<SaveUserDto, User, Long, BindingResult> {
 	
+	private JwtUltils jwtUltils;
+	
+	private IUserRepository iUserRepository;
+	
+	private MapDtoToModel mapDtoToModel;
 	
 	private IUserService iUserService;
 	
@@ -88,6 +101,36 @@ public class UserController extends GenericController<SaveUserDto, User, Long, B
 
 		return ResponseHandler.getResponse(roleDeleteForUser, HttpStatus.OK);
 
+	}
+	
+	@PostMapping("/findByJWT")
+	public ResponseEntity<Object> findByJWT(@RequestBody findJWT dto)
+	{
+	
+		if(jwtUltils.validateJWtToken(dto.getJwt()))
+		{
+			String username=jwtUltils.getUsernameToken(dto.getJwt());
+			Optional<User> user =iUserRepository.findByUsername(username);
+			if(user.isEmpty())
+			{
+				return ResponseHandler.getResponse("Invalid username", HttpStatus.BAD_REQUEST);
+			}
+			else
+			{
+				ResponseUser responseUser=new ResponseUser();
+				 responseUser.setEmail(user.get().getEmail());
+				 responseUser.setPhones(user.get().getPhones());
+				 responseUser.setRegisterAndLearner(user.get().getRegisterAndLearner());
+				 responseUser.setUsername(user.get().getUsername());
+				 
+				 
+				
+				return ResponseHandler.getResponse(responseUser, HttpStatus.BAD_REQUEST);
+			}
+		}
+		
+		return ResponseHandler.getResponse("Invalid jwt", HttpStatus.BAD_REQUEST);
+		
 	}
 	
 	
