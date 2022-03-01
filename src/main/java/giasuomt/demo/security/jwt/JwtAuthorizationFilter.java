@@ -38,31 +38,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-	    response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-	    response.setHeader("Access-Control-Allow-Credentials", "true");
-	    
-	    System.out.println("xxx111");
-	    System.out.println(request.getCookies());
-	    
-		String token = null;
-		
-//		if(request.getCookies() != null){
-			
-			Optional<Cookie> cookie = Stream.of(Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]))
-		            .filter(c -> "userjwt".equals(c.getName()))
-		            .findFirst();
-			System.out.println(cookie);	
-			token = cookie
-		            .map(Cookie::getValue)
-		            .orElse(null);
-			
-			System.out.println(token);	
-//		}
 
-//		Optional<Cookie> cookie = Stream.of(Optional.ofNullable(httpServletRequest.getCookies()))
+	    
 
-		//bước 1 lấy token ra từ request
-//		token =jwtUltils.getTokenFromRequet(request);
+//		bước 1 lấy token ra từ request
+		String token =jwtUltils.getTokenFromRequet(request);
 		
 		//bước 2 kiểm tra neesu đúng sẽ lấy user name có token đó ra
 		if(token!=null && jwtUltils.validateJWtToken(token))

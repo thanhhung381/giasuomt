@@ -73,7 +73,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	        
 	    	ArrayList<String> headerList = new ArrayList<String>();
 	    	headerList.add("Access-Control-Allow-Origin");
-
+	    	
+	        return cors;
+	      }); //enable cors
 
 	    
 		//config authentication (xác thực) cho các API. Chứ chưa làm đến việc authorization (phân quyền) cho các API.
@@ -82,6 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //			.antMatchers("/api/**").permitAll() //permitAll (cho phép) tất cả các truy cập vô tất cả các API
 			.antMatchers("/api/createUser/create").permitAll()
 			.antMatchers("/api/login").permitAll()  //anthenticated (bảo mật) cho để user phải đăng nhập mới vô đc các API role
+			.antMatchers("api/createUser/findByJWT").permitAll() 
 			.anyRequest().authenticated(); //anthenticated (bảo mật) tất cả các request còn lại - để tránh việc kẻ xấu vô khám phá xem mình còn những trang gì nữa ko...
 		
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

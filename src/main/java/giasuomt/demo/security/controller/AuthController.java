@@ -63,25 +63,25 @@ public class AuthController {
 //			jwtTokenCookie.setPath("/");
 //			response.addCookie(jwtTokenCookie);
 
-			ResponseCookie responseCookie = ResponseCookie
-	                .from("userjwt", jwt)
-	                .secure(false)
-	                .httpOnly(true)
-	                .path("/")
-	                .maxAge(7 * 24 * 60 * 60)
-	                .sameSite("None")
-	                .build();
-			response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
-			
-
-
-			
-
-
-		    // return response entity
-		    return new ResponseEntity<>(HttpStatus.OK);
-			
-//			return ResponseHandler.getResponse(new JwtDto().jwt(jwt),HttpStatus.OK);
+//			ResponseCookie responseCookie = ResponseCookie
+//	                .from("userjwt", jwt)
+//	                .secure(false)
+//	                .httpOnly(true)
+//	                .path("/")
+//	                .maxAge(7 * 24 * 60 * 60)
+//	                .sameSite("None")
+//	                .build();
+//			response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+//			
+//
+//
+//			
+//
+//
+//		    // return response entity
+//		    return new ResponseEntity<>(HttpStatus.OK);
+//			
+			return ResponseHandler.getResponse(new JwtDto().jwt(jwt),HttpStatus.OK);
 			
 			
 			
