@@ -73,7 +73,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	        
 	    	ArrayList<String> headerList = new ArrayList<String>();
 	    	headerList.add("Access-Control-Allow-Origin");
-	    	headerList.add("Origin");       
+	    	headerList.add("Origin");    
+	    	headerList.add("*");       
 	        cors.setAllowedHeaders(headerList); //để cho phép các request header này
 	        
 	        return cors;
@@ -84,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //			.antMatchers("/swagger-ui.html").authenticated() //permitAll (cho phép) tất cả các truy cập vô trang swagger
 //			.antMatchers("/api/**").permitAll() //permitAll (cho phép) tất cả các truy cập vô tất cả các API
 			.antMatchers("/api/createUser/create").permitAll()
-			.antMatchers("/login").permitAll()  //anthenticated (bảo mật) cho để user phải đăng nhập mới vô đc các API role
+			.antMatchers("/api/login").permitAll()  //anthenticated (bảo mật) cho để user phải đăng nhập mới vô đc các API role
 			.anyRequest().authenticated(); //anthenticated (bảo mật) tất cả các request còn lại - để tránh việc kẻ xấu vô khám phá xem mình còn những trang gì nữa ko...
 		
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

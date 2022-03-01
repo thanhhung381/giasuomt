@@ -12,4 +12,6 @@ public interface IUserService extends IGenericService<SaveUserDto, User, Long> {
 	User updateRegisterAndLearnerForUser(UpdateRegisterAndLearnerForUser dto);
 	User updateRoleForUser(UpdateAndDeleteRoleForUser dto);
 	User deleteRoleForUser(UpdateAndDeleteRoleForUser dto);
+	
+     boolean findByJWT(String JWT);
 }

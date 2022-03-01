@@ -30,7 +30,7 @@ public class AuthController {
 	private JwtUltils jwtUltils;
 	
 	
-	@PostMapping("/login")
+	@PostMapping("/api/login")
 	public ResponseEntity<Object> login(@RequestBody LoginDto dto,BindingResult bindingResult)
 	{
 		Authentication authentication=null;
@@ -53,7 +53,7 @@ public class AuthController {
 			e.printStackTrace();
 		}
 		
-		return ResponseHandler.getResponse("username and password is invalid",HttpStatus.OK);
+		return ResponseHandler.getResponse("username and password is invalid",HttpStatus.BAD_REQUEST);
 		
 	}
 	
