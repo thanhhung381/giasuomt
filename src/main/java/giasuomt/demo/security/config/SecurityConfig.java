@@ -73,13 +73,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	        
 	    	ArrayList<String> headerList = new ArrayList<String>();
 	    	headerList.add("Access-Control-Allow-Origin");
-	    	headerList.add("Origin");    
-	    	headerList.add("*");       
-	        cors.setAllowedHeaders(headerList); //để cho phép các request header này
-	        
-	        return cors;
-	      }); //enable cors
 
+
+	    
 		//config authentication (xác thực) cho các API. Chứ chưa làm đến việc authorization (phân quyền) cho các API.
 		http.antMatcher("/api/**").authorizeRequests() 
 //			.antMatchers("/swagger-ui.html").authenticated() //permitAll (cho phép) tất cả các truy cập vô trang swagger
