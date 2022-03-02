@@ -1,4 +1,5 @@
 package giasuomt.demo.task.controller;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import giasuomt.demo.task.dto.UpdateRequireDto;
 import giasuomt.demo.task.dto.UpdateSalaryDto;
 import giasuomt.demo.task.dto.UpdateSubjectDto;
 import giasuomt.demo.task.dto.UpdateTaskPlaceAddresseDto;
+import giasuomt.demo.task.dto.UpdateTaskStatus;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.service.ITaskService;
 import lombok.AllArgsConstructor;
@@ -149,5 +151,34 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String,
 		Task updateTaskPlaceAddress = iTaskService.updateTaskPlaceAddress(dto);
 		
 		return ResponseHandler.getResponse(updateTaskPlaceAddress, HttpStatus.OK);
+	}
+	
+	@GetMapping("/findAllAvailabelTaskList")
+	public ResponseEntity<Object> findallAvailableTaskList() {
+		List<Task> vailableTaskList = iTaskService.availableTaskList();
+		if (vailableTaskList==null)
+			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
+			
+		return ResponseHandler.getResponse(vailableTaskList, HttpStatus.OK);
+	}
+	
+	@GetMapping("/findAllUnavailabelTaskList")
+	public ResponseEntity<Object> findallUnavailableTaskList() {
+		List<Task> unavailableTaskList = iTaskService.unavailableTaskList();
+		if (unavailableTaskList==null)
+			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
+			
+		return ResponseHandler.getResponse(unavailableTaskList, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateTaskStatus")
+	public ResponseEntity<Object> updateTaskStatus(@RequestBody UpdateTaskStatus dto,BindingResult errors)
+	{
+		if (((Errors) errors).hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		
+		Task updatedTaskStatus = iTaskService.updateTaskStatus(dto);
+		
+		return ResponseHandler.getResponse(updatedTaskStatus, HttpStatus.OK);
 	}
 }

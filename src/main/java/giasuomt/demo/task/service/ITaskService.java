@@ -1,6 +1,11 @@
 package giasuomt.demo.task.service;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import giasuomt.demo.commondata.generic.IGenericService;
 import giasuomt.demo.task.dto.AddObjectToTaskDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
@@ -11,6 +16,7 @@ import giasuomt.demo.task.dto.UpdateRequireDto;
 import giasuomt.demo.task.dto.UpdateSalaryDto;
 import giasuomt.demo.task.dto.UpdateSubjectDto;
 import giasuomt.demo.task.dto.UpdateTaskPlaceAddresseDto;
+import giasuomt.demo.task.dto.UpdateTaskStatus;
 import giasuomt.demo.task.model.Task;
 
 public interface ITaskService extends IGenericService<SaveTaskDto, Task, String> {
@@ -39,6 +45,12 @@ public interface ITaskService extends IGenericService<SaveTaskDto, Task, String>
 	public Task updateSalary(UpdateSalaryDto dto);
 	
 	public Task updateTaskPlaceAddress(UpdateTaskPlaceAddresseDto dto);
+	
+	public Task updateTaskStatus(UpdateTaskStatus dto);
+	
+	List<Task> availableTaskList();
+	
+	List<Task> unavailableTaskList();
 
 
 	
