@@ -125,7 +125,7 @@ public class UserController extends GenericController<SaveUserDto, User, Long, B
 				 
 				 
 				
-				return ResponseHandler.getResponse(responseUser, HttpStatus.BAD_REQUEST);
+				return ResponseHandler.getResponse(responseUser, HttpStatus.OK);
 			}
 		}
 		
