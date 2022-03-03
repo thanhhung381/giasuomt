@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import giasuomt.demo.person.model.RegisterAndLearner;
@@ -31,5 +32,12 @@ public interface ITaskRepository extends JpaRepository<Task, String> {
 //
 ////	@Query("SELECT t.learners FROM Task t WHERE t.id=id")
 //	List<RegisterAndLearner> findLearnersById(Long id);
+	
+	@Query("SELECT t FROM Task t WHERE t.status='AVAILABLE_PUBLIC' OR t.status='AVAILABLE_UNPUBLIC'")
+	List<Task> findByAvailableTaskList();
+	
+	@Query("SELECT t FROM Task t WHERE t.status='CLOSED_GO' OR t.status='CLOSED_GO_SUCCESS' OR t.status='CLOSED_GO_FAIL'"
+			+ "OR t.status='CLOSED_FAIL' ")
+	List<Task> findByUnavailableTaskList();
 
 }

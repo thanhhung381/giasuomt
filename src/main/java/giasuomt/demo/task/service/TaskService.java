@@ -2,6 +2,7 @@ package giasuomt.demo.task.service;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,7 @@ import giasuomt.demo.task.dto.UpdateRequireDto;
 import giasuomt.demo.task.dto.UpdateSalaryDto;
 import giasuomt.demo.task.dto.UpdateSubjectDto;
 import giasuomt.demo.task.dto.UpdateTaskPlaceAddresseDto;
+import giasuomt.demo.task.dto.UpdateTaskStatus;
 import giasuomt.demo.task.model.Require;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.repository.IApplicationRepository;
@@ -65,7 +67,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		String responsCharactor = generateTaskCode();
 
 		
-		System.out.println(responsCharactor);
+		
 		task.setId(TaskCodeGenerator.generatorCode().concat(responsCharactor));
 
 		return save(dto, task);
@@ -277,124 +279,197 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 	@Override
 	public Task updateSubject(UpdateSubjectDto dto) {
 
-		Task task = iTaskRepository.getOne(dto.getId());
+		try {
+			Task task = iTaskRepository.getOne(dto.getId());
 
-		List<Long> subjectIds = dto.getSubjectIds();
-		List<Subject> subjects = new ArrayList<>();
-		for (int i = 0; i < subjectIds.size(); i++) {
-			Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
-			subjects.add(subject);
+			List<Long> subjectIds = dto.getSubjectIds();
+			List<Subject> subjects = new ArrayList<>();
+			for (int i = 0; i < subjectIds.size(); i++) {
+				Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
+				subjects.add(subject);
 
+			}
+			task.setSubjects(subjects);
+
+			task.setSubjectApperance(dto.getSubjectApperance());
+
+			task.setSubjectNote(dto.getSubjectNote());
+
+			return iTaskRepository.save(task);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
 		}
-		task.setSubjects(subjects);
-
-		task.setSubjectApperance(dto.getSubjectApperance());
-
-		task.setSubjectNote(dto.getSubjectNote());
-
-		return iTaskRepository.save(task);
+		return null;
 	}
 
 	@Override
 	public Task updateRequire(UpdateRequireDto dto) {
 
-		Task task = iTaskRepository.getOne(dto.getId());
+		try {
+			Task task = iTaskRepository.getOne(dto.getId());
 
-		List<Long> requireIds = dto.getRequireIds();
-		List<Require> requires = new ArrayList<>();
-		for (int i = 0; i < requireIds.size(); i++) {
-			Require require = iRequireRepository.getOne(requireIds.get(i));
-			requires.add(require);
+			List<Long> requireIds = dto.getRequireIds();
+			List<Require> requires = new ArrayList<>();
+			for (int i = 0; i < requireIds.size(); i++) {
+				Require require = iRequireRepository.getOne(requireIds.get(i));
+				requires.add(require);
+			}
+			task.setRequires(requires);
+
+			task.setRequireApperance(dto.getRequireApperance());
+
+			task.setRequireNote(dto.getRequireNote());
+
+			return iTaskRepository.save(task);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
 		}
-		task.setRequires(requires);
-
-		task.setRequireApperance(dto.getRequireApperance());
-
-		task.setRequireNote(dto.getRequireNote());
-
-		return iTaskRepository.save(task);
+		return null;
 	}
 
 	@Override
 	public Task UpdateLesson(UpdateLessonDto dto) {
 		
-		Task task = iTaskRepository.getOne(dto.getId());
+		try {
+			Task task = iTaskRepository.getOne(dto.getId());
 
-		task.setLessonNumber(dto.getLessonNumber());
-		task.setLessonNumberPerTime(dto.getLessonNumberPerTime());
+			task.setLessonNumber(dto.getLessonNumber());
+			task.setLessonNumberPerTime(dto.getLessonNumberPerTime());
 
-		return iTaskRepository.save(task);
-
+			return iTaskRepository.save(task);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+			
+		return null;
 	}
 
 	@Override
 	public Task updateHour(UpdateHourDto dto) {
 		
-		Task task = iTaskRepository.getOne(dto.getId());
+		try {
+			Task task = iTaskRepository.getOne(dto.getId());
 
-		task.setHour(dto.getHour());
-		task.setHourPerTime(dto.getLessonNumberPerTime());
+			task.setHour(dto.getHour());
+			task.setHourPerTime(dto.getLessonNumberPerTime());
 
-		return iTaskRepository.save(task);
+			return iTaskRepository.save(task);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
 	public Task updateFreeTime(UpdateFreeTimeDto dto) {
-		Task task = iTaskRepository.getOne(dto.getId());
+		try {
+			Task task = iTaskRepository.getOne(dto.getId());
 
-		task.setFreeTime(dto.getFreeTime());
-		return iTaskRepository.save(task);
+			task.setFreeTime(dto.getFreeTime());
+			return iTaskRepository.save(task);
+		} catch (Exception e) {
+		
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
 	public Task updateSalary(UpdateSalaryDto dto) {
-		Task task = iTaskRepository.getOne(dto.getId());
+		try {
+			Task task = iTaskRepository.getOne(dto.getId());
 
-		task.setSalary(dto.getSalary());
-		
-		task.setSalaryPerTime(dto.getSalaryPerTime());
-		
-		task.setUnitOfSalary(dto.getUnitOfSalary());
+			task.setSalary(dto.getSalary());
+			
+			task.setSalaryPerTime(dto.getSalaryPerTime());
+			
+			task.setUnitOfSalary(dto.getUnitOfSalary());
 
-		return iTaskRepository.save(task);
+			return iTaskRepository.save(task);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
 	public Task updateTaskPlaceAddress(UpdateTaskPlaceAddresseDto dto) {
 		
 		
-		Task task = iTaskRepository.getOne(dto.getId());
-		
-		List<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getPlaceAddressDtos();
-		for (int i = 0; i < task.getTaskPlaceAddresses().size(); i++) {
-			boolean deleteThis = true;
-			for (int j = 0; j < saveTaskPlaceAddressDtos.size(); j++) {
-				if (task.getTaskPlaceAddresses().get(i).getId() == saveTaskPlaceAddressDtos.get(j).getId()) {
-					deleteThis = false;
+		try {
+			Task task = iTaskRepository.getOne(dto.getId());
+			
+			List<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getPlaceAddressDtos();
+			for (int i = 0; i < task.getTaskPlaceAddresses().size(); i++) {
+				boolean deleteThis = true;
+				for (int j = 0; j < saveTaskPlaceAddressDtos.size(); j++) {
+					if (task.getTaskPlaceAddresses().get(i).getId() == saveTaskPlaceAddressDtos.get(j).getId()) {
+						deleteThis = false;
+					}
+				}
+				if (deleteThis) {
+					task.removeTaskPlaceAddress(task.getTaskPlaceAddresses().get(i));
+					i--;
 				}
 			}
-			if (deleteThis) {
-				task.removeTaskPlaceAddress(task.getTaskPlaceAddresses().get(i));
-				i--;
+			for (int i = 0; i < saveTaskPlaceAddressDtos.size(); i++) {
+				SaveTaskPlaceAddressDto placeAddressDto = saveTaskPlaceAddressDtos.get(i);
+				if (placeAddressDto.getId() != null && placeAddressDto.getId() > 0) {
+					TaskPlaceAddress taskPlaceAddress = iTaskPlaceAddressRepository.getOne(placeAddressDto.getId());
+					taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
+					taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
+					task.addTaskPlaceAddress(taskPlaceAddress);
+				} else {
+					TaskPlaceAddress taskPlaceAddress = new TaskPlaceAddress();
+					taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
+					taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
+					task.addTaskPlaceAddress(taskPlaceAddress);
+				}
 			}
+			
+			return iTaskRepository.save(task);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
 		}
-		for (int i = 0; i < saveTaskPlaceAddressDtos.size(); i++) {
-			SaveTaskPlaceAddressDto placeAddressDto = saveTaskPlaceAddressDtos.get(i);
-			if (placeAddressDto.getId() != null && placeAddressDto.getId() > 0) {
-				TaskPlaceAddress taskPlaceAddress = iTaskPlaceAddressRepository.getOne(placeAddressDto.getId());
-				taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
-				taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
-				task.addTaskPlaceAddress(taskPlaceAddress);
-			} else {
-				TaskPlaceAddress taskPlaceAddress = new TaskPlaceAddress();
-				taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
-				taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
-				task.addTaskPlaceAddress(taskPlaceAddress);
-			}
+		return null;
+		
+	}
+
+	@Override
+	public List<Task> availableTaskList() {
+
+		return iTaskRepository.findByAvailableTaskList();
+	}
+
+	@Override
+	public List<Task> unavailableTaskList() {
+	
+		
+		return iTaskRepository.findByUnavailableTaskList();
+	}
+
+	@Override
+	public Task updateTaskStatus(UpdateTaskStatus dto) {
+		
+		try {
+			Task task = iTaskRepository.getOne(dto.getId());
+
+			task.setStatus(dto.getStatus());
+			
+
+			return iTaskRepository.save(task);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
 		}
 		
-		return iTaskRepository.save(task);
-		
+		return null;
 	}
 
 }

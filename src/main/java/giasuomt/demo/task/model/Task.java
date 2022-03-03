@@ -64,9 +64,8 @@ public class Task extends AbstractEntityNotId {
 
 
 //TÌNH TRẠNG LỚP
-//	@Enumerated(EnumType.STRING) 
-//	@NotNull  //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
-//	private TaskStatus status; 
+	@Enumerated(EnumType.STRING)   //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
+	private TaskStatus status; 
 
 //NƠI HỌC
 	private String taskPlaceType;
