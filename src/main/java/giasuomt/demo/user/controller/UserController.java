@@ -25,6 +25,7 @@ import giasuomt.demo.user.dto.ResponseUser;
 import giasuomt.demo.user.dto.SaveUserDto;
 import giasuomt.demo.user.dto.UpdateRegisterAndLearnerForUser;
 import giasuomt.demo.user.dto.UpdateAndDeleteRoleForUser;
+import giasuomt.demo.user.dto.UpdateAvatarUser;
 import giasuomt.demo.user.dto.UpdateTutorForUser;
 import giasuomt.demo.user.dto.findJWT;
 import giasuomt.demo.user.model.User;
@@ -131,6 +132,20 @@ public class UserController extends GenericController<SaveUserDto, User, Long, B
 		
 		return ResponseHandler.getResponse("Invalid jwt", HttpStatus.BAD_REQUEST);
 		
+	}
+	
+	@PutMapping("/updateAvatarUser")
+	public ResponseEntity<Object> updateAvatarUser(@RequestBody UpdateAvatarUser dto,
+			BindingResult errors) {
+
+		User roleDeleteForUser = iUserService.updateAvartarUser(dto);
+
+		if (errors.hasErrors()) {
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		}
+
+		return ResponseHandler.getResponse(roleDeleteForUser, HttpStatus.OK);
+
 	}
 	
 	

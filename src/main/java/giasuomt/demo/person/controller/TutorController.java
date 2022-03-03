@@ -15,6 +15,7 @@ import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.person.dto.SaveTutorDto;
 import giasuomt.demo.person.dto.UpdateRegisteredSubject;
+import giasuomt.demo.person.dto.UpdateTutorAvatar;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.service.ITutorService;
 import lombok.AllArgsConstructor;
@@ -109,4 +110,19 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		return ResponseHandler.getResponse(tutorUpdateRegisteredSubject, HttpStatus.OK);
 
 	}
+	
+	@PutMapping("/updateAvatarTutor")
+	public ResponseEntity<Object> updateAvatarTutor(@RequestBody UpdateTutorAvatar dto,
+			BindingResult errors) {
+
+		Tutor tutor = iTutorService.updateAvatarTutor(dto);
+
+		if (errors.hasErrors()) {
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		}
+
+		return ResponseHandler.getResponse( tutor, HttpStatus.OK);
+
+	}
+	
 }

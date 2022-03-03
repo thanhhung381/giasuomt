@@ -3,8 +3,12 @@ package giasuomt.demo.user.service;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.amazonaws.SdkClientException;
 
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
@@ -12,9 +16,14 @@ import giasuomt.demo.person.repository.IRegisterAndLearnerRepository;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.role.model.Role;
 import giasuomt.demo.role.repository.IRoleRepository;
+import giasuomt.demo.staff.model.Staff;
+import giasuomt.demo.uploadfile.repository.IAvatarAwsRepository;
+import giasuomt.demo.uploadfile.service.IAvatarAwsService;
+import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.user.dto.SaveUserDto;
 import giasuomt.demo.user.dto.UpdateRegisterAndLearnerForUser;
 import giasuomt.demo.user.dto.UpdateAndDeleteRoleForUser;
+import giasuomt.demo.user.dto.UpdateAvatarUser;
 import giasuomt.demo.user.dto.UpdateTutorForUser;
 import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
@@ -22,10 +31,12 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class UserService extends GenericService<SaveUserDto, User, Long> implements IUserService {
 
 	private IUserRepository iUserRepository;
 
+	private AwsClientS3 awsClientS3;
 
 	private MapDtoToModel mapDtoToModel;
 
@@ -36,6 +47,8 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 	private IRoleRepository iRoleRepository;
 
 	private IRegisterAndLearnerRepository iRegisterAndLearnerRepository;
+
+	private IAvatarAwsRepository iAvatarAwsRepository;
 
 	public User create(SaveUserDto dto) {
 		User user = new User();
@@ -210,10 +223,39 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 
 	@Override
 	public boolean findByJWT(String JWT) {
-		if(iUserRepository.findByUsername(JWT).isEmpty())
-		   return false;
+		if (iUserRepository.findByUsername(JWT).isEmpty())
+			return false;
 		return true;
-		
+
+	}
+
+	@Override
+	public User updateAvartarUser(UpdateAvatarUser dto) {
+		try {
+			User user = iUserRepository.getOne(dto.getId());
+
+			String avatarURL = user.getAvatar();
+
+			if (avatarURL == null) {
+				user.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
+			}
+			else
+			{
+				user.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
+				
+				awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+
+				iAvatarAwsRepository.deleteBysUrlAvatar(avatarURL);
+			}
+
+			
+
+			return iUserRepository.save(user);
+		} catch (SdkClientException e) {
+
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
