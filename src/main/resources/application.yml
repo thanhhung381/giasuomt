@@ -34,8 +34,8 @@ gsomt:
     jwt-duration: 3000000 
 
 amazon:
-  accessKeyKhangAdmin: AKIAUDLYPJWXTMIMRF3Y                        #tạo user
-  secretkeyKhangAdmin: W6vrRx71/OS8NcGbJed3cp09lzxRACChroVRhMTP  
+  accessKeyKhangAdmin: AKIAUDLYPJWXSF25XEX7                        #tạo user
+  secretkeyKhangAdmin: kSGf4u91RYy+AJdRG0oACi31mU6aAnXk1mejIbEC  
   #avatar     #   
   avatarURL: https://s3.ap-southeast-1.amazonaws.com/avatargsomt/
   bucketnameAvatar: avatargsomt

@@ -1,4 +1,5 @@
 package giasuomt.demo.person.service;
+
 import java.util.LinkedList;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import giasuomt.demo.person.dto.SaveStudentDto;
 import giasuomt.demo.person.dto.SaveRegisterAndLearnerDto;
 import giasuomt.demo.person.dto.SaveRegisterAndLearnerRelationshipDto;
 import giasuomt.demo.person.dto.SaveWorkerDto;
+import giasuomt.demo.person.dto.UpdateAvatarRegisterAndLearner;
 import giasuomt.demo.person.model.GraduatedStudent;
 import giasuomt.demo.person.model.InstitutionTeacher;
 import giasuomt.demo.person.model.SchoolTeacher;
@@ -39,6 +41,7 @@ import giasuomt.demo.person.repository.ISchoolerRepository;
 import giasuomt.demo.person.repository.IStudentRepository;
 import giasuomt.demo.person.repository.IRegisterAndLearnerRepository;
 import giasuomt.demo.person.repository.IWorkerRepository;
+import giasuomt.demo.staff.model.Staff;
 import giasuomt.demo.tags.model.RegisterAndLearnerTag;
 import giasuomt.demo.tags.repository.IRegisterAndLearnerTagRepository;
 import giasuomt.demo.uploadfile.repository.IAvatarAwsRepository;
@@ -50,10 +53,11 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 @Transactional
-public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLearnerDto, RegisterAndLearner, Long> implements IRegisterAndLearnerService {
+public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLearnerDto, RegisterAndLearner, Long>
+		implements IRegisterAndLearnerService {
 
 	private MapDtoToModel mapDtoToModel;
-	
+
 	private AwsClientS3 awsClientS3;
 
 	// Repository
@@ -61,7 +65,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 	private IRegisterAndLearnerRepository iRegisterAndLearnerRepository;
 
 	private IAreaRepository iAreaRepository;
-	
+
 	private IRegisterAndLearnerAddressRepository iRegisterAndLearnerAddressRepository;
 
 	private IStudentRepository iStudentRepository;
@@ -71,24 +75,24 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 	private IWorkerRepository iWorkerRepository;
 
 	private IRegisterAndLearnerTagRepository iRegisterAndLearnerTagRepository;
-	
+
 	private IRegisterAndLearnerRelationshipRepository iRegisterAndLearnerRelationshipRepository;
 
 	private IAvatarAwsRepository iFileEntityRepository;
-	
+
 	private IUserRepository iUserRepository;
 
 	@Override
 	public List<RegisterAndLearner> findAll() {
 
 		return iRegisterAndLearnerRepository.findAll();
-		
+
 	}
 
 	@Override
 	public RegisterAndLearner create(SaveRegisterAndLearnerDto dto) {
 		RegisterAndLearner registerAndLearner = new RegisterAndLearner();
-		
+
 		return save(dto, registerAndLearner);
 	}
 
@@ -96,15 +100,13 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 	public RegisterAndLearner update(SaveRegisterAndLearnerDto dto) {
 
 		RegisterAndLearner registerAndLearner = iRegisterAndLearnerRepository.getOne(dto.getId());
-		
+
 		String avatarURL = registerAndLearner.getAvatar();
 
-		
-
 		awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
-		
+
 		iFileEntityRepository.deleteBysUrlAvatar(avatarURL);
-		
+
 		return save(dto, registerAndLearner);
 	}
 
@@ -153,8 +155,6 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 		return null;
 	}
 
-
-
 	@Override
 	public List<RegisterAndLearner> findByPhoneNumber(String phoneNumber) {
 		return iRegisterAndLearnerRepository.findByPhonesContaining(phoneNumber);
@@ -171,58 +171,59 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 //		return iRegisterAndLearnerRepository.findByFullNameContaining(fullName);
 //	}
 
-
-
-	
-	
 	private void mapDto(RegisterAndLearner registerAndLearner, SaveRegisterAndLearnerDto dto) {
 		registerAndLearner = (RegisterAndLearner) mapDtoToModel.map(dto, registerAndLearner);
 
 		registerAndLearner.setFullName(dto.getFullName().toUpperCase());
-		
+
 		registerAndLearner.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName().toUpperCase()));
 
 		List<SaveRegisterAndLearnerAddressDto> saveRegisterAndLearnerAddressDtos = dto.getRegisterAndLearnerAddresses();
 		for (int i = 0; i < registerAndLearner.getRegisterAndLearnerAddresses().size(); i++) {
 			boolean deleteThis = true;
 			for (int j = 0; j < saveRegisterAndLearnerAddressDtos.size(); j++) {
-				if (registerAndLearner.getRegisterAndLearnerAddresses().get(i).getId() == saveRegisterAndLearnerAddressDtos.get(j).getId()) {
+				if (registerAndLearner.getRegisterAndLearnerAddresses().get(i)
+						.getId() == saveRegisterAndLearnerAddressDtos.get(j).getId()) {
 					deleteThis = false;
 				}
 			}
 			if (deleteThis) {
-				registerAndLearner.removeRegisterAndLearnerAddress(registerAndLearner.getRegisterAndLearnerAddresses().get(i));
+				registerAndLearner
+						.removeRegisterAndLearnerAddress(registerAndLearner.getRegisterAndLearnerAddresses().get(i));
 				i--;
 			}
 		}
 		for (int i = 0; i < saveRegisterAndLearnerAddressDtos.size(); i++) {
-			SaveRegisterAndLearnerAddressDto saveRegisterAndLearnerAddressDto = saveRegisterAndLearnerAddressDtos.get(i);
+			SaveRegisterAndLearnerAddressDto saveRegisterAndLearnerAddressDto = saveRegisterAndLearnerAddressDtos
+					.get(i);
 			if (saveRegisterAndLearnerAddressDto.getId() != null && saveRegisterAndLearnerAddressDto.getId() > 0) {
-				RegisterAndLearnerAddress registerAndLearnerAddress = iRegisterAndLearnerAddressRepository.getOne(saveRegisterAndLearnerAddressDto.getId());
-				registerAndLearnerAddress = (RegisterAndLearnerAddress) mapDtoToModel.map(saveRegisterAndLearnerAddressDto, registerAndLearnerAddress);
+				RegisterAndLearnerAddress registerAndLearnerAddress = iRegisterAndLearnerAddressRepository
+						.getOne(saveRegisterAndLearnerAddressDto.getId());
+				registerAndLearnerAddress = (RegisterAndLearnerAddress) mapDtoToModel
+						.map(saveRegisterAndLearnerAddressDto, registerAndLearnerAddress);
 				registerAndLearnerAddress.setArea(iAreaRepository.getOne(saveRegisterAndLearnerAddressDto.getIdArea()));
 				registerAndLearner.addRegisterAndLearnerAddress(registerAndLearnerAddress);
 			} else {
 				RegisterAndLearnerAddress registerAndLearnerAddress = new RegisterAndLearnerAddress();
-				registerAndLearnerAddress = (RegisterAndLearnerAddress) mapDtoToModel.map(saveRegisterAndLearnerAddressDto, registerAndLearnerAddress);
+				registerAndLearnerAddress = (RegisterAndLearnerAddress) mapDtoToModel
+						.map(saveRegisterAndLearnerAddressDto, registerAndLearnerAddress);
 				registerAndLearnerAddress.setArea(iAreaRepository.getOne(saveRegisterAndLearnerAddressDto.getIdArea()));
 				registerAndLearner.addRegisterAndLearnerAddress(registerAndLearnerAddress);
 			}
 		}
 
-
 		// save avatar
 
-		
-		  registerAndLearner.setAvatar(iFileEntityRepository.getOne(dto.getIdAvatar()).getUrlAvatar());
-		 
+		registerAndLearner.setAvatar(iFileEntityRepository.getOne(dto.getIdAvatar()).getUrlAvatar());
 
 		// Relationship
-		List<SaveRegisterAndLearnerRelationshipDto> saveRegisterAndLearnerRelationshipDtoWiths = dto.getRegisterAndLearnerRelationships();
+		List<SaveRegisterAndLearnerRelationshipDto> saveRegisterAndLearnerRelationshipDtoWiths = dto
+				.getRegisterAndLearnerRelationships();
 		for (int i = 0; i < registerAndLearner.getRelationshipWith().size(); i++) {
 			Boolean deleteThis = true;
 			for (int j = 0; j < saveRegisterAndLearnerRelationshipDtoWiths.size(); j++) {
-				if (registerAndLearner.getRelationshipWith().get(i).getId() == saveRegisterAndLearnerRelationshipDtoWiths.get(j).getId())
+				if (registerAndLearner.getRelationshipWith().get(i)
+						.getId() == saveRegisterAndLearnerRelationshipDtoWiths.get(j).getId())
 					deleteThis = false;
 			}
 			if (deleteThis) {
@@ -232,16 +233,23 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 		}
 
 		for (int i = 0; i < saveRegisterAndLearnerRelationshipDtoWiths.size(); i++) {
-			SaveRegisterAndLearnerRelationshipDto saveRegisterAndLearnerRelationshipDto = saveRegisterAndLearnerRelationshipDtoWiths.get(i);
-			if (saveRegisterAndLearnerRelationshipDto.getId() != null && saveRegisterAndLearnerRelationshipDto.getId() > 0) { // Update
-				RegisterAndLearnerRelationship registerAndLearnerRelationship = iRegisterAndLearnerRelationshipRepository.getOne(saveRegisterAndLearnerRelationshipDto.getId());
-				registerAndLearnerRelationship = (RegisterAndLearnerRelationship) mapDtoToModel.map(saveRegisterAndLearnerRelationshipDto, registerAndLearnerRelationship);
-				registerAndLearnerRelationship.setPersonB(iRegisterAndLearnerRepository.getOne(saveRegisterAndLearnerRelationshipDto.getIdPersonBy()));
+			SaveRegisterAndLearnerRelationshipDto saveRegisterAndLearnerRelationshipDto = saveRegisterAndLearnerRelationshipDtoWiths
+					.get(i);
+			if (saveRegisterAndLearnerRelationshipDto.getId() != null
+					&& saveRegisterAndLearnerRelationshipDto.getId() > 0) { // Update
+				RegisterAndLearnerRelationship registerAndLearnerRelationship = iRegisterAndLearnerRelationshipRepository
+						.getOne(saveRegisterAndLearnerRelationshipDto.getId());
+				registerAndLearnerRelationship = (RegisterAndLearnerRelationship) mapDtoToModel
+						.map(saveRegisterAndLearnerRelationshipDto, registerAndLearnerRelationship);
+				registerAndLearnerRelationship.setPersonB(
+						iRegisterAndLearnerRepository.getOne(saveRegisterAndLearnerRelationshipDto.getIdPersonBy()));
 				registerAndLearner.addRelationshipWith(registerAndLearnerRelationship);
 			} else { // Create
 				RegisterAndLearnerRelationship registerAndLearnerRelationship = new RegisterAndLearnerRelationship();
-				registerAndLearnerRelationship = (RegisterAndLearnerRelationship) mapDtoToModel.map(saveRegisterAndLearnerRelationshipDto, registerAndLearnerRelationship);
-				registerAndLearnerRelationship.setPersonB(iRegisterAndLearnerRepository.getOne(saveRegisterAndLearnerRelationshipDto.getIdPersonBy()));
+				registerAndLearnerRelationship = (RegisterAndLearnerRelationship) mapDtoToModel
+						.map(saveRegisterAndLearnerRelationshipDto, registerAndLearnerRelationship);
+				registerAndLearnerRelationship.setPersonB(
+						iRegisterAndLearnerRepository.getOne(saveRegisterAndLearnerRelationshipDto.getIdPersonBy()));
 				registerAndLearner.addRelationshipWith(registerAndLearnerRelationship);
 			}
 		}
@@ -250,12 +258,13 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 		List<Long> registerAndLearnerTagIds = dto.getRegisterAndLearnerTagIds();
 		List<RegisterAndLearnerTag> registerAndLearnerTags = new LinkedList<>();
 		for (int i = 0; i < registerAndLearnerTagIds.size(); i++) {
-			RegisterAndLearnerTag registerAndLearnerTag = iRegisterAndLearnerTagRepository.getOne(registerAndLearnerTagIds.get(i));
+			RegisterAndLearnerTag registerAndLearnerTag = iRegisterAndLearnerTagRepository
+					.getOne(registerAndLearnerTagIds.get(i));
 			registerAndLearnerTags.add(registerAndLearnerTag);
 		}
 		registerAndLearner.setRegisterAndLearnerTags(registerAndLearnerTags);
 
-		//Hiện đang là
+		// Hiện đang là
 		List<SaveSchoolerDto> saveSchoolerDtos = dto.getSchoolers();
 		for (int i = 0; i < registerAndLearner.getSchoolers().size(); i++) {
 			Boolean deleteThis = true;
@@ -280,7 +289,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 				registerAndLearner.addSchooler(schooler);
 			}
 		}
-		
+
 		List<SaveStudentDto> saveStudentDtos = dto.getStudents();
 		for (int i = 0; i < registerAndLearner.getStudents().size(); i++) {
 			Boolean deleteThis = true;
@@ -331,57 +340,70 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 				registerAndLearner.addWorker(worker);
 			}
 		}
-		//user
-		
+		// user
+
 	}
 
 	@Override
 	public List<RegisterAndLearner> findByFullNameContaining(String fullName) {
-		
+
 		return iRegisterAndLearnerRepository.findByFullNameContaining(fullName);
 	}
 
 	@Override
 	public List<RegisterAndLearner> findByEnglishFullNameContaining(String englishFullName) {
-		
+
 		return iRegisterAndLearnerRepository.findByEnglishFullNameContaining(englishFullName);
 	}
 
 	@Override
 	public List<String> findByEnglishNameAndShowEngLishFullName(String englishFullName) {
-		
+
 		return iRegisterAndLearnerRepository.findByEnglishNameAndShowFullName(englishFullName);
 	}
 
 	@Override
 	public List<String> findByFullNameAndShowFullName(String fullName) {
-		
+
 		return iRegisterAndLearnerRepository.findByFullNameAndShowFullName(fullName);
 	}
 
 	@Override
 	public List<RegisterAndLearner> findByVocativeAndFullName(String vocative, String fullName) {
-		
+
 		return iRegisterAndLearnerRepository.findByVocativeAndFullNameContaining(vocative, fullName);
 	}
 
 	@Override
 	public List<String> findByVocativeAndFullNameAndShowFullName(String vocative, String fullName) {
-		
+
 		return iRegisterAndLearnerRepository.findByVocativeAndFullNameAndShowFullName(vocative, fullName);
 	}
 
 	@Override
 	public List<RegisterAndLearner> findByVocativeAndEnglishFullNameContaining(String vocative, String englishName) {
-	
+
 		return iRegisterAndLearnerRepository.findByVocativeAndEnglishFullNameContaining(vocative, englishName);
 	}
 
 	@Override
 	public List<String> findByVocativeAndEnglishFullNameAndShowFullName(String vocative, String englishName) {
-		
+
 		return iRegisterAndLearnerRepository.findByVocativeAndEnglishNameAndShowFullName(vocative, englishName);
 	}
 
+	@Override
+	public RegisterAndLearner updateAvatarRegisterAndLearner(UpdateAvatarRegisterAndLearner dto) {
+		RegisterAndLearner registerAndLearner = iRegisterAndLearnerRepository.getOne(dto.getId());
+
+		String avatarURL = registerAndLearner.getAvatar();
+
+		awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+
+		iFileEntityRepository.deleteBysUrlAvatar(avatarURL);
+
+		registerAndLearner.setAvatar(iFileEntityRepository.getById(dto.getIdAvatar()).getUrlAvatar());
+		return null;
+	}
 
 }

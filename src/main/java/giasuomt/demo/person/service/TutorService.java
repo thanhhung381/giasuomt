@@ -7,6 +7,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
+
 import giasuomt.demo.commondata.generator.TutorCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
@@ -24,7 +28,7 @@ import giasuomt.demo.person.dto.SaveStudentDto;
 import giasuomt.demo.person.dto.SaveTutorDto;
 import giasuomt.demo.person.dto.SaveWorkerDto;
 import giasuomt.demo.person.dto.UpdateRegisteredSubject;
-
+import giasuomt.demo.person.dto.UpdateTutorAvatar;
 import giasuomt.demo.person.model.GraduatedStudent;
 import giasuomt.demo.person.model.InstitutionTeacher;
 import giasuomt.demo.person.model.SchoolTeacher;
@@ -37,6 +41,7 @@ import giasuomt.demo.person.repository.ISchoolTeacherRepository;
 import giasuomt.demo.person.repository.IStudentRepository;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.person.repository.IWorkerRepository;
+import giasuomt.demo.staff.dto.UpdateAvatarStaff;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.tags.repository.ITutorTagRepository;
 
@@ -459,6 +464,27 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		return iTutorRepository.save(tutor);
 
+	}
+
+	@Override
+	public Tutor updateAvatarTutor(UpdateTutorAvatar dto) {
+		try {
+			Tutor tutor=iTutorRepository.getOne(dto.getId());
+			
+			String avatarURL=tutor.getAvatar();
+			
+			awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+			tutor.setAvatar(iFileEntityRepository.getById(dto.getIdAvatar()).getUrlAvatar());
+			return iTutorRepository.save(tutor);
+		} catch (AmazonServiceException e) {
+			
+			e.printStackTrace();
+		} catch (SdkClientException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 }

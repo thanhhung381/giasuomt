@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +14,10 @@ import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.person.dto.SaveRegisterAndLearnerDto;
+import giasuomt.demo.person.dto.UpdateAvatarRegisterAndLearner;
+import giasuomt.demo.person.dto.UpdateTutorAvatar;
 import giasuomt.demo.person.model.RegisterAndLearner;
+import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.service.IRegisterAndLearnerService;
 import lombok.AllArgsConstructor;
 
@@ -121,6 +126,20 @@ public class RegisterAndLearnerController
 		}
 
 		return ResponseHandler.getResponse(registerAndLearners, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateAvatarRegisterAndLearner")
+	public ResponseEntity<Object> updateAvatarRegisterAndLearner(@RequestBody UpdateAvatarRegisterAndLearner dto,
+			BindingResult errors) {
+
+		RegisterAndLearner registerAndLearner = iRegisterAndLearnerService.updateAvatarRegisterAndLearner(dto);
+
+		if (errors.hasErrors()) {
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		}
+
+		return ResponseHandler.getResponse( registerAndLearner, HttpStatus.OK);
+
 	}
 
 }

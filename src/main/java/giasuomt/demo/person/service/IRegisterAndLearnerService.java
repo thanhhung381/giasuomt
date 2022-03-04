@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import giasuomt.demo.commondata.generic.IGenericService;
 import giasuomt.demo.person.dto.SaveRegisterAndLearnerDto;
+import giasuomt.demo.person.dto.UpdateAvatarRegisterAndLearner;
 import giasuomt.demo.person.model.RegisterAndLearner;
 
 public interface IRegisterAndLearnerService
@@ -38,5 +39,7 @@ public interface IRegisterAndLearnerService
 	List<RegisterAndLearner> findByVocativeAndEnglishFullNameContaining(String vocative, String englishName);
 
 	List<String> findByVocativeAndEnglishFullNameAndShowFullName(String vocative, String englishName);
+
+	 RegisterAndLearner updateAvatarRegisterAndLearner(UpdateAvatarRegisterAndLearner dto);
 
 }

@@ -35,6 +35,7 @@ import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.person.model.RegisterAndLearner;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.role.model.Role;
+import giasuomt.demo.staff.model.Staff;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Registration;
 import giasuomt.demo.task.model.Require;
@@ -47,6 +48,8 @@ import lombok.Setter;
 @Table(name = "table_user")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class User extends AbstractEntity {
+	
+	private String avatar;
 	
 	private String username;
 	
@@ -62,6 +65,9 @@ public class User extends AbstractEntity {
 	@OneToOne
 	private RegisterAndLearner registerAndLearner;
 	
+	@OneToOne
+	private Staff staff;
+	
 	
 	
 	@ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.EAGER)
@@ -75,5 +81,10 @@ public class User extends AbstractEntity {
 	{
 		this.roles.remove(role);
 	}
+
+
+
+
+	
 	
 }

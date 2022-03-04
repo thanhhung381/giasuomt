@@ -3,7 +3,9 @@ import java.util.List;
 import giasuomt.demo.commondata.generic.IGenericService;
 import giasuomt.demo.person.dto.SaveTutorDto;
 import giasuomt.demo.person.dto.UpdateRegisteredSubject;
+import giasuomt.demo.person.dto.UpdateTutorAvatar;
 import giasuomt.demo.person.model.Tutor;
+import giasuomt.demo.staff.dto.UpdateAvatarStaff;
 
 public interface ITutorService extends IGenericService<SaveTutorDto, Tutor,Long> {
 
@@ -31,4 +33,5 @@ public interface ITutorService extends IGenericService<SaveTutorDto, Tutor,Long>
 	
 	public Tutor updateRegisteredSubjects(UpdateRegisteredSubject dto);
 
+	public Tutor updateAvatarTutor(UpdateTutorAvatar dto);
 }
