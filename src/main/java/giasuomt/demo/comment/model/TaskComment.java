@@ -39,5 +39,6 @@ public class TaskComment extends Comment {
 	@JsonIgnore
 	private List<TaskComment> replies = new LinkedList<>();
 	
+	private String avatar;
 
 }

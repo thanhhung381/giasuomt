@@ -20,4 +20,6 @@ public interface IAvatarAwsService {
 	boolean checkExistIdOfT(Long id);
 	
 	boolean checkExistObjectinS3(String name);
+	
+	public void deleteById(Long id);
 }

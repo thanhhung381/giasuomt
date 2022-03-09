@@ -74,13 +74,27 @@ public class BillImageAwsController {
 		
 		String url="https://s3.ap-southeast-1.amazonaws.com/avatargsomt/";
 		 
-		if (!iBillImageService.checkExistIdOfT(id) && !iBillImageService.checkExistObjectinS3(nameFile))
+		if (!iBillImageService.checkExistIdOfT(id) || !iBillImageService.checkExistObjectinS3(nameFile))
 			return ResponseHandler.getResponse("Don't have any url", HttpStatus.BAD_REQUEST);
 		
 		iBillImageService.deleteByFileNameAndID(url+nameFile,id);
 		
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
+	
+	@DeleteMapping("/deleteById/{id}")
+	public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
+		
+	
+		 
+		if (!iBillImageService.checkExistIdOfT(id) )
+			return ResponseHandler.getResponse("Don't have any id", HttpStatus.BAD_REQUEST);
+		
+		iBillImageService.deleteById(id);
+		
+		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
+	}
+	
 	
 	
 }

@@ -69,11 +69,25 @@ public class RetainedImgsIdentificationAwsController {
 		
 		String url="https://s3.ap-southeast-1.amazonaws.com/avatargsomt/";
 		 
-		if (!iRetainedImgsIdentificationService.checkExistIdOfT(id) && !iRetainedImgsIdentificationService.checkExistObjectinS3(nameFile))
+		if (!iRetainedImgsIdentificationService.checkExistIdOfT(id) || !iRetainedImgsIdentificationService.checkExistObjectinS3(nameFile))
 			return ResponseHandler.getResponse("Don't have any url", HttpStatus.BAD_REQUEST);
 		
 		iRetainedImgsIdentificationService.deleteByFileNameAndID(url+nameFile,id);
 		
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
+	
+	@DeleteMapping("/deleteById/{id}")
+	public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
+		
+	
+		 
+		if (!iRetainedImgsIdentificationService.checkExistIdOfT(id) )
+			return ResponseHandler.getResponse("Don't have any id", HttpStatus.BAD_REQUEST);
+		
+		iRetainedImgsIdentificationService.deleteById(id);
+		
+		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
+	}
+	
 }

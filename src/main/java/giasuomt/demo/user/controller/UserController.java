@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +24,7 @@ import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.security.jwt.JwtUltils;
 import giasuomt.demo.uploadfile.service.IAvatarAwsService;
 import giasuomt.demo.user.dto.ResponseUser;
+import giasuomt.demo.user.dto.ResponseUserWithBasicInfor;
 import giasuomt.demo.user.dto.SaveUserDto;
 import giasuomt.demo.user.dto.UpdateRegisterAndLearnerForUser;
 import giasuomt.demo.user.dto.UpdateAndDeleteRoleForUser;
@@ -33,7 +36,7 @@ import giasuomt.demo.user.repository.IUserRepository;
 import giasuomt.demo.user.service.IUserService;
 import lombok.AllArgsConstructor;
 
-@RequestMapping("/api/createUser")
+@RequestMapping("/api/user")
 @RestController
 @AllArgsConstructor
 public class UserController extends GenericController<SaveUserDto, User, Long, BindingResult> {
@@ -123,6 +126,8 @@ public class UserController extends GenericController<SaveUserDto, User, Long, B
 				 responseUser.setPhones(user.get().getPhones());
 				 responseUser.setRegisterAndLearner(user.get().getRegisterAndLearner());
 				 responseUser.setUsername(user.get().getUsername());
+				 responseUser.setAvatar(user.get().getAvatar());
+				 
 				 
 				 
 				
@@ -148,5 +153,34 @@ public class UserController extends GenericController<SaveUserDto, User, Long, B
 
 	}
 	
+	@GetMapping("/findUserbyUsername/{username}")
+	public ResponseEntity<Object> findUserByUsername(@PathVariable("username") String username)
+	{
+	
+	
+			Optional<User> user =iUserRepository.findByUsername(username);
+			if(user.isEmpty())
+			{
+				return ResponseHandler.getResponse("Invalid username", HttpStatus.BAD_REQUEST);
+			}
+			else
+			{
+				ResponseUserWithBasicInfor responseUser=new ResponseUserWithBasicInfor();
+				 responseUser.setEmail(user.get().getEmail());
+				 responseUser.setPhones(user.get().getPhones());
+				 responseUser.setUsername(user.get().getUsername());
+				 responseUser.setAvatar(user.get().getAvatar());
+				 responseUser.setId(user.get().getId());
+				 
+				 
+				 
+				
+				return ResponseHandler.getResponse(responseUser, HttpStatus.OK);
+			}
+		
+		
+	
+		
+	}
 	
 }

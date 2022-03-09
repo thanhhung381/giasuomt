@@ -111,6 +111,12 @@ public class FeedBackImageAwsService extends AwsClientS3 implements IFeedBackIma
 		return false;
 	}
 
+	@Override
+	public void deleteById(Long id) {
+		iFeedbackImageAwsRepository.deleteById(id);
+		
+	}
+
 	
 	
 	

@@ -13,6 +13,7 @@ import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.repository.ITaskRepository;
+import giasuomt.demo.user.repository.IUserRepository;
 import io.swagger.annotations.Authorization;
 import lombok.AllArgsConstructor;
 
@@ -26,6 +27,8 @@ public class TaskCommentService extends GenericService<SaveTaskCommentDto, TaskC
 	private ITaskRepository iTaskRepository;
 
 	private ITaskCommentRepository iTaskCommentRepository;
+	
+	private IUserRepository iUserRepository;
 
 	@Override
 	public TaskComment create(SaveTaskCommentDto dto) {
@@ -42,8 +45,11 @@ public class TaskCommentService extends GenericService<SaveTaskCommentDto, TaskC
 		}
 
 		taskComment.setTask(iTaskRepository.getOne(dto.getIdTask()));
+		
 
-		return save(dto, taskComment);
+		
+		
+		return  save(dto, taskComment);
 	}
 
 	@Override

@@ -74,7 +74,7 @@ public class User extends AbstractEntity {
 	@JoinTable(name = "User_Role_GSOMT",joinColumns = @JoinColumn(name="id_User"),inverseJoinColumns =  @JoinColumn(name="id_Role"))
 	private List<Role> roles=new LinkedList<>();
 	
-	
+
 
 	
 	public void removeRole(Role role)

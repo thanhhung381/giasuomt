@@ -48,6 +48,8 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 
 	private IRegisterAndLearnerRepository iRegisterAndLearnerRepository;
 
+	private IAvatarAwsService iAvatarAwsService;
+	
 	private IAvatarAwsRepository iAvatarAwsRepository;
 
 	public User create(SaveUserDto dto) {
@@ -236,19 +238,28 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 
 			String avatarURL = user.getAvatar();
 
-			if (avatarURL == null) {
+			if ( avatarURL == null) {
 				user.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
 			}
 			else
 			{
-				user.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
+				
+				
+				
+				
+				
+				iAvatarAwsRepository.deleteBysUrlAvatar(avatarURL);
 				
 				awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+				
+				user.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
 
-				iAvatarAwsRepository.deleteBysUrlAvatar(avatarURL);
+				
+				
+				
 			}
 
-			
+			user = iUserRepository.save(user);
 
 			return iUserRepository.save(user);
 		} catch (SdkClientException e) {

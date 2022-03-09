@@ -113,6 +113,11 @@ public class BillImageAwsService extends AwsClientS3 implements IBillImageAwsSer
 		return false;
 	}
 
+	@Override
+	public void deleteById(Long id) {
+		iBillImageAwsRepository.deleteById(id);
+	}
+
 	
 	
 
