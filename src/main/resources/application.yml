@@ -1,10 +1,20 @@
 server:
   port: 8080
+  servlet:
+    session:
+      cookie:
+        same-site: "none"
   
 spring:
   #Data Configuration  
   datasource:
-    url: jdbc:postgresql://52.74.109.132:5432/giasuomt
+
+
+    url: jdbc:postgresql://localhost:5432/giasuomt
+
+
+    
+
     username: postgres
     password: 123456
   #JPA Configuration 
@@ -23,7 +33,8 @@ spring:
 gsomt:
   app:
     jwt-secret: apiofgsomt
-    jwt-duration: 3000000 
+    jwt-duration: 3000000 
+
 amazon:
   accessKeyKhangAdmin: AKIAUDLYPJWXW6ZYEEE2                      #tạo user
   secretkeyKhangAdmin: LCIaMlWDqbnnQ+DRNGA7IuhKRmuV2J4h7zQ6yoZg  
@@ -36,5 +47,8 @@ amazon:
 #feedback
   feedbackImageURL: https://s3.ap-southeast-1.amazonaws.com/feedbackimagegsomt/
   bucketnamefeedbackImage: feedbackimagegsomt
-#retainedrmgsrdentification  retainedimgsidentificationgsomt  retainedimgsidentificationURL: https://s3.ap-southeast-1.amazonaws.com/retainedimgsidentificationgsomt/
-  bucketnameretainedimgsidentification: retainedimgsidentificationgsomt  
+#retainedrmgsrdentification  retainedimgsidentificationgsomt
+  retainedimgsidentificationURL: https://s3.ap-southeast-1.amazonaws.com/retainedimgsidentificationgsomt/
+  bucketnameretainedimgsidentification: retainedimgsidentificationgsomt 
+
+ 
