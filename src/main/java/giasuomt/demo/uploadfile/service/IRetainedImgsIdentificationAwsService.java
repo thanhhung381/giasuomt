@@ -24,5 +24,7 @@ public interface IRetainedImgsIdentificationAwsService {
 	boolean checkExistIdOfT(Long id);
 	
 	boolean checkExistObjectinS3(String name);
+	
+	public void deleteById(Long id);
 	 
 }

@@ -26,5 +26,6 @@ public interface IBillImageAwsService {
 	
 	boolean checkExistObjectinS3(String name);
 
+	public void deleteById(Long id);
 	
 }

@@ -16,7 +16,8 @@ import giasuomt.demo.task.dto.UpdateRequireDto;
 import giasuomt.demo.task.dto.UpdateSalaryDto;
 import giasuomt.demo.task.dto.UpdateSubjectDto;
 import giasuomt.demo.task.dto.UpdateTaskPlaceAddresseDto;
-import giasuomt.demo.task.dto.UpdateTaskStatus;
+import giasuomt.demo.task.dto.UpdateTaskSignDto;
+import giasuomt.demo.task.dto.UpdateTaskStatusDto;
 import giasuomt.demo.task.model.Task;
 
 public interface ITaskService extends IGenericService<SaveTaskDto, Task, String> {
@@ -46,11 +47,13 @@ public interface ITaskService extends IGenericService<SaveTaskDto, Task, String>
 	
 	public Task updateTaskPlaceAddress(UpdateTaskPlaceAddresseDto dto);
 	
-	public Task updateTaskStatus(UpdateTaskStatus dto);
+	public Task updateTaskStatusDto(UpdateTaskStatusDto dto);
 	
 	List<Task> availableTaskList();
 	
 	List<Task> unavailableTaskList();
+	
+	Task updateTaskSignDto(UpdateTaskSignDto dto);
 
 
 	

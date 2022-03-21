@@ -26,7 +26,7 @@ public class SaveStaffDto {
 	// @NotBlank
 	private String fullName;
 	
-	private String englishFullName;
+	
 
 	// @NotNull //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
 	private String gender;

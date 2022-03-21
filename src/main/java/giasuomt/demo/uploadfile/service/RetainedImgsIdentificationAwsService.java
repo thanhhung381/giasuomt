@@ -112,4 +112,10 @@ public class RetainedImgsIdentificationAwsService extends AwsClientS3 implements
 		return false;
 	}
 
+	@Override
+	public void deleteById(Long id) {
+		iRetainedImgsIdentificationAwsRepository.deleteById(id);
+		
+	}
+
 }

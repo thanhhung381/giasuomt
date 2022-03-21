@@ -9,12 +9,11 @@ spring:
   #Data Configuration  
   datasource:
 
-    url: jdbc:postgresql://localhost:5432/giasuomt
 
+    url: jdbc:postgresql://52.74.109.132:5432/giasuomt
 
-    
     username: postgres
-    password: khangdeptrai
+    password: 123456
   #JPA Configuration 
   jpa:
     show-sql: true #để xem câu sql mà nó tự sinh
@@ -34,8 +33,8 @@ gsomt:
     jwt-duration: 3000000 
 
 amazon:
-  accessKeyKhangAdmin: AKIAUDLYPJWXSF25XEX7                        #tạo user
-  secretkeyKhangAdmin: kSGf4u91RYy+AJdRG0oACi31mU6aAnXk1mejIbEC  
+  accessKeyKhangAdmin: AKIAUDLYPJWXYMP46F6J                #tạo user
+  secretkeyKhangAdmin: vFJP1ViiqDypQq5z6hoqQDF/46MDYxcw3GL4EJZ4
   #avatar     #   
   avatarURL: https://s3.ap-southeast-1.amazonaws.com/avatargsomt/
   bucketnameAvatar: avatargsomt

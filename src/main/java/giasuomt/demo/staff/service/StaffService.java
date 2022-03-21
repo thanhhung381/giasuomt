@@ -9,6 +9,7 @@ import com.amazonaws.SdkClientException;
 
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
+import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.staff.dto.SaveStaffDto;
 import giasuomt.demo.staff.dto.UpdateAvatarStaff;
 import giasuomt.demo.staff.model.Staff;
@@ -70,6 +71,10 @@ public class StaffService extends GenericService<SaveStaffDto, Staff, Long> impl
 
 	private void mapDto(SaveStaffDto dto, Staff staff) {
 		staff = (Staff) mapDtoToModel.map(dto, staff);
+
+		staff.setFullName(dto.getFullName().toUpperCase());
+
+		staff.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toUpperCase());
 	}
 
 	@Override
@@ -88,13 +93,13 @@ public class StaffService extends GenericService<SaveStaffDto, Staff, Long> impl
 
 			return iStaffRepository.save(staff);
 		} catch (AmazonServiceException e) {
-			
+
 			e.printStackTrace();
 		} catch (SdkClientException e) {
-			
+
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 

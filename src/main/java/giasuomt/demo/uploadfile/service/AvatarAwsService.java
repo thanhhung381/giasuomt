@@ -129,4 +129,10 @@ public class AvatarAwsService extends AwsClientS3  implements IAvatarAwsService 
 		return false;
 	}
 
+	@Override
+	public void deleteById(Long id) {
+		iAvatarAwsRepository.deleteById(id);
+		
+	}
+
 }

@@ -26,7 +26,8 @@ import giasuomt.demo.task.dto.UpdateRequireDto;
 import giasuomt.demo.task.dto.UpdateSalaryDto;
 import giasuomt.demo.task.dto.UpdateSubjectDto;
 import giasuomt.demo.task.dto.UpdateTaskPlaceAddresseDto;
-import giasuomt.demo.task.dto.UpdateTaskStatus;
+import giasuomt.demo.task.dto.UpdateTaskSignDto;
+import giasuomt.demo.task.dto.UpdateTaskStatusDto;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.service.ITaskService;
 import lombok.AllArgsConstructor;
@@ -173,13 +174,25 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String,
 	}
 	
 	@PutMapping("/updateTaskStatus")
-	public ResponseEntity<Object> updateTaskStatus(@RequestBody UpdateTaskStatus dto,BindingResult errors)
+	public ResponseEntity<Object> updateTaskStatusDto(@RequestBody UpdateTaskStatusDto dto,BindingResult errors)
 	{
 		if (((Errors) errors).hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
 		
-		Task updatedTaskStatus = iTaskService.updateTaskStatus(dto);
+		Task updatedTaskStatus = iTaskService.updateTaskStatusDto(dto);
 		
 		return ResponseHandler.getResponse(updatedTaskStatus, HttpStatus.OK);
 	}
+	
+	@PutMapping("/updateTaskSign")
+	public ResponseEntity<Object> updateTaskSignDto(@RequestBody UpdateTaskSignDto dto,BindingResult errors)
+	{
+		if (((Errors) errors).hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		
+		Task updatedTaskSign = iTaskService.updateTaskSignDto(dto);
+		
+		return ResponseHandler.getResponse(updatedTaskSign, HttpStatus.OK);
+	}
+	
 }

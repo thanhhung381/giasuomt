@@ -30,13 +30,15 @@ import giasuomt.demo.task.dto.UpdateRequireDto;
 import giasuomt.demo.task.dto.UpdateSalaryDto;
 import giasuomt.demo.task.dto.UpdateSubjectDto;
 import giasuomt.demo.task.dto.UpdateTaskPlaceAddresseDto;
-import giasuomt.demo.task.dto.UpdateTaskStatus;
+import giasuomt.demo.task.dto.UpdateTaskSignDto;
+import giasuomt.demo.task.dto.UpdateTaskStatusDto;
 import giasuomt.demo.task.model.Require;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.IRequireRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
 import giasuomt.demo.task.util.TaskAppearanceGenerator;
+import giasuomt.demo.task.util.TaskSign;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -66,8 +68,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 		String responsCharactor = generateTaskCode();
 
-		
-		
 		task.setId(TaskCodeGenerator.generatorCode().concat(responsCharactor));
 
 		return save(dto, task);
@@ -136,9 +136,9 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		try {
 
 			mapDto(task, dto);
-			
+
 			iTaskRepository.flush();
-			
+
 			return iTaskRepository.save(task);
 
 		} catch (Exception e) {
@@ -150,48 +150,40 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private String generateTaskCode() {
 
-	
-			
-			List<Task> listTask=iTaskRepository.findAll();
-			
-			
-			
-			int n = listTask.size();
+		List<Task> listTask = iTaskRepository.findAll();
 
-			// lấy stt task id trước đó
-			int count = 0;
+		int n = listTask.size();
 
-			if (n > 0) {
-				String dayEnd = listTask.get(n - 1).getId();// Lấy mã cuối ngày so sánh
+		// lấy stt task id trước đó
+		int count = 0;
 
-				
-				
-				if (dayEnd != null) {
-					count = TaskCodeGenerator.generateResponsiveReserve(dayEnd.substring(4, 6));
-					 
+		if (n > 0) {
+			String dayEnd = listTask.get(n - 1).getId();// Lấy mã cuối ngày so sánh
 
-					if (TaskCodeGenerator.AutoGennerate(dayEnd) == -1 || TaskCodeGenerator.AutoGennerate(dayEnd) == 2)// check
-																														// //
-																														// ko
-					{
-						count = 1;
+			if (dayEnd != null) {
+				count = TaskCodeGenerator.generateResponsiveReserve(dayEnd.substring(4, 6));
 
-					} else if (TaskCodeGenerator.AutoGennerate(dayEnd) == 3) {
-						count += 1;
-
-					}
-
-				} else {
+				if (TaskCodeGenerator.AutoGennerate(dayEnd) == -1 || TaskCodeGenerator.AutoGennerate(dayEnd) == 2)// check
+																													// //
+																													// ko
+				{
 					count = 1;
+
+				} else if (TaskCodeGenerator.AutoGennerate(dayEnd) == 3) {
+					count += 1;
+
 				}
+
 			} else {
 				count = 1;
 			}
+		} else {
+			count = 1;
+		}
 
-			String responsCharacter = TaskCodeGenerator.generateResponsive(count);
-			return responsCharacter;
-		
-		
+		String responsCharacter = TaskCodeGenerator.generateResponsive(count);
+		return responsCharacter;
+
 	}
 
 	@Override
@@ -297,7 +289,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 			return iTaskRepository.save(task);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 		return null;
@@ -323,7 +315,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 			return iTaskRepository.save(task);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 		return null;
@@ -331,7 +323,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	@Override
 	public Task UpdateLesson(UpdateLessonDto dto) {
-		
+
 		try {
 			Task task = iTaskRepository.getOne(dto.getId());
 
@@ -340,16 +332,16 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 			return iTaskRepository.save(task);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
-			
+
 		return null;
 	}
 
 	@Override
 	public Task updateHour(UpdateHourDto dto) {
-		
+
 		try {
 			Task task = iTaskRepository.getOne(dto.getId());
 
@@ -358,7 +350,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 			return iTaskRepository.save(task);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 		return null;
@@ -372,7 +364,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 			task.setFreeTime(dto.getFreeTime());
 			return iTaskRepository.save(task);
 		} catch (Exception e) {
-		
+
 			e.printStackTrace();
 		}
 		return null;
@@ -384,14 +376,14 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 			Task task = iTaskRepository.getOne(dto.getId());
 
 			task.setSalary(dto.getSalary());
-			
+
 			task.setSalaryPerTime(dto.getSalaryPerTime());
-			
+
 			task.setUnitOfSalary(dto.getUnitOfSalary());
 
 			return iTaskRepository.save(task);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 		return null;
@@ -399,11 +391,10 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	@Override
 	public Task updateTaskPlaceAddress(UpdateTaskPlaceAddresseDto dto) {
-		
-		
+
 		try {
 			Task task = iTaskRepository.getOne(dto.getId());
-			
+
 			List<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getPlaceAddressDtos();
 			for (int i = 0; i < task.getTaskPlaceAddresses().size(); i++) {
 				boolean deleteThis = true;
@@ -431,14 +422,14 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 					task.addTaskPlaceAddress(taskPlaceAddress);
 				}
 			}
-			
+
 			return iTaskRepository.save(task);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
 		return null;
-		
+
 	}
 
 	@Override
@@ -449,26 +440,45 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	@Override
 	public List<Task> unavailableTaskList() {
-	
-		
+
 		return iTaskRepository.findByUnavailableTaskList();
 	}
 
 	@Override
-	public Task updateTaskStatus(UpdateTaskStatus dto) {
-		
+	public Task updateTaskStatusDto(UpdateTaskStatusDto dto) {
+
 		try {
 			Task task = iTaskRepository.getOne(dto.getId());
 
 			task.setStatus(dto.getStatus());
-			
 
 			return iTaskRepository.save(task);
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
-		
+
+		return null;
+	}
+
+	@Override
+	public Task updateTaskSignDto(UpdateTaskSignDto dto) {
+		try {
+
+			Task task = iTaskRepository.getOne(dto.getId());
+
+			List<TaskSign> taskSignList = new LinkedList<>();
+
+			for (int i = 0; i < dto.getTaskSigns().size(); i++) {
+				taskSignList.add(dto.getTaskSigns().get(i));
+			}
+
+			task.setTaskSign(taskSignList);
+			return iTaskRepository.save(task);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
