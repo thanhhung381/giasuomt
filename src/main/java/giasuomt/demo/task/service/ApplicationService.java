@@ -2,16 +2,20 @@ package giasuomt.demo.task.service;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.stereotype.Service;
+
+import giasuomt.demo.comment.repository.IApplicationCommentRepository;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.dto.SaveApplicationDto;
+import giasuomt.demo.task.dto.UpdateApplicationSignDto;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
+import giasuomt.demo.task.util.ApplicationSign;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -25,6 +29,8 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 	private IApplicationRepository iApplicationRepository;
 
 	private ITutorRepository iTutorRepository;
+	
+	private IApplicationCommentRepository iApplicationCommentRepository;
 
 	public Application create(SaveApplicationDto dto) {
 
@@ -88,6 +94,35 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 			}
 			return iApplicationRepository.saveAll(applications);
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public void deleteByIdAppliction(Long id) {
+		iApplicationCommentRepository.deleteAll(iApplicationRepository.getOne(id).getComments());//xóa application là xóa hết
+		iApplicationRepository.deleteById(id);
+		
+	}
+
+	@Override
+	public Application updateApplicationSign(UpdateApplicationSignDto dto) {
+		try {
+			
+			Application application=iApplicationRepository.getOne(dto.getId());
+			
+			List<ApplicationSign> applications=new LinkedList<>();
+			for(int i=0;i<dto.getApplicationSigns().size();i++)
+			{
+				applications.add(dto.getApplicationSigns().get(i));
+			}
+			
+			application.setApplicationSigns(applications);
+
+			
+			return iApplicationRepository.save(application);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

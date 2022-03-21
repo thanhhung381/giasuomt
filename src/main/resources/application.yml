@@ -10,10 +10,7 @@ spring:
   datasource:
 
 
-    url: jdbc:postgresql://localhost:5432/giasuomt
-
-
-    
+    url: jdbc:postgresql://52.74.109.132:5432/giasuomt
 
     username: postgres
     password: 123456
@@ -36,8 +33,8 @@ gsomt:
     jwt-duration: 3000000 
 
 amazon:
-  accessKeyKhangAdmin: AKIAUDLYPJWXW6ZYEEE2                      #tạo user
-  secretkeyKhangAdmin: LCIaMlWDqbnnQ+DRNGA7IuhKRmuV2J4h7zQ6yoZg  
+  accessKeyKhangAdmin: AKIAUDLYPJWXYMP46F6J                #tạo user
+  secretkeyKhangAdmin: vFJP1ViiqDypQq5z6hoqQDF/46MDYxcw3GL4EJZ4
   #avatar     #   
   avatarURL: https://s3.ap-southeast-1.amazonaws.com/avatargsomt/
   bucketnameAvatar: avatargsomt

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -43,6 +44,7 @@ import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.person.model.RegisterAndLearner;
+import giasuomt.demo.task.util.TaskSign;
 import giasuomt.demo.task.util.TaskStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -158,8 +160,10 @@ public class Task extends AbstractEntityNotId {
 	private List<TaskComment> comments=new LinkedList<>();
 
 //ĐÁNH DẤU (Nếu có)
-//	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
-//	private Set<TaskSign> taskSigns;
+//
+    @ElementCollection(targetClass  = TaskSign.class)
+    @Enumerated(EnumType.STRING)
+    private List<TaskSign> taskSign =new LinkedList<>();
 
 //NGƯỜI ĐĂNG KÝ/HỌC VIÊN	
 	@OneToMany(mappedBy = "task")

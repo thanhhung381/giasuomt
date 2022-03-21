@@ -79,7 +79,7 @@ public abstract class GenericController<DTO, T extends AbstractEntityNotId, ID, 
 		Optional<T> t = iGenericService.findById(id);
 
 //		if (t.isEmpty())
-		if (t == null)
+		if (t.isEmpty() )
 
 			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
 			

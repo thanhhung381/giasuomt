@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Setter
-public class UpdateTaskStatus {
+public class UpdateTaskStatusDto {
 	private String id;
 	
 	private TaskStatus status;
