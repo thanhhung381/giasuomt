@@ -83,8 +83,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //			.antMatchers("/swagger-ui.html").authenticated() //permitAll (cho phép) tất cả các truy cập vô trang swagger
 //			.antMatchers("/api/**").permitAll() //permitAll (cho phép) tất cả các truy cập vô tất cả các API
 			.antMatchers("/api/createUser/create").permitAll()
+			.antMatchers("/api/tutor/findAllTutorForWeb").permitAll()
 			.antMatchers("/api/login").permitAll()  //anthenticated (bảo mật) cho để user phải đăng nhập mới vô đc các API role
-			.antMatchers("api/createUser/findByJWT").permitAll() 
+			.antMatchers("api/createUser/findByJWT").permitAll()  
 			.anyRequest().authenticated(); //anthenticated (bảo mật) tất cả các request còn lại - để tránh việc kẻ xấu vô khám phá xem mình còn những trang gì nữa ko...
 		
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
