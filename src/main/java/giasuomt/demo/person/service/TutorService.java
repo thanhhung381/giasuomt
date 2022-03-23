@@ -522,7 +522,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	@Override
 	public List<ResponseTutorForWeb> findAllTutorForWeb() {
 		
-		return mapTutorForResponseList(findAll());
+		return mapTutorForResponseList(iTutorRepository.findByAverageStarNumbersGreaterThanEquals());
 	}
 	
 	
