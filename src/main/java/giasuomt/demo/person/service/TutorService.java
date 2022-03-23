@@ -21,6 +21,7 @@ import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
+import giasuomt.demo.person.dto.ResponseTutorForWeb;
 import giasuomt.demo.person.dto.SaveGraduatedStudentDto;
 import giasuomt.demo.person.dto.SaveInstitutionTeacherDto;
 import giasuomt.demo.person.dto.SaveSchoolTeacherDto;
@@ -486,5 +487,44 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		
 		return null;
 	}
+	
+	
+	private void mapTutorForResponse(Tutor tutor ,ResponseTutorForWeb responseTutorForWeb)
+	{
+		responseTutorForWeb.setId(tutor.getId());
+		responseTutorForWeb.setFullName(tutor.getFullName());
+		responseTutorForWeb.setAvatar(tutor.getAvatar());
+		responseTutorForWeb.setGender(tutor.getGender());
+		responseTutorForWeb.setAverageStarNumbers(tutor.getAverageStarNumbers());
+		responseTutorForWeb.setSubjectGroupMaybe(tutor.getSubjectGroupMaybe());
+		responseTutorForWeb.setRelArea(tutor.getRelArea());
+		responseTutorForWeb.setAdvantageNote(tutor.getAdvantageNote());
+		responseTutorForWeb.setVoices(tutor.getVoices());
+		responseTutorForWeb.setTutorTags(tutor.getTutorTags());
+		responseTutorForWeb.setTutorReviewNumbers(tutor.getTutorReviews().size());
+		responseTutorForWeb.setJobNumbers(tutor.getJobs().size());
+		
+	}
+	
+	private List<ResponseTutorForWeb> mapTutorForResponseList(List<Tutor> tutors)
+	{
+		List<ResponseTutorForWeb> responseTutorForWebs=new LinkedList<>();
+		
+		for (Tutor tutor : tutors) {
+			ResponseTutorForWeb responseTutorForWeb=new ResponseTutorForWeb();
+			mapTutorForResponse(tutor, responseTutorForWeb);
+			responseTutorForWebs.add(responseTutorForWeb);
+		}
+		return responseTutorForWebs;
+		
+	}
+
+	@Override
+	public List<ResponseTutorForWeb> findAllTutorForWeb() {
+		
+		return mapTutorForResponseList(findAll());
+	}
+	
+	
 
 }

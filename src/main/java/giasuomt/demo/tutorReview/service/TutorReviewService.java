@@ -1,5 +1,6 @@
 package giasuomt.demo.tutorReview.service;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -31,7 +32,10 @@ public class TutorReviewService extends GenericService<SaveTutorReviewDto, Tutor
 
 		TutorReview tutorReview = new TutorReview();
 		tutorReview.setTutor(iTutorRepository.getOne(dto.getTutorId()));
-		tutorReview.setJob(iJobRepository.getOne(dto.getJobId()));
+
+		if (dto.getJobId() != 0) {
+			tutorReview.setJob(iJobRepository.getOne(dto.getJobId()));
+		}
 
 		return save(tutorReview, dto);
 	}
@@ -40,7 +44,7 @@ public class TutorReviewService extends GenericService<SaveTutorReviewDto, Tutor
 	public TutorReview update(SaveTutorReviewDto dto) {
 
 		TutorReview tutorReview = iTutorReviewRepository.getOne(dto.getId());
-		
+
 		return save(tutorReview, dto);
 	}
 
@@ -48,34 +52,32 @@ public class TutorReviewService extends GenericService<SaveTutorReviewDto, Tutor
 		try {
 			mapDto(tutorReview, dto);
 
-			tutorReview=iTutorReviewRepository.save(tutorReview);//sau khi tạo or update
-			
-			Tutor tutor=iTutorRepository.getOne(dto.getTutorId());
-			
-			List<Double> starNumbersList=iTutorReviewRepository.findAllByIdTutor(dto.getTutorId());//lấy tất cả các starNumber của Tutor mún thêm or Update
-			
-			//tính toán
-			
-			Double sum=0.0;
-			
-			for(int i=0;i<starNumbersList.size();i++)
-			{
-				sum+=starNumbersList.get(i);
+			tutorReview = iTutorReviewRepository.save(tutorReview);// sau khi tạo or update
+
+			Tutor tutor = iTutorRepository.getOne(dto.getTutorId());
+
+			List<TutorReview> starNumbersList = tutor.getTutorReviews();// lấy tất cả các
+																										// starNumber
+																										// của Tutor mún
+																										// thêm or
+																										// Update
+
+			// tính toán
+
+			Double sum = 0.0;
+
+			for (int i = 0; i < starNumbersList.size(); i++) {
+				sum += starNumbersList.get(i).getStarNumber();
 			}
+
+			Double resultAvarage = (sum / starNumbersList.size());
 			
-			Double resultAvarage=(sum/starNumbersList.size()) ;
-			
-			tutor.setAverageStarNumbers(Math.round(resultAvarage*100.0)/100.0); 
-			
-			
-			
-			tutor=iTutorRepository.save(tutor);
-			
-			
-			
-			
-			
-			
+			DecimalFormat decimalFormat=new DecimalFormat("#.#");
+
+			tutor.setAverageStarNumbers(Double.parseDouble(decimalFormat.format(resultAvarage)));
+
+			tutor = iTutorRepository.save(tutor);
+
 			return tutorReview;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,9 +88,7 @@ public class TutorReviewService extends GenericService<SaveTutorReviewDto, Tutor
 
 	private void mapDto(TutorReview tutorReview, SaveTutorReviewDto dto) {
 		mapDtoToModel.map(dto, tutorReview);
-		
-		tutorReview.setTutor(iTutorRepository.getOne(dto.getTutorId()));
-		tutorReview.setJob(iJobRepository.getOne(dto.getJobId()));
+
 	}
 
 }

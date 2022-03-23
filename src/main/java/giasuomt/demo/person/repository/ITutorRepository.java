@@ -54,6 +54,9 @@ public interface ITutorRepository extends JpaRepository<Tutor, Long> {
 	
 	List<Tutor> findByEnglishFullNameContaining(String englishFullName);
 	
+	@Query("SELECT t FROM Tutor t WHERE t.averageStarNumbers>=4.5")
+	List<Tutor> findByTutorHasAverageStarNumberGreaterThanD();
+	
 	
 	
 

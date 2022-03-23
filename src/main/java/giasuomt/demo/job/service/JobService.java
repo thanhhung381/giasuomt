@@ -179,32 +179,46 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 	}
 
 	public Job updateJobResult(UpdateJobResultDto dto) {
-		Job job = iJobRepository.getOne(dto.getId());
+		try {
+			Job job = iJobRepository.getOne(dto.getId());
 
-		job.setJobResult(dto.getJobResult());
+			job.setJobResult(dto.getJobResult());
 
-		job.setFailReason(dto.getFailReason());
+			job.setFailReason(dto.getFailReason());
 
-		job.setFindAnotherTutorIfFail(dto.getFindAnotherTutorIfFail());
+			job.setFindAnotherTutorIfFail(dto.getFindAnotherTutorIfFail());
 
-		job = iJobRepository.save(job);
+			job = iJobRepository.save(job);
 
-		Tutor tutor = iTutorRepository.getOne(job.getTutor().getId());
+			Tutor tutor = iTutorRepository.getOne(job.getTutor().getId());
 
-		tutor = ExperienceForTutor.updateExpForTutor(tutor);
-		
-		tutor = UpdateSubjectGroupMaybeAndSure.generateSubjectGroupSureInTutor(tutor);
+			tutor = ExperienceForTutor.updateExpForTutor(tutor);
+			
+			tutor = UpdateSubjectGroupMaybeAndSure.generateSubjectGroupSureInTutor(tutor);
 
-		iTutorRepository.save(tutor);
+			iTutorRepository.save(tutor);
 
-		return job;
-
+			return job;
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+			
+		return null;
 	}
 
 	@Override
 	public Job update(SaveJobDto dto) {
 
-		return null;
+		Job job = iJobRepository.getOne(dto.getId());
+
+		job.setApplication(iApplicationRepository.getOne(dto.getApplicationId()));
+
+		job.setTutor(iTutorRepository.getOne(dto.getTutorId()));
+
+		job.setTask(iTaskRepository.getOne(dto.getTaskId()));
+
+		return save(dto, job);
 	}
 
 }
