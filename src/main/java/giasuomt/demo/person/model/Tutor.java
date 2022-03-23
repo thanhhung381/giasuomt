@@ -26,6 +26,7 @@ import giasuomt.demo.location.model.Area;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
+import giasuomt.demo.tutorReview.model.TutorReview;
 import giasuomt.demo.user.model.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -136,6 +137,14 @@ public class Tutor extends Person {
 	private String subjectGroupMaybe;
 	
 	private String subjectGroupSure;
+	
+	//tutor
+	@OneToMany(mappedBy = "tutor")
+	@JsonIgnore
+	private List<TutorReview> tutorReviews=new LinkedList<>();
+	
+	private Double averageStarNumbers;
+	
 
 // FOR API SAVE
 	public void addWorker(Worker worker) {
