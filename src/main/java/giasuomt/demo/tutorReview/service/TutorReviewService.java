@@ -56,25 +56,7 @@ public class TutorReviewService extends GenericService<SaveTutorReviewDto, Tutor
 
 			Tutor tutor = iTutorRepository.getOne(dto.getTutorId());
 
-			List<TutorReview> starNumbersList = tutor.getTutorReviews();// lấy tất cả các
-																										// starNumber
-																										// của Tutor mún
-																										// thêm or
-																										// Update
-
-			// tính toán
-
-			Double sum = 0.0;
-
-			for (int i = 0; i < starNumbersList.size(); i++) {
-				sum += starNumbersList.get(i).getStarNumber();
-			}
-
-			Double resultAvarage = (sum / starNumbersList.size());
-			
-			DecimalFormat decimalFormat=new DecimalFormat("#.#");
-
-			tutor.setAverageStarNumbers(Double.parseDouble(decimalFormat.format(resultAvarage)));
+			tutor.setAverageStarNumbers(updateAverageStarNumber(tutor));
 
 			tutor = iTutorRepository.save(tutor);
 
@@ -84,6 +66,28 @@ public class TutorReviewService extends GenericService<SaveTutorReviewDto, Tutor
 		}
 
 		return null;
+	}
+
+	private Double updateAverageStarNumber(Tutor tutor) {
+		List<TutorReview> starNumbersList = tutor.getTutorReviews();// lấy tất cả các
+		// starNumber
+		// của Tutor mún
+		// thêm or
+		// Update
+
+			// tính toán
+
+		Double sum = 0.0;
+
+		for (int i = 0; i < starNumbersList.size(); i++) {
+			sum += starNumbersList.get(i).getStarNumber();
+		}
+
+		Double resultAvarage = (sum / starNumbersList.size());
+
+		DecimalFormat decimalFormat = new DecimalFormat("#.#");
+		
+		return Double.parseDouble(decimalFormat.format(resultAvarage));
 	}
 
 	private void mapDto(TutorReview tutorReview, SaveTutorReviewDto dto) {
