@@ -158,12 +158,17 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 			mapDto(dto, job);
 
 			job = iJobRepository.save(job);
+			
+//			if(job.getJobResult()!=null)
+//			{
+//				Tutor tutor = iTutorRepository.getOne(job.getTutor().getId());
 
-			Tutor tutor = iTutorRepository.getOne(job.getTutor().getId());
+//				tutor = UpdateSubjectGroupMaybeAndSure.generateSubjectGroupSureInTutor(tutor);
 
-			tutor = UpdateSubjectGroupMaybeAndSure.generateSubjectGroupSureInTutor(tutor);
+//				iTutorRepository.save(tutor);
+	//		}
 
-			iTutorRepository.save(tutor);
+			
 
 			return job;
 		} catch (Exception e) {
@@ -187,6 +192,8 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		Tutor tutor = iTutorRepository.getOne(job.getTutor().getId());
 
 		tutor = ExperienceForTutor.updateExpForTutor(tutor);
+		
+		tutor = UpdateSubjectGroupMaybeAndSure.generateSubjectGroupSureInTutor(tutor);
 
 		iTutorRepository.save(tutor);
 

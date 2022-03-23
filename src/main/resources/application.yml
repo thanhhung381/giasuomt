@@ -10,10 +10,11 @@ spring:
   datasource:
 
 
-    url: jdbc:postgresql://52.74.109.132:5432/giasuomt
-
+    #url: jdbc:postgresql://52.74.109.132:5432/giasuomt
+    url: jdbc:postgresql://localhost/giasuomt
     username: postgres
-    password: 123456
+    #password: 123456
+    password: khangdeptrai
   #JPA Configuration 
   jpa:
     show-sql: true #để xem câu sql mà nó tự sinh

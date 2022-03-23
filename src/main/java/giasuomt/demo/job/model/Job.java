@@ -24,6 +24,7 @@ import giasuomt.demo.finance.model.JobFinance;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
+import giasuomt.demo.tutorReview.model.TutorReview;
 import lombok.Setter;
 import lombok.Getter;
 
@@ -102,6 +103,11 @@ public class Job extends AbstractEntity {
 //REVIEWS
 	@OneToOne
 	private JobReview jobReviews;
+	
+//Tutor Review
+	@OneToMany(mappedBy = "job")
+	@JsonIgnore
+	private List<TutorReview> tutorReviews=new LinkedList<>();
 
 
 
