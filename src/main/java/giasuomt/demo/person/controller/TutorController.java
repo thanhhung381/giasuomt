@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
-import giasuomt.demo.person.dto.ResponseTutorForWeb;
+import giasuomt.demo.person.dto.TutorForWebDto;
 import giasuomt.demo.person.dto.SaveTutorDto;
 import giasuomt.demo.person.dto.UpdateRegisteredSubject;
 import giasuomt.demo.person.dto.UpdateTutorAvatar;
@@ -130,7 +130,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 	@GetMapping("/findAllTutorForWeb")
 	public ResponseEntity<Object> findAllTutorForWeb()
 	{
-		List<ResponseTutorForWeb> list=iTutorService.findAllTutorForWeb();
+		List<TutorForWebDto> list=iTutorService.findAllTutorForWeb();
 		if(list.isEmpty())
 			return ResponseHandler.getResponse("No content", HttpStatus.BAD_REQUEST );
 		

@@ -1,4 +1,5 @@
 package giasuomt.demo.task.dto;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,19 +61,15 @@ public class SaveTaskDto {
 
 	private String requireNote;
 
-
 	private int lessonNumber; // Số buổi
 
-	
 	private AmoutPerTime lessonNumberPerTime; // Số buổi tính theo
 
 	private float hour; // Số giờ
 
-	
 	private AmoutPerTime hourPerTime; // Số giờ tính theo
 
 	private String freeTime;
-
 
 	private LocalDateTime startDate;
 
@@ -100,9 +97,10 @@ public class SaveTaskDto {
 	private UnitOfMoney unitOfAffiliateFee;
 
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
-	
-	
-	
-	
-	
+
+	// Số học viên
+	private String learnerNumber;
+	// Ghi Chú cho gia sư
+	private String taskNote;
+
 }

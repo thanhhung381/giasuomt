@@ -21,7 +21,7 @@ import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
-import giasuomt.demo.person.dto.ResponseTutorForWeb;
+import giasuomt.demo.person.dto.TutorForWebDto;
 import giasuomt.demo.person.dto.SaveGraduatedStudentDto;
 import giasuomt.demo.person.dto.SaveInstitutionTeacherDto;
 import giasuomt.demo.person.dto.SaveSchoolTeacherDto;
@@ -489,38 +489,38 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	}
 	
 	
-	private void mapTutorForResponse(Tutor tutor ,ResponseTutorForWeb responseTutorForWeb)
+	private void mapTutorForResponse(Tutor tutor ,TutorForWebDto tutorForWebDto)
 	{
-		responseTutorForWeb.setId(tutor.getId());
-		responseTutorForWeb.setFullName(tutor.getFullName());
-		responseTutorForWeb.setAvatar(tutor.getAvatar());
-		responseTutorForWeb.setGender(tutor.getGender());
-		responseTutorForWeb.setAverageStarNumbers(tutor.getAverageStarNumbers());
-		responseTutorForWeb.setSubjectGroupMaybe(tutor.getSubjectGroupMaybe());
-		responseTutorForWeb.setRelArea(tutor.getRelArea());
-		responseTutorForWeb.setAdvantageNote(tutor.getAdvantageNote());
-		responseTutorForWeb.setVoices(tutor.getVoices());
-		responseTutorForWeb.setTutorTags(tutor.getTutorTags());
-		responseTutorForWeb.setTutorReviewNumbers(tutor.getTutorReviews().size());
-		responseTutorForWeb.setJobNumbers(tutor.getJobs().size());
+		tutorForWebDto.setId(tutor.getId());
+		tutorForWebDto.setFullName(tutor.getFullName());
+		tutorForWebDto.setAvatar(tutor.getAvatar());
+		tutorForWebDto.setGender(tutor.getGender());
+		tutorForWebDto.setAverageStarNumbers(tutor.getAverageStarNumbers());
+		tutorForWebDto.setSubjectGroupMaybe(tutor.getSubjectGroupMaybe());
+		tutorForWebDto.setRelArea(tutor.getRelArea());
+		tutorForWebDto.setAdvantageNote(tutor.getAdvantageNote());
+		tutorForWebDto.setVoices(tutor.getVoices());
+		tutorForWebDto.setTutorTags(tutor.getTutorTags());
+		tutorForWebDto.setTutorReviewNumbers(tutor.getTutorReviews().size());
+		tutorForWebDto.setJobNumbers(tutor.getJobs().size());
 		
 	}
 	
-	private List<ResponseTutorForWeb> mapTutorForResponseList(List<Tutor> tutors)
+	private List<TutorForWebDto> mapTutorForResponseList(List<Tutor> tutors)
 	{
-		List<ResponseTutorForWeb> responseTutorForWebs=new LinkedList<>();
+		List<TutorForWebDto> tutorForWebDtos=new LinkedList<>();
 		
 		for (Tutor tutor : tutors) {
-			ResponseTutorForWeb responseTutorForWeb=new ResponseTutorForWeb();
-			mapTutorForResponse(tutor, responseTutorForWeb);
-			responseTutorForWebs.add(responseTutorForWeb);
+			TutorForWebDto tutorForWebDto=new TutorForWebDto();
+			mapTutorForResponse(tutor, tutorForWebDto);
+			tutorForWebDtos.add(tutorForWebDto);
 		}
-		return responseTutorForWebs;
+		return tutorForWebDtos;
 		
 	}
 
 	@Override
-	public List<ResponseTutorForWeb> findAllTutorForWeb() {
+	public List<TutorForWebDto> findAllTutorForWeb() {
 		
 		return mapTutorForResponseList(iTutorRepository.findByAverageStarNumbersGreaterThanEquals());
 	}
