@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-public abstract class GenericController<DTO, T extends AbstractEntityNotId, ID, BindingResult> {
+public abstract class GenericController<DTO, T , ID, BindingResult> {
 	
 	@Autowired
 	private IGenericService<DTO, T, ID> iGenericService;

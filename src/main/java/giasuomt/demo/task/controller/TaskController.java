@@ -19,7 +19,7 @@ import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.task.dto.AddObjectToTaskDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
-import giasuomt.demo.task.dto.TaskForWebDto;
+import giasuomt.demo.task.dto.ResponseTaskForWebDto;
 import giasuomt.demo.task.dto.UpdateFreeTimeDto;
 import giasuomt.demo.task.dto.UpdateHourDto;
 import giasuomt.demo.task.dto.UpdateLessonDto;
@@ -198,7 +198,7 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String,
 	
 	@GetMapping("/findAllAvailableTaskListForWeb")
 	public ResponseEntity<Object> findAllAvailableTaskListForWeb() {
-		List<TaskForWebDto> dtos=iTaskService.findAllAvailableTaskListForWeb();
+		List<ResponseTaskForWebDto> dtos=iTaskService.findAllAvailableTaskListForWeb();
 		if(dtos.isEmpty())
 		{
 			return ResponseHandler.getResponse("No content", HttpStatus.BAD_REQUEST);

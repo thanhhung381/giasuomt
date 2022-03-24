@@ -22,8 +22,9 @@ import giasuomt.demo.location.repository.ITaskPlaceAddressRepository;
 import giasuomt.demo.person.model.RegisterAndLearner;
 import giasuomt.demo.person.repository.IRegisterAndLearnerRepository;
 import giasuomt.demo.task.dto.AddObjectToTaskDto;
+import giasuomt.demo.task.dto.ResponseTaskPlaceAddressDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
-import giasuomt.demo.task.dto.TaskForWebDto;
+import giasuomt.demo.task.dto.ResponseTaskForWebDto;
 import giasuomt.demo.task.dto.UpdateFreeTimeDto;
 import giasuomt.demo.task.dto.UpdateHourDto;
 import giasuomt.demo.task.dto.UpdateLessonDto;
@@ -483,13 +484,17 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		return null;
 	}
 	
-	private void mapTasktoTaskForWeb(TaskForWebDto dto,Task task)
+	private void mapTasktoTaskForWeb(ResponseTaskForWebDto dto,Task task)
 	{
+		dto.setId(task.getId());
 		dto.setRequireApperance(task.getRequireApperance());
 		dto.setRequireNote(task.getRequireNote());
 		dto.setSubjectApperance(task.getSubjectApperance());
 		dto.setSubjectNote(task.getSubjectNote());
-		dto.setTaskPlaceAddresses(task.getTaskPlaceAddresses());
+		dto.setTaskPlaceAddresses(findAllTaskPlaceAddress(task.getTaskPlaceAddresses()));
+		dto.setRequires(task.getRequires());
+		dto.setSubjects(task.getSubjects());
+		dto.setTaskPlaceType(task.getTaskPlaceType());
 		dto.setLessonNumber(task.getLessonNumber());
 		dto.setLessonNumberPerTime(task.getLessonNumberPerTime());
 		dto.setHour(task.getHour());
@@ -503,22 +508,49 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		
 	}
 	
-	private List<TaskForWebDto> mapTasktoTaskForWebList(List<Task> tasks)
+	private List<ResponseTaskForWebDto> mapTasktoTaskForWebList(List<Task> tasks)
 	{
-		List<TaskForWebDto> taskForWebDtos=new LinkedList<>();
+		List<ResponseTaskForWebDto> responseTaskForWebDtos=new LinkedList<>();
 		for(Task task:tasks)
 		{
-			TaskForWebDto taskForWebDto=new TaskForWebDto();
-			mapTasktoTaskForWeb(taskForWebDto, task);
-			taskForWebDtos.add(taskForWebDto);
+			ResponseTaskForWebDto responseTaskForWebDto=new ResponseTaskForWebDto();
+			mapTasktoTaskForWeb(responseTaskForWebDto, task);
+			responseTaskForWebDtos.add(responseTaskForWebDto);
 		}
-		return taskForWebDtos;
+		return responseTaskForWebDtos;
 	}
 
 	@Override
-	public List<TaskForWebDto> findAllAvailableTaskListForWeb() {
+	public List<ResponseTaskForWebDto> findAllAvailableTaskListForWeb() {
 		
 		return mapTasktoTaskForWebList(iTaskRepository.findAll());
+	}
+	
+	private void mapTaskAdderessToTaskAddressDto(ResponseTaskPlaceAddressDto dto,TaskPlaceAddress taskPlaceAddress)
+	{
+		dto.setArea(taskPlaceAddress.getArea());
+		dto.setRelAddNote(taskPlaceAddress.getRelAddNote());
+		dto.setRelAddNumber(taskPlaceAddress.getRelAddNumber());
+		dto.setRelAddStreet(taskPlaceAddress.getRelAddStreet());
+	}
+	
+	private List<ResponseTaskPlaceAddressDto> mapTaskAdderessToTaskAddressDtoList(List<TaskPlaceAddress> taskPlaceAddresses)
+	{
+		List<ResponseTaskPlaceAddressDto> addressDtos=new LinkedList<>();
+		
+		for (TaskPlaceAddress taskPlaceAddress : taskPlaceAddresses) {
+			ResponseTaskPlaceAddressDto addressDto=new ResponseTaskPlaceAddressDto();
+			mapTaskAdderessToTaskAddressDto(addressDto, taskPlaceAddress);
+			addressDtos.add(addressDto);
+			
+		}
+		
+		return addressDtos;
+	}
+	
+	private List<ResponseTaskPlaceAddressDto> findAllTaskPlaceAddress(List<TaskPlaceAddress> addresses)
+	{
+		return mapTaskAdderessToTaskAddressDtoList(addresses);
 	}
 
 }

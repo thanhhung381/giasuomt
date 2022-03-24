@@ -6,15 +6,19 @@ import java.util.List;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import giasuomt.demo.educational.model.Subject;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.location.model.TaskPlaceAddress;
+import giasuomt.demo.task.model.Require;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class TaskForWebDto {
+public class ResponseTaskForWebDto {
+	
+	private String id;
 	
 	private String requireApperance;
 
@@ -24,7 +28,7 @@ public class TaskForWebDto {
 
 	private String subjectNote;
 	
-	private List<TaskPlaceAddress> taskPlaceAddresses = new LinkedList<>();
+	private List<ResponseTaskPlaceAddressDto> taskPlaceAddresses = new LinkedList<>();
 	
 	private int lessonNumber; // Số buổi
 
@@ -43,6 +47,12 @@ public class TaskForWebDto {
 	private UnitOfMoney unitOfSalary;
 	
 	private AmoutPerTime salaryPerTime;
+	
+	private List<Subject> subjects=new LinkedList<>();
+	
+	private String taskPlaceType;
+	
+	private List<Require> requires = new LinkedList<>();
 	
 	
 	// Số học viên

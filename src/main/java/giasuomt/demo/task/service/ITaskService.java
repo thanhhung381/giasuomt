@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import giasuomt.demo.commondata.generic.IGenericService;
 import giasuomt.demo.task.dto.AddObjectToTaskDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
-import giasuomt.demo.task.dto.TaskForWebDto;
+import giasuomt.demo.task.dto.ResponseTaskForWebDto;
 import giasuomt.demo.task.dto.UpdateFreeTimeDto;
 import giasuomt.demo.task.dto.UpdateHourDto;
 import giasuomt.demo.task.dto.UpdateLessonDto;
@@ -56,7 +56,7 @@ public interface ITaskService extends IGenericService<SaveTaskDto, Task, String>
 	
 	Task updateTaskSignDto(UpdateTaskSignDto dto);
 	
-	public List<TaskForWebDto> findAllAvailableTaskListForWeb();
+	public List<ResponseTaskForWebDto> findAllAvailableTaskListForWeb();
 
 
 	
