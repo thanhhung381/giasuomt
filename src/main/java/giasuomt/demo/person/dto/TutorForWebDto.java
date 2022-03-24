@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ResponseTutorForWeb {
+public class TutorForWebDto {
 	private Long id;
    private String fullName ;
     private String avatar;

@@ -176,7 +176,10 @@ public class Task extends AbstractEntityNotId {
 //GIAO JOB
 	@OneToMany(mappedBy = "task")
 	private List<Job> jobs=new LinkedList<>();
-
+// Số học viên
+	private String learnerNumber;
+//Ghi Chú cho gia sư
+	private String taskNote;
 
 
 	

@@ -23,6 +23,7 @@ import giasuomt.demo.person.model.RegisterAndLearner;
 import giasuomt.demo.person.repository.IRegisterAndLearnerRepository;
 import giasuomt.demo.task.dto.AddObjectToTaskDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
+import giasuomt.demo.task.dto.TaskForWebDto;
 import giasuomt.demo.task.dto.UpdateFreeTimeDto;
 import giasuomt.demo.task.dto.UpdateHourDto;
 import giasuomt.demo.task.dto.UpdateLessonDto;
@@ -480,6 +481,44 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private void mapTasktoTaskForWeb(TaskForWebDto dto,Task task)
+	{
+		dto.setRequireApperance(task.getRequireApperance());
+		dto.setRequireNote(task.getRequireNote());
+		dto.setSubjectApperance(task.getSubjectApperance());
+		dto.setSubjectNote(task.getSubjectNote());
+		dto.setTaskPlaceAddresses(task.getTaskPlaceAddresses());
+		dto.setLessonNumber(task.getLessonNumber());
+		dto.setLessonNumberPerTime(task.getLessonNumberPerTime());
+		dto.setHour(task.getHour());
+		dto.setHourPerTime(task.getHourPerTime());
+		dto.setFreeTime(task.getFreeTime());
+		dto.setSalary(task.getSalary());
+		dto.setUnitOfSalary(task.getUnitOfSalary());
+		dto.setSalaryPerTime(task.getSalaryPerTime());
+		dto.setLearnerNumber(task.getLearnerNumber());
+		dto.setTaskNote(task.getTaskNote());
+		
+	}
+	
+	private List<TaskForWebDto> mapTasktoTaskForWebList(List<Task> tasks)
+	{
+		List<TaskForWebDto> taskForWebDtos=new LinkedList<>();
+		for(Task task:tasks)
+		{
+			TaskForWebDto taskForWebDto=new TaskForWebDto();
+			mapTasktoTaskForWeb(taskForWebDto, task);
+			taskForWebDtos.add(taskForWebDto);
+		}
+		return taskForWebDtos;
+	}
+
+	@Override
+	public List<TaskForWebDto> findAllAvailableTaskListForWeb() {
+		
+		return mapTasktoTaskForWebList(iTaskRepository.findAll());
 	}
 
 }
