@@ -40,4 +40,5 @@ public interface ITaskRepository extends JpaRepository<Task, String> {
 			+ "OR t.status='CLOSED_FAIL' ")
 	List<Task> findByUnavailableTaskList();
 
+	
 }
