@@ -2,6 +2,7 @@ package giasuomt.demo.user.controller;
 
 import java.util.Optional;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,7 +20,7 @@ import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
-import giasuomt.demo.person.dto.UpdateRegisteredSubject;
+
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.security.jwt.JwtUltils;
 import giasuomt.demo.uploadfile.service.IAvatarAwsService;

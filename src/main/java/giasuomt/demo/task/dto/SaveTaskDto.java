@@ -1,7 +1,9 @@
 package giasuomt.demo.task.dto;
 
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.EnumType;
@@ -15,7 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import giasuomt.demo.commondata.util.DateUtils;
-import giasuomt.demo.educational.model.Subject;
+
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;
@@ -41,7 +43,7 @@ public class SaveTaskDto {
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
 
-	private List<Long> idSubjects = new ArrayList<>();
+
 
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
@@ -56,6 +58,8 @@ public class SaveTaskDto {
 	// cho API hiển thị thông tin lớp)
 
 	private List<Long> idRequires = new ArrayList<>();
+	
+	private List<Long> idSubjectGroup=new LinkedList<>();
 
 	private String requireApperance;
 

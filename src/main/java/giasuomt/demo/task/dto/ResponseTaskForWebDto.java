@@ -1,12 +1,13 @@
 package giasuomt.demo.task.dto;
 
 import java.util.LinkedList;
+
 import java.util.List;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-import giasuomt.demo.educational.model.Subject;
+
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.location.model.TaskPlaceAddress;
@@ -48,7 +49,7 @@ public class ResponseTaskForWebDto {
 	
 	private AmoutPerTime salaryPerTime;
 	
-	private List<Subject> subjects=new LinkedList<>();
+
 	
 	private String taskPlaceType;
 	

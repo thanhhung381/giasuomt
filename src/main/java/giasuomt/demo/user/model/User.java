@@ -1,6 +1,7 @@
 package giasuomt.demo.user.model;
 
 import java.time.LocalDateTime;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ import giasuomt.demo.comment.model.TaskComment;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.model.Person;
 import giasuomt.demo.commondata.util.DateUtils;
-import giasuomt.demo.educational.model.Subject;
+
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;

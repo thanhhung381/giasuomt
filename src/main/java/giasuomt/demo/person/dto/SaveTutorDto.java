@@ -73,7 +73,7 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 
 	//Registered Subjects 
 
-	private List<Long> registeredSubjectIds = new LinkedList<>();
+
 	
 	
 

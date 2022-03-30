@@ -1,6 +1,7 @@
 package giasuomt.demo.person.controller;
 
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,10 +16,12 @@ import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.person.dto.TutorForWebDto;
 import giasuomt.demo.person.dto.SaveTutorDto;
-import giasuomt.demo.person.dto.UpdateRegisteredSubject;
+
 import giasuomt.demo.person.dto.UpdateTutorAvatar;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.service.ITutorService;
+import giasuomt.demo.task.dto.UpdateSubjectGroupForSureDto;
+import giasuomt.demo.task.dto.UpdateSubjectGroupMaybeDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -99,19 +102,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 
 	}
 
-	@PutMapping("/updateRegisteredSubject")
-	public ResponseEntity<Object> updateRegisteredSubject(@RequestBody UpdateRegisteredSubject dto,
-			BindingResult errors) {
 
-		Tutor tutorUpdateRegisteredSubject = iTutorService.updateRegisteredSubjects(dto);
-
-		if (errors.hasErrors()) {
-			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-		}
-
-		return ResponseHandler.getResponse(tutorUpdateRegisteredSubject, HttpStatus.OK);
-
-	}
 	
 	@PutMapping("/updateAvatarTutor")
 	public ResponseEntity<Object> updateAvatarTutor(@RequestBody UpdateTutorAvatar dto,
@@ -135,5 +126,33 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 			return ResponseHandler.getResponse("No content", HttpStatus.BAD_REQUEST );
 		
 		return ResponseHandler.getResponse(list, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updateSubjectGroupForSure")
+	public ResponseEntity<Object> updateSubjectGroupForSure(@RequestBody UpdateSubjectGroupForSureDto dto,
+			BindingResult errors) {
+
+		Tutor tutor = iTutorService.updateSubjectGroupForSure(dto);
+
+		if (errors.hasErrors()) {
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		}
+
+		return ResponseHandler.getResponse( tutor, HttpStatus.OK);
+
+	}
+	
+	@PutMapping("/updateSubjectGroupMaybe")
+	public ResponseEntity<Object> updateSubjectGroupMaybe(@RequestBody UpdateSubjectGroupMaybeDto dto,
+			BindingResult errors) {
+
+		Tutor tutor = iTutorService.updateSubjetGroupMaybe(dto);
+
+		if (errors.hasErrors()) {
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		}
+
+		return ResponseHandler.getResponse( tutor, HttpStatus.OK);
+
 	}
 }

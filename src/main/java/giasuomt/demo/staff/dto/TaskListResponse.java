@@ -1,8 +1,9 @@
 package giasuomt.demo.staff.dto;
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
-import giasuomt.demo.educational.model.Subject;
+
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;
@@ -40,7 +41,7 @@ public class TaskListResponse {
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
 
-	private List<Subject> subjects = new ArrayList<>();
+	//private List<Subject> subjects = new ArrayList<>();
 
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)

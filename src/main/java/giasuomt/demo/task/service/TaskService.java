@@ -1,9 +1,11 @@
 package giasuomt.demo.task.service;
 
 import java.lang.reflect.Method;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +17,8 @@ import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.util.DateTimeUtils;
-import giasuomt.demo.educational.model.Subject;
-import giasuomt.demo.educational.repository.ISubjectRepository;
+import giasuomt.demo.educational.model.SubjectGroup;
+import giasuomt.demo.educational.repository.ISubjectGroupRepository;
 import giasuomt.demo.location.model.SaveTaskPlaceAddressDto;
 import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.location.repository.IAreaRepository;
@@ -57,7 +59,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private ITaskPlaceAddressRepository iTaskPlaceAddressRepository;
 
-	private ISubjectRepository iSubjectRepository;
+	private ISubjectGroupRepository iSubjectGroupRepository;
 
 	private IRequireRepository iRequireRepository;
 
@@ -65,15 +67,12 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private IApplicationRepository iApplicationRepository;
 
-	
-	private List<Task> listTask()
-	{
-		 String localDateTime = DateTimeUtils.toString(LocalDateTime.now());
+	private List<Task> listTask() {
+		String localDateTime = DateTimeUtils.toString(LocalDateTime.now());
 		String[] sep = localDateTime.split("-");// tách các chuỗi ra mảng nhỏ
 		// vd:2014-12-12 10:54:32
 		String year = sep[0]; // 2014
 
-		
 		String month = sep[1];// 12
 
 		String dateAndTime = sep[2];// 12 10:54:32
@@ -83,9 +82,8 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		String date = dateArrayString[0];// 12
 
 		int yearReal = Integer.valueOf(year);
-		
+
 		int yearOrigin = LocalDateTime.now().getYear();// lấy năm trực tiếp trong hệ thống
-	
 
 		int standardFirstLetter = 67;// mã ancii nếu muốn lấy in thường mình trừ cho 32 là
 
@@ -96,13 +94,13 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		codeYear = String.valueOf((char) (standardFirstLetter + delta));
 
 		String codeMonth = String.valueOf(TaskCodeGenerator.generateFromMonth(month));
-		String responsCharactor =codeYear.concat(codeMonth); // codeYear.concat(codeMonth);
-		
+		String responsCharactor = codeYear.concat(codeMonth); // codeYear.concat(codeMonth);
+
 		System.out.println(codeYear.concat(codeMonth).concat(date));
-		 
+
 		return iTaskRepository.findByTaskLast(responsCharactor);
 	}
-	
+
 	public Task create(SaveTaskDto dto) {
 		Task task = new Task();
 
@@ -113,7 +111,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		task.setId(TaskCodeGenerator.generatorCode().concat(responsCharactor));
 
 		System.out.println(responsCharactor);
-		
+
 		return save(dto, task);
 	}
 
@@ -130,20 +128,34 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		// String taskCode = dto.getId();
 
 		// Subject vì sau khi nhập subject thì đã có tồn tại subjectgroup rồi
-		List<Long> subjectIds = dto.getIdSubjects();
-		List<Subject> subjects = new ArrayList<>();
-		for (int i = 0; i < subjectIds.size(); i++) {
-			Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
-			subjects.add(subject);
+//		List<Long> subjectIds = dto.getIdSubjects();
+		// List<Subject> subjects = new ArrayList<>();
+		// for (int i = 0; i < subjectIds.size(); i++) {
+//			Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
+		// subjects.add(subject);
+//
+		// }
+		//
+		// task.setSubjects(subjects);
 
+		List<Long> idSubjectGroups = dto.getIdSubjectGroup();
+		List<SubjectGroup> subjectGroups = new LinkedList<>();
+
+		for (Long id : idSubjectGroups) {
+			SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
+			subjectGroups.add(subjectGroup);
 		}
-		task.setSubjects(subjects);
+
+		task.setSubjectGroups(subjectGroups);
+
 		List<Long> requireIds = dto.getIdRequires();
 		List<Require> requires = new ArrayList<>();
-		for (int i = 0; i < requireIds.size(); i++) {
-			Require require = iRequireRepository.getOne(requireIds.get(i));
+
+		for (Long id : requireIds) {
+			Require require = iRequireRepository.getOne(id);
 			requires.add(require);
 		}
+
 		task.setRequires(requires);
 
 		List<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getSaveTaskPlaceAddressDtos();
@@ -181,8 +193,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 			mapDto(task, dto);
 
-		
-
 			return iTaskRepository.save(task);
 
 		} catch (Exception e) {
@@ -198,14 +208,13 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 		int n = listTask.size();
 
-		
 		// lấy stt task id trước đó
 		int count = 0;
 
 		if (n > 0) {
-			String dayEnd = listTask.get(listTask.size()-1).getId(); //listTask.get(n-1).getId();// Lấy mã cuối ngày so sánh
-			
-		
+			String dayEnd = listTask.get(listTask.size() - 1).getId(); // listTask.get(n-1).getId();// Lấy mã cuối ngày
+																		// so sánh
+
 			if (dayEnd != null) {
 				count = TaskCodeGenerator.generateResponsiveReserve(dayEnd.substring(4, 6));
 
@@ -264,53 +273,35 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 	// Add Object to Task
 	@Override
 	public Task addObject(AddObjectToTaskDto dto) {
-		try {
-			Task task = iTaskRepository.getOne(dto.getTaskId());
-
-			switch (dto.getAttributeName()) {
-			case "subjects":
-				Subject subject = iSubjectRepository.getOne(dto.getObjectId());
-				if (!task.getSubjects().contains(subject)) {
-					task.addSubject(subject);
-					task.setSubjectApperance(TaskAppearanceGenerator.generateSubjectAppearance(task.getSubjects()));
-				}
-				;
-				break;
-			default:
-				break;
-			}
-			;
-
-			return iTaskRepository.save(task);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		/*
+		 * try { Task task = iTaskRepository.getOne(dto.getTaskId());
+		 * 
+		 * switch (dto.getAttributeName()) { case "subjects": Subject subject =
+		 * iSubjectRepository.getOne(dto.getObjectId()); if
+		 * (!task.getSubjects().contains(subject)) { task.addSubject(subject);
+		 * task.setSubjectApperance(TaskAppearanceGenerator.generateSubjectAppearance(
+		 * task.getSubjects())); } ; break; default: break; } ;
+		 * 
+		 * return iTaskRepository.save(task); } catch (Exception e) {
+		 * e.printStackTrace(); }
+		 */
 		return null;
 	}
 
 	// Delete Object from Task
 	@Override
 	public Task deleteObject(AddObjectToTaskDto dto) {
-		try {
-			Task task = iTaskRepository.getOne(dto.getTaskId());
-
-			switch (dto.getAttributeName()) {
-			case "subjects":
-				Subject subject = iSubjectRepository.getOne(dto.getObjectId());
-				if (task.getSubjects().contains(subject)) {
-					task.removeSubject(subject);
-				}
-				;
-				break;
-			default:
-				break;
-			}
-			;
-
-			return iTaskRepository.save(task);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		/*
+		 * try { Task task = iTaskRepository.getOne(dto.getTaskId());
+		 * 
+		 * switch (dto.getAttributeName()) { case "subjects": Subject subject =
+		 * iSubjectRepository.getOne(dto.getObjectId()); if
+		 * (task.getSubjects().contains(subject)) { task.removeSubject(subject); } ;
+		 * break; default: break; } ;
+		 * 
+		 * return iTaskRepository.save(task); } catch (Exception e) {
+		 * e.printStackTrace(); }
+		 */
 		return null;
 	}
 
@@ -320,14 +311,13 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		try {
 			Task task = iTaskRepository.getOne(dto.getId());
 
-			List<Long> subjectIds = dto.getSubjectIds();
-			List<Subject> subjects = new ArrayList<>();
-			for (int i = 0; i < subjectIds.size(); i++) {
-				Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
-				subjects.add(subject);
-
-			}
-			task.setSubjects(subjects);
+			/*
+			 * List<Long> subjectIds = dto.getSubjectIds(); List<Subject> subjects = new
+			 * ArrayList<>(); for (int i = 0; i < subjectIds.size(); i++) { Subject subject
+			 * = iSubjectRepository.getOne(subjectIds.get(i)); subjects.add(subject);
+			 * 
+			 * } task.setSubjects(subjects);
+			 */
 
 			task.setSubjectApperance(dto.getSubjectApperance());
 
@@ -480,7 +470,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	@Override
 	public List<Task> availableTaskList() {
-		
+
 		System.out.println("đang chạy nè");
 		return iTaskRepository.findByAvailableTaskList();
 	}
@@ -528,9 +518,8 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		}
 		return null;
 	}
-	
-	private void mapTasktoTaskForWeb(ResponseTaskForWebDto dto,Task task)
-	{
+
+	private void mapTasktoTaskForWeb(ResponseTaskForWebDto dto, Task task) {
 		dto.setId(task.getId());
 		dto.setRequireApperance(task.getRequireApperance());
 		dto.setRequireNote(task.getRequireNote());
@@ -538,7 +527,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		dto.setSubjectNote(task.getSubjectNote());
 		dto.setTaskPlaceAddresses(findAllTaskPlaceAddress(task.getTaskPlaceAddresses()));
 		dto.setRequires(task.getRequires());
-		dto.setSubjects(task.getSubjects());
+		// dto.setSubjects(task.getSubjects());
 		dto.setTaskPlaceType(task.getTaskPlaceType());
 		dto.setLessonNumber(task.getLessonNumber());
 		dto.setLessonNumberPerTime(task.getLessonNumberPerTime());
@@ -550,15 +539,13 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		dto.setSalaryPerTime(task.getSalaryPerTime());
 		dto.setLearnerNumber(task.getLearnerNumber());
 		dto.setTaskNote(task.getTaskNote());
-		
+
 	}
-	
-	private List<ResponseTaskForWebDto> mapTasktoTaskForWebList(List<Task> tasks)
-	{
-		List<ResponseTaskForWebDto> responseTaskForWebDtos=new LinkedList<>();
-		for(Task task:tasks)
-		{
-			ResponseTaskForWebDto responseTaskForWebDto=new ResponseTaskForWebDto();
+
+	private List<ResponseTaskForWebDto> mapTasktoTaskForWebList(List<Task> tasks) {
+		List<ResponseTaskForWebDto> responseTaskForWebDtos = new LinkedList<>();
+		for (Task task : tasks) {
+			ResponseTaskForWebDto responseTaskForWebDto = new ResponseTaskForWebDto();
 			mapTasktoTaskForWeb(responseTaskForWebDto, task);
 			responseTaskForWebDtos.add(responseTaskForWebDto);
 		}
@@ -567,34 +554,32 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	@Override
 	public List<ResponseTaskForWebDto> findAllAvailableTaskListForWeb() {
-		
+
 		return mapTasktoTaskForWebList(iTaskRepository.findByAvailableTaskList());
 	}
-	
-	private void mapTaskAdderessToTaskAddressDto(ResponseTaskPlaceAddressDto dto,TaskPlaceAddress taskPlaceAddress)
-	{
+
+	private void mapTaskAdderessToTaskAddressDto(ResponseTaskPlaceAddressDto dto, TaskPlaceAddress taskPlaceAddress) {
 		dto.setArea(taskPlaceAddress.getArea());
 		dto.setRelAddNote(taskPlaceAddress.getRelAddNote());
 		dto.setRelAddNumber(taskPlaceAddress.getRelAddNumber());
 		dto.setRelAddStreet(taskPlaceAddress.getRelAddStreet());
 	}
-	
-	private List<ResponseTaskPlaceAddressDto> mapTaskAdderessToTaskAddressDtoList(List<TaskPlaceAddress> taskPlaceAddresses)
-	{
-		List<ResponseTaskPlaceAddressDto> addressDtos=new LinkedList<>();
-		
+
+	private List<ResponseTaskPlaceAddressDto> mapTaskAdderessToTaskAddressDtoList(
+			List<TaskPlaceAddress> taskPlaceAddresses) {
+		List<ResponseTaskPlaceAddressDto> addressDtos = new LinkedList<>();
+
 		for (TaskPlaceAddress taskPlaceAddress : taskPlaceAddresses) {
-			ResponseTaskPlaceAddressDto addressDto=new ResponseTaskPlaceAddressDto();
+			ResponseTaskPlaceAddressDto addressDto = new ResponseTaskPlaceAddressDto();
 			mapTaskAdderessToTaskAddressDto(addressDto, taskPlaceAddress);
 			addressDtos.add(addressDto);
-			
+
 		}
-		
+
 		return addressDtos;
 	}
-	
-	private List<ResponseTaskPlaceAddressDto> findAllTaskPlaceAddress(List<TaskPlaceAddress> addresses)
-	{
+
+	private List<ResponseTaskPlaceAddressDto> findAllTaskPlaceAddress(List<TaskPlaceAddress> addresses) {
 		return mapTaskAdderessToTaskAddressDtoList(addresses);
 	}
 
