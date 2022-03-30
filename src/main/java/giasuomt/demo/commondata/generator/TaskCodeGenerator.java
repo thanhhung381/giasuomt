@@ -27,6 +27,7 @@ public class TaskCodeGenerator {
 		// vd:2014-12-12 10:54:32
 		String year = sep[0]; // 2014
 
+		
 		String month = sep[1];// 12
 
 		String dateAndTime = sep[2];// 12 10:54:32
@@ -36,14 +37,15 @@ public class TaskCodeGenerator {
 		String date = dateArrayString[0];// 12
 
 		int yearReal = Integer.valueOf(year);
-
-		int yearOrigin = LocalDateTime.now().getYear();// lấy ngày trực tiếp trong hệ thống
+		
+		int yearOrigin = LocalDateTime.now().getYear();// lấy năm trực tiếp trong hệ thống
+	
 
 		int standardFirstLetter = 67;// mã ancii nếu muốn lấy in thường mình trừ cho 32 là
 
 		String codeYear = "";
 
-		int delta = yearReal - yearOrigin;// độ lệch ngày
+		int delta = yearReal - 2021;// độ lệch ngày
 
 		codeYear = String.valueOf((char) (standardFirstLetter + delta));
 
@@ -77,8 +79,9 @@ public class TaskCodeGenerator {
 			String date = dateArrayString[0];
 
 			int daySepNow = Integer.parseInt(date);// thoi gian hien tai
-			
+			System.out.println("yearSepNow "+yearSepNow+"monthSepNow "+monthSepNow+"daySepNow "+daySepNow);
 			////
+			System.out.println("day "+day);
 
 			String sepDay = day.substring(2, 4);
 
@@ -92,16 +95,18 @@ public class TaskCodeGenerator {
 			
 			
 			
-			String sepYear = day.substring(0, 1);
-
-			char yearSep = sepYear.charAt(0);// lấy kí tự ANSSI
-
-			int yearOrigin = Calendar.getInstance().get(Calendar.YEAR);// lấy ngày làm chuẩn
+			String sepYear = day.substring(0, 1);//D
+		
+			char yearSep = sepYear.charAt(0);// lấy kí tự ANSSI 
+	
+		//	int yearOrigin = Calendar.getInstance().get(Calendar.YEAR);// lấy ngày làm chuẩn
 
 			int standardFirstLetter = 67;// mã ancii nếu muốn lấy in thường mình trừ cho 32 là
 
-			int yearSepEnd = yearSep - standardFirstLetter + yearOrigin;
+			int yearSepEnd = yearSep - standardFirstLetter + 2021;
 
+			System.out.println(daySepEnd +" "+monthSepEnd  +" "+yearSepEnd);
+			
 			Date now=new Date(yearSepNow, monthSepNow, daySepNow);
 			
 			Date end=new Date(yearSepEnd, monthSepEnd, daySepEnd);
@@ -120,27 +125,6 @@ public class TaskCodeGenerator {
 
 	}
 
-	public static int compareDay(int dayN, int monthN, int yearN, int dayE, int monthE, int yearE) {
-		if (yearN > yearE) {
-			return 1;
-		} else {
-			if (yearN == yearE) {
-				if (monthN > monthE) {
-					return 1;
-				} else {
-					if (monthN == monthE) {
-						if (dayN > dayE) {
-							return 1;
-						} else {
-							if (dayN == dayN)
-								return 0;
-						}
-					}
-				}
-			}
-		}
-		return -1;
-	}
 
 	public static char generateFromMonth(String month) {
 		char ma;

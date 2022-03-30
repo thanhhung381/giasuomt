@@ -1,6 +1,7 @@
 package giasuomt.demo.task.service;
 
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
+import giasuomt.demo.commondata.util.DateTimeUtils;
 import giasuomt.demo.educational.model.Subject;
 import giasuomt.demo.educational.repository.ISubjectRepository;
 import giasuomt.demo.location.model.SaveTaskPlaceAddressDto;
@@ -63,6 +65,44 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private IApplicationRepository iApplicationRepository;
 
+	
+	private List<Task> listTask()
+	{
+		 String localDateTime = DateTimeUtils.toString(LocalDateTime.now());
+		String[] sep = localDateTime.split("-");// tách các chuỗi ra mảng nhỏ
+		// vd:2014-12-12 10:54:32
+		String year = sep[0]; // 2014
+
+		
+		String month = sep[1];// 12
+
+		String dateAndTime = sep[2];// 12 10:54:32
+
+		String dateArrayString[] = dateAndTime.split(" ");// tách 12 10:54:32
+
+		String date = dateArrayString[0];// 12
+
+		int yearReal = Integer.valueOf(year);
+		
+		int yearOrigin = LocalDateTime.now().getYear();// lấy năm trực tiếp trong hệ thống
+	
+
+		int standardFirstLetter = 67;// mã ancii nếu muốn lấy in thường mình trừ cho 32 là
+
+		String codeYear = "";
+
+		int delta = yearReal - 2021;// độ lệch ngày
+
+		codeYear = String.valueOf((char) (standardFirstLetter + delta));
+
+		String codeMonth = String.valueOf(TaskCodeGenerator.generateFromMonth(month));
+		String responsCharactor =codeYear.concat(codeMonth); // codeYear.concat(codeMonth);
+		
+		System.out.println(codeYear.concat(codeMonth).concat(date));
+		 
+		return iTaskRepository.findByTaskLast(responsCharactor);
+	}
+	
 	public Task create(SaveTaskDto dto) {
 		Task task = new Task();
 
@@ -72,6 +112,8 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 		task.setId(TaskCodeGenerator.generatorCode().concat(responsCharactor));
 
+		System.out.println(responsCharactor);
+		
 		return save(dto, task);
 	}
 
@@ -139,7 +181,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 			mapDto(task, dto);
 
-			iTaskRepository.flush();
+		
 
 			return iTaskRepository.save(task);
 
@@ -152,16 +194,18 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private String generateTaskCode() {
 
-		List<Task> listTask = iTaskRepository.findAll();
+		List<Task> listTask = listTask();
 
 		int n = listTask.size();
 
+		
 		// lấy stt task id trước đó
 		int count = 0;
 
 		if (n > 0) {
-			String dayEnd = listTask.get(n - 1).getId();// Lấy mã cuối ngày so sánh
-
+			String dayEnd = listTask.get(listTask.size()-1).getId(); //listTask.get(n-1).getId();// Lấy mã cuối ngày so sánh
+			
+		
 			if (dayEnd != null) {
 				count = TaskCodeGenerator.generateResponsiveReserve(dayEnd.substring(4, 6));
 
@@ -436,7 +480,8 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	@Override
 	public List<Task> availableTaskList() {
-
+		
+		System.out.println("đang chạy nè");
 		return iTaskRepository.findByAvailableTaskList();
 	}
 
@@ -523,7 +568,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 	@Override
 	public List<ResponseTaskForWebDto> findAllAvailableTaskListForWeb() {
 		
-		return mapTasktoTaskForWebList(iTaskRepository.findAll());
+		return mapTasktoTaskForWebList(iTaskRepository.findByAvailableTaskList());
 	}
 	
 	private void mapTaskAdderessToTaskAddressDto(ResponseTaskPlaceAddressDto dto,TaskPlaceAddress taskPlaceAddress)

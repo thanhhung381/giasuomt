@@ -15,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.util.DateUtils;
 import lombok.Getter;
 
@@ -23,7 +24,7 @@ import lombok.Getter;
 @Entity
 @Table(name = "TutorRequest")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
-public class TutorRequest {
+public class TutorRequest  {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
