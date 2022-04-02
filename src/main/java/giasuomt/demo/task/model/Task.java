@@ -37,6 +37,9 @@ import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.util.DateUtils;
+import giasuomt.demo.commondata.util.Gender;
+import giasuomt.demo.commondata.util.HienDangLa;
+import giasuomt.demo.commondata.util.Voice;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
@@ -95,9 +98,7 @@ public class Task extends AbstractEntityNotId {
 //YÊU CẦU
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	@JoinTable(name = "task_require", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "require_id"))
-	private List<Require> requires = new LinkedList<>();
+
 
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
@@ -183,8 +184,17 @@ public class Task extends AbstractEntityNotId {
 //Ghi Chú cho gia sư
 	private String taskNote;
 
-
+	@ElementCollection(targetClass  = Gender.class)
+    @Enumerated(EnumType.STRING)
+	private List<Gender> genderRequired=new LinkedList<>();
 	
+	@ElementCollection(targetClass = Voice.class)
+	@Enumerated(EnumType.STRING)
+	private List<Voice> voiceRequired=new LinkedList<>();
+	
+	@ElementCollection(targetClass = HienDangLa.class)
+	@Enumerated(EnumType.STRING)
+	private List<HienDangLa> hienDangLaRequired=new LinkedList<>();
 	
 	
 	public void removeApplication(Application application){

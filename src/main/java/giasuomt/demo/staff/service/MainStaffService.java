@@ -56,7 +56,7 @@ public class MainStaffService implements IMainStaffService {
 		listResponse.setJobs(task.getJobs());
 //		listResponse.setLearners(task.getLearners());
 //		listResponse.setRegisters(task.getRegisters());
-		listResponse.setRequires(task.getRequires());
+	//	listResponse.setRequires(task.getRequires());
 	//	listResponse.setSubjects(task.getSubjects());
 		listResponse.setTaskPlaceAddresses(task.getTaskPlaceAddresses());
 	}

@@ -2,6 +2,7 @@ package giasuomt.demo.task.dto;
 
 import java.util.LinkedList;
 
+
 import java.util.List;
 
 import javax.persistence.EnumType;
@@ -11,7 +12,7 @@ import javax.persistence.Enumerated;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.location.model.TaskPlaceAddress;
-import giasuomt.demo.task.model.Require;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -53,7 +54,7 @@ public class ResponseTaskForWebDto {
 	
 	private String taskPlaceType;
 	
-	private List<Require> requires = new LinkedList<>();
+
 	
 	
 	// Số học viên

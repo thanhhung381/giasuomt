@@ -40,7 +40,7 @@ public interface ITaskRepository extends JpaRepository<Task, String> {
 			+ "OR t.status='CLOSED_FAIL' ")
 	List<Task> findByUnavailableTaskList();
 	
-	@Query("SELECT  t FROM Task t WHERE t.id LIKE CONCAT('%',:id,'%') ORDER BY t.createdAt ASC")
-	List<Task> findByTaskLast(@Param("id") String id);
+	@Query("SELECT t FROM Task t   WHERE  t.createdAt=(SELECT MAX(createdAt) FROM Task)")
+	Task findByTaskLast();
 	
 }

@@ -2,6 +2,8 @@ package giasuomt.demo.task.service;
 
 import java.lang.reflect.Method;
 
+
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,10 +15,17 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.stereotype.Service;
+
+import com.amazonaws.services.athena.AbstractAmazonAthena;
+
+
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.util.DateTimeUtils;
+import giasuomt.demo.commondata.util.Gender;
+import giasuomt.demo.commondata.util.HienDangLa;
+import giasuomt.demo.commondata.util.Voice;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.educational.repository.ISubjectGroupRepository;
 import giasuomt.demo.location.model.SaveTaskPlaceAddressDto;
@@ -32,16 +41,15 @@ import giasuomt.demo.task.dto.ResponseTaskForWebDto;
 import giasuomt.demo.task.dto.UpdateFreeTimeDto;
 import giasuomt.demo.task.dto.UpdateHourDto;
 import giasuomt.demo.task.dto.UpdateLessonDto;
-import giasuomt.demo.task.dto.UpdateRequireDto;
 import giasuomt.demo.task.dto.UpdateSalaryDto;
 import giasuomt.demo.task.dto.UpdateSubjectDto;
 import giasuomt.demo.task.dto.UpdateTaskPlaceAddresseDto;
 import giasuomt.demo.task.dto.UpdateTaskSignDto;
 import giasuomt.demo.task.dto.UpdateTaskStatusDto;
-import giasuomt.demo.task.model.Require;
+
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.repository.IApplicationRepository;
-import giasuomt.demo.task.repository.IRequireRepository;
+
 import giasuomt.demo.task.repository.ITaskRepository;
 import giasuomt.demo.task.util.TaskAppearanceGenerator;
 import giasuomt.demo.task.util.TaskSign;
@@ -61,45 +69,13 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private ISubjectGroupRepository iSubjectGroupRepository;
 
-	private IRequireRepository iRequireRepository;
+
 
 	private IRegisterAndLearnerRepository iRegisterAndLearnerRepository;
 
 	private IApplicationRepository iApplicationRepository;
 
-	private List<Task> listTask() {
-		String localDateTime = DateTimeUtils.toString(LocalDateTime.now());
-		String[] sep = localDateTime.split("-");// tách các chuỗi ra mảng nhỏ
-		// vd:2014-12-12 10:54:32
-		String year = sep[0]; // 2014
-
-		String month = sep[1];// 12
-
-		String dateAndTime = sep[2];// 12 10:54:32
-
-		String dateArrayString[] = dateAndTime.split(" ");// tách 12 10:54:32
-
-		String date = dateArrayString[0];// 12
-
-		int yearReal = Integer.valueOf(year);
-
-		int yearOrigin = LocalDateTime.now().getYear();// lấy năm trực tiếp trong hệ thống
-
-		int standardFirstLetter = 67;// mã ancii nếu muốn lấy in thường mình trừ cho 32 là
-
-		String codeYear = "";
-
-		int delta = yearReal - 2021;// độ lệch ngày
-
-		codeYear = String.valueOf((char) (standardFirstLetter + delta));
-
-		String codeMonth = String.valueOf(TaskCodeGenerator.generateFromMonth(month));
-		String responsCharactor = codeYear.concat(codeMonth); // codeYear.concat(codeMonth);
-
-		System.out.println(codeYear.concat(codeMonth).concat(date));
-
-		return iTaskRepository.findByTaskLast(responsCharactor);
-	}
+	
 
 	public Task create(SaveTaskDto dto) {
 		Task task = new Task();
@@ -145,18 +121,28 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 			SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
 			subjectGroups.add(subjectGroup);
 		}
-
 		task.setSubjectGroups(subjectGroups);
-
-		List<Long> requireIds = dto.getIdRequires();
-		List<Require> requires = new ArrayList<>();
-
-		for (Long id : requireIds) {
-			Require require = iRequireRepository.getOne(id);
-			requires.add(require);
+		
+		
+		List<Gender> genders=new LinkedList<>();
+		for (Gender gender : dto.getGenderRequired()) {
+			
+			genders.add(gender);
 		}
+		task.setGenderRequired(genders);
+		
+		List<Voice> voices=new LinkedList<>();
+		for (Voice voice : dto.getVoiceRequired()) {
+			voices.add(voice);
+		}
+		task.setVoiceRequired(voices);
 
-		task.setRequires(requires);
+		List<HienDangLa> hienDangLas=new LinkedList<>();
+		for (HienDangLa hienDangLa : dto.getHienDangLaRequired()) {
+			hienDangLas.add(hienDangLa);
+		}
+		task.setHienDangLaRequired(hienDangLas);
+
 
 		List<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getSaveTaskPlaceAddressDtos();
 		for (int i = 0; i < task.getTaskPlaceAddresses().size(); i++) {
@@ -204,15 +190,15 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private String generateTaskCode() {
 
-		List<Task> listTask = listTask();
+		Task listTask = iTaskRepository.findByTaskLast();
 
-		int n = listTask.size();
+	
 
 		// lấy stt task id trước đó
 		int count = 0;
 
-		if (n > 0) {
-			String dayEnd = listTask.get(listTask.size() - 1).getId(); // listTask.get(n-1).getId();// Lấy mã cuối ngày
+		if (listTask != null) {
+			String dayEnd = listTask.getId(); // listTask.get(n-1).getId();// Lấy mã cuối ngày
 																		// so sánh
 
 			if (dayEnd != null) {
@@ -331,31 +317,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		return null;
 	}
 
-	@Override
-	public Task updateRequire(UpdateRequireDto dto) {
 
-		try {
-			Task task = iTaskRepository.getOne(dto.getId());
-
-			List<Long> requireIds = dto.getRequireIds();
-			List<Require> requires = new ArrayList<>();
-			for (int i = 0; i < requireIds.size(); i++) {
-				Require require = iRequireRepository.getOne(requireIds.get(i));
-				requires.add(require);
-			}
-			task.setRequires(requires);
-
-			task.setRequireApperance(dto.getRequireApperance());
-
-			task.setRequireNote(dto.getRequireNote());
-
-			return iTaskRepository.save(task);
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	@Override
 	public Task UpdateLesson(UpdateLessonDto dto) {
@@ -471,7 +433,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 	@Override
 	public List<Task> availableTaskList() {
 
-		System.out.println("đang chạy nè");
+
 		return iTaskRepository.findByAvailableTaskList();
 	}
 
@@ -526,8 +488,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		dto.setSubjectApperance(task.getSubjectApperance());
 		dto.setSubjectNote(task.getSubjectNote());
 		dto.setTaskPlaceAddresses(findAllTaskPlaceAddress(task.getTaskPlaceAddresses()));
-		dto.setRequires(task.getRequires());
-		// dto.setSubjects(task.getSubjects());
 		dto.setTaskPlaceType(task.getTaskPlaceType());
 		dto.setLessonNumber(task.getLessonNumber());
 		dto.setLessonNumberPerTime(task.getLessonNumberPerTime());

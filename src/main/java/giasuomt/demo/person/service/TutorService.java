@@ -15,6 +15,7 @@ import giasuomt.demo.commondata.generator.TutorCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
+import giasuomt.demo.commondata.util.Voice;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.educational.repository.ISubjectGroupRepository;
 import giasuomt.demo.job.model.Job;
@@ -100,6 +101,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		Tutor tutor = new Tutor();
 
 		tutor.setId(Long.parseLong(generateTutorCode()));
+				;
+		
 
 		return save(dto, tutor);
 	}
@@ -378,6 +381,14 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 				tutor.addWorker(worker);
 			}
 		}
+		
+		
+		List<Voice> voices=new LinkedList<>();
+		for (Voice voice : dto.getVoices()) {
+			voices.add(voice);
+		}
+		
+		tutor.setVoices(voices);
 		// User
 
 	}
@@ -386,17 +397,17 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		String ResponseTutorCode = null;
 
 		// lấy những người có tutorcode à ko null
-		List<Tutor> personHasTutorCode = iTutorRepository.getPersonTutorCodeNotNULL();
+		Tutor personHasTutorCode = iTutorRepository.getPersonTutorCodeNotNULL();
+		
+		
 
-		int n = personHasTutorCode.size();
+		if (personHasTutorCode != null ) {
 
-		if (personHasTutorCode != null && n != 0) {
+			
+			System.out.println(personHasTutorCode.getId());
+			if (personHasTutorCode != null) {
 
-			Tutor personMaxId = personHasTutorCode.get(n - 1);
-
-			if (personMaxId != null) {
-
-				String tutorCodeWithIdMaxorPreviousId = String.valueOf(personMaxId.getId());// lấy mã đó ra từ Person
+				String tutorCodeWithIdMaxorPreviousId = String.valueOf(personHasTutorCode.getId());// lấy mã đó ra từ Person
 				// trước đó cuối
 
 				int count = TutorCodeGenerator

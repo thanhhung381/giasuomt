@@ -1,12 +1,17 @@
 package giasuomt.demo.commondata.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import javax.persistence.ElementCollection;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import giasuomt.demo.commondata.util.DateUtils;
+import giasuomt.demo.commondata.util.Gender;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,9 +33,12 @@ public class Person extends AbstractEntityNotId {
 	private String englishFullName;
 
 	// @NotNull //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
-	private String gender;
-
+	
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
+	
 	private String birthYear;
+	
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateUtils.DATE_FORMAT) // Quy định date format khi nó add đối
 																					// tượng thành Json để trả về

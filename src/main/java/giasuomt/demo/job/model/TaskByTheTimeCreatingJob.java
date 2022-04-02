@@ -2,6 +2,7 @@ package giasuomt.demo.job.model;
 
 import java.time.LocalDateTime;
 
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,7 +37,7 @@ import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.task.model.Application;
-import giasuomt.demo.task.model.Require;
+
 import giasuomt.demo.task.model.Task;
 import lombok.Getter;
 import lombok.Setter;

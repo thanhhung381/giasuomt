@@ -2,6 +2,7 @@ package giasuomt.demo.user.model;
 
 import java.time.LocalDateTime;
 
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ import giasuomt.demo.role.model.Role;
 import giasuomt.demo.staff.model.Staff;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Registration;
-import giasuomt.demo.task.model.Require;
+
 import lombok.Getter;
 import lombok.Setter;
 

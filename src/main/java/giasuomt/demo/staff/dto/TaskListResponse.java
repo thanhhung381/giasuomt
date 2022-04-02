@@ -1,6 +1,7 @@
 package giasuomt.demo.staff.dto;
 import java.time.LocalDateTime;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import giasuomt.demo.finance.util.TypeOfFee;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.TaskPlaceAddress;
-import giasuomt.demo.task.model.Require;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,7 +56,7 @@ public class TaskListResponse {
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
 
-	private List<Require> requires = new ArrayList<>();
+
 
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
