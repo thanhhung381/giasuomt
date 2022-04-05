@@ -1,6 +1,7 @@
 package giasuomt.demo.staff.controller;
 
 import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
-import giasuomt.demo.person.dto.UpdateRegisteredSubject;
+
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.staff.dto.SaveStaffDto;
 import giasuomt.demo.staff.dto.UpdateAvatarStaff;

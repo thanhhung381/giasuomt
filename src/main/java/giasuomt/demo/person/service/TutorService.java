@@ -15,8 +15,9 @@ import giasuomt.demo.commondata.generator.TutorCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
-import giasuomt.demo.educational.model.Subject;
-import giasuomt.demo.educational.repository.ISubjectRepository;
+import giasuomt.demo.commondata.util.Voice;
+import giasuomt.demo.educational.model.SubjectGroup;
+import giasuomt.demo.educational.repository.ISubjectGroupRepository;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
@@ -28,7 +29,7 @@ import giasuomt.demo.person.dto.SaveSchoolTeacherDto;
 import giasuomt.demo.person.dto.SaveStudentDto;
 import giasuomt.demo.person.dto.SaveTutorDto;
 import giasuomt.demo.person.dto.SaveWorkerDto;
-import giasuomt.demo.person.dto.UpdateRegisteredSubject;
+
 import giasuomt.demo.person.dto.UpdateTutorAvatar;
 import giasuomt.demo.person.model.GraduatedStudent;
 import giasuomt.demo.person.model.InstitutionTeacher;
@@ -45,7 +46,8 @@ import giasuomt.demo.person.repository.IWorkerRepository;
 import giasuomt.demo.staff.dto.UpdateAvatarStaff;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.tags.repository.ITutorTagRepository;
-
+import giasuomt.demo.task.dto.UpdateSubjectGroupForSureDto;
+import giasuomt.demo.task.dto.UpdateSubjectGroupMaybeDto;
 import giasuomt.demo.uploadfile.repository.IAvatarAwsRepository;
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.user.model.User;
@@ -81,7 +83,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 	private IAvatarAwsRepository iFileEntityRepository;
 
-	private ISubjectRepository iSubjectRepository;
+	private ISubjectGroupRepository iSubjectGroupRepository;
 
 	private IUserRepository iUserRepository;
 
@@ -99,6 +101,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		Tutor tutor = new Tutor();
 
 		tutor.setId(Long.parseLong(generateTutorCode()));
+				;
+		
 
 		return save(dto, tutor);
 	}
@@ -113,10 +117,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		String avatarURL = tutor.getAvatar();
 
-		
-
 		awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
-		
+
 		iFileEntityRepository.deleteBysUrlAvatar(avatarURL);
 
 		return save(dto, tutor);
@@ -240,22 +242,15 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 //			}
 //		}
 
-		List<Long> subjectIds = dto.getRegisteredSubjectIds();
-		List<Subject> subjects = new ArrayList<>();
-		for (int i = 0; i < subjectIds.size(); i++) {
-			Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
-			subjects.add(subject);
-
-		}
-		tutor.setRegisteredSubjects(subjects);
-
 		// Tags
 		List<Long> tutorTagIds = dto.getTutorTagIds();
 		List<TutorTag> tutorTags = new LinkedList<>();
-		for (int i = 0; i < tutorTagIds.size(); i++) {
-			TutorTag tutorTag = iTutorTagRepository.getOne(tutorTagIds.get(i));
+
+		for (Long id : tutorTagIds) {
+			TutorTag tutorTag = iTutorTagRepository.getOne(id);
 			tutorTags.add(tutorTag);
 		}
+
 		tutor.setTutorTags(tutorTags);
 
 		List<SaveStudentDto> saveStudentDtos = dto.getSaveStudentDtos();
@@ -386,6 +381,14 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 				tutor.addWorker(worker);
 			}
 		}
+		
+		
+		List<Voice> voices=new LinkedList<>();
+		for (Voice voice : dto.getVoices()) {
+			voices.add(voice);
+		}
+		
+		tutor.setVoices(voices);
 		// User
 
 	}
@@ -394,17 +397,17 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		String ResponseTutorCode = null;
 
 		// lấy những người có tutorcode à ko null
-		List<Tutor> personHasTutorCode = iTutorRepository.getPersonTutorCodeNotNULL();
+		Tutor personHasTutorCode = iTutorRepository.getPersonTutorCodeNotNULL();
+		
+		
 
-		int n = personHasTutorCode.size();
+		if (personHasTutorCode != null ) {
 
-		if (personHasTutorCode != null && n != 0) {
+			
+			System.out.println(personHasTutorCode.getId());
+			if (personHasTutorCode != null) {
 
-			Tutor personMaxId = personHasTutorCode.get(n - 1);
-
-			if (personMaxId != null) {
-
-				String tutorCodeWithIdMaxorPreviousId = String.valueOf(personMaxId.getId());// lấy mã đó ra từ Person
+				String tutorCodeWithIdMaxorPreviousId = String.valueOf(personHasTutorCode.getId());// lấy mã đó ra từ Person
 				// trước đó cuối
 
 				int count = TutorCodeGenerator
@@ -447,84 +450,129 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		return iTutorRepository.showFullname(fullname);
 	}
 
-	public Tutor updateRegisteredSubjects(UpdateRegisteredSubject dto) {
+	public Tutor updateRegisteredSubjects() {
 
-		Tutor tutor = iTutorRepository.getOne(dto.getId());
+		// Tutor tutor = iTutorRepository.getOne(dto.getId());
 
-		List<Long> subjectIds = dto.getRegisteredSubjectIds();
-		List<Subject> subjects = new ArrayList<>();
-		for (int i = 0; i < subjectIds.size(); i++) {
-			Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
-			subjects.add(subject);
+		// List<Long> subjectIds = dto.getRegisteredSubjectIds();
+		// List<Subject> subjects = new ArrayList<>();
+		// for (int i = 0; i < subjectIds.size(); i++) {
+		// Subject subject = iSubjectRepository.getOne(subjectIds.get(i));
+		// subjects.add(subject);
 
-		}
+		// }
 
-		tutor.setRegisteredSubjects(subjects);
+		// tutor.setRegisteredSubjects(subjects);
 		// cập nhật xong
-		tutor = UpdateSubjectGroupMaybeAndSure.generateSubjectGroupMaybeInTutor(tutor);
+		// tutor =
+		// UpdateSubjectGroupMaybeAndSure.generateSubjectGroupMaybeInTutor(tutor);
 
-		return iTutorRepository.save(tutor);
+		return null;// iTutorRepository.save(tutor);
 
 	}
 
 	@Override
 	public Tutor updateAvatarTutor(UpdateTutorAvatar dto) {
 		try {
-			Tutor tutor=iTutorRepository.getOne(dto.getId());
-			
-			String avatarURL=tutor.getAvatar();
-			
+			Tutor tutor = iTutorRepository.getOne(dto.getId());
+
+			String avatarURL = tutor.getAvatar();
+
 			awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
 			tutor.setAvatar(iFileEntityRepository.getById(dto.getIdAvatar()).getUrlAvatar());
 			return iTutorRepository.save(tutor);
 		} catch (AmazonServiceException e) {
-			
+
 			e.printStackTrace();
 		} catch (SdkClientException e) {
-			
+
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
-	
-	private void mapTutorForResponse(Tutor tutor ,TutorForWebDto tutorForWebDto)
-	{
+
+	private void mapTutorForResponse(Tutor tutor, TutorForWebDto tutorForWebDto) {
 		tutorForWebDto.setId(tutor.getId());
 		tutorForWebDto.setFullName(tutor.getFullName());
 		tutorForWebDto.setAvatar(tutor.getAvatar());
 		tutorForWebDto.setGender(tutor.getGender());
 		tutorForWebDto.setAverageStarNumbers(tutor.getAverageStarNumbers());
-		tutorForWebDto.setSubjectGroupMaybe(tutor.getSubjectGroupMaybe());
+		// tutorForWebDto.setSubjectGroupMaybe(tutor.getSubjectGroupMaybe());
 		tutorForWebDto.setRelArea(tutor.getRelArea());
 		tutorForWebDto.setAdvantageNote(tutor.getAdvantageNote());
 		tutorForWebDto.setVoices(tutor.getVoices());
 		tutorForWebDto.setTutorTags(tutor.getTutorTags());
 		tutorForWebDto.setTutorReviewNumbers(tutor.getTutorReviews().size());
 		tutorForWebDto.setJobNumbers(tutor.getJobs().size());
-		
+
 	}
-	
-	private List<TutorForWebDto> mapTutorForResponseList(List<Tutor> tutors)
-	{
-		List<TutorForWebDto> tutorForWebDtos=new LinkedList<>();
-		
+
+	private List<TutorForWebDto> mapTutorForResponseList(List<Tutor> tutors) {
+		List<TutorForWebDto> tutorForWebDtos = new LinkedList<>();
+
 		for (Tutor tutor : tutors) {
-			TutorForWebDto tutorForWebDto=new TutorForWebDto();
+			TutorForWebDto tutorForWebDto = new TutorForWebDto();
 			mapTutorForResponse(tutor, tutorForWebDto);
 			tutorForWebDtos.add(tutorForWebDto);
 		}
 		return tutorForWebDtos;
-		
+
 	}
 
 	@Override
 	public List<TutorForWebDto> findAllTutorForWeb() {
-		
+
 		return mapTutorForResponseList(iTutorRepository.findByAverageStarNumbersGreaterThanEquals());
 	}
-	
-	
+
+	@Override
+	public Tutor updateSubjetGroupMaybe(UpdateSubjectGroupMaybeDto dto) {
+		try {
+
+			Tutor tutor = iTutorRepository.getOne(dto.getId());
+
+			List<Long> idSubjetGroupMaybes = dto.getIdSubjectGroupMaybes();
+
+			List<SubjectGroup> subjectGroupMaybes = new LinkedList<>();
+
+			for (Long id : idSubjetGroupMaybes) {
+				SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
+				subjectGroupMaybes.add(subjectGroup);
+			}
+
+			tutor.setSubjectGroupMaybes(subjectGroupMaybes);
+
+			return iTutorRepository.save(tutor);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Tutor updateSubjectGroupForSure(UpdateSubjectGroupForSureDto dto) {
+		try {
+
+			Tutor tutor = iTutorRepository.getOne(dto.getId());
+
+			List<Long> idSubjetGroupMaybes = dto.getIdSubjectGroupForSures();
+
+			List<SubjectGroup> subjectGroupForSures = new LinkedList<>();
+
+			for (Long id : idSubjetGroupMaybes) {
+				SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
+				subjectGroupForSures.add(subjectGroup);
+			}
+
+			tutor.setSubjectGroupSures(subjectGroupForSures);
+
+			return iTutorRepository.save(tutor);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 
 
-public abstract class GenericService<DTO, T extends AbstractEntityNotId, ID> implements IGenericService<DTO, T, ID> {
+public abstract class GenericService<DTO, T , ID> implements IGenericService<DTO, T , ID> {
 	@Autowired
 	private JpaRepository<T, ID> repository; // Cần phải viết @Component GenericRepository (viết ở trong JpaConfig.java)
 												// nó mới inject cái repository này được

@@ -1,6 +1,7 @@
 package giasuomt.demo.role.model;
 
 import java.util.LinkedList;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
-import giasuomt.demo.educational.model.Subject;
+
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.person.model.GraduatedStudent;

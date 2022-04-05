@@ -1,13 +1,14 @@
 package giasuomt.demo.task.util;
 import java.util.List;
-import giasuomt.demo.educational.model.Subject;
+
+
 
 
 public class TaskAppearanceGenerator {
-	public static String generateSubjectAppearance(List<Subject> subjectList) {	
+	public static String generateSubjectAppearance () {	
 		String subjectAppearance = "";
 		
-		List<Subject> subjectListTest = subjectList;
+	//	List<Subject> subjectListTest = subjectList;
 		
 //		Toán 8, Lý 8, Hoá 8, Toán 9, Toán 10, Tiếng Anh 10, Tiếng Anh 11
 //

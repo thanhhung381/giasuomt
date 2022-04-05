@@ -1,5 +1,6 @@
 package giasuomt.demo.task.model;
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -36,7 +37,10 @@ import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.util.DateUtils;
-import giasuomt.demo.educational.model.Subject;
+import giasuomt.demo.commondata.util.Gender;
+import giasuomt.demo.commondata.util.HienDangLa;
+import giasuomt.demo.commondata.util.Voice;
+import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;
@@ -78,10 +82,11 @@ public class Task extends AbstractEntityNotId {
 //MÔN HỌC
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	@JoinTable(name = "task_subject", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
-	private List<Subject> subjects = new LinkedList<>();
 
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "task_subjectGroup", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "subjectGroup_id"))
+	private List<SubjectGroup> subjectGroups=new LinkedList<>();
+	
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
 	// Đây cũng là trường để lưu lại lịch sử nếu sau này nếu có chỉnh sửa database
@@ -93,9 +98,7 @@ public class Task extends AbstractEntityNotId {
 //YÊU CẦU
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	@JoinTable(name = "task_require", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "require_id"))
-	private List<Require> requires = new LinkedList<>();
+
 
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
@@ -181,8 +184,17 @@ public class Task extends AbstractEntityNotId {
 //Ghi Chú cho gia sư
 	private String taskNote;
 
-
+	@ElementCollection(targetClass  = Gender.class)
+    @Enumerated(EnumType.STRING)
+	private List<Gender> genderRequired=new LinkedList<>();
 	
+	@ElementCollection(targetClass = Voice.class)
+	@Enumerated(EnumType.STRING)
+	private List<Voice> voiceRequired=new LinkedList<>();
+	
+	@ElementCollection(targetClass = HienDangLa.class)
+	@Enumerated(EnumType.STRING)
+	private List<HienDangLa> hienDangLaRequired=new LinkedList<>();
 	
 	
 	public void removeApplication(Application application){
@@ -205,14 +217,6 @@ public class Task extends AbstractEntityNotId {
 		this.taskPlaceAddresses.remove(taskPlaceAddress);
 	};
 
-	public void addSubject(Subject subject) {
-		subject.getTasks().add(this);
-		this.subjects.add(subject);
-	};
-
-	public void removeSubject(Subject subject) {
-		this.subjects.remove(subject);
-	}
 
 
 

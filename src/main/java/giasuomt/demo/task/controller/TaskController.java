@@ -1,5 +1,6 @@
 package giasuomt.demo.task.controller;
 import java.util.List;
+
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,11 +20,11 @@ import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.task.dto.AddObjectToTaskDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
-import giasuomt.demo.task.dto.TaskForWebDto;
+import giasuomt.demo.task.dto.ResponseTaskForWebDto;
 import giasuomt.demo.task.dto.UpdateFreeTimeDto;
 import giasuomt.demo.task.dto.UpdateHourDto;
 import giasuomt.demo.task.dto.UpdateLessonDto;
-import giasuomt.demo.task.dto.UpdateRequireDto;
+
 import giasuomt.demo.task.dto.UpdateSalaryDto;
 import giasuomt.demo.task.dto.UpdateSubjectDto;
 import giasuomt.demo.task.dto.UpdateTaskPlaceAddresseDto;
@@ -90,16 +91,7 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String,
 		return ResponseHandler.getResponse(updatedSubject, HttpStatus.OK);
 	}
 	
-	@PutMapping("/updateRequire")
-	public ResponseEntity<Object> updateRequire(@RequestBody UpdateRequireDto dto,BindingResult errors)
-	{
-		if (((Errors) errors).hasErrors())
-			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-		
-		Task updatedRequire = iTaskService.updateRequire(dto);
-		
-		return ResponseHandler.getResponse(updatedRequire, HttpStatus.OK);
-	}
+
 	
 	@PutMapping("/updateLesson")
 	public ResponseEntity<Object> updateLesson(@RequestBody UpdateLessonDto dto,BindingResult errors)
@@ -198,7 +190,7 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String,
 	
 	@GetMapping("/findAllAvailableTaskListForWeb")
 	public ResponseEntity<Object> findAllAvailableTaskListForWeb() {
-		List<TaskForWebDto> dtos=iTaskService.findAllAvailableTaskListForWeb();
+		List<ResponseTaskForWebDto> dtos=iTaskService.findAllAvailableTaskListForWeb();
 		if(dtos.isEmpty())
 		{
 			return ResponseHandler.getResponse("No content", HttpStatus.BAD_REQUEST);

@@ -25,8 +25,8 @@ public interface ITutorRepository extends JpaRepository<Tutor, Long> {
 
 	//
 	//
-	@Query("SELECT p FROM Tutor p WHERE p.id IS NOT NULL")  //AND length(p.id)=8
-	List<Tutor> getPersonTutorCodeNotNULL();
+	@Query("SELECT p FROM Tutor p   WHERE  p.createdAt=(SELECT MAX(createdAt) FROM Tutor)")  //AND length(p.id)=8
+	Tutor getPersonTutorCodeNotNULL();
 
 	@Query("SELECT MAX(id) FROM Tutor")
 	Long getMaxId();

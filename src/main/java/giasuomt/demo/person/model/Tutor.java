@@ -1,10 +1,14 @@
 package giasuomt.demo.person.model;
 
 import java.util.LinkedList;
+
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +24,8 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.Person;
-import giasuomt.demo.educational.model.Subject;
+import giasuomt.demo.commondata.util.Voice;
+import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.tags.model.TutorTag;
@@ -105,7 +110,9 @@ public class Tutor extends Person {
 //	private List<Relationship> relationshipBy = new LinkedList<>();
 
 //TUTOR:
-	private String voices;
+	@ElementCollection(targetClass = Voice.class)
+	@Enumerated(EnumType.STRING)
+	private List<Voice> voices=new LinkedList<>();
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "tutor_tutor_tag", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "tutor_tag_id"))
@@ -125,18 +132,20 @@ public class Tutor extends Person {
 
 	private Double exp;
 
-	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	@JoinTable(name = "tutor_Subject", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
-	private List<Subject> registeredSubjects = new LinkedList<>();
 	
 	@OneToOne(mappedBy = "tutor")
 	@JsonIgnore
 	private User user;
 	
 	//Subject Group
-	private String subjectGroupMaybe;
-	
-	private String subjectGroupSure;
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "task_subjectGroupMaybe", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subjectGroup_id"))
+	private List<SubjectGroup> subjectGroupMaybes=new LinkedList<>();
+
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "task_subjectGroupSure", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subjectGroup_id"))
+	private List<SubjectGroup> subjectGroupSures=new LinkedList<>();
+
 	
 	//tutor
 	@OneToMany(mappedBy = "tutor")

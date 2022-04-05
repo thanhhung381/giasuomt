@@ -1,5 +1,6 @@
 package giasuomt.demo.task.service;
 import java.util.List;
+
 import java.util.Optional;
 import javax.validation.Valid;
 
@@ -9,11 +10,10 @@ import org.springframework.data.repository.query.Param;
 import giasuomt.demo.commondata.generic.IGenericService;
 import giasuomt.demo.task.dto.AddObjectToTaskDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
-import giasuomt.demo.task.dto.TaskForWebDto;
+import giasuomt.demo.task.dto.ResponseTaskForWebDto;
 import giasuomt.demo.task.dto.UpdateFreeTimeDto;
 import giasuomt.demo.task.dto.UpdateHourDto;
 import giasuomt.demo.task.dto.UpdateLessonDto;
-import giasuomt.demo.task.dto.UpdateRequireDto;
 import giasuomt.demo.task.dto.UpdateSalaryDto;
 import giasuomt.demo.task.dto.UpdateSubjectDto;
 import giasuomt.demo.task.dto.UpdateTaskPlaceAddresseDto;
@@ -36,7 +36,7 @@ public interface ITaskService extends IGenericService<SaveTaskDto, Task, String>
 	
 	public Task updateSubject(UpdateSubjectDto dto);
 	
-	public Task updateRequire(UpdateRequireDto dto);
+
 	
 	public Task UpdateLesson(UpdateLessonDto dto);
 	
@@ -56,7 +56,7 @@ public interface ITaskService extends IGenericService<SaveTaskDto, Task, String>
 	
 	Task updateTaskSignDto(UpdateTaskSignDto dto);
 	
-	public List<TaskForWebDto> findAllAvailableTaskListForWeb();
+	public List<ResponseTaskForWebDto> findAllAvailableTaskListForWeb();
 
 
 	

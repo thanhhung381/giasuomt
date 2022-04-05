@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import giasuomt.demo.commondata.util.DateUtils;
+import giasuomt.demo.commondata.util.Gender;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +25,7 @@ public class SavePersonDto {
 	private String fullName;
 
 	// @NotNull //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
-	private String gender;
+	private Gender gender;
 
 	private String birthYear;
 

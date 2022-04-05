@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import giasuomt.demo.commondata.dto.SavePersonDto;
+import giasuomt.demo.commondata.util.Voice;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,7 +36,7 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 	private String infoImgs;
 
 	// NĂNG LỰC:
-	private String voices;
+	private List<Voice> voices=new LinkedList<>();
 
 	private String tutorNotices;
 
@@ -73,7 +74,7 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 
 	//Registered Subjects 
 
-	private List<Long> registeredSubjectIds = new LinkedList<>();
+
 	
 	
 

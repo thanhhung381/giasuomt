@@ -1,12 +1,15 @@
 package giasuomt.demo.person.service;
 import java.util.List;
+
 import giasuomt.demo.commondata.generic.IGenericService;
 import giasuomt.demo.person.dto.TutorForWebDto;
 import giasuomt.demo.person.dto.SaveTutorDto;
-import giasuomt.demo.person.dto.UpdateRegisteredSubject;
+
 import giasuomt.demo.person.dto.UpdateTutorAvatar;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.staff.dto.UpdateAvatarStaff;
+import giasuomt.demo.task.dto.UpdateSubjectGroupForSureDto;
+import giasuomt.demo.task.dto.UpdateSubjectGroupMaybeDto;
 
 public interface ITutorService extends IGenericService<SaveTutorDto, Tutor,Long> {
 
@@ -32,9 +35,14 @@ public interface ITutorService extends IGenericService<SaveTutorDto, Tutor,Long>
 	
 	public List<String> findByEngfullnameAndShowFullName(String fullname); 
 	
-	public Tutor updateRegisteredSubjects(UpdateRegisteredSubject dto);
+	public Tutor updateRegisteredSubjects();
 
 	public Tutor updateAvatarTutor(UpdateTutorAvatar dto);
 	
 	public List<TutorForWebDto> findAllTutorForWeb();
+	
+	public Tutor updateSubjetGroupMaybe(UpdateSubjectGroupMaybeDto dto);
+	
+	public Tutor updateSubjectGroupForSure(UpdateSubjectGroupForSureDto dto);
+	
 }

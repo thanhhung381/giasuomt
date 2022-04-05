@@ -1,6 +1,8 @@
 package giasuomt.demo.job.model;
 
 import java.time.LocalDateTime;
+
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.util.DateUtils;
-import giasuomt.demo.educational.model.Subject;
+
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;
@@ -35,7 +37,7 @@ import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.task.model.Application;
-import giasuomt.demo.task.model.Require;
+
 import giasuomt.demo.task.model.Task;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package giasuomt.demo.person.dto;
+package giasuomt.demo.task.dto;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,10 +8,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateRegisteredSubject {
+public class UpdateSubjectGroupMaybeDto {
 
 	private Long id;
+	
 
-	private List<Long> registeredSubjectIds = new LinkedList<>();
-
+	private List<Long> idSubjectGroupMaybes=new LinkedList<>();
 }

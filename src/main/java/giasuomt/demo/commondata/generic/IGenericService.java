@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Optional;
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 
-public interface IGenericService<DTO, T extends AbstractEntityNotId, ID> {
+public interface IGenericService<DTO, T , ID> {
 	List<T> findAll();
 
 	void deleteById(ID id);
