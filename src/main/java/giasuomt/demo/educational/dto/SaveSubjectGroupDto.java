@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 public class SaveSubjectGroupDto {
 	
-	private Long id;
+	private String id;
 	
     private String name;
 	

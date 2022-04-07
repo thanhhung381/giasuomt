@@ -14,17 +14,20 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class SubjectGroupService extends GenericService<SaveSubjectGroupDto, SubjectGroup, Long>
+public class SubjectGroupService extends GenericService<SaveSubjectGroupDto, SubjectGroup,String>
 		implements ISubjectGroupService {
+	
 	private ISubjectGroupRepository iSubjectGroupRepository;
 
 	private MapDtoToModel mapper;
 
 	@Override
-	public SubjectGroup create(@Valid SaveSubjectGroupDto dto) {
+	public SubjectGroup create(SaveSubjectGroupDto dto) {
 		SubjectGroup subjectGroup = new SubjectGroup();
-
+		
 		subjectGroup = (SubjectGroup) mapper.map(dto, subjectGroup);
+		
+		subjectGroup.setId(subjectGroup.getShortName());
 
 		return save(dto, subjectGroup);
 	}
@@ -34,6 +37,7 @@ public class SubjectGroupService extends GenericService<SaveSubjectGroupDto, Sub
 		SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(dto.getId());
 
 		subjectGroup = (SubjectGroup) mapper.map(dto, subjectGroup);
+		subjectGroup.setId(dto.getShortName());
 
 		return save(dto, subjectGroup);
 	}

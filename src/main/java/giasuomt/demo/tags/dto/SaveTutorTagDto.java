@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SaveTutorTagDto {
-	private Long id;
+	private String id;
 	
 	private String tagType;
 	

@@ -10,6 +10,6 @@ import lombok.AllArgsConstructor;
 @RestController // Tức là server sẽ trả JSON về client
 @RequestMapping("/api/subjectGroup") // Ghi nhận yêu cầu gọi api của Client
 @AllArgsConstructor
-public class SubjectGroupController extends GenericController<SaveSubjectGroupDto, SubjectGroup, Long, BindingResult>{
+public class SubjectGroupController extends GenericController<SaveSubjectGroupDto, SubjectGroup, String, BindingResult>{
 	
 }

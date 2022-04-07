@@ -3,6 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,6 +18,11 @@ import lombok.Setter;
 @Table(name = "tutor_tag")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class TutorTag extends Tag {
+
+	@Id
+	private String id;
+	
+	
 	@ManyToMany(mappedBy = "tutorTags", fetch = FetchType.LAZY)
 	@JsonIgnore 
 	private List<Tutor> tutor = new LinkedList<>();

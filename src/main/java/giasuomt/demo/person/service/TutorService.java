@@ -243,10 +243,10 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 //		}
 
 		// Tags
-		List<Long> tutorTagIds = dto.getTutorTagIds();
+		List<String> tutorTagIds = dto.getTutorTagIds();
 		List<TutorTag> tutorTags = new LinkedList<>();
 
-		for (Long id : tutorTagIds) {
+		for (String id : tutorTagIds) {
 			TutorTag tutorTag = iTutorTagRepository.getOne(id);
 			tutorTags.add(tutorTag);
 		}
@@ -532,11 +532,11 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 			Tutor tutor = iTutorRepository.getOne(dto.getId());
 
-			List<Long> idSubjetGroupMaybes = dto.getIdSubjectGroupMaybes();
+			List<String> idSubjetGroupMaybes = dto.getIdSubjectGroupMaybes();
 
 			List<SubjectGroup> subjectGroupMaybes = new LinkedList<>();
 
-			for (Long id : idSubjetGroupMaybes) {
+			for (String id : idSubjetGroupMaybes) {
 				SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
 				subjectGroupMaybes.add(subjectGroup);
 			}
@@ -557,11 +557,11 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 			Tutor tutor = iTutorRepository.getOne(dto.getId());
 
-			List<Long> idSubjetGroupMaybes = dto.getIdSubjectGroupForSures();
+			List<String> idSubjetGroupMaybes = dto.getIdSubjectGroupForSures();
 
 			List<SubjectGroup> subjectGroupForSures = new LinkedList<>();
 
-			for (Long id : idSubjetGroupMaybes) {
+			for (String id : idSubjetGroupMaybes) {
 				SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
 				subjectGroupForSures.add(subjectGroup);
 			}

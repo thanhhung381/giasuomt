@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import giasuomt.demo.commondata.model.AbstractEntity;
+import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.task.model.Task;
 import lombok.Getter;
@@ -21,7 +23,10 @@ import lombok.Setter;
 @Entity
 @Table(name = "subject_group")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
-public class SubjectGroup extends AbstractEntity {	
+public class SubjectGroup extends AbstractEntityNotId {	
+	
+	@Id
+	private String id;
 	
 	private String name;
 	
