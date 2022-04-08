@@ -63,7 +63,7 @@ public class SaveTaskDto {
 
 
 	
-	private List<Long> idSubjectGroup=new LinkedList<>();
+	private List<String> idSubjectGroup=new LinkedList<>();
 
 	private String requireApperance;
 

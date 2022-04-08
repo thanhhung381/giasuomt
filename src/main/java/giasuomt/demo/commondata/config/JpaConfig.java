@@ -21,7 +21,7 @@ public class JpaConfig {
 
 	@Component
 	public interface IGenericRepository<T, ID> extends JpaRepository<T, ID> { // viết cái này để bên GenericService nó
-																				// có thể inject cái @Autowired private
+																			// có thể inject cái @Autowired private
 																				// JpaRepository<T, ID> repository;
 
 	}

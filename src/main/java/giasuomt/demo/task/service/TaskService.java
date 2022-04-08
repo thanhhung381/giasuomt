@@ -114,10 +114,10 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		//
 		// task.setSubjects(subjects);
 
-		List<Long> idSubjectGroups = dto.getIdSubjectGroup();
+		List<String> idSubjectGroups = dto.getIdSubjectGroup();
 		List<SubjectGroup> subjectGroups = new LinkedList<>();
 
-		for (Long id : idSubjectGroups) {
+		for (String id : idSubjectGroups) {
 			SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
 			subjectGroups.add(subjectGroup);
 		}

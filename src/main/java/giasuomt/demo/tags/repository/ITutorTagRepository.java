@@ -4,6 +4,6 @@ import org.springframework.stereotype.Repository;
 import giasuomt.demo.tags.model.TutorTag;
 
 @Repository
-public interface ITutorTagRepository extends JpaRepository<TutorTag, Long> {
-	int countById(Long id);
+public interface ITutorTagRepository extends JpaRepository<TutorTag, String> {
+	int countById(String id);
 }

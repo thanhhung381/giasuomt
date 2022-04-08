@@ -70,7 +70,7 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 	private List<SaveWorkerDto> saveWorkerDtos = new LinkedList<>();
 
 	// TAGS
-	private List<Long> tutorTagIds = new LinkedList<>();
+	private List<String> tutorTagIds = new LinkedList<>();
 
 	//Registered Subjects 
 

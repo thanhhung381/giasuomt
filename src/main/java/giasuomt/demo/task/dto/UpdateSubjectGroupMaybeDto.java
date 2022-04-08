@@ -13,5 +13,5 @@ public class UpdateSubjectGroupMaybeDto {
 	private Long id;
 	
 
-	private List<Long> idSubjectGroupMaybes=new LinkedList<>();
+	private List<String> idSubjectGroupMaybes=new LinkedList<>();
 }

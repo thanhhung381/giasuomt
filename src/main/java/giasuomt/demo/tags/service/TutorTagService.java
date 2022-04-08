@@ -1,5 +1,6 @@
 package giasuomt.demo.tags.service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -8,11 +9,12 @@ import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.tags.dto.SaveTutorTagDto;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.tags.repository.ITutorTagRepository;
+import giasuomt.demo.tags.utils.CombineId;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class TutorTagService extends GenericService<SaveTutorTagDto, TutorTag, Long> implements ITutorTagService {
+public class TutorTagService extends GenericService<SaveTutorTagDto, TutorTag, String> implements ITutorTagService {
 
 	private ITutorTagRepository iTutorTagRepository;
 
@@ -40,6 +42,7 @@ public class TutorTagService extends GenericService<SaveTutorTagDto, TutorTag, L
 		try {
 			tutorTag = (TutorTag) mapDtoToModel.map(dto, tutorTag);
 
+			tutorTag.setId(CombineId.combineTagGroupAndTagName(tutorTag.getTagGroup(), tutorTag.getTagName()));
 			return iTutorTagRepository.save(tutorTag);
 
 		} catch (Exception e) {
@@ -50,7 +53,7 @@ public class TutorTagService extends GenericService<SaveTutorTagDto, TutorTag, L
 
 	}
 
-	public void deleteById(Long id) {
+	public void deleteById(String id) {
 		try {
 
 			iTutorTagRepository.deleteById(id);
@@ -60,20 +63,31 @@ public class TutorTagService extends GenericService<SaveTutorTagDto, TutorTag, L
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	
 
 // check id
 
-	public boolean checkExistIdofTutorTag(Long id) {
+	public boolean checkExistIdofTutorTag(String id) {
 		return iTutorTagRepository.countById(id) == 1;
 	}
 
 	@Override
 	public List<TutorTag> createAll(List<SaveTutorTagDto> dtos) {
 		try {
-			List<TutorTag> tutorTags = new LinkedList<>();
+			
+			List<TutorTag> tutorTags = new ArrayList<>();
+			
 			for (SaveTutorTagDto dto : dtos) {
+				
 				TutorTag tutorTag = new TutorTag();
 				tutorTag = (TutorTag) mapDtoToModel.map(dto, tutorTag);
+				
+				tutorTag.setId(CombineId.combineTagGroupAndTagName(tutorTag.getTagGroup(), tutorTag.getTagName()));
+				
+				
 				tutorTags.add(tutorTag);
 			}
 

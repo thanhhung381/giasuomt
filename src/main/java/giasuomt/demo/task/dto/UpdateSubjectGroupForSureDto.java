@@ -13,5 +13,5 @@ public class UpdateSubjectGroupForSureDto {
 	
 	private Long id;
 	
-	private List<Long> idSubjectGroupForSures=new LinkedList<>();
+	private List<String> idSubjectGroupForSures=new LinkedList<>();
 }
