@@ -1,5 +1,6 @@
 package giasuomt.demo.tags.service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -76,10 +77,17 @@ public class TutorTagService extends GenericService<SaveTutorTagDto, TutorTag, S
 	@Override
 	public List<TutorTag> createAll(List<SaveTutorTagDto> dtos) {
 		try {
-			List<TutorTag> tutorTags = new LinkedList<>();
+			
+			List<TutorTag> tutorTags = new ArrayList<>();
+			
 			for (SaveTutorTagDto dto : dtos) {
+				
 				TutorTag tutorTag = new TutorTag();
 				tutorTag = (TutorTag) mapDtoToModel.map(dto, tutorTag);
+				
+				tutorTag.setId(CombineId.combineTagGroupAndTagName(tutorTag.getTagGroup(), tutorTag.getTagName()));
+				
+				
 				tutorTags.add(tutorTag);
 			}
 
