@@ -201,17 +201,24 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		tutor.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toUpperCase());
 
-		tutor.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
-
-		tutor.setPerArea(iAreaRepository.getOne(dto.getPerAreaId()));
-
-		tutor.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
+		if(iAreaRepository.findById(dto.getTempAreaId()).isPresent())
+			tutor.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
+		
+		
+		if(iAreaRepository.findById(dto.getPerAreaId()).isPresent())
+			tutor.setPerArea(iAreaRepository.getOne(dto.getPerAreaId()));
+		
+		if(iAreaRepository.findById(dto.getRelAreaId()).isPresent())
+			tutor.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
+		
 
 		tutor.setExp(0.0);
 
 		// save avatar
 
-		tutor.setAvatar(iawsAvatarRepository.getOne(dto.getIdAvatar()).getUrlAvatar());
+		if(iawsAvatarRepository.findById(dto.getIdAvatar()).isPresent())
+			tutor.setAvatar(iawsAvatarRepository.getOne(dto.getIdAvatar()).getUrlAvatar());
+		
 
 		// Relationship
 //		List<SaveRelationshipDto> saveRelationshipDtoWiths = dto.getSaveRelationshipDtosWith();
