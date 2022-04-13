@@ -20,22 +20,32 @@ spring:
     show-sql: true #để xem câu sql mà nó tự sinh
     generate-ddl: true #để thằng Hibernate tự nhìn Object và tạo database được
     hibernate:
-      ddl-auto: update 
+      ddl-auto: update
       # ddl-auto: create-drop 
   servlet:
     multipart:
       max-file-size: 200MB
       max-request-size: 200MB
   
-      
+  mail:
+    host: smtp.gmail.com
+    username: khangle190401@gmail.com
+    password: uycrdarvxtdiayss  
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true    
 gsomt:
   app:
     jwt-secret: apiofgsomt
     jwt-duration: 3000000 
 
 amazon:
-  accessKeyKhangAdmin: AKIAUDLYPJWXYMP46F6J                #tạo user
-  secretkeyKhangAdmin: vFJP1ViiqDypQq5z6hoqQDF/46MDYxcw3GL4EJZ4
+  accessKeyKhangAdmin: AKIAUDLYPJWXUXSLPCZ6 #AKIAUDLYPJWXYMP46F6J                #tạo user
+  secretkeyKhangAdmin: gW0vHIyVRO6p2vElxTSiGC8+//ibo1YV1ro3AEWP #vFJP1ViiqDypQq5z6hoqQDF/46MDYxcw3GL4EJZ4
   #avatar     #   
   avatarURL: https://s3.ap-southeast-1.amazonaws.com/avatargsomt/
   bucketnameAvatar: avatargsomt
@@ -48,5 +58,10 @@ amazon:
 #retainedrmgsrdentification  retainedimgsidentificationgsomt
   retainedimgsidentificationURL: https://s3.ap-southeast-1.amazonaws.com/retainedimgsidentificationgsomt/
   bucketnameretainedimgsidentification: retainedimgsidentificationgsomt 
+  
+ #mail
+
+
+  
 
  

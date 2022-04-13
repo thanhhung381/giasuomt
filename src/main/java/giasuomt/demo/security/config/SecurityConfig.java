@@ -87,6 +87,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/api/login").permitAll()  //anthenticated (bảo mật) cho để user phải đăng nhập mới vô đc các API role
 			.antMatchers("api/createUser/findByJWT").permitAll()
 			.antMatchers("/api/task/findAllAvailableTaskListForWeb").permitAll()
+			.antMatchers("/api/user/updatePassword").permitAll()
+			.antMatchers("/api/user/resetPassword/forgotPassword").permitAll()  
 			.antMatchers("/api/tutorRequest/**").permitAll()
 			.anyRequest().authenticated(); //anthenticated (bảo mật) tất cả các request còn lại - để tránh việc kẻ xấu vô khám phá xem mình còn những trang gì nữa ko...
 		

@@ -6,10 +6,14 @@ import java.nio.file.Paths;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
+import org.aspectj.apache.bcel.classfile.Code;
+import org.joda.time.DateTime;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -21,6 +25,7 @@ import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.util.DateTimeUtils;
 import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
+import giasuomt.demo.token.service.TokenService;
 
 @SpringBootApplication
 public class DemoApplication extends SpringBootServletInitializer {
@@ -33,9 +38,9 @@ public class DemoApplication extends SpringBootServletInitializer {
 	public static void main(String[] args) {
 
 		SpringApplication.run(DemoApplication.class, args);
-		
-		
 
+	
+      
 	}
 
 }

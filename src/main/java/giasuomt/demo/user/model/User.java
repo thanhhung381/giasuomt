@@ -1,8 +1,7 @@
 package giasuomt.demo.user.model;
 
 import java.time.LocalDateTime;
-
-
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +18,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -26,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.comment.model.TaskComment;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.model.Person;
+import giasuomt.demo.commondata.util.DateTimeUtils;
 import giasuomt.demo.commondata.util.DateUtils;
 
 import giasuomt.demo.finance.util.AmoutPerTime;
@@ -50,43 +52,32 @@ import lombok.Setter;
 @Table(name = "table_user")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class User extends AbstractEntity {
-	
+
 	private String avatar;
-	
+
 	private String username;
-	
+
 	private String password;
-	
+
 	private String email;
-	
+
 	private String phones;
-	
+
 	@OneToOne
 	private Tutor tutor;
-	
+
 	@OneToOne
 	private RegisterAndLearner registerAndLearner;
-	
+
 	@OneToOne
 	private Staff staff;
-	
-	
-	
-	@ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST},fetch = FetchType.EAGER)
-	@JoinTable(name = "User_Role_GSOMT",joinColumns = @JoinColumn(name="id_User"),inverseJoinColumns =  @JoinColumn(name="id_Role"))
-	private List<Role> roles=new LinkedList<>();
-	
 
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
+	@JoinTable(name = "User_Role_GSOMT", joinColumns = @JoinColumn(name = "id_User"), inverseJoinColumns = @JoinColumn(name = "id_Role"))
+	private List<Role> roles = new LinkedList<>();
 
-	
-	public void removeRole(Role role)
-	{
+	public void removeRole(Role role) {
 		this.roles.remove(role);
 	}
 
-
-
-
-	
-	
 }

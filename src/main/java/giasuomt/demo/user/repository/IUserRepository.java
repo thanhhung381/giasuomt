@@ -11,5 +11,9 @@ import giasuomt.demo.user.model.User;
 public interface IUserRepository extends JpaRepository<User, Long> {
 
 	Optional<User> findByUsername(String username);
+	
+	public User findByEmail(String email);
+	
+	
 
 }

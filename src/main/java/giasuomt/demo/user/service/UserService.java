@@ -1,10 +1,13 @@
 package giasuomt.demo.user.service;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +20,8 @@ import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.role.model.Role;
 import giasuomt.demo.role.repository.IRoleRepository;
 import giasuomt.demo.staff.model.Staff;
+import giasuomt.demo.token.service.ITokenService;
+import giasuomt.demo.token.service.TokenService;
 import giasuomt.demo.uploadfile.repository.IAvatarAwsRepository;
 import giasuomt.demo.uploadfile.service.IAvatarAwsService;
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
@@ -24,6 +29,7 @@ import giasuomt.demo.user.dto.SaveUserDto;
 import giasuomt.demo.user.dto.UpdateRegisterAndLearnerForUser;
 import giasuomt.demo.user.dto.UpdateAndDeleteRoleForUser;
 import giasuomt.demo.user.dto.UpdateAvatarUser;
+import giasuomt.demo.user.dto.UpdatePasswordDto;
 import giasuomt.demo.user.dto.UpdateTutorForUser;
 import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
@@ -49,8 +55,10 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 	private IRegisterAndLearnerRepository iRegisterAndLearnerRepository;
 
 	private IAvatarAwsService iAvatarAwsService;
-	
+
 	private IAvatarAwsRepository iAvatarAwsRepository;
+
+	private ITokenService iTokenService;
 
 	public User create(SaveUserDto dto) {
 		User user = new User();
@@ -238,25 +246,17 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 
 			String avatarURL = user.getAvatar();
 
-			if ( avatarURL == null) {
+			if (avatarURL == null) {
 				user.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
-			}
-			else
-			{
-				
-				
-				
-				
-				
+			} else {
+
 				iAvatarAwsRepository.deleteBysUrlAvatar(avatarURL);
-				
-				awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
-				
+
+				awsClientS3.getAmazonS3().deleteObject("avatargsomt",
+						avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+
 				user.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
 
-				
-				
-				
 			}
 
 			user = iUserRepository.save(user);
@@ -267,6 +267,42 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public User updatePassword(UpdatePasswordDto dto) {
+		try {
+
+			Optional<User> user = iUserRepository.findByUsername(dto.getUsername());
+
+			if (user.isPresent())
+				user.get().setPassword(passwordEncoder.encode(dto.getPassword()));
+
+			return iUserRepository.save(user.get());
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public boolean isExistsOTP(String token, String username) {
+
+		if (token.equals(iTokenService.getOtp(username))) {
+
+			iTokenService.clearOTP(username);
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public User findByEmail(String email) {
+		
+		return iUserRepository.findByEmail(email);
 	}
 
 }
