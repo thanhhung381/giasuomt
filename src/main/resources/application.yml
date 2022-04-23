@@ -8,8 +8,6 @@ server:
 spring:
   #Data Configuration  
   datasource:
-
-
     url: jdbc:postgresql://52.74.109.132:5432/giasuomt
     #url: jdbc:postgresql://localhost/giasuomt
     username: postgres
@@ -44,8 +42,8 @@ gsomt:
     jwt-duration: 3000000 
 
 amazon:
-  accessKeyKhangAdmin: AKIAUDLYPJWXUXSLPCZ6 #AKIAUDLYPJWXYMP46F6J                #tạo user
-  secretkeyKhangAdmin: gW0vHIyVRO6p2vElxTSiGC8+//ibo1YV1ro3AEWP #vFJP1ViiqDypQq5z6hoqQDF/46MDYxcw3GL4EJZ4
+  accessKeyKhangAdmin: AKIAUDLYPJWXYMP46F6J                #tạo user
+  secretkeyKhangAdmin: vFJP1ViiqDypQq5z6hoqQDF/46MDYxcw3GL4EJZ4
   #avatar     #   
   avatarURL: https://s3.ap-southeast-1.amazonaws.com/avatargsomt/
   bucketnameAvatar: avatargsomt

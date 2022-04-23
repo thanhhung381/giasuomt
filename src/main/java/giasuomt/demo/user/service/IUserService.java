@@ -30,4 +30,5 @@ public interface IUserService extends IGenericService<SaveUserDto, User, Long> {
 
 	public boolean isExistsOTP(String token, String username);
 
+	public String findByParameters(String parameter);
 }

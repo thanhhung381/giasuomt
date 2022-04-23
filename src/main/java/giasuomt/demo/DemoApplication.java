@@ -28,6 +28,7 @@ import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
 import giasuomt.demo.token.service.TokenService;
 
 @SpringBootApplication
+
 public class DemoApplication extends SpringBootServletInitializer {
 
 	@Override

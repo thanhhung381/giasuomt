@@ -305,4 +305,10 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 		return iUserRepository.findByEmail(email);
 	}
 
+	@Override
+	public String findByParameters(String parameter) {
+	
+		return iUserRepository.findUsernameByParameter(parameter);
+	}
+
 }
