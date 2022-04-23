@@ -8,8 +8,6 @@ server:
 spring:
   #Data Configuration  
   datasource:
-
-
     url: jdbc:postgresql://52.74.109.132:5432/giasuomt
     #url: jdbc:postgresql://localhost/giasuomt
     username: postgres
@@ -20,14 +18,24 @@ spring:
     show-sql: true #để xem câu sql mà nó tự sinh
     generate-ddl: true #để thằng Hibernate tự nhìn Object và tạo database được
     hibernate:
-      ddl-auto: update 
+      ddl-auto: update
       # ddl-auto: create-drop 
   servlet:
     multipart:
       max-file-size: 200MB
       max-request-size: 200MB
   
-      
+  mail:
+    host: smtp.gmail.com
+    username: khangle190401@gmail.com
+    password: uycrdarvxtdiayss  
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true    
 gsomt:
   app:
     jwt-secret: apiofgsomt
@@ -48,5 +56,10 @@ amazon:
 #retainedrmgsrdentification  retainedimgsidentificationgsomt
   retainedimgsidentificationURL: https://s3.ap-southeast-1.amazonaws.com/retainedimgsidentificationgsomt/
   bucketnameretainedimgsidentification: retainedimgsidentificationgsomt 
+  
+ #mail
+
+
+  
 
  

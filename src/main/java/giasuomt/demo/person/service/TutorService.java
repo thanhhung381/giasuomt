@@ -505,14 +505,16 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		tutorForWebDto.setAvatar(tutor.getAvatar());
 		tutorForWebDto.setGender(tutor.getGender());
 		tutorForWebDto.setAverageStarNumbers(tutor.getAverageStarNumbers());
-		// tutorForWebDto.setSubjectGroupMaybe(tutor.getSubjectGroupMaybe());
+		 tutorForWebDto.setSubjectGroupMaybes(tutor.getSubjectGroupMaybes());
+		 tutorForWebDto.setSubjectGroupSures(tutor.getSubjectGroupSures()); 
 		tutorForWebDto.setRelArea(tutor.getRelArea());
 		tutorForWebDto.setAdvantageNote(tutor.getAdvantageNote());
 		tutorForWebDto.setVoices(tutor.getVoices());
 		tutorForWebDto.setTutorTags(tutor.getTutorTags());
 		tutorForWebDto.setTutorReviewNumbers(tutor.getTutorReviews().size());
 		tutorForWebDto.setJobNumbers(tutor.getJobs().size());
-
+		
+ 
 	}
 
 	private List<TutorForWebDto> mapTutorForResponseList(List<Tutor> tutors) {

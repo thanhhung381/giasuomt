@@ -8,7 +8,9 @@ import java.util.List;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-
+import giasuomt.demo.commondata.util.Gender;
+import giasuomt.demo.commondata.util.HienDangLa;
+import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.location.model.TaskPlaceAddress;
@@ -55,7 +57,11 @@ public class ResponseTaskForWebDto {
 	private String taskPlaceType;
 	
 
+	private List<Gender> genderRequired=new LinkedList<>();
 	
+	private List<SubjectGroup> subjectGroups=new LinkedList<>();
+	
+	private List<HienDangLa> hienDangLaRequired=new LinkedList<>();
 	
 	// Số học viên
 		private String learnerNumber;

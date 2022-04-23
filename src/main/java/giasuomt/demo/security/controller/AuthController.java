@@ -22,6 +22,8 @@ import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.security.dto.JwtDto;
 import giasuomt.demo.security.dto.LoginDto;
 import giasuomt.demo.security.jwt.JwtUltils;
+import giasuomt.demo.user.model.User;
+import giasuomt.demo.user.service.IUserService;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -34,6 +36,8 @@ public class AuthController {
 	
 	private JwtUltils jwtUltils;
 	
+	private IUserService iUserService;
+	
 	
 	@PostMapping("/api/login")
 
@@ -41,47 +45,57 @@ public class AuthController {
 	{
 		Authentication authentication=null;
 
-
+		String username=iUserService.findByParameters(dto.getUsernameAndPhonesAndEmail());
 		
 		try {
-			//authenticate (xác thực) theo username và password của user, và nếu thành công thì nó sẽ trả về 1 authentication
-			authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.getUsername(),dto.getPassword()));
 			
-			//Phải add Authentication của User vô Security Context thì khi nó check nó mới biết user này đã đăng nhập hay chưa
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			
-			
-			//return lại JWT cho người dùng
-			String jwt=jwtUltils.generateJwtToken(authentication);
-			
-			//
-//			Cookie jwtTokenCookie = new Cookie("userjwt", jwt);
-//
-//			jwtTokenCookie.setMaxAge(7 * 24 * 60 * 60);
-//			jwtTokenCookie.setSecure(true);
-//			jwtTokenCookie.setHttpOnly(true);
-//			jwtTokenCookie.setPath("/");
-//			response.addCookie(jwtTokenCookie);
+			if(username==null)
+			{
+				return ResponseHandler.getResponse("username and password is invalid",HttpStatus.BAD_REQUEST);
+			}
+			else
+			{
+				//authenticate (xác thực) theo username và password của user, và nếu thành công thì nó sẽ trả về 1 authentication
+				authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,dto.getPassword()));
+				
+				//Phải add Authentication của User vô Security Context thì khi nó check nó mới biết user này đã đăng nhập hay chưa
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+				
+				
+				//return lại JWT cho người dùng
+				String jwt=jwtUltils.generateJwtToken(authentication);
+				
+				//
+//				Cookie jwtTokenCookie = new Cookie("userjwt", jwt);
+	//
+//				jwtTokenCookie.setMaxAge(7 * 24 * 60 * 60);
+//				jwtTokenCookie.setSecure(true);
+//				jwtTokenCookie.setHttpOnly(true);
+//				jwtTokenCookie.setPath("/");
+//				response.addCookie(jwtTokenCookie);
 
-//			ResponseCookie responseCookie = ResponseCookie
-//	                .from("userjwt", jwt)
-//	                .secure(false)
-//	                .httpOnly(true)
-//	                .path("/")
-//	                .maxAge(7 * 24 * 60 * 60)
-//	                .sameSite("None")
-//	                .build();
-//			response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
-//			
-//
-//
-//			
-//
-//
-//		    // return response entity
-//		    return new ResponseEntity<>(HttpStatus.OK);
-//			
-			return ResponseHandler.getResponse(new JwtDto().jwt(jwt),HttpStatus.OK);
+//				ResponseCookie responseCookie = ResponseCookie
+//		                .from("userjwt", jwt)
+//		                .secure(false)
+//		                .httpOnly(true)
+//		                .path("/")
+//		                .maxAge(7 * 24 * 60 * 60)
+//		                .sameSite("None")
+//		                .build();
+//				response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+//				
+	//
+	//
+//				
+	//
+	//
+//			    // return response entity
+//			    return new ResponseEntity<>(HttpStatus.OK);
+//				
+				return ResponseHandler.getResponse(new JwtDto().jwt(jwt),HttpStatus.OK);
+			}
+			
+		
 			
 			
 			
