@@ -103,9 +103,10 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 		String avatarURL = registerAndLearner.getAvatar();
 
-		awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
 
-		iFileEntityRepository.deleteBysUrlAvatar(avatarURL);
+		awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+		
+		iFileEntityRepository.deleteByUrlAvatar(avatarURL);
 
 		return save(dto, registerAndLearner);
 	}
@@ -398,9 +399,10 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 		String avatarURL = registerAndLearner.getAvatar();
 
-		awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+		awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+		
+		iFileEntityRepository.deleteByUrlAvatar(avatarURL);
 
-		iFileEntityRepository.deleteBysUrlAvatar(avatarURL);
 
 		registerAndLearner.setAvatar(iFileEntityRepository.getById(dto.getIdAvatar()).getUrlAvatar());
 		return null;

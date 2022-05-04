@@ -1,10 +1,10 @@
 package giasuomt.demo.job.model;
 
 import java.time.LocalDateTime;
-
-
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
@@ -133,6 +133,6 @@ public class TaskByTheTimeCreatingJob extends AbstractEntityNotId {
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
 
 	@ElementCollection
-	private List<String> taskPlaceAddresses = new LinkedList<>();
+	private Set<String> taskPlaceAddresses = new HashSet<>();
 
 }

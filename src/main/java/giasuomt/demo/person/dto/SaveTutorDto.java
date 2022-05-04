@@ -1,8 +1,11 @@
 package giasuomt.demo.person.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 import giasuomt.demo.commondata.dto.SavePersonDto;
 import giasuomt.demo.commondata.util.Voice;
 import lombok.Getter;
@@ -55,22 +58,22 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 
 	// HIỆN ĐANG LÀ
 	// Lưu Student
-	private List<SaveStudentDto> saveStudentDtos = new LinkedList<>();
+	private Set<SaveStudentDto> saveStudentDtos = new HashSet<>();
 
 	// Lưu GraduatedStudent
-	private List<SaveGraduatedStudentDto> saveGraduatedStudentDtos = new LinkedList<>();
+	private Set<SaveGraduatedStudentDto> saveGraduatedStudentDtos = new HashSet<>();
 
 	// luu Institution Teacher
-	private List<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = new LinkedList<>();
+	private Set<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = new HashSet<>();
 
 	// luu School Teacher
-	private List<SaveSchoolTeacherDto> saveSchoolTeacherDtos = new LinkedList<>();
+	private Set<SaveSchoolTeacherDto> saveSchoolTeacherDtos = new HashSet<>();
 
 	// luu worker
-	private List<SaveWorkerDto> saveWorkerDtos = new LinkedList<>();
+	private Set<SaveWorkerDto> saveWorkerDtos = new HashSet<>();
 
 	// TAGS
-	private List<String> tutorTagIds = new LinkedList<>();
+	private Set<String> tutorTagIds = new HashSet<>();
 
 	//Registered Subjects 
 

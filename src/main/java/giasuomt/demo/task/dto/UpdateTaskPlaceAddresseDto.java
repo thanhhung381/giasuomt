@@ -1,7 +1,9 @@
 package giasuomt.demo.task.dto;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import giasuomt.demo.location.model.SaveTaskPlaceAddressDto;
 import lombok.Getter;
@@ -13,7 +15,7 @@ public class UpdateTaskPlaceAddresseDto {
 
 	private String id;
 	
-	private List<SaveTaskPlaceAddressDto> placeAddressDtos=new LinkedList<>();
+	private Set<SaveTaskPlaceAddressDto> placeAddressDtos=new HashSet<>();
 	
 	
 }

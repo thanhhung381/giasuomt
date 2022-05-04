@@ -1,4 +1,5 @@
 package giasuomt.demo.educational.model;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -34,15 +35,15 @@ public class SubjectGroup extends AbstractEntityNotId {
 	
 	@ManyToMany(mappedBy = "subjectGroups",fetch = FetchType.LAZY)
 	@JsonIgnore
-	private List<Task> tasks=new LinkedList<>();
+	private Set<Task> tasks=new HashSet<>();
 	
 	@ManyToMany(mappedBy = "subjectGroupMaybes",fetch = FetchType.LAZY)
 	@JsonIgnore
-	private List<Tutor> tutorMaybes=new LinkedList<>();
+	private Set<Tutor> tutorMaybes=new HashSet<>();
 
 	@ManyToMany(mappedBy = "subjectGroupSures",fetch = FetchType.LAZY)
 	@JsonIgnore
-	private List<Tutor> tutorSures=new LinkedList<>();
+	private Set<Tutor> tutorSures=new HashSet<>();
 
 	
 }

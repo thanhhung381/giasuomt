@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -24,6 +27,7 @@ import giasuomt.demo.uploadfile.ultils.FileUltils;
 import lombok.AllArgsConstructor;
 
 @Service
+@Transactional
 public class FeedBackImageAwsService extends AwsClientS3 implements IFeedBackImageAwsService {
 	
 	@Autowired
@@ -37,7 +41,7 @@ public class FeedBackImageAwsService extends AwsClientS3 implements IFeedBackIma
 	
 	
 	private void uploadPulicFile(String filename, File file) {
-		amazonS3.putObject(new PutObjectRequest(bucketNameFeedBackImage, filename, file)
+		this.client.putObject(new PutObjectRequest(bucketNameFeedBackImage, filename, file)
 				.withCannedAcl(CannedAccessControlList.PublicRead));
 	}
 
@@ -92,8 +96,8 @@ public class FeedBackImageAwsService extends AwsClientS3 implements IFeedBackIma
 
 	@Override
 	public void deleteByFileNameAndID(String urlFile,Long id) {
-		amazonS3.deleteObject(bucketNameFeedBackImage,urlFile.substring(urlFile.lastIndexOf('/')+1));
-		iFeedbackImageAwsRepository.deleteById(id);
+		this.client.deleteObject(bucketNameFeedBackImage,urlFile.substring(urlFile.lastIndexOf('/')+1));
+		iFeedbackImageAwsRepository.deleteByUrlFeedbackImage(urlFile);
 		
 	}
 
@@ -106,8 +110,15 @@ public class FeedBackImageAwsService extends AwsClientS3 implements IFeedBackIma
 	@Override
 	public boolean checkExistObjectinS3(String name) {
 		
-		if(amazonS3.doesObjectExist(bucketNameFeedBackImage, name))
-			return true;
+		try {
+			boolean flag= this.client.doesObjectExist("imagelink",name);
+			if (flag)
+				return true;
+			
+		} catch (SdkClientException e) {
+			
+			e.printStackTrace();
+		}
 		return false;
 	}
 

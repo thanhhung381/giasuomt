@@ -46,9 +46,9 @@ public class StaffService extends GenericService<SaveStaffDto, Staff, Long> impl
 
 		String avatarURL = staff.getAvatar();
 
-		awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+		awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
 
-		iAvatarAwsRepository.deleteBysUrlAvatar(avatarURL);
+		iAvatarAwsRepository.deleteByUrlAvatar(avatarURL);
 
 		return save(dto, staff);
 	}
@@ -85,9 +85,9 @@ public class StaffService extends GenericService<SaveStaffDto, Staff, Long> impl
 
 			String avatarURL = staff.getAvatar();
 
-			awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+			awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
 
-			iAvatarAwsRepository.deleteBysUrlAvatar(avatarURL);
+			iAvatarAwsRepository.deleteByUrlAvatar(avatarURL);
 
 			staff.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
 

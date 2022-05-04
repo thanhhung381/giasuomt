@@ -2,8 +2,10 @@ package giasuomt.demo.user.model;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +17,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -51,6 +56,13 @@ import lombok.Setter;
 @Entity
 @Table(name = "table_user")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
+@NamedEntityGraphs({
+	@NamedEntityGraph(name = "user-load",attributeNodes = 
+		{
+				@NamedAttributeNode("roles")
+		})
+})
+
 public class User extends AbstractEntity {
 
 	private String avatar;
@@ -74,7 +86,7 @@ public class User extends AbstractEntity {
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
 	@JoinTable(name = "User_Role_GSOMT", joinColumns = @JoinColumn(name = "id_User"), inverseJoinColumns = @JoinColumn(name = "id_Role"))
-	private List<Role> roles = new LinkedList<>();
+	private Set<Role> roles = new HashSet<>();
 
 	public void removeRole(Role role) {
 		this.roles.remove(role);

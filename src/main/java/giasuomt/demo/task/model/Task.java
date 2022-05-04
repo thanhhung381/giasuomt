@@ -20,6 +20,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -58,6 +61,21 @@ import lombok.Setter;
 @Entity
 @Table(name = "task")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
+@NamedEntityGraphs({
+	@NamedEntityGraph(name = "task" ,attributeNodes = {
+			@NamedAttributeNode("taskPlaceAddresses"),
+			@NamedAttributeNode("subjectGroups"),
+			@NamedAttributeNode("taskSign"),
+			@NamedAttributeNode("registrations"),
+			@NamedAttributeNode("jobs"),
+			@NamedAttributeNode("genderRequired"),
+			@NamedAttributeNode("voiceRequired"),
+			@NamedAttributeNode("hienDangLaRequired"),
+			@NamedAttributeNode("taskSign"),
+			@NamedAttributeNode("comments")
+			
+	})
+})
 public class Task extends AbstractEntityNotId {
 	// @Unique
 	// @NotBlank
@@ -77,7 +95,7 @@ public class Task extends AbstractEntityNotId {
 	private String taskPlaceType;
 
 	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<TaskPlaceAddress> taskPlaceAddresses = new LinkedList<>();// không có trước đó
+	private Set<TaskPlaceAddress> taskPlaceAddresses = new HashSet<>();// không có trước đó
 
 //MÔN HỌC
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
@@ -85,7 +103,7 @@ public class Task extends AbstractEntityNotId {
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_subjectGroup", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "subjectGroup_id"))
-	private List<SubjectGroup> subjectGroups=new LinkedList<>();
+	private Set<SubjectGroup> subjectGroups=new HashSet<>();
 	
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
@@ -160,25 +178,25 @@ public class Task extends AbstractEntityNotId {
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
 //COMMENTS (Nếu có)
     @OneToMany(mappedBy = "task")
-	private List<TaskComment> comments=new LinkedList<>();
+	private Set<TaskComment> comments=new HashSet<>();
 
 //ĐÁNH DẤU (Nếu có)
 //
     @ElementCollection(targetClass  = TaskSign.class)
     @Enumerated(EnumType.STRING)
-    private List<TaskSign> taskSign =new LinkedList<>();
+    private Set<TaskSign> taskSign =new HashSet<>();
 
 //NGƯỜI ĐĂNG KÝ/HỌC VIÊN	
 	@OneToMany(mappedBy = "task")
-	private List<Registration> registrations = new LinkedList<>();	
+	private Set<Registration> registrations = new HashSet<>();	
 
 //ỨNG VIÊN ĐĂNG KÝ
 	@OneToMany(mappedBy = "task")
-	private List<Application> applications = new LinkedList<>();
+	private Set<Application> applications = new HashSet<>();	
 
 //GIAO JOB
 	@OneToMany(mappedBy = "task")
-	private List<Job> jobs=new LinkedList<>();
+	private Set<Job> jobs=new HashSet<>();
 // Số học viên
 	private String learnerNumber;
 //Ghi Chú cho gia sư
@@ -186,15 +204,15 @@ public class Task extends AbstractEntityNotId {
 
 	@ElementCollection(targetClass  = Gender.class)
     @Enumerated(EnumType.STRING)
-	private List<Gender> genderRequired=new LinkedList<>();
+	private Set<Gender> genderRequired=new HashSet<>();
 	
 	@ElementCollection(targetClass = Voice.class)
 	@Enumerated(EnumType.STRING)
-	private List<Voice> voiceRequired=new LinkedList<>();
+	private Set<Voice> voiceRequired=new HashSet<>();
 	
 	@ElementCollection(targetClass = HienDangLa.class)
 	@Enumerated(EnumType.STRING)
-	private List<HienDangLa> hienDangLaRequired=new LinkedList<>();
+	private Set<HienDangLa> hienDangLaRequired=new HashSet<>();
 	
 	
 	public void removeApplication(Application application){

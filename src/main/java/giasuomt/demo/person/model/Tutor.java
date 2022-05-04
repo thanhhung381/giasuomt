@@ -1,8 +1,11 @@
 package giasuomt.demo.person.model;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -17,6 +20,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -37,10 +42,25 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tutor")
+@Table(name = "Tutor")
 @Getter
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
+@NamedEntityGraph(name = "tutor",attributeNodes = {
+		@NamedAttributeNode("workers"),
+		@NamedAttributeNode("students"),
+		@NamedAttributeNode("schoolTeachers"),
+		@NamedAttributeNode("institutionTeachers"),
+		@NamedAttributeNode("graduatedStudents"),
+		@NamedAttributeNode("tutorTags"),
+		@NamedAttributeNode("tempArea"),
+		@NamedAttributeNode("relArea"),
+		@NamedAttributeNode("perArea"),
+		@NamedAttributeNode("subjectGroupMaybes"),
+		@NamedAttributeNode("subjectGroupSures"),
+		@NamedAttributeNode("voices")
+		
+})
 public class Tutor extends Person { 
 	// @Column(updatable = false) //Column này ko update được
 	// @Column(unique = true)
@@ -87,19 +107,19 @@ public class Tutor extends Person {
 
 //HIỆN ĐANG LÀ
 	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Student> students = new LinkedList<>();
+	private Set<Student> students = new HashSet<>();
 
 	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<GraduatedStudent> graduatedStudents = new LinkedList<>();
+	private Set<GraduatedStudent> graduatedStudents = new HashSet<>();
 
 	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<InstitutionTeacher> institutionTeachers = new LinkedList<>();
+	private Set<InstitutionTeacher> institutionTeachers =  new HashSet<>();
 
 	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<SchoolTeacher> schoolTeachers = new LinkedList<>();
+	private Set<SchoolTeacher> schoolTeachers = new HashSet<>();
 
 	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Worker> workers = new LinkedList<>();
+	private Set<Worker> workers =  new HashSet<>();
 
 //PERSONAL RELATIONSHIP:
 //	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -112,11 +132,11 @@ public class Tutor extends Person {
 //TUTOR:
 	@ElementCollection(targetClass = Voice.class)
 	@Enumerated(EnumType.STRING)
-	private List<Voice> voices=new LinkedList<>();
+	private Set<Voice> voices=new HashSet<>();
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "tutor_tutor_tag", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "tutor_tag_id"))
-	private List<TutorTag> tutorTags = new LinkedList<>();
+	private Set<TutorTag> tutorTags = new HashSet<>();
 
 	private String tutorNotices;
 
@@ -128,7 +148,7 @@ public class Tutor extends Person {
 
 	@OneToMany(mappedBy = "tutor", fetch = FetchType.LAZY)
 	@JsonIgnore
-	private List<Job> jobs = new LinkedList<>();
+	private Set<Job> jobs = new HashSet<>();
 
 	private Double exp;
 
@@ -140,11 +160,11 @@ public class Tutor extends Person {
 	//Subject Group
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_subjectGroupMaybe", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subjectGroup_id"))
-	private List<SubjectGroup> subjectGroupMaybes=new LinkedList<>();
+	private Set<SubjectGroup> subjectGroupMaybes=new HashSet<>();
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_subjectGroupSure", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subjectGroup_id"))
-	private List<SubjectGroup> subjectGroupSures=new LinkedList<>();
+	private Set<SubjectGroup> subjectGroupSures=new HashSet<>();
 
 	
 	//tutor

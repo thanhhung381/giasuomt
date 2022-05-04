@@ -1,6 +1,9 @@
 package giasuomt.demo.tags.model;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -25,7 +28,7 @@ public class TutorTag extends Tag {
 	
 	@ManyToMany(mappedBy = "tutorTags", fetch = FetchType.LAZY)
 	@JsonIgnore 
-	private List<Tutor> tutor = new LinkedList<>();
+	private Set<Tutor> tutor = new HashSet<>();
 
 	@Override
 	public String toString() {

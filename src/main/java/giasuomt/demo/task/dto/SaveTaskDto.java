@@ -4,8 +4,11 @@ import java.time.LocalDateTime;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.EnumType;
@@ -42,7 +45,7 @@ public class SaveTaskDto {
 
 	private String taskPlaceType;
 
-	private List<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = new ArrayList<>();// không có trước đó
+	private Set<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = new HashSet<>();// không có trước đó
 	// MÔN HỌC
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
@@ -63,7 +66,7 @@ public class SaveTaskDto {
 
 
 	
-	private List<String> idSubjectGroup=new LinkedList<>();
+	private Set<String> idSubjectGroup=new HashSet<>();
 
 	private String requireApperance;
 
@@ -112,12 +115,12 @@ public class SaveTaskDto {
 	private String taskNote;
 	
 
-	private List<Gender> genderRequired=new LinkedList<>();
+	private Set<Gender> genderRequired=new HashSet<>();
 	
 
-	private List<Voice> voiceRequired=new LinkedList<>();
+	private Set<Voice> voiceRequired=new HashSet<>();
 	
 	
-	private List<HienDangLa> hienDangLaRequired=new LinkedList<>();
+	private Set<HienDangLa> hienDangLaRequired=new HashSet<>();
 
 }

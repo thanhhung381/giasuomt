@@ -1,6 +1,8 @@
 package giasuomt.demo.staff.service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
@@ -34,16 +36,25 @@ public class MainStaffService implements IMainStaffService {
 	public List<Tutor> findAllTutorBelongToTask() {
 		List<Task> tasks = iTaskRepository.findAll();
 		List<Tutor> tutorBelongtoTask = new ArrayList<>();
-		for (int i = 0; i < tasks.size(); i++) {
-
-			int n = tasks.get(i).getApplications().size();
-			for (int j = 0; j < n; j++) {
-
-				tutorBelongtoTask.add(tasks.get(i).getApplications().get(j).getTutor());
-
+		
+		for (Task task : tasks) {
+			
+			for(Application app : task.getApplications()) {
+				tutorBelongtoTask.add(app.getTutor());
 			}
-
+			
 		}
+		
+//		for (int i = 0; i < tasks.size(); i++) {
+
+//			int n = tasks.get(i).getApplications().size();
+	//		for (int j = 0; j < n; j++) {
+
+		//		tutorBelongtoTask.add(tasks.get(i).getApplications().get(j).getTutor());
+//
+//			}
+
+//		}
 
 		return tutorBelongtoTask;
 	}
@@ -52,7 +63,7 @@ public class MainStaffService implements IMainStaffService {
 		listResponse = (TaskListResponse) mapDtoToModel.map(task, listResponse);
 	//	listResponse.setId(task.getId());
 		listResponse.setVersion(task.getVersion());
-		listResponse.setApplications(applicationToMapByList(task.getApplications()));
+		listResponse.setApplications((Set<ApplicationResponse>) applicationToMapByList(task.getApplications()));
 		listResponse.setJobs(task.getJobs());
 //		listResponse.setLearners(task.getLearners());
 //		listResponse.setRegisters(task.getRegisters());
@@ -77,9 +88,9 @@ public class MainStaffService implements IMainStaffService {
 
 	}
 
-	private List<ApplicationResponse> applicationToMapByList(List<Application> applications) {
+	private List<ApplicationResponse> applicationToMapByList(Set<Application> set) {
 		List<ApplicationResponse> applicationDtos = new ArrayList<>();
-		for (Application application : applications) {
+		for (Application application : set) {
 			ApplicationResponse applicationResponse = new ApplicationResponse();
 			applicationMapToDto(application, applicationResponse);
 			applicationDtos.add(applicationResponse);

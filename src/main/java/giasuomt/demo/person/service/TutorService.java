@@ -1,9 +1,11 @@
 package giasuomt.demo.person.service;
 
 import java.util.ArrayList;
-
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -117,9 +119,9 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		String avatarURL = tutor.getAvatar();
 
-		awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+		awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
 
-		iFileEntityRepository.deleteBysUrlAvatar(avatarURL);
+		iawsAvatarRepository.deleteByUrlAvatar(avatarURL);
 
 		return save(dto, tutor);
 	}
@@ -250,8 +252,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 //		}
 
 		// Tags
-		List<String> tutorTagIds = dto.getTutorTagIds();
-		List<TutorTag> tutorTags = new LinkedList<>();
+		Set<String> tutorTagIds = dto.getTutorTagIds();
+		Set<TutorTag> tutorTags = new HashSet<>();
 
 		for (String id : tutorTagIds) {
 			TutorTag tutorTag = iTutorTagRepository.getOne(id);
@@ -260,20 +262,18 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		tutor.setTutorTags(tutorTags);
 
-		List<SaveStudentDto> saveStudentDtos = dto.getSaveStudentDtos();
-		for (int i = 0; i < tutor.getStudents().size(); i++) {
+		Set<SaveStudentDto> saveStudentDtos = dto.getSaveStudentDtos();
+		for (Student student : tutor.getStudents()) {
 			Boolean deleteThis = true;
-			for (int j = 0; j < saveStudentDtos.size(); j++) {
-				if (tutor.getStudents().get(i).getId() == saveStudentDtos.get(j).getId())
+			for (SaveStudentDto saveStudentDto : saveStudentDtos) {
+				if (student.getId() == saveStudentDto.getId())
 					deleteThis = false;
 			}
 			if (deleteThis) {
-				tutor.removeStudent(tutor.getStudents().get(i)); // Delete
-				i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
+				tutor.removeStudent(student); // Delete
 			}
 		}
-		for (int i = 0; i < saveStudentDtos.size(); i++) {
-			SaveStudentDto saveStudentDto = saveStudentDtos.get(i);
+		for (SaveStudentDto saveStudentDto : saveStudentDtos) {
 			if (saveStudentDto.getId() != null && saveStudentDto.getId() > 0) { // Update
 				Student student = iStudentRepository.getOne(saveStudentDto.getId());
 				student = (Student) mapDtoToModel.map(saveStudentDto, student);
@@ -285,20 +285,19 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			}
 		}
 
-		List<SaveGraduatedStudentDto> saveGraduatedStudentDtos = dto.getSaveGraduatedStudentDtos();
-		for (int i = 0; i < tutor.getGraduatedStudents().size(); i++) {
+		Set<SaveGraduatedStudentDto> saveGraduatedStudentDtos = dto.getSaveGraduatedStudentDtos();
+		for (GraduatedStudent graduatedStudent : tutor.getGraduatedStudents()) {
 			Boolean deleteThis = true;
-			for (int j = 0; j < saveGraduatedStudentDtos.size(); j++) {
-				if (tutor.getGraduatedStudents().get(i).getId() == saveGraduatedStudentDtos.get(j).getId())
+			for (SaveGraduatedStudentDto saveGraduatedStudentDto : saveGraduatedStudentDtos) {
+				if (graduatedStudent.getId() == saveGraduatedStudentDto.getId())
 					deleteThis = false;
 			}
+
 			if (deleteThis) {
-				tutor.removeGraduatedStudent(tutor.getGraduatedStudents().get(i)); // Delete
-				i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
+				tutor.removeGraduatedStudent(graduatedStudent);
 			}
 		}
-		for (int i = 0; i < saveGraduatedStudentDtos.size(); i++) {
-			SaveGraduatedStudentDto saveGraduatedStudentDto = saveGraduatedStudentDtos.get(i);
+		for (SaveGraduatedStudentDto saveGraduatedStudentDto : saveGraduatedStudentDtos) {
 			if (saveGraduatedStudentDto.getId() != null && saveGraduatedStudentDto.getId() > 0) { // Update
 				GraduatedStudent graduatedStudent = iGraduatedStudentRepository.getOne(saveGraduatedStudentDto.getId());
 				graduatedStudent = (GraduatedStudent) mapDtoToModel.map(saveGraduatedStudentDto, graduatedStudent);
@@ -310,20 +309,19 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			}
 		}
 
-		List<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = dto.getSaveInstitutionTeacherDtos();
-		for (int i = 0; i < tutor.getInstitutionTeachers().size(); i++) {
+		Set<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = dto.getSaveInstitutionTeacherDtos();
+
+		for (InstitutionTeacher institutionTeacher : tutor.getInstitutionTeachers()) {
 			Boolean deleteThis = true;
-			for (int j = 0; j < saveInstitutionTeacherDtos.size(); j++) {
-				if (tutor.getInstitutionTeachers().get(i).getId() == saveInstitutionTeacherDtos.get(j).getId())
+			for (SaveInstitutionTeacherDto saveInstitutionTeacherDto : saveInstitutionTeacherDtos) {
+				if (institutionTeacher.getId() == saveInstitutionTeacherDto.getId())
 					deleteThis = false;
 			}
 			if (deleteThis) {
-				tutor.removeInstitutionTeacher(tutor.getInstitutionTeachers().get(i)); // Delete
-				i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
+				tutor.removeInstitutionTeacher(institutionTeacher);
 			}
 		}
-		for (int i = 0; i < saveInstitutionTeacherDtos.size(); i++) {
-			SaveInstitutionTeacherDto saveInstitutionTeacherDto = saveInstitutionTeacherDtos.get(i);
+		for (SaveInstitutionTeacherDto saveInstitutionTeacherDto : saveInstitutionTeacherDtos) {
 			if (saveInstitutionTeacherDto.getId() != null && saveInstitutionTeacherDto.getId() > 0) { // Update
 				InstitutionTeacher institutionTeacher = iInstitutionTeacherRepository
 						.getOne(saveInstitutionTeacherDto.getId());
@@ -338,20 +336,20 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			}
 		}
 
-		List<SaveSchoolTeacherDto> saveSchoolTeacherDtos = dto.getSaveSchoolTeacherDtos();
-		for (int i = 0; i < tutor.getSchoolTeachers().size(); i++) {
+		Set<SaveSchoolTeacherDto> saveSchoolTeacherDtos = dto.getSaveSchoolTeacherDtos();
+
+		for (SchoolTeacher schoolTeacher : tutor.getSchoolTeachers()) {
 			Boolean deleteThis = true;
-			for (int j = 0; j < saveSchoolTeacherDtos.size(); j++) {
-				if (tutor.getSchoolTeachers().get(i).getId() == saveSchoolTeacherDtos.get(j).getId())
+			for (SaveSchoolTeacherDto saveSchoolTeacherDto : saveSchoolTeacherDtos) {
+				if (schoolTeacher.getId() == saveSchoolTeacherDto.getId())
 					deleteThis = false;
 			}
 			if (deleteThis) {
-				tutor.removeSchoolTeacher(tutor.getSchoolTeachers().get(i)); // Delete
-				i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
+				tutor.removeSchoolTeacher(schoolTeacher);
 			}
 		}
-		for (int i = 0; i < saveSchoolTeacherDtos.size(); i++) {
-			SaveSchoolTeacherDto saveSchoolTeacherDto = saveSchoolTeacherDtos.get(i);
+
+		for (SaveSchoolTeacherDto saveSchoolTeacherDto : saveSchoolTeacherDtos) {
 			if (saveSchoolTeacherDto.getId() != null && saveSchoolTeacherDto.getId() > 0) { // Update
 				SchoolTeacher schoolTeacher = iSchoolTeacherRepository.getOne(saveSchoolTeacherDto.getId());
 				schoolTeacher = (SchoolTeacher) mapDtoToModel.map(saveSchoolTeacherDto, schoolTeacher);
@@ -363,21 +361,19 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			}
 		}
 
-		List<SaveWorkerDto> saveWorkerDtos = dto.getSaveWorkerDtos();
-		for (int i = 0; i < tutor.getWorkers().size(); i++) {
+		Set<SaveWorkerDto> saveWorkerDtos = dto.getSaveWorkerDtos();
+		for (Worker worker : tutor.getWorkers()) {
 			Boolean deleteThis = true;
-			for (int j = 0; j < saveWorkerDtos.size(); j++) {
-				if (tutor.getWorkers().get(i).getId() == saveWorkerDtos.get(j).getId()) {
+			for (SaveStudentDto saveStudentDto : saveStudentDtos) {
+				if (worker.getId() == saveStudentDto.getId())
 					deleteThis = false;
-				}
 			}
 			if (deleteThis) {
-				tutor.removeWorker(tutor.getWorkers().get(i));
-				i--;
+				tutor.removeWorker(worker); // Delete
 			}
+
 		}
-		for (int i = 0; i < saveWorkerDtos.size(); i++) {
-			SaveWorkerDto saveWorkerDto = saveWorkerDtos.get(i);
+		for (SaveWorkerDto saveWorkerDto : saveWorkerDtos) {
 			if (saveWorkerDto.getId() != null && saveWorkerDto.getId() > 0) {
 				Worker worker = iWorkerRepository.getOne(saveWorkerDto.getId());
 				worker = (Worker) mapDtoToModel.map(saveWorkerDto, worker);
@@ -388,9 +384,10 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 				tutor.addWorker(worker);
 			}
 		}
+
 		
 		
-		List<Voice> voices=new LinkedList<>();
+		Set<Voice> voices=new HashSet<>();
 		for (Voice voice : dto.getVoices()) {
 			voices.add(voice);
 		}
@@ -485,8 +482,14 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 			String avatarURL = tutor.getAvatar();
 
-			awsClientS3.getAmazonS3().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+			awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+			
+			iawsAvatarRepository.deleteByUrlAvatar(avatarURL);
+			
+			
 			tutor.setAvatar(iFileEntityRepository.getById(dto.getIdAvatar()).getUrlAvatar());
+			
+			
 			return iTutorRepository.save(tutor);
 		} catch (AmazonServiceException e) {
 
@@ -541,9 +544,9 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 			Tutor tutor = iTutorRepository.getOne(dto.getId());
 
-			List<String> idSubjetGroupMaybes = dto.getIdSubjectGroupMaybes();
+			Set<String> idSubjetGroupMaybes = dto.getIdSubjectGroupMaybes();
 
-			List<SubjectGroup> subjectGroupMaybes = new LinkedList<>();
+			Set<SubjectGroup> subjectGroupMaybes = new HashSet<>();
 
 			for (String id : idSubjetGroupMaybes) {
 				SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
@@ -566,9 +569,9 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 			Tutor tutor = iTutorRepository.getOne(dto.getId());
 
-			List<String> idSubjetGroupMaybes = dto.getIdSubjectGroupForSures();
+			Set<String> idSubjetGroupMaybes = dto.getIdSubjectGroupForSures();
 
-			List<SubjectGroup> subjectGroupForSures = new LinkedList<>();
+			Set<SubjectGroup> subjectGroupForSures = new HashSet<>();
 
 			for (String id : idSubjetGroupMaybes) {
 				SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
@@ -583,5 +586,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		}
 		return null;
 	}
+	
+	
+	
 
 }

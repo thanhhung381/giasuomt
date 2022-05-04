@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -72,7 +73,7 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 
 			iRoleRepository.save(role);
 
-			List<Role> roles = user.getRoles();
+			Set<Role> roles = user.getRoles();
 			Role roleAdmin = iRoleRepository.findByRoleNameBy(nameRole);
 			roles.add(roleAdmin);
 
@@ -116,7 +117,7 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 		Role role = iRoleRepository.findByRoleNameBy("tutor-role");
 
 		try {
-			List<Role> roleList = user.getRoles();
+			Set<Role> roleList = user.getRoles();
 			if (dto.getIdTutor() != 0 && dto.getIdTutor() > 0) // id=0 delete all Role
 			{
 
@@ -125,11 +126,11 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 				user.setRoles(roleList);
 			} else {
 
-				for (int i = 0; i < roleList.size(); i++) {
+				for (Role roleli : roleList) {
 
-					if (roleList.get(i).getName().contains("tutor-role")) {
+					if (roleli.getName().contains("tutor-role")) {
 						user.removeRole(role);
-						i--;
+						
 					}
 				}
 
@@ -150,7 +151,7 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 		Role role = iRoleRepository.findByRoleNameBy("register-and-learner-role");
 
 		try {
-			List<Role> roleList = user.getRoles();
+			Set<Role> roleList = user.getRoles();
 
 			if (dto.getIdRegisterAndLearner() != 0 && dto.getIdRegisterAndLearner() > 0) // id=0 delete all Role
 			{
@@ -162,10 +163,10 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 				user.setRoles(roleList);
 			} else {
 
-				for (int i = 0; i < roleList.size(); i++) {
-					if (roleList.get(i).getName().contains("register-and-learner-role")) {
+				for (Role roleli: roleList) {
+					if (roleli.getName().contains("register-and-learner-role")) {
 						user.removeRole(role);
-						i--;
+						
 					}
 					user.setRegisterAndLearner(null);
 				}
@@ -182,14 +183,14 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 	public User updateRoleForUser(UpdateAndDeleteRoleForUser dto) {
 		User user = iUserRepository.getOne(dto.getId());
 
-		List<Long> listRoleId = dto.getIdRole();
+		Set<Long> listRoleId = dto.getIdRole();
 
-		List<Role> roles = user.getRoles();
+		Set<Role> roles = user.getRoles();
 
 		try {
 
-			for (int i = 0; i < listRoleId.size(); i++) {
-				Role role = iRoleRepository.getOne(listRoleId.get(i));
+			for (Long listRoleID : listRoleId) {
+				Role role = iRoleRepository.getOne(listRoleID);
 				roles.add(role);
 			}
 			user.setRoles(roles);
@@ -207,18 +208,18 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 
 		User user = iUserRepository.getOne(dto.getId());
 
-		List<Long> listRoleId = dto.getIdRole();
+		Set<Long> listRoleId = dto.getIdRole();
 
-		List<Role> roles = user.getRoles();
+		Set<Role> roles = user.getRoles();
 
 		try {
 
-			for (int i = 0; i < listRoleId.size(); i++) {
-				for (int j = 0; j < roles.size(); j++) {
-					Role role = iRoleRepository.getOne(listRoleId.get(i));
-					if (role.getId() == roles.get(j).getId()) {
-						user.removeRole(roles.get(j));
-						j--;
+			for (Long listRoleID : listRoleId) {
+				for (Role roleS : roles) {
+					Role role = iRoleRepository.getOne(listRoleID);
+					if (role.getId() == roleS.getId()) {
+						user.removeRole(roleS);
+						
 					}
 				}
 			}
@@ -250,10 +251,11 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 				user.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
 			} else {
 
-				iAvatarAwsRepository.deleteBysUrlAvatar(avatarURL);
+				awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+				
+				iAvatarAwsRepository.deleteByUrlAvatar(avatarURL);
 
-				awsClientS3.getAmazonS3().deleteObject("avatargsomt",
-						avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+			
 
 				user.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
 

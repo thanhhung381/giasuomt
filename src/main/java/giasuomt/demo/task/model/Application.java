@@ -1,7 +1,9 @@
 package giasuomt.demo.task.model;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -10,6 +12,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,6 +32,29 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
+@NamedEntityGraph(name = "application",attributeNodes = {
+		@NamedAttributeNode(value="tutor",subgraph = "tutor-subclass"),
+		@NamedAttributeNode("applicationSigns")
+},
+subgraphs = {
+		@NamedSubgraph(name="tutor-subclass",
+				attributeNodes = {
+						@NamedAttributeNode("workers"),
+						@NamedAttributeNode("students"),
+						@NamedAttributeNode("schoolTeachers"),
+						@NamedAttributeNode("institutionTeachers"),
+						@NamedAttributeNode("graduatedStudents"),
+						@NamedAttributeNode("tutorTags"),
+						@NamedAttributeNode("tempArea"),
+						@NamedAttributeNode("relArea"),
+						@NamedAttributeNode("perArea"),
+						@NamedAttributeNode("subjectGroupMaybes"),
+						@NamedAttributeNode("subjectGroupSures"),
+						@NamedAttributeNode("voices")	
+				} )
+}
+
+		)
 public class Application extends AbstractEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -40,12 +68,12 @@ public class Application extends AbstractEntity {
 
 	// Comments
 	@OneToMany(mappedBy = "application")
-	private List<ApplicationComment> comments = new LinkedList<>();
+	private Set<ApplicationComment> comments = new HashSet<>();
 
 //    //Đánh dấu
 	@ElementCollection(targetClass = ApplicationSign.class)
 	@Enumerated(EnumType.STRING)
-	private List<ApplicationSign> applicationSigns = new LinkedList<>();
+	private Set<ApplicationSign> applicationSigns = new HashSet<>();
 
 	// Application này trở thành Job (nếu có)
 //	@OneToOne(mappedBy = "application",fetch =FetchType.EAGER)

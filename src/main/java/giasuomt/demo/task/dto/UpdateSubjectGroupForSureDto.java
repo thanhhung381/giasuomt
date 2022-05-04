@@ -2,8 +2,10 @@ package giasuomt.demo.task.dto;
 
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import lombok.Getter;
 
@@ -13,5 +15,5 @@ public class UpdateSubjectGroupForSureDto {
 	
 	private Long id;
 	
-	private List<String> idSubjectGroupForSures=new LinkedList<>();
+	private Set<String> idSubjectGroupForSures=new HashSet<>();
 }

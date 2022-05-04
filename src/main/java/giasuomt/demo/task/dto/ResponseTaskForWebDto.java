@@ -1,9 +1,11 @@
 package giasuomt.demo.task.dto;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -32,7 +34,7 @@ public class ResponseTaskForWebDto {
 
 	private String subjectNote;
 	
-	private List<ResponseTaskPlaceAddressDto> taskPlaceAddresses = new LinkedList<>();
+	private Set<ResponseTaskPlaceAddressDto> taskPlaceAddresses = new HashSet<>();
 	
 	private int lessonNumber; // Số buổi
 
@@ -57,11 +59,11 @@ public class ResponseTaskForWebDto {
 	private String taskPlaceType;
 	
 
-	private List<Gender> genderRequired=new LinkedList<>();
+	private Set<Gender> genderRequired=new HashSet<>();
 	
-	private List<SubjectGroup> subjectGroups=new LinkedList<>();
+	private Set<SubjectGroup> subjectGroups=new HashSet<>();
 	
-	private List<HienDangLa> hienDangLaRequired=new LinkedList<>();
+	private Set<HienDangLa> hienDangLaRequired=new HashSet<>();
 	
 	// Số học viên
 		private String learnerNumber;

@@ -1,7 +1,9 @@
 package giasuomt.demo.person.repository;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -56,6 +58,9 @@ public interface ITutorRepository extends JpaRepository<Tutor, Long> {
 	
 	@Query("SELECT t FROM Tutor t WHERE t.averageStarNumbers >= 4.5")
 	List<Tutor> findByAverageStarNumbersGreaterThanEquals();
+	
+	@EntityGraph(value="tutor")
+	List<Tutor> findAll();
 	
 	
 	
