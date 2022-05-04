@@ -1,6 +1,8 @@
 package giasuomt.demo.job.model;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -33,6 +38,47 @@ import lombok.Getter;
 @Getter
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
+@NamedEntityGraph(name = "job",
+attributeNodes = {
+		@NamedAttributeNode("retainedImgsIdentification"),
+		@NamedAttributeNode(value = "tutor",subgraph = "tutor-subclass"),
+		@NamedAttributeNode("jobFinances"),
+		@NamedAttributeNode("jobProgresses"),
+		@NamedAttributeNode("application"),
+		@NamedAttributeNode("taskByTheTimeCreatingJob"), 
+		@NamedAttributeNode("tutorByTheTimeCreatingJob"),
+		@NamedAttributeNode(value = "task",subgraph = "task-subclass"),
+		
+},subgraphs = {
+		@NamedSubgraph(name="tutor-subclass",
+				attributeNodes = {
+					@NamedAttributeNode("workers"),
+						@NamedAttributeNode("students"),
+						@NamedAttributeNode("schoolTeachers"),
+						@NamedAttributeNode("institutionTeachers"),
+						@NamedAttributeNode("graduatedStudents"),
+						@NamedAttributeNode("tutorTags"),
+						@NamedAttributeNode("tempArea"),
+						@NamedAttributeNode("relArea"),
+						@NamedAttributeNode("perArea"),
+						@NamedAttributeNode("subjectGroupMaybes"),
+						@NamedAttributeNode("subjectGroupSures"),
+						@NamedAttributeNode("voices")	
+						}),
+		@NamedSubgraph(name="task-subclass",
+		attributeNodes = {
+				@NamedAttributeNode("taskPlaceAddresses"),
+				@NamedAttributeNode("subjectGroups"),
+				@NamedAttributeNode("taskSign"),
+				@NamedAttributeNode("registrations"),
+				@NamedAttributeNode("jobs"),
+				@NamedAttributeNode("genderRequired"),
+				@NamedAttributeNode("voiceRequired"),
+				@NamedAttributeNode("hienDangLaRequired"),
+				@NamedAttributeNode("taskSign")
+		})
+		
+})
 public class Job extends AbstractEntity {
 	
 	@ManyToOne
@@ -80,16 +126,16 @@ public class Job extends AbstractEntity {
 	private String retainedIdentification;
 	
 	@ElementCollection // nếu sử dụng kiểu dữ liệu List vâng vâng
-	private List<String> retainedImgsIdentification=new LinkedList<>();
+	private Set<String> retainedImgsIdentification=new HashSet<>();
 
 //TÀI CHÍNH	
 	@OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
-	private List<JobFinance> jobFinances=new LinkedList<>();
+	private Set<JobFinance> jobFinances=new HashSet<>();
 
 //TÌNH HÌNH
 	@OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
 //	@Fetch(FetchMode.SUBSELECT)
-	private List<JobProgress> jobProgresses=new LinkedList<>();
+	private Set<JobProgress> jobProgresses=new HashSet<>();
 
 //KẾT QUẢ
 	private String jobResult;
@@ -107,7 +153,7 @@ public class Job extends AbstractEntity {
 //Tutor Review
 	@OneToMany(mappedBy = "job")
 	@JsonIgnore
-	private List<TutorReview> tutorReviews=new LinkedList<>();
+	private Set<TutorReview> tutorReviews=new HashSet<>();
 
 
 

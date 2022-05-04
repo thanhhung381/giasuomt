@@ -1,8 +1,10 @@
 package giasuomt.demo.role.model;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -43,11 +45,11 @@ public class Role extends AbstractEntity {
 	
 	@ManyToMany(mappedBy = "roles",fetch = FetchType.EAGER)
 	@JsonIgnore
-	private List<User> users=new LinkedList<>();
+	private Set<User> users=new HashSet<>();
 	
 	public Role addRoleName(String name)
 	{
 		this.name=name;
 		return this;
-	}
+	} 
 }

@@ -39,7 +39,7 @@ public class RetainedImgsIdentificationAwsService extends AwsClientS3 implements
 	private String bucketNameRetainedImgsIdentification;
 
 	private void uploadPulicFile(String filename, File file) {
-		amazonS3.putObject(new PutObjectRequest(bucketNameRetainedImgsIdentification, filename, file)
+		this.client.putObject(new PutObjectRequest(bucketNameRetainedImgsIdentification, filename, file)
 				.withCannedAcl(CannedAccessControlList.PublicRead));
 	}
 
@@ -73,6 +73,7 @@ public class RetainedImgsIdentificationAwsService extends AwsClientS3 implements
 		try {
 
 			String url = uploadMutipartFile(multipartFile);
+			System.out.println(url);
 
 			retainedImgsIdentificationAws.setUrlRetainedImgsIdentification(url);
 
@@ -93,7 +94,7 @@ public class RetainedImgsIdentificationAwsService extends AwsClientS3 implements
 
 	@Override
 	public void deleteByFileNameAndID(String urlFile, Long Id) {
-		amazonS3.deleteObject(bucketNameRetainedImgsIdentification,
+		this.client.deleteObject(bucketNameRetainedImgsIdentification,
 				urlFile.substring(urlFile.lastIndexOf('/') + 1));
 		iRetainedImgsIdentificationAwsRepository.deleteById(Id);
 
@@ -107,7 +108,7 @@ public class RetainedImgsIdentificationAwsService extends AwsClientS3 implements
 
 	@Override
 	public boolean checkExistObjectinS3(String name) {
-		if(amazonS3.doesObjectExist(bucketNameRetainedImgsIdentification, name))
+		if(this.client.doesObjectExist(bucketNameRetainedImgsIdentification, name))
 			return true;
 		return false;
 	}

@@ -2,6 +2,7 @@ package giasuomt.demo.user.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +14,7 @@ import giasuomt.demo.user.model.User;
 public interface IUserRepository extends JpaRepository<User, Long> {
 
 	
-	
+	@EntityGraph(value = "user-load")
 	Optional<User> findByUsername(String us);
 	
 	public User findByEmail(String email);

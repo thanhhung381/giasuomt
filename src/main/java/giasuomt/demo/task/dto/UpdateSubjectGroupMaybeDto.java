@@ -1,7 +1,9 @@
 package giasuomt.demo.task.dto;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,5 +15,5 @@ public class UpdateSubjectGroupMaybeDto {
 	private Long id;
 	
 
-	private List<String> idSubjectGroupMaybes=new LinkedList<>();
+	private Set<String> idSubjectGroupMaybes=new HashSet<>();
 }

@@ -1,8 +1,10 @@
 package giasuomt.demo.security.service;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,19 +37,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		
 		
-		List<GrantedAuthority> authorities=getAuthorities(user.get().getRoles());
+		Set<GrantedAuthority> authorities=getAuthorities(user.get().getRoles());
 		
 		
 		return new UserDetailsDto(user.get().getUsername(), user.get().getPassword(), authorities);
 	}
 
-	private List<GrantedAuthority> getAuthorities(List<Role> roles) {
+	private Set<GrantedAuthority> getAuthorities(Set<Role> roles) {
 		
-		List<GrantedAuthority> authorities=new LinkedList<>();
+		Set<GrantedAuthority> authorities=new HashSet<>();
 		
-		for(int i=0;i<roles.size();i++)
+		for(Role role:roles)
 		{
-			SimpleGrantedAuthority simpleGrantedAuthority=new SimpleGrantedAuthority(roles.get(i).getName());
+			SimpleGrantedAuthority simpleGrantedAuthority=new SimpleGrantedAuthority(role.getName());
 			authorities.add(simpleGrantedAuthority);
 		}
 		

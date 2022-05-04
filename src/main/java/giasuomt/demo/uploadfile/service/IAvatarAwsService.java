@@ -15,7 +15,7 @@ public interface IAvatarAwsService {
 	
 	public List<AvatarAws> findAll();
 	
-	public void deleteByFileNameAndID(String urlFile,Long id);
+	public void deleteByFileNameAndID(String urlFile);
 
 	boolean checkExistIdOfT(Long id);
 	

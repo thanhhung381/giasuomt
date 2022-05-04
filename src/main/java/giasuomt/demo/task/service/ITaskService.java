@@ -2,6 +2,8 @@ package giasuomt.demo.task.service;
 import java.util.List;
 
 import java.util.Optional;
+import java.util.Set;
+
 import javax.validation.Valid;
 
 import org.springframework.data.jpa.repository.Query;
@@ -50,13 +52,13 @@ public interface ITaskService extends IGenericService<SaveTaskDto, Task, String>
 	
 	public Task updateTaskStatusDto(UpdateTaskStatusDto dto);
 	
-	List<Task> availableTaskList();
+	Set<Task> availableTaskList();
 	
-	List<Task> unavailableTaskList();
+	Set<Task> unavailableTaskList();
 	
 	Task updateTaskSignDto(UpdateTaskSignDto dto);
 	
-	public List<ResponseTaskForWebDto> findAllAvailableTaskListForWeb();
+	public Set<ResponseTaskForWebDto> findAllAvailableTaskListForWeb();
 
 
 	

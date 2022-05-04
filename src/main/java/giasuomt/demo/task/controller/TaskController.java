@@ -2,6 +2,8 @@ package giasuomt.demo.task.controller;
 import java.util.List;
 
 import java.util.Optional;
+import java.util.Set;
+
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -150,7 +152,7 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String,
 	
 	@GetMapping("/findAllAvailabelTaskList")
 	public ResponseEntity<Object> findallAvailableTaskList() {
-		List<Task> vailableTaskList = iTaskService.availableTaskList();
+		Set<Task> vailableTaskList = iTaskService.availableTaskList();
 		if (vailableTaskList==null)
 			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
 			
@@ -159,7 +161,7 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String,
 	
 	@GetMapping("/findAllUnavailabelTaskList")
 	public ResponseEntity<Object> findallUnavailableTaskList() {
-		List<Task> unavailableTaskList = iTaskService.unavailableTaskList();
+		Set<Task> unavailableTaskList = iTaskService.unavailableTaskList();
 		if (unavailableTaskList==null)
 			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
 			
@@ -190,7 +192,7 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String,
 	
 	@GetMapping("/findAllAvailableTaskListForWeb")
 	public ResponseEntity<Object> findAllAvailableTaskListForWeb() {
-		List<ResponseTaskForWebDto> dtos=iTaskService.findAllAvailableTaskListForWeb();
+		Set<ResponseTaskForWebDto> dtos=iTaskService.findAllAvailableTaskListForWeb();
 		if(dtos.isEmpty())
 		{
 			return ResponseHandler.getResponse("No content", HttpStatus.BAD_REQUEST);

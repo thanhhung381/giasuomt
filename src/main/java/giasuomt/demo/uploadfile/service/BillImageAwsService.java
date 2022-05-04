@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import giasuomt.demo.uploadfile.ultils.FileUltils;
 import lombok.AllArgsConstructor;
 
 @Service
+@Transactional
 public class BillImageAwsService extends AwsClientS3 implements IBillImageAwsService {
 	
 	@Autowired
@@ -37,7 +40,7 @@ public class BillImageAwsService extends AwsClientS3 implements IBillImageAwsSer
 	
 	private void uploadPublicFile(String filename,File file)
 	{
-		amazonS3.putObject(new PutObjectRequest(bucketNameBillImage, filename, file).withCannedAcl(CannedAccessControlList.PublicRead));
+		this.client.putObject(new PutObjectRequest(bucketNameBillImage, filename, file).withCannedAcl(CannedAccessControlList.PublicRead));
 	}
 	
 	private String uploadMultipartFile(MultipartFile multipartFile)
@@ -95,8 +98,8 @@ public class BillImageAwsService extends AwsClientS3 implements IBillImageAwsSer
 
 	@Override
 	public void deleteByFileNameAndID(String urlFile,Long id) {
-		amazonS3.deleteObject(bucketNameBillImage,urlFile.substring(urlFile.lastIndexOf('/')+1));
-		iBillImageAwsRepository.deleteById(id);
+		this.client.deleteObject(bucketNameBillImage,urlFile.substring(urlFile.lastIndexOf('/')+1));
+		iBillImageAwsRepository.deleteByUrlBillImage(urlFile);
 		
 	}
 
@@ -108,7 +111,7 @@ public class BillImageAwsService extends AwsClientS3 implements IBillImageAwsSer
 
 	@Override
 	public boolean checkExistObjectinS3(String name) {
-		if(amazonS3.doesObjectExist(bucketNameBillImage, name))
+		if(this.client.doesObjectExist(bucketNameBillImage, name))
 			return true;
 		return false;
 	}

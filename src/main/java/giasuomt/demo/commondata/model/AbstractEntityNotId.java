@@ -40,7 +40,7 @@ public class AbstractEntityNotId  implements Serializable{
 	@Column(name = "updated_at", nullable = false)
 	protected LocalDateTime updatedAt;
 	
-	@CreatedBy
+	@CreatedBy 
 	protected String createdBy;  
 //	
 	@LastModifiedBy

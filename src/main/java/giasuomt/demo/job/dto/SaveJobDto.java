@@ -1,7 +1,9 @@
 package giasuomt.demo.job.dto;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +20,7 @@ public class SaveJobDto {
 	
 	private Long applicationId;
 	
-	private List<Long> retainedImgsIdentificationId=new LinkedList<>();
+	private Set<Long> retainedImgsIdentificationId=new HashSet<>();
 	
 	private String verifiedTutorInfo; 
 

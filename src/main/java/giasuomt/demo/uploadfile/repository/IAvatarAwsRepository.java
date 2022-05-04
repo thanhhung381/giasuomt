@@ -11,10 +11,12 @@ import giasuomt.demo.uploadfile.model.AvatarAws;
 @Repository
 public interface IAvatarAwsRepository extends JpaRepository<AvatarAws, Long> {
 
-	@Modifying
-	@Query("DELETE  FROM AvatarAws a WHERE a.urlAvatar=:urlAvatar")
-	void deleteBysUrlAvatar(@Param("urlAvatar") String urlAvatar);
+	
+
+	void deleteByUrlAvatar(String urlAvatar);
 	
 	int countById(Long id);
+	
+
 	
 }

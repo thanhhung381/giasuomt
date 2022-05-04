@@ -1,15 +1,26 @@
 package giasuomt.demo.commondata.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Component;
 
+import ch.qos.logback.classic.db.names.TableName;
+import giasuomt.demo.commondata.util.GetTypeName;
+import giasuomt.demo.person.model.Tutor;
+
 @Configuration
 @EnableJpaAuditing(auditorAwareRef = "auditorAware") 
 public class JpaConfig {
+
+	 
+
+
 
 	// Auditor Aware là cấu hình để dùng được các annotation @CreatedBy, @ModifiedBy
 	// ở bên các model (AbstractEntity)
@@ -20,9 +31,11 @@ public class JpaConfig {
 	}
 
 	@Component
-	public interface IGenericRepository<T, ID> extends JpaRepository<T, ID> { // viết cái này để bên GenericService nó
+	public interface IGenericRepository<T , ID> extends JpaRepository<T, ID> { // viết cái này để bên GenericService nó
 																			// có thể inject cái @Autowired private
-																				// JpaRepository<T, ID> repository;
+
+
+													// JpaRepository<T, ID> repository;
 
 	}
 }

@@ -3,7 +3,9 @@ import java.time.LocalDateTime;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
@@ -36,7 +38,7 @@ public class TaskListResponse {
 	// NƠI HỌC
 	private String taskPlaceType;
 
-	private List<TaskPlaceAddress> taskPlaceAddresses = new ArrayList<>();// không có trước đó
+	private Set<TaskPlaceAddress> taskPlaceAddresses = new HashSet<>();// không có trước đó
 
 	// MÔN HỌC
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
@@ -119,8 +121,8 @@ public class TaskListResponse {
 //
 //	private List<Person> learners = new ArrayList<>();
 
-	private List<ApplicationResponse> applications = new ArrayList<>();
+	private Set<ApplicationResponse> applications = new HashSet<>();
 
-	private List<Job> jobs = new ArrayList<>();
+	private Set<Job> jobs = new HashSet<>();
 
 }

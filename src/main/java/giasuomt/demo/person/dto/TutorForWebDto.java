@@ -1,7 +1,9 @@
 package giasuomt.demo.person.dto;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
@@ -23,18 +25,18 @@ public class TutorForWebDto {
 	private String fullName;
 	private String avatar;
 	private Gender gender;
-	private List<Voice> voices = new LinkedList<>();
+	private Set<Voice> voices = new HashSet<>();
 	private Area relArea;
 
 	
 	private String advantageNote;
-	private List<TutorTag> tutorTags = new LinkedList<>();
+	private Set<TutorTag> tutorTags = new HashSet<>();
 	private Double averageStarNumbers;
 	private int tutorReviewNumbers; // đếm tổng các TutorReview
 	private int jobNumbers; // : đếm tổng các Job
 
-	private List<SubjectGroup> subjectGroupMaybes = new LinkedList<>();
+	private Set<SubjectGroup> subjectGroupMaybes = new HashSet<>();
 
-	private List<SubjectGroup> subjectGroupSures = new LinkedList<>();
+	private Set<SubjectGroup> subjectGroupSures = new HashSet<>();
 
 }

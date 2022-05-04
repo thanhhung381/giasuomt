@@ -1,6 +1,9 @@
 package giasuomt.demo.task.service;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
 
 import giasuomt.demo.comment.repository.IApplicationCommentRepository;
@@ -113,10 +116,10 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 			
 			Application application=iApplicationRepository.getOne(dto.getId());
 			
-			List<ApplicationSign> applications=new LinkedList<>();
-			for(int i=0;i<dto.getApplicationSigns().size();i++)
+			Set<ApplicationSign> applications=new HashSet<>();
+			for(ApplicationSign applicationSign :dto.getApplicationSigns())
 			{
-				applications.add(dto.getApplicationSigns().get(i));
+				applications.add(applicationSign);
 			}
 			
 			application.setApplicationSigns(applications);

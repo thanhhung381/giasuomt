@@ -69,15 +69,16 @@ public class AvatarAwsController {
 
 	}
 	
-	@DeleteMapping("/delete/{nameFile}/{id}")
-	public ResponseEntity<Object> delete(@PathVariable("nameFile") String nameFile,@PathVariable("id") Long id) {
+	@DeleteMapping("/delete/{nameFile}/")
+	public ResponseEntity<Object> delete(@PathVariable("nameFile") String nameFile) {
 		
-		String url="https://s3.ap-southeast-1.amazonaws.com/avatargsomt/";
+		String url="https://imagelink.hn.ss.bfcplatform.vn/";
 		 
-		if (!iAvatarAwsService.checkExistIdOfT(id) || !iAvatarAwsService.checkExistObjectinS3(nameFile))
+		
+		if (!iAvatarAwsService.checkExistObjectinS3(nameFile))
 			return ResponseHandler.getResponse("Don't have any url and id", HttpStatus.BAD_REQUEST);
 		
-		iAvatarAwsService.deleteByFileNameAndID(url+nameFile,id);
+		iAvatarAwsService.deleteByFileNameAndID(url+nameFile);
 		
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}

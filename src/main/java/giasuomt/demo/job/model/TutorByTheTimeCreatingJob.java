@@ -1,7 +1,9 @@
 package giasuomt.demo.job.model;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
@@ -82,21 +84,21 @@ public class TutorByTheTimeCreatingJob extends AbstractEntityNotId {
 	private String advantageNote;
 
 	@ElementCollection
-	private List<String> tutorTags = new LinkedList<>();
+	private Set<String> tutorTags = new HashSet<>();
 
 	@ElementCollection
-	private List<String> students = new LinkedList<>();
+	private Set<String> students = new HashSet<>();
 
 	@ElementCollection
-	private List<String> graduatedStudents = new LinkedList<>();
+	private Set<String> graduatedStudents = new HashSet<>();
 
 	@ElementCollection
-	private List<String> institutionTeachers = new LinkedList<>();
+	private Set<String> institutionTeachers = new HashSet<>();
 
 	@ElementCollection
-	private List<String> schoolTeachers = new LinkedList<>();
+	private Set<String> schoolTeachers = new HashSet<>();
 
 	@ElementCollection
-	private List<String> workers = new LinkedList<>();
+	private Set<String> workers = new HashSet<>();
 
 }
