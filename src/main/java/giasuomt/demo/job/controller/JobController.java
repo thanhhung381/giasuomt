@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/job")
-public class JobController extends GenericController<SaveJobDto,Job, Long, BindingResult> {
+public class JobController extends GenericController<SaveJobDto,Job, Long> {
 		
 	private IJobService iJobService;
 	

@@ -14,18 +14,22 @@ import giasuomt.demo.location.dto.FindingVietnamAreaDto;
 import giasuomt.demo.location.dto.SaveAreaDto;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.service.IAreaService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 
 @RestController // Tức là server sẽ trả JSON về client
 @RequestMapping("/api/area") // Ghi nhận yêu cầu gọi api của Client
 @AllArgsConstructor
-public class AreaController extends GenericController<SaveAreaDto, Area, String, BindingResult> {
+@Api(description = "\"Api tạo Area\"" )
+public class AreaController extends GenericController<SaveAreaDto, Area, String> {
 
 	private IAreaService iAreaService;
 
 	
 
 	// findByNationAndProvincialLevelAndDistrictAndCommune
+	@ApiOperation(notes = "tìm kiếm ở Việt Nam", value = "findByNationAndProvincialLevelAndDistrictAndCommune")
 	@PostMapping("/findVietnamArea")
 	public ResponseEntity<Object> findByNationAndProvincialLevelAndDistrictAndCommune(
 			@Valid @RequestBody FindingVietnamAreaDto findingVietnamAreaDto, BindingResult errors) {

@@ -13,6 +13,7 @@ import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.dto.SaveApplicationDto;
+import giasuomt.demo.task.dto.SaveTutorCreateDto;
 import giasuomt.demo.task.dto.UpdateApplicationSignDto;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
@@ -129,6 +130,29 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	@Override
+	public Application tutorCreate(SaveTutorCreateDto dto) {
+		Application application=new Application();
+		
+		try {
+			application = (Application) mapDtoToModel.map(dto, application);
+			
+			
+			application.setTask(iTaskRepository.getOne(dto.getIdTask()));
+			
+			application=iApplicationRepository.save(application);
+			
+			application.setTutor(iTutorRepository.findByCreatedBy(application.getCreatedBy()));
+			
+			return iApplicationRepository.save(application);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		return null;
 	}
 

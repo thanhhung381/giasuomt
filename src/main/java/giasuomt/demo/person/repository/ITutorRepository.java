@@ -61,6 +61,8 @@ public interface ITutorRepository extends JpaRepository<Tutor, Long> {
 	
 	@EntityGraph(value="tutor")
 	List<Tutor> findAll();
+
+	Tutor findByCreatedBy(String createdBy);
 	
 	
 	

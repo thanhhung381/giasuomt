@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/api/taskcomment")
 @AllArgsConstructor
-public class TaskCommentController extends GenericController<SaveTaskCommentDto, TaskComment, Long, BindingResult> {
+public class TaskCommentController extends GenericController<SaveTaskCommentDto, TaskComment, Long> {
 
 	private ITaskCommentService iTaskCommentService;
 

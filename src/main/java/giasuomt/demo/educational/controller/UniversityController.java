@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/api/universty")
 @AllArgsConstructor
-public class UniversityController extends GenericController<SaveUniversityDto, University, Long, BindingResult> {
+public class UniversityController extends GenericController<SaveUniversityDto, University, Long> {
 
 	private IUniversityService iUniversityService;
 

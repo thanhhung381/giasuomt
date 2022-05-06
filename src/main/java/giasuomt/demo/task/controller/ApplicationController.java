@@ -1,19 +1,24 @@
 package giasuomt.demo.task.controller;
 
 import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.task.dto.SaveApplicationDto;
+
+import giasuomt.demo.task.dto.SaveTutorCreateDto;
 import giasuomt.demo.task.dto.UpdateApplicationSignDto;
 import giasuomt.demo.task.dto.UpdateTaskSignDto;
 import giasuomt.demo.task.model.Application;
@@ -24,10 +29,20 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/application")
 @RestController
 @AllArgsConstructor
-public class ApplicationController extends GenericController<SaveApplicationDto, Application, Long, BindingResult> {
+public class ApplicationController extends GenericController<SaveApplicationDto, Application, Long> {
 	
 	private IApplicationService iApplicationService;
 
+	
+	@PostMapping("/tutorCreate")
+	public ResponseEntity<Object> tutorCreate(@RequestBody SaveTutorCreateDto dto,BindingResult errors )
+	{
+		Application application=iApplicationService.tutorCreate(dto);
+		if(errors.hasErrors())
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+ 		return ResponseHandler.getResponse(application, HttpStatus.OK);
+	}
+	
 	@DeleteMapping("/deleteApplication/{id}")
 	public ResponseEntity<Object> deleteByApplicationId(@PathVariable("id") Long id) {
 		if (!iApplicationService.checkExistIdOfT(id))

@@ -13,6 +13,6 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/registerAndLearnerTag")
 @RestController
 @AllArgsConstructor
-public class RegisterAndLearnerTagController extends GenericController<SaveRegisterAndLearnerTagDto, RegisterAndLearnerTag, Long, BindingResult>{
+public class RegisterAndLearnerTagController extends GenericController<SaveRegisterAndLearnerTagDto, RegisterAndLearnerTag, Long>{
 
 }

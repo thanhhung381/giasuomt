@@ -13,6 +13,6 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/jobFinance")
 @RestController
 @AllArgsConstructor
-public class JobFinanceController extends GenericController<SaveJobFinanceDto, JobFinance, Long, BindingResult> {
+public class JobFinanceController extends GenericController<SaveJobFinanceDto, JobFinance, Long> {
 
 }

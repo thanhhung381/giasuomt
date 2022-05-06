@@ -39,7 +39,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/task")
 @RestController
 @AllArgsConstructor
-public class TaskController extends GenericController<SaveTaskDto, Task, String, BindingResult> {
+public class TaskController extends GenericController<SaveTaskDto, Task, String> {
 	private ITaskService iTaskService;
 
 	@GetMapping("/findByTaskCode/{taskCode}")

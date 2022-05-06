@@ -10,6 +10,6 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/tutorTag")
 @RestController
 @AllArgsConstructor
-public class TutorTagController extends GenericController<SaveTutorTagDto, TutorTag, String, BindingResult>{
+public class TutorTagController extends GenericController<SaveTutorTagDto, TutorTag, String>{
 
 }
