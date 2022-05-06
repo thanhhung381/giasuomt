@@ -12,6 +12,6 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping(value = "/api/jobReview")
 @AllArgsConstructor
-public class JobReviewController extends GenericController<SaveJobReviewDto, JobReview, Long, BindingResult> {
+public class JobReviewController extends GenericController<SaveJobReviewDto, JobReview, Long> {
 
 }

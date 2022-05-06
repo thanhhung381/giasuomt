@@ -40,7 +40,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/user")
 @RestController
 @AllArgsConstructor
-public class UserController extends GenericController<SaveUserDto, User, Long, BindingResult> {
+public class UserController extends GenericController<SaveUserDto, User, Long> {
 
 	private JwtUltils jwtUltils;
 

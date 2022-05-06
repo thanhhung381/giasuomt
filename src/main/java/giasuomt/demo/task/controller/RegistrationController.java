@@ -10,6 +10,6 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/registration")
 @RestController
 @AllArgsConstructor
-public class RegistrationController extends GenericController<SaveRegistrationDto, Registration, Long, BindingResult>{
+public class RegistrationController extends GenericController<SaveRegistrationDto, Registration, Long>{
 
 }

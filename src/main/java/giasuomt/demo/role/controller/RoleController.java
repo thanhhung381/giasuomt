@@ -12,6 +12,6 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/role")
 @RestController
 @AllArgsConstructor
-public class RoleController extends GenericController<SaveRoleDto,Role, Long, BindingResult> {
+public class RoleController extends GenericController<SaveRoleDto,Role, Long> {
 
 }

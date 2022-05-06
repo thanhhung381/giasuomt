@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping(value = "/api/registerAndLearner")
 @AllArgsConstructor
 public class RegisterAndLearnerController
-		extends GenericController<SaveRegisterAndLearnerDto, RegisterAndLearner, Long, BindingResult> {
+		extends GenericController<SaveRegisterAndLearnerDto, RegisterAndLearner, Long> {
 
 	private IRegisterAndLearnerService iRegisterAndLearnerService;
 

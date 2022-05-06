@@ -12,6 +12,6 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/tutorRequest")
 @RestController
 @AllArgsConstructor
-public class TutorRequestController extends GenericController<SaveTutorRequestDto, TutorRequest, Long, BindingResult> {
+public class TutorRequestController extends GenericController<SaveTutorRequestDto, TutorRequest, Long> {
 
 }

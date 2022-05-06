@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/major")
 @RestController
 @AllArgsConstructor
-public class MajorController extends GenericController<SaveMajorDto, Major, Long, BindingResult> {
+public class MajorController extends GenericController<SaveMajorDto, Major, Long> {
 
 	private IMajorService iMajorService;
 

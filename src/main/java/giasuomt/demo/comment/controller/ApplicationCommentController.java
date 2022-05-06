@@ -19,7 +19,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/api/applicationcomment")
 @AllArgsConstructor
-public class ApplicationCommentController extends GenericController<SaveApplicationCommentDto, ApplicationComment, Long, BindingResult> {
+public class ApplicationCommentController extends GenericController<SaveApplicationCommentDto, ApplicationComment, Long> {
 	private IApplicationCommentService iApplicationCommentService;
 	
 	

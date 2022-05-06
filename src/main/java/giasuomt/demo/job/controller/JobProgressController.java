@@ -13,6 +13,6 @@ import lombok.AllArgsConstructor;
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api/jobprogress")
-public class JobProgressController extends GenericController<SaveJobProgressDto, JobProgress, Long, BindingResult> {
+public class JobProgressController extends GenericController<SaveJobProgressDto, JobProgress, Long> {
 
 }

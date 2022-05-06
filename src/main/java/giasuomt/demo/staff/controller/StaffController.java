@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/staff")
 @RestController
 @AllArgsConstructor
-public class StaffController extends GenericController<SaveStaffDto, Staff, Long, BindingResult> {
+public class StaffController extends GenericController<SaveStaffDto, Staff, Long> {
 	
 	
 	private IStaffService iStaffService;
