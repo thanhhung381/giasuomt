@@ -170,7 +170,7 @@ public class Tutor extends Person {
 	//tutor
 	@OneToMany(mappedBy = "tutor")
 	@JsonIgnore
-	private List<TutorReview> tutorReviews=new LinkedList<>();
+	private Set<TutorReview> tutorReviews=new HashSet<>();
 	
 	private Double averageStarNumbers;
 	
