@@ -2,6 +2,7 @@ package giasuomt.demo.tutorReview.service;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -69,7 +70,7 @@ public class TutorReviewService extends GenericService<SaveTutorReviewDto, Tutor
 	}
 
 	private Double updateAverageStarNumber(Tutor tutor) {
-		List<TutorReview> starNumbersList = tutor.getTutorReviews();// lấy tất cả các
+		Set<TutorReview> starNumbersList = tutor.getTutorReviews();// lấy tất cả các
 		// starNumber
 		// của Tutor mún
 		// thêm or
@@ -79,8 +80,8 @@ public class TutorReviewService extends GenericService<SaveTutorReviewDto, Tutor
 
 		Double sum = 0.0;
 
-		for (int i = 0; i < starNumbersList.size(); i++) {
-			sum += starNumbersList.get(i).getStarNumber();
+		for (TutorReview review: starNumbersList) {
+			sum += review.getStarNumber();
 		}
 
 		Double resultAvarage = (sum / starNumbersList.size());
