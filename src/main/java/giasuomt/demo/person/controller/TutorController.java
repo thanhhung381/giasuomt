@@ -2,6 +2,7 @@ package giasuomt.demo.person.controller;
 
 import java.util.List;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,9 +16,10 @@ import giasuomt.demo.commondata.generic.GenericController;
 import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.person.dto.TutorForWebDto;
+import giasuomt.demo.person.dto.UpdateCalendarDto;
+import giasuomt.demo.person.dto.UpdateNowLevelAndNowUpdateAtDto;
 import giasuomt.demo.person.dto.SaveTutorDto;
 
-import giasuomt.demo.person.dto.UpdateTutorAvatar;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.service.ITutorService;
 import giasuomt.demo.task.dto.UpdateSubjectGroupForSureDto;
@@ -103,31 +105,15 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 	}
 
 
-	
-	@PutMapping("/updateAvatarTutor")
-	public ResponseEntity<Object> updateAvatarTutor(@RequestBody UpdateTutorAvatar dto,
-			BindingResult errors) {
-
-		Tutor tutor = iTutorService.updateAvatarTutor(dto);
-
-		if (errors.hasErrors()) {
-			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-		}
-
-		return ResponseHandler.getResponse( tutor, HttpStatus.OK);
-
-	}
-	
 	@GetMapping("/findAllTutorForWeb")
-	public ResponseEntity<Object> findAllTutorForWeb()
-	{
-		List<TutorForWebDto> list=iTutorService.findAllTutorForWeb();
-		if(list.isEmpty())
-			return ResponseHandler.getResponse("No content", HttpStatus.BAD_REQUEST );
-		
+	public ResponseEntity<Object> findAllTutorForWeb() {
+		List<TutorForWebDto> list = iTutorService.findAllTutorForWeb();
+		if (list.isEmpty())
+			return ResponseHandler.getResponse("No content", HttpStatus.BAD_REQUEST);
+
 		return ResponseHandler.getResponse(list, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/updateSubjectGroupForSure")
 	public ResponseEntity<Object> updateSubjectGroupForSure(@RequestBody UpdateSubjectGroupForSureDto dto,
 			BindingResult errors) {
@@ -138,10 +124,10 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
 		}
 
-		return ResponseHandler.getResponse( tutor, HttpStatus.OK);
+		return ResponseHandler.getResponse(tutor, HttpStatus.OK);
 
 	}
-	
+
 	@PutMapping("/updateSubjectGroupMaybe")
 	public ResponseEntity<Object> updateSubjectGroupMaybe(@RequestBody UpdateSubjectGroupMaybeDto dto,
 			BindingResult errors) {
@@ -152,7 +138,34 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
 		}
 
-		return ResponseHandler.getResponse( tutor, HttpStatus.OK);
+		return ResponseHandler.getResponse(tutor, HttpStatus.OK);
 
 	}
+
+	@PutMapping("/updateNowLevelAndNowUpdateAt")
+	public ResponseEntity<Object> updateNowLevelAndNowUpdateAt(@RequestBody UpdateNowLevelAndNowUpdateAtDto dto,
+			BindingResult errors) {
+
+		Tutor tutor = iTutorService.updateNowLevelAndNowUpdateAt(dto);
+
+		if (errors.hasErrors()) {
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		}
+
+		return ResponseHandler.getResponse(tutor, HttpStatus.OK);
+
+	}
+
+	@PutMapping("/updateCalendar")
+	public ResponseEntity<Object> updateCalendar(@RequestBody UpdateCalendarDto dto, BindingResult errors) {
+
+		Tutor tutor = iTutorService.updateCalendar(dto);
+
+		if (errors.hasErrors()) {
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		}
+
+		return ResponseHandler.getResponse(tutor, HttpStatus.OK);
+	}
+
 }

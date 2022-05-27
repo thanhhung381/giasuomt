@@ -1,8 +1,10 @@
 package giasuomt.demo.uploadfile.service;
 
 import java.io.File;
-import java.util.ArrayList;
 
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -13,23 +15,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.model.AccessControlList;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 
-import giasuomt.demo.uploadfile.model.BillIamgeAws;
-import giasuomt.demo.uploadfile.repository.IBillImageAwsRepository;
+import giasuomt.demo.finance.model.JobFinance;
+import giasuomt.demo.finance.repository.IJobFinanceRepository;
+
+
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.uploadfile.ultils.FileUltils;
+import giasuomt.demo.user.model.User;
 import lombok.AllArgsConstructor;
 
 @Service
 @Transactional
 public class BillImageAwsService extends AwsClientS3 implements IBillImageAwsService {
 	
-	@Autowired
-	private IBillImageAwsRepository iBillImageAwsRepository;
+
 	
 	@Value("${amazon.billImageURL}")
 	private String urlBillImage;
@@ -37,89 +46,116 @@ public class BillImageAwsService extends AwsClientS3 implements IBillImageAwsSer
 	@Value("${amazon.bucketnamebillImage}")
 	private String bucketNameBillImage;
 	
+	@Autowired
+	private IJobFinanceRepository iJobFinanceRepository;
 	
-	private void uploadPublicFile(String filename,File file)
-	{
-		this.client.putObject(new PutObjectRequest(bucketNameBillImage, filename, file).withCannedAcl(CannedAccessControlList.PublicRead));
+
+	private void upploadPublicFile(String filename, File file) {
+		client.putObject(
+				new PutObjectRequest(bucketNameBillImage, filename, file).withCannedAcl(CannedAccessControlList.PublicRead));
 	}
-	
-	private String uploadMultipartFile(MultipartFile multipartFile)
-	{
-		
-		String billImageURL=null;
+
+	private String uploadMultipartFile(MultipartFile multipartFile, String nameFile) {
+		String imageURL = null;
+
 		try {
-			
-			File file=FileUltils.convertMultiPathToFile(multipartFile);
-			
-			String urlname=FileUltils.generateNameFile(multipartFile);
-			
-			uploadPublicFile(urlname, file);
-			
+
+			File file = FileUltils.convertMultiPathToFile(multipartFile);
+
+			upploadPublicFile(nameFile, file);
+
 			file.delete();
-			
-			billImageURL=urlBillImage.concat(urlname);
-			
-			return billImageURL;
-			
-			
+
+			//urlAvatar "http://meomeo/"
+			imageURL = urlBillImage.concat(nameFile);
+
+			return imageURL;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
-		
 	}
-	
-	
-	
+
 	@Override
-	public BillIamgeAws uploadImageToAmazon(MultipartFile multipartFile) {
-		BillIamgeAws billIamgeAws=new BillIamgeAws();
+	public String uploadImageToAmazon(MultipartFile multipartFile, Long id) {
+
 		try {
+
+			String url = uploadMultipartFile(multipartFile, String.valueOf(id));
+
+			System.out.println(url);
+		
+			JobFinance jobFinance=iJobFinanceRepository.getOne(id);
 			
-			String url=uploadMultipartFile(multipartFile);
+			jobFinance.setBillImg(url);
 			
-			billIamgeAws.setUrlBillImage(url);
+			iJobFinanceRepository.save(jobFinance);
 			
-			return iBillImageAwsRepository.save(billIamgeAws);
-			
-			
+
+			return "Insert Or Update Avatar successfully";
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return null;
 	}
 
-	@Override
-	public List<BillIamgeAws> findAll() {
-		
-		return iBillImageAwsRepository.findAll();
+	public void deleteByFileNameAndID(String urlFile) {
+		try {
+
+			client.deleteObject(bucketNameBillImage, urlFile.substring(urlFile.lastIndexOf('/') + 1));
+			
+
+			JobFinance jobFinance=iJobFinanceRepository.getOne(Long.parseLong(urlFile.substring(urlFile.lastIndexOf('/') + 1)));
+			
+			jobFinance.setBillImg(null);
+			
+			iJobFinanceRepository.save(jobFinance);
+			
+
+		} catch (AmazonServiceException e) {
+
+			e.printStackTrace();
+		}
 	}
 
+//	
 	@Override
-	public void deleteByFileNameAndID(String urlFile,Long id) {
-		this.client.deleteObject(bucketNameBillImage,urlFile.substring(urlFile.lastIndexOf('/')+1));
-		iBillImageAwsRepository.deleteByUrlBillImage(urlFile);
-		
+	public List<String> findAll() {
+
+		List<String> listObject = new LinkedList<>();
+
+		ObjectListing iterables = client.listObjects(bucketNameBillImage);
+		for (S3ObjectSummary os : iterables.getObjectSummaries()) {
+			listObject.add(urlBillImage+os.getKey());
+		}
+
+		return listObject;
 	}
 
-	@Override
-	public boolean checkExistIdOfT(Long id) {
-		
-		return iBillImageAwsRepository.countById(id)>=1;
-	}
+
 
 	@Override
 	public boolean checkExistObjectinS3(String name) {
-		if(this.client.doesObjectExist(bucketNameBillImage, name))
-			return true;
+
+		try {
+			boolean flag = this.client.doesObjectExist(bucketNameBillImage, name);
+			if (flag)
+				return true;
+
+		} catch (SdkClientException e) {
+
+			e.printStackTrace();
+		}
 		return false;
 	}
 
-	@Override
-	public void deleteById(Long id) {
-		iBillImageAwsRepository.deleteById(id);
-	}
+
+
+	
 
 	
 	

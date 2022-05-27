@@ -52,11 +52,8 @@ attributeNodes = {
 },subgraphs = {
 		@NamedSubgraph(name="tutor-subclass",
 				attributeNodes = {
-					@NamedAttributeNode("workers"),
-						@NamedAttributeNode("students"),
-						@NamedAttributeNode("schoolTeachers"),
-						@NamedAttributeNode("institutionTeachers"),
-						@NamedAttributeNode("graduatedStudents"),
+					
+				
 						@NamedAttributeNode("tutorTags"),
 						@NamedAttributeNode("tempArea"),
 						@NamedAttributeNode("relArea"),

@@ -1,6 +1,7 @@
 package giasuomt.demo.person.controller;
 
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,7 +16,7 @@ import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.person.dto.SaveRegisterAndLearnerDto;
 import giasuomt.demo.person.dto.UpdateAvatarRegisterAndLearner;
-import giasuomt.demo.person.dto.UpdateTutorAvatar;
+
 import giasuomt.demo.person.model.RegisterAndLearner;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.service.IRegisterAndLearnerService;

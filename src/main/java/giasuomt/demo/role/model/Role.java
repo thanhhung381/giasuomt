@@ -21,11 +21,8 @@ import giasuomt.demo.commondata.model.AbstractEntity;
 
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
-import giasuomt.demo.person.model.GraduatedStudent;
-import giasuomt.demo.person.model.InstitutionTeacher;
-import giasuomt.demo.person.model.SchoolTeacher;
-import giasuomt.demo.person.model.Student;
-import giasuomt.demo.person.model.Worker;
+
+
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.user.model.User;

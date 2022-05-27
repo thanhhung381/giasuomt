@@ -1,6 +1,9 @@
 package giasuomt.demo.job.model;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -27,7 +30,7 @@ public class JobReview extends AbstractEntity {
 	private String feedback;
 	
 	@ElementCollection
-	private List<String> feedbackImgs=new LinkedList<>();
+	private Set<String> feedbackImgs=new HashSet<>();
 	
 	@OneToOne
 	@JoinColumn(name = "job_id")

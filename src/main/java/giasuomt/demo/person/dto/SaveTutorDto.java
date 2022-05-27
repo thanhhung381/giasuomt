@@ -1,4 +1,5 @@
 package giasuomt.demo.person.dto;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -6,18 +7,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import giasuomt.demo.commondata.dto.SavePersonDto;
+import giasuomt.demo.commondata.util.DateTimeUtils;
+import giasuomt.demo.commondata.util.HienDangLa;
 import giasuomt.demo.commondata.util.Voice;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class SaveTutorDto extends SavePersonDto implements Serializable{
+public class SaveTutorDto extends SavePersonDto implements Serializable {
 
-	
-	//Arvatar
-	private Long idAvatar;
+	// Arvatar
+
 
 	// THÔNG TIN CÁ NHÂN
 	private String tempAddNo;
@@ -36,10 +42,10 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 
 	private String perAreaId;
 
-	private String infoImgs;
+
 
 	// NĂNG LỰC:
-	private List<Voice> voices=new LinkedList<>();
+	private List<Voice> voices = new LinkedList<>();
 
 	private String tutorNotices;
 
@@ -57,28 +63,19 @@ public class SaveTutorDto extends SavePersonDto implements Serializable{
 	private String relAreaId;
 
 	// HIỆN ĐANG LÀ
-	// Lưu Student
-	private Set<SaveStudentDto> saveStudentDtos = new HashSet<>();
-
-	// Lưu GraduatedStudent
-	private Set<SaveGraduatedStudentDto> saveGraduatedStudentDtos = new HashSet<>();
-
-	// luu Institution Teacher
-	private Set<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = new HashSet<>();
-
-	// luu School Teacher
-	private Set<SaveSchoolTeacherDto> saveSchoolTeacherDtos = new HashSet<>();
-
-	// luu worker
-	private Set<SaveWorkerDto> saveWorkerDtos = new HashSet<>();
+	
+	private Set<HienDangLa>  hienDangLas=new HashSet<>();
+	
+	
+	private String studyingInsitution;
+	
+	private String teachingInstitution;
+	
+	private String major;
 
 	// TAGS
 	private Set<String> tutorTagIds = new HashSet<>();
 
-	//Registered Subjects 
-
-
-	
-	
+	// Registered Subjects
 
 }

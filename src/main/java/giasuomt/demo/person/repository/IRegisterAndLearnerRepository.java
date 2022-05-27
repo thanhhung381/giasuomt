@@ -1,5 +1,6 @@
 package giasuomt.demo.person.repository;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -34,6 +35,10 @@ public interface IRegisterAndLearnerRepository extends JpaRepository<RegisterAnd
 	
 	@Query("SELECT r.fullName FROM RegisterAndLearner r WHERE r.vocative=:vocative AND r.englishFullName LIKE CONCAT('%',:englishFullName,'%')")
 	List<String> findByVocativeAndEnglishNameAndShowFullName(@Param("vocative") String vocative,@Param("englishFullName") String englishFullName);
+
+	
+	@Query("SELECT r FROM RegisterAndLearner r WHERE r.avatar IS NOT NULL")
+	Set<RegisterAndLearner> findTutorBeforeSynchronize();
 	
 	
 }

@@ -1,6 +1,8 @@
 package giasuomt.demo.job.service;
 
 import java.util.HashSet;
+
+
 import java.util.LinkedList;
 
 import java.util.List;
@@ -23,18 +25,13 @@ import giasuomt.demo.job.repository.ITutorByTheTimeCreatingJobRepository;
 import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.person.Ultils.ExperienceForTutor;
 import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
-import giasuomt.demo.person.model.GraduatedStudent;
-import giasuomt.demo.person.model.InstitutionTeacher;
-import giasuomt.demo.person.model.SchoolTeacher;
-import giasuomt.demo.person.model.Student;
 import giasuomt.demo.person.model.Tutor;
-import giasuomt.demo.person.model.Worker;
+
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
-import giasuomt.demo.uploadfile.model.RetainedImgsIdentificationAws;
-import giasuomt.demo.uploadfile.repository.IRetainedImgsIdentificationAwsRepository;
+
 import lombok.AllArgsConstructor;
 
 @Service
@@ -45,7 +42,6 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 	private IApplicationRepository iApplicationRepository;
 
-	private IRetainedImgsIdentificationAwsRepository iRetainedImgsIdentificationRepository;
 
 	private ITutorRepository iTutorRepository;
 
@@ -73,19 +69,7 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 	private void mapDto(SaveJobDto dto, Job job) {
 		job = (Job) mapDtoToModel.map(dto, job);
 
-		// thêm ảnh
-		Set<Long> retainedImgsIdentificationIds = dto.getRetainedImgsIdentificationId();
-		Set<String> retainedImgsIdentification = new HashSet<>();
-
-		for (Long retainedImgsIdentificationId : retainedImgsIdentificationIds) {
-
-			RetainedImgsIdentificationAws avatar = iRetainedImgsIdentificationRepository
-					.getOne(retainedImgsIdentificationId);
-			
-			retainedImgsIdentification.add(avatar.getUrlRetainedImgsIdentification());
-
-		}
-		job.setRetainedImgsIdentification(retainedImgsIdentification);
+		
 
 		// Subject Group Sure
 
@@ -120,62 +104,7 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		tutorByTheTimeCreatingJob.setTutorTags(tutorTags);
 		
 		
-		
-		// students
-		Set<String> students = new HashSet<>();
-		for (Student student : iTutorRepository.getOne(dto.getTutorId()).getStudents()) {
-			String attributeOfStudent = student.toString();
-					students.add(attributeOfStudent);
-		}
-		tutorByTheTimeCreatingJob.setStudents(students);
-	//	List<String> students = new LinkedList<>();
-	//	for (int i = 0; i < iTutorRepository.getOne(dto.getTutorId()).getStudents().size(); i++) {
-	//		String attributeOfStudent = iTutorRepository.getOne(dto.getTutorId()).getStudents().get(i).toString();
-	//		students.add(attributeOfStudent);
-	//	}
-	//	tutorByTheTimeCreatingJob.setStudents(students);
-		// Instituton Teacher
-		Set<String> institutionTeachers = new HashSet<>();
-		
-		for (InstitutionTeacher  institutionTeacher: iTutorRepository.getOne(dto.getTutorId()).getInstitutionTeachers()) {
-			
-			String attributeOfInstitution = institutionTeacher.toString();
-			institutionTeachers.add(attributeOfInstitution);
-		}
-		tutorByTheTimeCreatingJob.setInstitutionTeachers(institutionTeachers);
-		
-		// Graduated Student
-		Set<String> graduatedStudents = new HashSet<>();
-		for (GraduatedStudent graduatedStudent : iTutorRepository.getOne(dto.getTutorId()).getGraduatedStudents()) {
-			String attributeOfGraduatedStudent = graduatedStudent.toString();
-			graduatedStudents.add(attributeOfGraduatedStudent);
-		}
-		tutorByTheTimeCreatingJob.setGraduatedStudents(graduatedStudents);
-		
-		
-		// School Teacher
-		Set<String> schoolTeachers = new HashSet<>();
-		
-		for (SchoolTeacher schoolTeacher : iTutorRepository.getOne(dto.getTutorId()).getSchoolTeachers()) {
-			String attributeOfSchoolTeacher = schoolTeacher
-					.toString();
-			schoolTeachers.add(attributeOfSchoolTeacher);
-		}
-		
-	
-		// Workers
-		Set<String> workers = new HashSet<>();
-		for (Worker worker : iTutorRepository.getOne(dto.getTutorId()).getWorkers()) {
-			String attributeOfWorker = worker.toString();
-			workers.add(attributeOfWorker);
-		}
-		tutorByTheTimeCreatingJob.setWorkers(workers);
-//		List<String> workers = new LinkedList<>();
-//		for (int i = 0; i < iTutorRepository.getOne(dto.getTutorId()).getWorkers().size(); i++) {
-//			String attributeOfWorker = iTutorRepository.getOne(dto.getTutorId()).getWorkers().get(i).toString();
-//			workers.add(attributeOfWorker);
-//		}
-		//tutorByTheTimeCreatingJob.setWorkers(workers);
+
 
 		job.setTutorByTheTimeCreatingJob(tutorByTheTimeCreatingJob);
 		iTutorByTheTimeCreatingJobRepository.save(tutorByTheTimeCreatingJob);

@@ -2,6 +2,7 @@ package giasuomt.demo.user.controller;
 
 import java.util.Optional;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,7 +29,7 @@ import giasuomt.demo.user.dto.ResponseUserWithBasicInfor;
 import giasuomt.demo.user.dto.SaveUserDto;
 import giasuomt.demo.user.dto.UpdateRegisterAndLearnerForUser;
 import giasuomt.demo.user.dto.UpdateAndDeleteRoleForUser;
-import giasuomt.demo.user.dto.UpdateAvatarUser;
+
 import giasuomt.demo.user.dto.UpdatePasswordDto;
 import giasuomt.demo.user.dto.UpdateTutorForUser;
 import giasuomt.demo.user.dto.findJWT;
@@ -130,18 +131,7 @@ public class UserController extends GenericController<SaveUserDto, User, Long> {
 
 	}
 
-	@PutMapping("/updateAvatarUser")
-	public ResponseEntity<Object> updateAvatarUser(@RequestBody UpdateAvatarUser dto, BindingResult errors) {
 
-		User roleDeleteForUser = iUserService.updateAvartarUser(dto);
-
-		if (errors.hasErrors()) {
-			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-		}
-
-		return ResponseHandler.getResponse(roleDeleteForUser, HttpStatus.OK);
-
-	}
 
 	@GetMapping("/findUserbyUsername/{username}")
 	public ResponseEntity<Object> findUserByUsername(@PathVariable("username") String username) {

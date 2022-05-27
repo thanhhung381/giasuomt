@@ -1,7 +1,11 @@
 package giasuomt.demo.person.model;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -48,21 +52,20 @@ public class RegisterAndLearner extends Person {
 	// MEDIA
 	private String avatar;
 
-	private String publicImgs;
+	@ElementCollection
+	private Set<String> publicImgs=new HashSet<>();
 
-	private String privateImgs;
+	
+	@ElementCollection
+	private Set<String> privateImgs=new HashSet<>();
 
-	private String infoImgs;
+	
 	
 	// HIỆN ĐANG LÀ
 	@OneToMany(mappedBy = "registerAndLearner", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Schooler> schoolers = new LinkedList<>();
 	
-	@OneToMany(mappedBy = "registerAndLearner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Student> students = new LinkedList<>();
-
-	@OneToMany(mappedBy = "registerAndLearner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Worker> workers = new LinkedList<>();
+	
 	
 	//TAGS
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
@@ -110,24 +113,9 @@ public class RegisterAndLearner extends Person {
 		this.schoolers.remove(schooler);
 	}
 	
-	public void addStudent(Student student) {
-		student.setRegisterAndLearner(this);
-		this.students.add(student);
-	}
 
-	public void removeStudent(Student student) {
-		this.students.remove(student);
-	}
 	
-	public void addWorker(Worker worker) {
-		worker.setRegisterAndLearner(this);
-		this.workers.add(worker);
-	}
 
-	public void removeWorker(Worker worker) {
-		this.workers.remove(worker);
-	}
-	
 	
 	public void removeRelationshipWith(RegisterAndLearnerRelationship relationship) {
 		this.relationshipWith.remove(relationship);

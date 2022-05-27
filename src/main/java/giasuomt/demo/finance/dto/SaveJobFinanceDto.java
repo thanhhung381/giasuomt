@@ -29,8 +29,6 @@ public class SaveJobFinanceDto {
 
 	private WayOfPaying wayOfPaying;
 	
-
-	private List<Long> billImgsId=new LinkedList<>();
 	
 	private int amountOfMoney;
 	

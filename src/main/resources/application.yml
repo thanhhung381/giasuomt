@@ -19,7 +19,7 @@ spring:
     generate-ddl: true #để thằng Hibernate tự nhìn Object và tạo database được
     hibernate:
       ddl-auto: update
-      # ddl-auto: create-drop 
+      # ddl-auto: create-drop  
   servlet:
     multipart:
       max-file-size: 200MB
@@ -45,19 +45,35 @@ amazon:
   accessKeyKhangAdmin: V61PV4PFI9CO5SDX0FVW                #tạo user
   secretkeyKhangAdmin: wzbD58XR7odCJoR6XDC1t7EIa83QNYfVYjY2PHAq
   #avatar     #   
-  avatarURL: https://avatargsomt.hn.ss.bfcplatform.vn/
+  avatarURL: https://hn.ss.bfcplatform.vn/avatargsomt/
   bucketnameAvatar: avatargsomt
 #billimage  
-  billImageURL: https://billimagegsomt.hn.ss.bfcplatform.vn/
+  billImageURL: https://hn.ss.bfcplatform.vn/billimagegsomt/
   bucketnamebillImage: billimagegsomt
 #feedback
-  feedbackImageURL: https://feedbackimagegsomt.hn.ss.bfcplatform.vn/
+  feedbackImageURL: https://hn.ss.bfcplatform.vn/feedbackimagegsomt/
   bucketnamefeedbackImage: feedbackimagegsomt
-#retainedrmgsrdentification  retainedimgsidentificationgsomt
-  retainedimgsidentificationURL: https://retainedimgsidentificationgsomt.hn.ss.bfcplatform.vn/
+#retainedrmgsrdentification  
+  retainedimgsidentificationURL: https://hn.ss.bfcplatform.vn/retainedimgsidentificationgsomt/
   bucketnameretainedimgsidentification: retainedimgsidentificationgsomt 
-  
-
+#tutorAvatar 
+  tutorAvatarURL: https://hn.ss.bfcplatform.vn/tutorgsomt/
+  bucketnametutorAvatar: tutorgsomt
+#privateimgsTutor
+  tutorPrivateimgsURL: https://hn.ss.bfcplatform.vn/privateimgstutor/
+  bucketnamePrivateimgs: privateimgstutor
+#publicimgsTutor
+  tutorPublicimgsURL: https://hn.ss.bfcplatform.vn/publicimgstutor/
+  bucketnamePublicimgs: publicimgstutor  
+#registerandlearner
+  registerandlearnerURL: https://hn.ss.bfcplatform.vn/registerandlearner/
+  bucketnameregisterandlearner: registerandlearner
+#privateimgsRegisterandlearner
+  registerandlearnerPrivateimgsURL: https://hn.ss.bfcplatform.vn/privateimgsregisterandlearner/
+  bucketnameRegisterandlearners: privateimgsregisterandlearner
+#publicimgsRegisterandlearner
+  registerandlearnerPublicimgsURL: https://hn.ss.bfcplatform.vn/publicimgsregisterandlearner/
+  bucketnameRegisterandlearner: publicimgsregisterandlearner    
 
 
   

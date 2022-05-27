@@ -2,6 +2,7 @@ package giasuomt.demo.job.service;
 
 import java.util.LinkedList;
 
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -17,8 +18,6 @@ import giasuomt.demo.job.repository.IJobReviewRepository;
 import giasuomt.demo.person.Ultils.ExperienceForTutor;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
-import giasuomt.demo.uploadfile.model.FeedbackImageAws;
-import giasuomt.demo.uploadfile.repository.IFeedbackImageAwsRepository;
 import giasuomt.demo.uploadfile.service.IFeedBackImageAwsService;
 import lombok.AllArgsConstructor;
 
@@ -28,7 +27,7 @@ public class JobReviewService extends GenericService<SaveJobReviewDto, JobReview
 
 	private IJobReviewRepository iJobReviewRepository;
 
-	private IFeedbackImageAwsRepository iFeedBackImageRepository;
+	
 
 	private IJobRepository iJobRepository;
 
@@ -48,17 +47,9 @@ public class JobReviewService extends GenericService<SaveJobReviewDto, JobReview
 	void map(SaveJobReviewDto dto, JobReview jobReview) {
 		jobReview = (JobReview) mapDtoToModel.map(dto, jobReview);
 
-		List<Long> feedbackImagesId = dto.getFeedbackImgIds();
+	
 
-		List<String> feedbacks = new LinkedList<>();
-
-		for (int i = 0; i < feedbackImagesId.size(); i++) {
-			FeedbackImageAws feedBackImage = iFeedBackImageRepository.getOne(feedbackImagesId.get(i));
-
-			feedbacks.add(feedBackImage.getUrlFeedbackImage());
-
-		}
-		jobReview.setFeedbackImgs(feedbacks);
+	
 
 	}
 
