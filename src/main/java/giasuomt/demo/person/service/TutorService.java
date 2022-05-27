@@ -1,7 +1,9 @@
 package giasuomt.demo.person.service;
 
 import java.util.ArrayList;
+
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +19,8 @@ import giasuomt.demo.commondata.generator.TutorCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
+import giasuomt.demo.commondata.util.Calendar;
+import giasuomt.demo.commondata.util.HienDangLa;
 import giasuomt.demo.commondata.util.Voice;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.educational.repository.ISubjectGroupRepository;
@@ -25,32 +29,20 @@ import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
 import giasuomt.demo.person.dto.TutorForWebDto;
-import giasuomt.demo.person.dto.SaveGraduatedStudentDto;
-import giasuomt.demo.person.dto.SaveInstitutionTeacherDto;
-import giasuomt.demo.person.dto.SaveSchoolTeacherDto;
-import giasuomt.demo.person.dto.SaveStudentDto;
+import giasuomt.demo.person.dto.UpdateCalendarDto;
+import giasuomt.demo.person.dto.UpdateNowLevelAndNowUpdateAtDto;
 import giasuomt.demo.person.dto.SaveTutorDto;
-import giasuomt.demo.person.dto.SaveWorkerDto;
 
-import giasuomt.demo.person.dto.UpdateTutorAvatar;
-import giasuomt.demo.person.model.GraduatedStudent;
-import giasuomt.demo.person.model.InstitutionTeacher;
-import giasuomt.demo.person.model.SchoolTeacher;
-import giasuomt.demo.person.model.Student;
 import giasuomt.demo.person.model.Tutor;
-import giasuomt.demo.person.model.Worker;
-import giasuomt.demo.person.repository.IGraduatedStudentRepository;
-import giasuomt.demo.person.repository.IInstitutionTeacherRepository;
-import giasuomt.demo.person.repository.ISchoolTeacherRepository;
-import giasuomt.demo.person.repository.IStudentRepository;
+
 import giasuomt.demo.person.repository.ITutorRepository;
-import giasuomt.demo.person.repository.IWorkerRepository;
+
 import giasuomt.demo.staff.dto.UpdateAvatarStaff;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.tags.repository.ITutorTagRepository;
 import giasuomt.demo.task.dto.UpdateSubjectGroupForSureDto;
 import giasuomt.demo.task.dto.UpdateSubjectGroupMaybeDto;
-import giasuomt.demo.uploadfile.repository.IAvatarAwsRepository;
+
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
@@ -71,25 +63,11 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 	private IAreaRepository iAreaRepository;
 
-	private IStudentRepository iStudentRepository;
-
-	private ISchoolTeacherRepository iSchoolTeacherRepository;
-
-	private IInstitutionTeacherRepository iInstitutionTeacherRepository;
-
-	private IGraduatedStudentRepository iGraduatedStudentRepository;
-
-	private IWorkerRepository iWorkerRepository;
-
 	private ITutorTagRepository iTutorTagRepository;
-
-	private IAvatarAwsRepository iFileEntityRepository;
 
 	private ISubjectGroupRepository iSubjectGroupRepository;
 
 	private IUserRepository iUserRepository;
-
-	private IAvatarAwsRepository iawsAvatarRepository;
 
 	@Override
 	public List<Tutor> findAll() {
@@ -103,8 +81,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		Tutor tutor = new Tutor();
 
 		tutor.setId(Long.parseLong(generateTutorCode()));
-				;
-		
+		;
 
 		return save(dto, tutor);
 	}
@@ -120,8 +97,6 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		String avatarURL = tutor.getAvatar();
 
 		awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
-
-		iawsAvatarRepository.deleteByUrlAvatar(avatarURL);
 
 		return save(dto, tutor);
 	}
@@ -203,25 +178,18 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		tutor.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toUpperCase());
 
-		if(iAreaRepository.findById(dto.getTempAreaId()).isPresent())
+		if (iAreaRepository.findById(dto.getTempAreaId()).isPresent())
 			tutor.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
-		
-		
-		if(iAreaRepository.findById(dto.getPerAreaId()).isPresent())
+
+		if (iAreaRepository.findById(dto.getPerAreaId()).isPresent())
 			tutor.setPerArea(iAreaRepository.getOne(dto.getPerAreaId()));
-		
-		if(iAreaRepository.findById(dto.getRelAreaId()).isPresent())
+
+		if (iAreaRepository.findById(dto.getRelAreaId()).isPresent())
 			tutor.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
-		
 
 		tutor.setExp(0.0);
 
 		// save avatar
-
-		if(iawsAvatarRepository.findById(dto.getIdAvatar()).isPresent())
-			tutor.setAvatar(iawsAvatarRepository.getOne(dto.getIdAvatar()).getUrlAvatar());
-		
-
 		// Relationship
 //		List<SaveRelationshipDto> saveRelationshipDtoWiths = dto.getSaveRelationshipDtosWith();
 //		for (int i = 0; i < tutor.getRelationshipWith().size(); i++) {
@@ -262,137 +230,20 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		tutor.setTutorTags(tutorTags);
 
-		Set<SaveStudentDto> saveStudentDtos = dto.getSaveStudentDtos();
-		for (Student student : tutor.getStudents()) {
-			Boolean deleteThis = true;
-			for (SaveStudentDto saveStudentDto : saveStudentDtos) {
-				if (student.getId() == saveStudentDto.getId())
-					deleteThis = false;
-			}
-			if (deleteThis) {
-				tutor.removeStudent(student); // Delete
-			}
-		}
-		for (SaveStudentDto saveStudentDto : saveStudentDtos) {
-			if (saveStudentDto.getId() != null && saveStudentDto.getId() > 0) { // Update
-				Student student = iStudentRepository.getOne(saveStudentDto.getId());
-				student = (Student) mapDtoToModel.map(saveStudentDto, student);
-				tutor.addStudent(student);
-			} else { // Create
-				Student student = new Student();
-				student = (Student) mapDtoToModel.map(saveStudentDto, student);
-				tutor.addStudent(student);
-			}
-		}
-
-		Set<SaveGraduatedStudentDto> saveGraduatedStudentDtos = dto.getSaveGraduatedStudentDtos();
-		for (GraduatedStudent graduatedStudent : tutor.getGraduatedStudents()) {
-			Boolean deleteThis = true;
-			for (SaveGraduatedStudentDto saveGraduatedStudentDto : saveGraduatedStudentDtos) {
-				if (graduatedStudent.getId() == saveGraduatedStudentDto.getId())
-					deleteThis = false;
-			}
-
-			if (deleteThis) {
-				tutor.removeGraduatedStudent(graduatedStudent);
-			}
-		}
-		for (SaveGraduatedStudentDto saveGraduatedStudentDto : saveGraduatedStudentDtos) {
-			if (saveGraduatedStudentDto.getId() != null && saveGraduatedStudentDto.getId() > 0) { // Update
-				GraduatedStudent graduatedStudent = iGraduatedStudentRepository.getOne(saveGraduatedStudentDto.getId());
-				graduatedStudent = (GraduatedStudent) mapDtoToModel.map(saveGraduatedStudentDto, graduatedStudent);
-				tutor.addGraduatedStudent(graduatedStudent);
-			} else { // Create
-				GraduatedStudent graduatedStudent = new GraduatedStudent();
-				graduatedStudent = (GraduatedStudent) mapDtoToModel.map(saveGraduatedStudentDto, graduatedStudent);
-				tutor.addGraduatedStudent(graduatedStudent);
-			}
-		}
-
-		Set<SaveInstitutionTeacherDto> saveInstitutionTeacherDtos = dto.getSaveInstitutionTeacherDtos();
-
-		for (InstitutionTeacher institutionTeacher : tutor.getInstitutionTeachers()) {
-			Boolean deleteThis = true;
-			for (SaveInstitutionTeacherDto saveInstitutionTeacherDto : saveInstitutionTeacherDtos) {
-				if (institutionTeacher.getId() == saveInstitutionTeacherDto.getId())
-					deleteThis = false;
-			}
-			if (deleteThis) {
-				tutor.removeInstitutionTeacher(institutionTeacher);
-			}
-		}
-		for (SaveInstitutionTeacherDto saveInstitutionTeacherDto : saveInstitutionTeacherDtos) {
-			if (saveInstitutionTeacherDto.getId() != null && saveInstitutionTeacherDto.getId() > 0) { // Update
-				InstitutionTeacher institutionTeacher = iInstitutionTeacherRepository
-						.getOne(saveInstitutionTeacherDto.getId());
-				institutionTeacher = (InstitutionTeacher) mapDtoToModel.map(saveInstitutionTeacherDto,
-						institutionTeacher);
-				tutor.addInstitutionTeacher(institutionTeacher);
-			} else { // Create
-				InstitutionTeacher institutionTeacher = new InstitutionTeacher();
-				institutionTeacher = (InstitutionTeacher) mapDtoToModel.map(saveInstitutionTeacherDto,
-						institutionTeacher);
-				tutor.addInstitutionTeacher(institutionTeacher);
-			}
-		}
-
-		Set<SaveSchoolTeacherDto> saveSchoolTeacherDtos = dto.getSaveSchoolTeacherDtos();
-
-		for (SchoolTeacher schoolTeacher : tutor.getSchoolTeachers()) {
-			Boolean deleteThis = true;
-			for (SaveSchoolTeacherDto saveSchoolTeacherDto : saveSchoolTeacherDtos) {
-				if (schoolTeacher.getId() == saveSchoolTeacherDto.getId())
-					deleteThis = false;
-			}
-			if (deleteThis) {
-				tutor.removeSchoolTeacher(schoolTeacher);
-			}
-		}
-
-		for (SaveSchoolTeacherDto saveSchoolTeacherDto : saveSchoolTeacherDtos) {
-			if (saveSchoolTeacherDto.getId() != null && saveSchoolTeacherDto.getId() > 0) { // Update
-				SchoolTeacher schoolTeacher = iSchoolTeacherRepository.getOne(saveSchoolTeacherDto.getId());
-				schoolTeacher = (SchoolTeacher) mapDtoToModel.map(saveSchoolTeacherDto, schoolTeacher);
-				tutor.addSchoolTeacher(schoolTeacher);
-			} else { // Create
-				SchoolTeacher schoolTeacher = new SchoolTeacher();
-				schoolTeacher = (SchoolTeacher) mapDtoToModel.map(saveSchoolTeacherDto, schoolTeacher);
-				tutor.addSchoolTeacher(schoolTeacher);
-			}
-		}
-
-		Set<SaveWorkerDto> saveWorkerDtos = dto.getSaveWorkerDtos();
-		for (Worker worker : tutor.getWorkers()) {
-			Boolean deleteThis = true;
-			for (SaveStudentDto saveStudentDto : saveStudentDtos) {
-				if (worker.getId() == saveStudentDto.getId())
-					deleteThis = false;
-			}
-			if (deleteThis) {
-				tutor.removeWorker(worker); // Delete
-			}
-
-		}
-		for (SaveWorkerDto saveWorkerDto : saveWorkerDtos) {
-			if (saveWorkerDto.getId() != null && saveWorkerDto.getId() > 0) {
-				Worker worker = iWorkerRepository.getOne(saveWorkerDto.getId());
-				worker = (Worker) mapDtoToModel.map(saveWorkerDto, worker);
-				tutor.addWorker(worker);
-			} else {
-				Worker worker = new Worker();
-				worker = (Worker) mapDtoToModel.map(saveWorkerDto, worker);
-				tutor.addWorker(worker);
-			}
-		}
-
-		
-		
-		Set<Voice> voices=new HashSet<>();
+		// voice
+		Set<Voice> voices = new HashSet<>();
 		for (Voice voice : dto.getVoices()) {
 			voices.add(voice);
 		}
-		
+
 		tutor.setVoices(voices);
+		// Hien dang la
+		Set<HienDangLa> heiDangLas = new HashSet<>();
+		for (HienDangLa hienDangLa : dto.getHienDangLas()) {
+			heiDangLas.add(hienDangLa);
+		}
+
+		tutor.setHienDangLas(heiDangLas);
 		// User
 
 	}
@@ -402,16 +253,14 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		// lấy những người có tutorcode à ko null
 		Tutor personHasTutorCode = iTutorRepository.getPersonTutorCodeNotNULL();
-		
-		
 
-		if (personHasTutorCode != null ) {
+		if (personHasTutorCode != null) {
 
-			
 			System.out.println(personHasTutorCode.getId());
 			if (personHasTutorCode != null) {
 
-				String tutorCodeWithIdMaxorPreviousId = String.valueOf(personHasTutorCode.getId());// lấy mã đó ra từ Person
+				String tutorCodeWithIdMaxorPreviousId = String.valueOf(personHasTutorCode.getId());// lấy mã đó ra từ
+																									// Person
 				// trước đó cuối
 
 				int count = TutorCodeGenerator
@@ -475,49 +324,21 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 	}
 
-	@Override
-	public Tutor updateAvatarTutor(UpdateTutorAvatar dto) {
-		try {
-			Tutor tutor = iTutorRepository.getOne(dto.getId());
-
-			String avatarURL = tutor.getAvatar();
-
-			awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
-			
-			iawsAvatarRepository.deleteByUrlAvatar(avatarURL);
-			
-			
-			tutor.setAvatar(iFileEntityRepository.getById(dto.getIdAvatar()).getUrlAvatar());
-			
-			
-			return iTutorRepository.save(tutor);
-		} catch (AmazonServiceException e) {
-
-			e.printStackTrace();
-		} catch (SdkClientException e) {
-
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
 	private void mapTutorForResponse(Tutor tutor, TutorForWebDto tutorForWebDto) {
 		tutorForWebDto.setId(tutor.getId());
 		tutorForWebDto.setFullName(tutor.getFullName());
 		tutorForWebDto.setAvatar(tutor.getAvatar());
 		tutorForWebDto.setGender(tutor.getGender());
 		tutorForWebDto.setAverageStarNumbers(tutor.getAverageStarNumbers());
-		 tutorForWebDto.setSubjectGroupMaybes(tutor.getSubjectGroupMaybes());
-		 tutorForWebDto.setSubjectGroupSures(tutor.getSubjectGroupSures()); 
+		tutorForWebDto.setSubjectGroupMaybes(tutor.getSubjectGroupMaybes());
+		tutorForWebDto.setSubjectGroupSures(tutor.getSubjectGroupSures());
 		tutorForWebDto.setRelArea(tutor.getRelArea());
 		tutorForWebDto.setAdvantageNote(tutor.getAdvantageNote());
 		tutorForWebDto.setVoices(tutor.getVoices());
 		tutorForWebDto.setTutorTags(tutor.getTutorTags());
 		tutorForWebDto.setTutorReviewNumbers(tutor.getTutorReviews().size());
 		tutorForWebDto.setJobNumbers(tutor.getJobs().size());
-		
- 
+
 	}
 
 	private List<TutorForWebDto> mapTutorForResponseList(List<Tutor> tutors) {
@@ -586,8 +407,43 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		}
 		return null;
 	}
-	
-	
-	
+
+	@Override
+	public Tutor updateNowLevelAndNowUpdateAt(UpdateNowLevelAndNowUpdateAtDto dto) {
+		try {
+
+			Tutor tutor = iTutorRepository.getOne(dto.getId());
+
+			tutor.setNowLevel(dto.getNowLevel());
+
+			tutor.setNowLevelUpdatedAt(dto.getNowLevelUpdatedAt());
+
+			return iTutorRepository.save(tutor);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Tutor updateCalendar(UpdateCalendarDto dto) {
+		try {
+
+			Tutor tutor = iTutorRepository.getOne(dto.getId());
+
+			Set<Calendar> calendars = new HashSet<>();
+			for (Calendar calendar : dto.getCalendars()) {
+				calendars.add(calendar);
+			}
+			tutor.setCalendars(calendars);
+
+			return iTutorRepository.save(tutor);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

@@ -2,6 +2,7 @@ package giasuomt.demo.person.service;
 
 import java.util.LinkedList;
 
+
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,35 +17,27 @@ import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.location.repository.IRegisterAndLearnerAddressRepository;
 import giasuomt.demo.location.repository.ITaskPlaceAddressRepository;
-import giasuomt.demo.person.dto.SaveGraduatedStudentDto;
-import giasuomt.demo.person.dto.SaveInstitutionTeacherDto;
-import giasuomt.demo.person.dto.SaveSchoolTeacherDto;
 import giasuomt.demo.person.dto.SaveSchoolerDto;
-import giasuomt.demo.person.dto.SaveStudentDto;
 import giasuomt.demo.person.dto.SaveRegisterAndLearnerDto;
 import giasuomt.demo.person.dto.SaveRegisterAndLearnerRelationshipDto;
-import giasuomt.demo.person.dto.SaveWorkerDto;
 import giasuomt.demo.person.dto.UpdateAvatarRegisterAndLearner;
-import giasuomt.demo.person.model.GraduatedStudent;
-import giasuomt.demo.person.model.InstitutionTeacher;
-import giasuomt.demo.person.model.SchoolTeacher;
+
 import giasuomt.demo.person.model.Schooler;
-import giasuomt.demo.person.model.Student;
+
 import giasuomt.demo.person.model.RegisterAndLearner;
 import giasuomt.demo.person.model.RegisterAndLearnerRelationship;
-import giasuomt.demo.person.model.Worker;
-import giasuomt.demo.person.repository.IGraduatedStudentRepository;
-import giasuomt.demo.person.repository.IInstitutionTeacherRepository;
+
+
 import giasuomt.demo.person.repository.IRegisterAndLearnerRelationshipRepository;
-import giasuomt.demo.person.repository.ISchoolTeacherRepository;
+
 import giasuomt.demo.person.repository.ISchoolerRepository;
-import giasuomt.demo.person.repository.IStudentRepository;
+
 import giasuomt.demo.person.repository.IRegisterAndLearnerRepository;
-import giasuomt.demo.person.repository.IWorkerRepository;
+
 import giasuomt.demo.staff.model.Staff;
 import giasuomt.demo.tags.model.RegisterAndLearnerTag;
 import giasuomt.demo.tags.repository.IRegisterAndLearnerTagRepository;
-import giasuomt.demo.uploadfile.repository.IAvatarAwsRepository;
+
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
@@ -68,17 +61,17 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 	private IRegisterAndLearnerAddressRepository iRegisterAndLearnerAddressRepository;
 
-	private IStudentRepository iStudentRepository;
+	
 
 	private ISchoolerRepository iSchoolerRepository;
 
-	private IWorkerRepository iWorkerRepository;
+	
 
 	private IRegisterAndLearnerTagRepository iRegisterAndLearnerTagRepository;
 
 	private IRegisterAndLearnerRelationshipRepository iRegisterAndLearnerRelationshipRepository;
 
-	private IAvatarAwsRepository iFileEntityRepository;
+
 
 	private IUserRepository iUserRepository;
 
@@ -106,7 +99,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 		awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
 		
-		iFileEntityRepository.deleteByUrlAvatar(avatarURL);
+
 
 		return save(dto, registerAndLearner);
 	}
@@ -215,7 +208,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 		// save avatar
 
-		registerAndLearner.setAvatar(iFileEntityRepository.getOne(dto.getIdAvatar()).getUrlAvatar());
+		
 
 		// Relationship
 		List<SaveRegisterAndLearnerRelationshipDto> saveRegisterAndLearnerRelationshipDtoWiths = dto
@@ -291,56 +284,9 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 			}
 		}
 
-		List<SaveStudentDto> saveStudentDtos = dto.getStudents();
-		for (int i = 0; i < registerAndLearner.getStudents().size(); i++) {
-			Boolean deleteThis = true;
-			for (int j = 0; j < saveStudentDtos.size(); j++) {
-				if (registerAndLearner.getStudents().get(i).getId() == saveStudentDtos.get(j).getId())
-					deleteThis = false;
-			}
-			if (deleteThis) {
-				registerAndLearner.removeStudent(registerAndLearner.getStudents().get(i)); // Delete
-				i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
-			}
-		}
-		for (int i = 0; i < saveStudentDtos.size(); i++) {
-			SaveStudentDto saveStudentDto = saveStudentDtos.get(i);
-			if (saveStudentDto.getId() != null && saveStudentDto.getId() > 0) { // Update
-				Student student = iStudentRepository.getOne(saveStudentDto.getId());
-				student = (Student) mapDtoToModel.map(saveStudentDto, student);
-				registerAndLearner.addStudent(student);
-			} else { // Create
-				Student student = new Student();
-				student = (Student) mapDtoToModel.map(saveStudentDto, student);
-				registerAndLearner.addStudent(student);
-			}
-		}
 
-		List<SaveWorkerDto> saveWorkerDtos = dto.getWorkers();
-		for (int i = 0; i < registerAndLearner.getWorkers().size(); i++) {
-			Boolean deleteThis = true;
-			for (int j = 0; j < saveWorkerDtos.size(); j++) {
-				if (registerAndLearner.getWorkers().get(i).getId() == saveWorkerDtos.get(j).getId()) {
-					deleteThis = false;
-				}
-			}
-			if (deleteThis) {
-				registerAndLearner.removeWorker(registerAndLearner.getWorkers().get(i));
-				i--;
-			}
-		}
-		for (int i = 0; i < saveWorkerDtos.size(); i++) {
-			SaveWorkerDto saveWorkerDto = saveWorkerDtos.get(i);
-			if (saveWorkerDto.getId() != null && saveWorkerDto.getId() > 0) {
-				Worker worker = iWorkerRepository.getOne(saveWorkerDto.getId());
-				worker = (Worker) mapDtoToModel.map(saveWorkerDto, worker);
-				registerAndLearner.addWorker(worker);
-			} else {
-				Worker worker = new Worker();
-				worker = (Worker) mapDtoToModel.map(saveWorkerDto, worker);
-				registerAndLearner.addWorker(worker);
-			}
-		}
+
+	
 		// user
 
 	}
@@ -401,10 +347,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 		awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
 		
-		iFileEntityRepository.deleteByUrlAvatar(avatarURL);
-
-
-		registerAndLearner.setAvatar(iFileEntityRepository.getById(dto.getIdAvatar()).getUrlAvatar());
+		
 		return null;
 	}
 

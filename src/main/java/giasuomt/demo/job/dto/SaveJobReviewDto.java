@@ -21,5 +21,4 @@ public class SaveJobReviewDto {
 	
 	private Long jobId;
 	
-	private List<Long> feedbackImgIds=new LinkedList<>();
 }

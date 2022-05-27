@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,29 +16,32 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
-import giasuomt.demo.uploadfile.model.BillIamgeAws;
-import giasuomt.demo.uploadfile.model.FeedbackImageAws;
+
 import giasuomt.demo.uploadfile.service.IAvatarAwsService;
 import giasuomt.demo.uploadfile.service.IFeedBackImageAwsService;
 import lombok.AllArgsConstructor;
 
 @RequestMapping("/api/feedBackImage")
 @RestController
-@AllArgsConstructor
 public class FeedBackImageAwsController {
-	
+
+	@Autowired
 	private IFeedBackImageAwsService iFeedBackImageService;
-	
+
+	@Value("${amazon.billImageURL}")
+	private String urlFeedBackImage;
+
 	@GetMapping("/findall")
 	public ResponseEntity<Object> findAll() {
 
-		List<FeedbackImageAws> fileEntities = iFeedBackImageService.findAll();
+		List<String> fileEntities = iFeedBackImageService.findAll();
 
 		if (fileEntities.isEmpty())
 			return ResponseHandler.getResponse("There is no data", HttpStatus.BAD_REQUEST);
@@ -44,18 +49,121 @@ public class FeedBackImageAwsController {
 		return ResponseHandler.getResponse(fileEntities, HttpStatus.OK);
 
 	}
+
+	@PostMapping("/createFeedBackImg/{id}")
+	public ResponseEntity<Object> uploadPublicImg(@RequestParam("file") MultipartFile file,
+			@PathVariable("id") String id) throws IOException {
+
+		List<String> listOject = iFeedBackImageService.findAll();
+		if (listOject.isEmpty()) {
+			String filename = StringUtils.cleanPath(file.getOriginalFilename());
+
+			if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
+
+				String awsAvatarURL = iFeedBackImageService.uploadImageToAmazon(file,
+						id + "Review" + String.valueOf(1));
+
+				return ResponseHandler.getResponse(awsAvatarURL, HttpStatus.CREATED);
+			}
+
+			else
+				return ResponseHandler.getResponse("You have to upload files which have type of .jpg, .png, .jpeg ",
+						HttpStatus.BAD_REQUEST);
+		} else {
+
+			String lastURL = iFeedBackImageService.findAllByNameContainer(id + "Review", listOject);
+			if (lastURL == null) {
+				String filename = StringUtils.cleanPath(file.getOriginalFilename());
+
+				if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
+
+					String awsAvatarURL = iFeedBackImageService.uploadImageToAmazon(file,
+							id + "Review" + String.valueOf(1));
+
+					return ResponseHandler.getResponse(awsAvatarURL, HttpStatus.CREATED);
+				}
+
+				else
+					return ResponseHandler.getResponse("You have to upload files which have type of .jpg, .png, .jpeg ",
+							HttpStatus.BAD_REQUEST);
+			} else {
+				String filename = StringUtils.cleanPath(file.getOriginalFilename());
+
+				if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
+
+					int i = Integer.parseInt(lastURL.substring(lastURL.lastIndexOf("w") + 1));
+
+					String awsAvatarURL = iFeedBackImageService.uploadImageToAmazon(file,
+							id + "Review" + String.valueOf(i + 1));
+
+					return ResponseHandler.getResponse(awsAvatarURL, HttpStatus.CREATED);
+				}
+
+				else
+					return ResponseHandler.getResponse("You have to upload files which have type of .jpg, .png, .jpeg ",
+							HttpStatus.BAD_REQUEST);
+			}
+
+		}
+
+	}
 	
+	@PostMapping("/createFeedBackImgs")
+	public ResponseEntity<Object> uploadPublicImgs(@RequestParam("files") MultipartFile[] files,
+			@RequestParam("id") String id) throws IOException {
+
+		try {
+
+			int count = 0;
+			for (MultipartFile file : files) {
+				String filename = StringUtils.cleanPath(file.getOriginalFilename());
+
+				if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
+
+					count += 1;
+
+					String awsAvatarURL = iFeedBackImageService.uploadImageToAmazon(file,
+							id + "Review" + String.valueOf(count));
+
+				}
+
+				else
+					return ResponseHandler.getResponse("You have to upload files which have type of .jpg, .png, .jpeg ",
+							HttpStatus.BAD_REQUEST);
+			}
+
+			return ResponseHandler.getResponse("Upload files successfully", HttpStatus.CREATED);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return ResponseHandler.getResponse("Cant not upload", HttpStatus.BAD_REQUEST);
+
+	}
+
+	@DeleteMapping("/deleteBillImage/{nameFile}")
+	public ResponseEntity<Object> deleteTutorPublicImg(@PathVariable("nameFile") String nameFile) {
+
+		if (!iFeedBackImageService.checkExistObjectinS3(nameFile))
+			return ResponseHandler.getResponse("Don't have any url and id", HttpStatus.BAD_REQUEST);
+
+		iFeedBackImageService.deleteByFileNameAndID(urlFeedBackImage + nameFile);
+
+		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
+	}
 	
-	@PostMapping("/create")
-	public ResponseEntity<Object> upload(@RequestParam("file") MultipartFile file) throws IOException {
+	@PutMapping("/UpdatePrivateImg/{nameFile}")
+	public ResponseEntity<Object> UpdatePrivateImg(@RequestParam("file") MultipartFile file,
+			@PathVariable("nameFile") String nameFile) throws IOException {
 
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
 		if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
 
-			FeedbackImageAws feedbackImageAws=iFeedBackImageService.uploadImageToAmazon(file);
+			String awsAvatarURL = iFeedBackImageService.updateFeedBackToAmazon(file, nameFile);
 
-			return ResponseHandler.getResponse(feedbackImageAws, HttpStatus.CREATED);
+			return ResponseHandler.getResponse(awsAvatarURL, HttpStatus.CREATED);
 		}
 
 		else
@@ -63,30 +171,5 @@ public class FeedBackImageAwsController {
 					HttpStatus.BAD_REQUEST);
 
 	}
-	@DeleteMapping("/delete/{nameFile}/{id}")
-	public ResponseEntity<Object> delete(@PathVariable("nameFile") String nameFile,@PathVariable("id") Long id) {
-		
-		String url="https://s3.ap-southeast-1.amazonaws.com/avatargsomt/";
-		 
-		if (!iFeedBackImageService.checkExistIdOfT(id) || !iFeedBackImageService.checkExistObjectinS3(nameFile))
-			return ResponseHandler.getResponse("Don't have any url", HttpStatus.BAD_REQUEST);
-		
-		iFeedBackImageService.deleteByFileNameAndID(url+nameFile,id);
-		
-		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
-	}
-	
-	@DeleteMapping("/deleteById/{id}")
-	public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
-		
-	
-		 
-		if (!iFeedBackImageService.checkExistIdOfT(id) )
-			return ResponseHandler.getResponse("Don't have any id", HttpStatus.BAD_REQUEST);
-		
-		iFeedBackImageService.deleteById(id);
-		
-		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
-	}
-	
+
 }

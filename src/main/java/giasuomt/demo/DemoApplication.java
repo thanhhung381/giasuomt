@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -35,12 +36,54 @@ public class DemoApplication extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(DemoApplication.class);
 	}
+	
+	private  List<String> removeDuplicateElemet(List<String> string) {
+		List<String> temp = new LinkedList<>();
+
+		for (int i = 0; i < string.size(); i++) {
+			boolean check = false;
+			for (int j = 0; j < i; j++) {
+				if (string.get(i).contains(string.get(j).substring(string.get(j).lastIndexOf("/"),string.get(j).lastIndexOf("P")))) {
+					check = true;
+					break;
+				}
+			}
+
+			if (check == false) {
+
+				for (int j = i + 1; j < string.size(); j++) {
+					if (string.get(i).contains(string.get(j))) {
+
+						string.remove(j);
+						j--;
+					}
+				}
+				temp.add(string.get(i));
+			}
+
+		}
+
+		return temp;
+	}
 
 	public static void main(String[] args) {
 
 		SpringApplication.run(DemoApplication.class, args);
+		
+		List<String> test=new LinkedList<>();
+		
+		test.add("http://meomeo/22210501Private2");
+		test.add("https://hn.ss.bfcplatform.vn/privateimgs/22210501Private2");
+		test.add("http://meomeo/22210501Private1"); 
+		test.add("https://hn.ss.bfcplatform.vn/privateimgs/22210501Private1");
+		
+		
+		
+		System.out.println(test.toString());
+		Collections.sort(test);
+		System.out.println("sau khi sort: "+test.toString());
 
-	
+		
       
 	}
 

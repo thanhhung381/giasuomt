@@ -2,6 +2,7 @@ package giasuomt.demo.staff.service;
 
 import javax.transaction.Transactional;
 
+
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.AmazonServiceException;
@@ -14,7 +15,7 @@ import giasuomt.demo.staff.dto.SaveStaffDto;
 import giasuomt.demo.staff.dto.UpdateAvatarStaff;
 import giasuomt.demo.staff.model.Staff;
 import giasuomt.demo.staff.repository.IStaffRepository;
-import giasuomt.demo.uploadfile.repository.IAvatarAwsRepository;
+
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import lombok.AllArgsConstructor;
 
@@ -27,7 +28,7 @@ public class StaffService extends GenericService<SaveStaffDto, Staff, Long> impl
 
 	private MapDtoToModel mapDtoToModel;
 
-	private IAvatarAwsRepository iAvatarAwsRepository;
+
 
 	private AwsClientS3 awsClientS3;
 
@@ -48,7 +49,7 @@ public class StaffService extends GenericService<SaveStaffDto, Staff, Long> impl
 
 		awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
 
-		iAvatarAwsRepository.deleteByUrlAvatar(avatarURL);
+	
 
 		return save(dto, staff);
 	}
@@ -56,7 +57,7 @@ public class StaffService extends GenericService<SaveStaffDto, Staff, Long> impl
 	public Staff save(SaveStaffDto dto, Staff staff) {
 		try {
 
-			staff.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
+
 
 			mapDto(dto, staff);
 
@@ -87,9 +88,7 @@ public class StaffService extends GenericService<SaveStaffDto, Staff, Long> impl
 
 			awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
 
-			iAvatarAwsRepository.deleteByUrlAvatar(avatarURL);
-
-			staff.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
+		
 
 			return iStaffRepository.save(staff);
 		} catch (AmazonServiceException e) {

@@ -1,5 +1,6 @@
 package giasuomt.demo.person.model;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -26,9 +27,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.Person;
+import giasuomt.demo.commondata.util.Calendar;
+import giasuomt.demo.commondata.util.DateTimeUtils;
+import giasuomt.demo.commondata.util.HienDangLa;
 import giasuomt.demo.commondata.util.Voice;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.job.model.Job;
@@ -47,11 +56,9 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 @NamedEntityGraph(name = "tutor",attributeNodes = {
-		@NamedAttributeNode("workers"),
-		@NamedAttributeNode("students"),
-		@NamedAttributeNode("schoolTeachers"),
-		@NamedAttributeNode("institutionTeachers"),
-		@NamedAttributeNode("graduatedStudents"),
+	
+		@NamedAttributeNode("calendars"),
+		@NamedAttributeNode("hienDangLas"),
 		@NamedAttributeNode("tutorTags"),
 		@NamedAttributeNode("tempArea"),
 		@NamedAttributeNode("relArea"),
@@ -99,27 +106,34 @@ public class Tutor extends Person {
 //MEDIA	
 	private String avatar;
 
-	private String publicImgs;
+	
+	@ElementCollection
+	private Set<String> publicImgs=new HashSet<>();
 
-	private String privateImgs;
+	
+	@ElementCollection
+	private Set<String> privateImgs=new HashSet<>();
 
-	private String infoImgs;
 
 //HIỆN ĐANG LÀ
-	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Student> students = new HashSet<>();
+	
+	@ElementCollection(targetClass = HienDangLa.class)
+	@Enumerated(EnumType.STRING)
+	private Set<HienDangLa>  hienDangLas=new HashSet<>();
+	
+	private int nowLevel;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_TIME_FORMAT) //Quy định date format khi nó add đối tượng thành Json để trả về Clients
+	@DateTimeFormat(pattern = DateTimeUtils.DATE_TIME_FORMAT) 
+	private LocalDateTime nowLevelUpdatedAt;
+	
+	private String studyingInsitution;
+	
+	private String teachingInstitution;
+	
+	private String major;
 
-	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<GraduatedStudent> graduatedStudents = new HashSet<>();
 
-	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<InstitutionTeacher> institutionTeachers =  new HashSet<>();
-
-	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<SchoolTeacher> schoolTeachers = new HashSet<>();
-
-	@OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<Worker> workers =  new HashSet<>();
 
 //PERSONAL RELATIONSHIP:
 //	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -174,51 +188,13 @@ public class Tutor extends Person {
 	
 	private Double averageStarNumbers;
 	
+	@ElementCollection(targetClass = Calendar.class)
+	@Enumerated(EnumType.STRING)
+	private Set<Calendar> calendars=new HashSet<>(); 
+	
 
 // FOR API SAVE
-	public void addWorker(Worker worker) {
-		worker.setTutor(this);
-		this.workers.add(worker);
-	}
 
-	public void removeWorker(Worker worker) {
-		this.workers.remove(worker);
-	}
 
-	public void addStudent(Student student) {
-		student.setTutor(this);
-		this.students.add(student);
-	}
-
-	public void removeStudent(Student student) {
-		this.students.remove(student);
-	}
-
-	public void addGraduatedStudent(GraduatedStudent graduatedStudent) {
-		graduatedStudent.setTutor(this);
-		this.graduatedStudents.add(graduatedStudent);
-	}
-
-	public void removeGraduatedStudent(GraduatedStudent graduatedStudent) {
-		this.graduatedStudents.remove(graduatedStudent);
-	}
-
-	public void addInstitutionTeacher(InstitutionTeacher institutionTeacher) {
-		institutionTeacher.setTutor(this);
-		this.institutionTeachers.add(institutionTeacher);
-	}
-
-	public void removeInstitutionTeacher(InstitutionTeacher institutionTeacher) {
-		this.institutionTeachers.remove(institutionTeacher);
-	}
-
-	public void addSchoolTeacher(SchoolTeacher schoolTeacher) {
-		schoolTeacher.setTutor(this);
-		this.schoolTeachers.add(schoolTeacher);
-	}
-
-	public void removeSchoolTeacher(SchoolTeacher schoolTeacher) {
-		this.schoolTeachers.remove(schoolTeacher);
-	}
 
 }

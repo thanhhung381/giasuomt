@@ -36,8 +36,8 @@ public class JobFinance extends AbstractEntity {
 	@Enumerated(EnumType.STRING)
 	private WayOfPaying wayOfPaying;
 	
-	@ElementCollection
-	private List<String> billImgs = new LinkedList<>();
+	
+	private String billImg ;
 	
 	private int amountOfMoney;
 	

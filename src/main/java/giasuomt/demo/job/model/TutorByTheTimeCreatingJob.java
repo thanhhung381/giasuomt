@@ -1,6 +1,7 @@
 package giasuomt.demo.job.model;
 
 import java.util.HashSet;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -25,11 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.location.model.Area;
-import giasuomt.demo.person.model.GraduatedStudent;
-import giasuomt.demo.person.model.InstitutionTeacher;
-import giasuomt.demo.person.model.SchoolTeacher;
-import giasuomt.demo.person.model.Student;
-import giasuomt.demo.person.model.Worker;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.task.model.Application;
 import lombok.Getter;
@@ -86,19 +82,8 @@ public class TutorByTheTimeCreatingJob extends AbstractEntityNotId {
 	@ElementCollection
 	private Set<String> tutorTags = new HashSet<>();
 
-	@ElementCollection
-	private Set<String> students = new HashSet<>();
 
-	@ElementCollection
-	private Set<String> graduatedStudents = new HashSet<>();
 
-	@ElementCollection
-	private Set<String> institutionTeachers = new HashSet<>();
-
-	@ElementCollection
-	private Set<String> schoolTeachers = new HashSet<>();
-
-	@ElementCollection
-	private Set<String> workers = new HashSet<>();
+	
 
 }

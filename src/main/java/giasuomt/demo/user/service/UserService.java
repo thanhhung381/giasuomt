@@ -1,6 +1,8 @@
 package giasuomt.demo.user.service;
 
 import java.util.Date;
+
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -23,13 +25,13 @@ import giasuomt.demo.role.repository.IRoleRepository;
 import giasuomt.demo.staff.model.Staff;
 import giasuomt.demo.token.service.ITokenService;
 import giasuomt.demo.token.service.TokenService;
-import giasuomt.demo.uploadfile.repository.IAvatarAwsRepository;
+
 import giasuomt.demo.uploadfile.service.IAvatarAwsService;
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.user.dto.SaveUserDto;
 import giasuomt.demo.user.dto.UpdateRegisterAndLearnerForUser;
 import giasuomt.demo.user.dto.UpdateAndDeleteRoleForUser;
-import giasuomt.demo.user.dto.UpdateAvatarUser;
+
 import giasuomt.demo.user.dto.UpdatePasswordDto;
 import giasuomt.demo.user.dto.UpdateTutorForUser;
 import giasuomt.demo.user.model.User;
@@ -57,7 +59,6 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 
 	private IAvatarAwsService iAvatarAwsService;
 
-	private IAvatarAwsRepository iAvatarAwsRepository;
 
 	private ITokenService iTokenService;
 
@@ -240,36 +241,7 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 
 	}
 
-	@Override
-	public User updateAvartarUser(UpdateAvatarUser dto) {
-		try {
-			User user = iUserRepository.getOne(dto.getId());
-
-			String avatarURL = user.getAvatar();
-
-			if (avatarURL == null) {
-				user.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
-			} else {
-
-				awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
-				
-				iAvatarAwsRepository.deleteByUrlAvatar(avatarURL);
-
-			
-
-				user.setAvatar(iAvatarAwsRepository.getById(dto.getIdAvatar()).getUrlAvatar());
-
-			}
-
-			user = iUserRepository.save(user);
-
-			return iUserRepository.save(user);
-		} catch (SdkClientException e) {
-
-			e.printStackTrace();
-		}
-		return null;
-	}
+	
 
 	@Override
 	public User updatePassword(UpdatePasswordDto dto) {

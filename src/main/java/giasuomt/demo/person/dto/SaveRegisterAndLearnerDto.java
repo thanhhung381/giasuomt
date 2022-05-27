@@ -13,20 +13,19 @@ import lombok.Setter;
 public class SaveRegisterAndLearnerDto extends SavePersonDto implements Serializable {
 	private String vocative;
 	
-	//Arvatar
-	private Long idAvatar;
+
 	
 	private List<SaveRegisterAndLearnerAddressDto> registerAndLearnerAddresses = new ArrayList<>();// không có trước đó
 
 	// HIỆN ĐANG LÀ
 	// Lưu Student
-	private List<SaveStudentDto> students = new LinkedList<>();
+
 
 	// luu School Teacher
 	private List<SaveSchoolerDto> schoolers = new LinkedList<>();
 
 	// luu worker
-	private List<SaveWorkerDto> workers = new LinkedList<>();
+
 	
 	
 	// TAGS

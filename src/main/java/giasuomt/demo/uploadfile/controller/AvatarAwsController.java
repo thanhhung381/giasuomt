@@ -9,10 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
-import giasuomt.demo.uploadfile.model.AvatarAws;
+
 import giasuomt.demo.uploadfile.service.IAvatarAwsService;
 
 import lombok.AllArgsConstructor;
@@ -30,17 +33,19 @@ import lombok.AllArgsConstructor;
 
 @RequestMapping("/api/avatar")
 @RestController
-@AllArgsConstructor
 public class AvatarAwsController {
 
-	
+	@Autowired
 	private IAvatarAwsService iAvatarAwsService;
+	
+	@Value("${amazon.avatarURL}")
+	private String urlAvatar;
 	
 	
 	@GetMapping("/findall")
 	public ResponseEntity<Object> findAll() {
 
-		List<AvatarAws> fileEntities = iAvatarAwsService.findAll();
+		List<String> fileEntities = iAvatarAwsService.findAll();
 
 		if (fileEntities.isEmpty())
 			return ResponseHandler.getResponse("There is no data", HttpStatus.BAD_REQUEST);
@@ -50,17 +55,17 @@ public class AvatarAwsController {
 	}
 	
 	
-	@PostMapping("/create")
-	public ResponseEntity<Object> upload(@RequestParam("file") MultipartFile file) throws IOException {
+	@PostMapping("/createOrUpdate/{username}")
+	public ResponseEntity<Object> uploadOrUpdate(@RequestParam("file") MultipartFile file,@PathVariable("username") String username)  {
 
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
 		
 		if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
 
-			AvatarAws awsAvatar=iAvatarAwsService.uploadImageToAmazon(file);
+			String awsAvatarURL=iAvatarAwsService.uploadImageToAmazon(file,username);
 
-			return ResponseHandler.getResponse(awsAvatar, HttpStatus.CREATED);
+			return ResponseHandler.getResponse(awsAvatarURL, HttpStatus.CREATED);
 		}
 
 		else
@@ -72,28 +77,49 @@ public class AvatarAwsController {
 	@DeleteMapping("/delete/{nameFile}/")
 	public ResponseEntity<Object> delete(@PathVariable("nameFile") String nameFile) {
 		
-		String url="https://imagelink.hn.ss.bfcplatform.vn/";
+		
 		 
 		
 		if (!iAvatarAwsService.checkExistObjectinS3(nameFile))
 			return ResponseHandler.getResponse("Don't have any url and id", HttpStatus.BAD_REQUEST);
 		
-		iAvatarAwsService.deleteByFileNameAndID(url+nameFile);
+		iAvatarAwsService.deleteByFileNameAndID(urlAvatar+nameFile);
 		
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/deleteById/{id}")
-	public ResponseEntity<Object> deleteById(@PathVariable("id") Long id) {
+	@PostMapping("/createOrUpdatefiles")
+	public ResponseEntity<Object> uploadOrUpdate(@RequestParam("files") MultipartFile[] files) throws IOException {
+
 		
-	
-		 
-		if (!iAvatarAwsService.checkExistIdOfT(id) )
-			return ResponseHandler.getResponse("Don't have any id", HttpStatus.BAD_REQUEST);
+
+		try {
+			for (MultipartFile file : files) {
+				
+				String filename = StringUtils.cleanPath(file.getOriginalFilename());
+				
+				if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
+
+					String awsAvatarURL=iAvatarAwsService.uploadImageToAmazon(file,filename);
+
+				}
+
+				else
+					return ResponseHandler.getResponse("You have to upload files which have type of .jpg, .png, .jpeg ",
+							HttpStatus.BAD_REQUEST);
+			}
+			
+			return ResponseHandler.getResponse("Upload files successfully", HttpStatus.CREATED);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		iAvatarAwsService.deleteById(id);
+		return ResponseHandler.getResponse("Cant not upload", HttpStatus.BAD_REQUEST);
 		
-		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
+		
+		
+
 	}
 	
 	
