@@ -119,7 +119,7 @@ public class Tutor extends Person {
 	
 	@ElementCollection(targetClass = HienDangLa.class)
 	@Enumerated(EnumType.STRING)
-	private Set<HienDangLa>  hienDangLas=new HashSet<>();
+	private Set<HienDangLa>  hienDangLa=new HashSet<>();
 	
 	private int nowLevel;
 	

@@ -243,7 +243,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			heiDangLas.add(hienDangLa);
 		}
 
-		tutor.setHienDangLas(heiDangLas);
+		tutor.setHienDangLa(heiDangLas);
 		// User
 
 	}
@@ -416,9 +416,11 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 			tutor.setNowLevel(dto.getNowLevel());
 
-			tutor.setNowLevelUpdatedAt(dto.getNowLevelUpdatedAt());
-
-			return iTutorRepository.save(tutor);
+		    iTutorRepository.save(tutor);
+		    
+		    tutor.setNowLevelUpdatedAt(tutor.getUpdatedAt());
+		    
+		    return iTutorRepository.save(tutor);
 
 		} catch (Exception e) {
 			e.printStackTrace();
