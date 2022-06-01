@@ -18,6 +18,7 @@ public class UpdateNowLevelAndNowUpdateAtDto {
 
 	private int nowLevel;
 
-	private LocalDateTime nowLevelUpdatedAt;
+
 
 }
+ 
