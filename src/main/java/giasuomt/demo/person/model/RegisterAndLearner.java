@@ -89,9 +89,18 @@ public class RegisterAndLearner extends Person {
 	
 	
 //LEARNER/REGISTER	
-	@OneToMany(mappedBy = "registerAndLearner", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "registerAndLearner")
 	@JsonIgnore
 	private List<Registration> registrations = new LinkedList<>();	
+	
+	
+	@OneToMany(mappedBy = "registerAndLearner")
+	@JsonIgnore
+	private Set<TutorInvitation> tutorInvitations=new HashSet<>();
+	
+	@OneToMany(mappedBy = "registerAndLearner")
+	@JsonIgnore
+	private Set<TutorInterest> tutorInterests=new HashSet<>();
 	
 	
 	

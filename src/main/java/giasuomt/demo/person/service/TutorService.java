@@ -238,12 +238,12 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		tutor.setVoices(voices);
 		// Hien dang la
-		Set<HienDangLa> heiDangLas = new HashSet<>();
+		Set<HienDangLa> hienDangLas = new HashSet<>();
 		for (HienDangLa hienDangLa : dto.getHienDangLas()) {
-			heiDangLas.add(hienDangLa);
+			hienDangLas.add(hienDangLa);
 		}
 
-		tutor.setHienDangLa(heiDangLas);
+		tutor.setHienDangLa(hienDangLas);
 		// User
 
 	}
@@ -416,9 +416,6 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 			tutor.setNowLevel(dto.getNowLevel());
 
-		    iTutorRepository.save(tutor);
-		    
-		    tutor.setNowLevelUpdatedAt(tutor.getUpdatedAt());
 		    
 		    return iTutorRepository.save(tutor);
 

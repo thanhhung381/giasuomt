@@ -19,7 +19,7 @@ spring:
     generate-ddl: true #để thằng Hibernate tự nhìn Object và tạo database được
     hibernate:
       ddl-auto: update
-      # ddl-auto: create-drop  
+      # ddl-auto: create-drop   
   servlet:
     multipart:
       max-file-size: 200MB
