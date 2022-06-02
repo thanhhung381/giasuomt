@@ -28,6 +28,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -58,7 +59,7 @@ import lombok.Setter;
 @NamedEntityGraph(name = "tutor",attributeNodes = {
 	
 		@NamedAttributeNode("calendars"),
-		@NamedAttributeNode("hienDangLas"),
+		@NamedAttributeNode("hienDangLa"),
 		@NamedAttributeNode("tutorTags"),
 		@NamedAttributeNode("tempArea"),
 		@NamedAttributeNode("relArea"),
@@ -123,6 +124,7 @@ public class Tutor extends Person {
 	
 	private int nowLevel;
 	
+	@LastModifiedDate
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_TIME_FORMAT) //Quy định date format khi nó add đối tượng thành Json để trả về Clients
 	@DateTimeFormat(pattern = DateTimeUtils.DATE_TIME_FORMAT) 
 	private LocalDateTime nowLevelUpdatedAt;
@@ -192,6 +194,14 @@ public class Tutor extends Person {
 	@Enumerated(EnumType.STRING)
 	private Set<Calendar> calendars=new HashSet<>(); 
 	
+	
+	@OneToMany(mappedBy = "tutor")
+	@JsonIgnore
+	private Set<TutorInvitation> tutorInvitations=new HashSet<>();
+	
+	@OneToMany(mappedBy = "tutor")
+	@JsonIgnore
+	private Set<TutorInterest> tutorInterests=new HashSet<>();
 
 // FOR API SAVE
 
