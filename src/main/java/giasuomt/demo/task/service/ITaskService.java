@@ -1,6 +1,7 @@
 package giasuomt.demo.task.service;
 import java.util.List;
 
+
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,7 +15,6 @@ import giasuomt.demo.task.dto.AddObjectToTaskDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
 import giasuomt.demo.task.dto.ResponseTaskForWebDto;
 import giasuomt.demo.task.dto.UpdateFreeTimeDto;
-import giasuomt.demo.task.dto.UpdateHourDto;
 import giasuomt.demo.task.dto.UpdateLessonDto;
 import giasuomt.demo.task.dto.UpdateSalaryDto;
 import giasuomt.demo.task.dto.UpdateSubjectDto;
@@ -42,7 +42,6 @@ public interface ITaskService extends IGenericService<SaveTaskDto, Task, String>
 	
 	public Task UpdateLesson(UpdateLessonDto dto);
 	
-	public Task updateHour(UpdateHourDto dto);
 	
 	public Task updateFreeTime(UpdateFreeTimeDto dto);
 	
