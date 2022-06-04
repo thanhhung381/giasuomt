@@ -36,15 +36,10 @@ public class ResponseTaskForWebDto {
 	
 	private Set<ResponseTaskPlaceAddressDto> taskPlaceAddresses = new HashSet<>();
 	
-	private int lessonNumber; // Số buổi
-
+	private String  lessonNumber; // Số buổi
 	
-	private AmoutPerTime lessonNumberPerTime; // Số buổi tính theo
+	private String lessonPeriodOfTime;
 
-	private float hour; // Số giờ
-
-
-	private AmoutPerTime hourPerTime; // Số giờ tính theo
 	
 	private String freeTime;
 	

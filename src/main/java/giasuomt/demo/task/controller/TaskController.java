@@ -1,6 +1,7 @@
 package giasuomt.demo.task.controller;
 import java.util.List;
 
+
 import java.util.Optional;
 import java.util.Set;
 
@@ -24,7 +25,7 @@ import giasuomt.demo.task.dto.AddObjectToTaskDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
 import giasuomt.demo.task.dto.ResponseTaskForWebDto;
 import giasuomt.demo.task.dto.UpdateFreeTimeDto;
-import giasuomt.demo.task.dto.UpdateHourDto;
+
 import giasuomt.demo.task.dto.UpdateLessonDto;
 
 import giasuomt.demo.task.dto.UpdateSalaryDto;
@@ -104,17 +105,6 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String>
 		Task updatedLesson = iTaskService.UpdateLesson(dto);
 		
 		return ResponseHandler.getResponse(updatedLesson, HttpStatus.OK);
-	}
-	
-	@PutMapping("/updateHour")
-	public ResponseEntity<Object> updateHour(@RequestBody UpdateHourDto dto,BindingResult errors)
-	{
-		if (((Errors) errors).hasErrors())
-			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-		
-		Task updatedHour = iTaskService.updateHour(dto);
-		
-		return ResponseHandler.getResponse(updatedHour, HttpStatus.OK);
 	}
 	
 	@PutMapping("/updateFreeTime")

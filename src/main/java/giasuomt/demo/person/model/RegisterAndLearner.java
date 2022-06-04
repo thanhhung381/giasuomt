@@ -91,7 +91,7 @@ public class RegisterAndLearner extends Person {
 //LEARNER/REGISTER	
 	@OneToMany(mappedBy = "registerAndLearner")
 	@JsonIgnore
-	private List<Registration> registrations = new LinkedList<>();	
+	private Set<Registration> registrations = new HashSet<>();	
 	
 	
 	@OneToMany(mappedBy = "registerAndLearner")

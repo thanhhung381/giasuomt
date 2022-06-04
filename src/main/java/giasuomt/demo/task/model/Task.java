@@ -127,15 +127,11 @@ public class Task extends AbstractEntityNotId {
 	private String requireNote;
 
 //THỜI GIAN
-	private int lessonNumber; // Số buổi
+	private String  lessonNumber; // Số buổi
+	
+	private String lessonPeriodOfTime;
 
-	@Enumerated(EnumType.STRING)
-	private AmoutPerTime lessonNumberPerTime; // Số buổi tính theo
 
-	private float hour; // Số giờ
-
-	@Enumerated(EnumType.STRING)
-	private AmoutPerTime hourPerTime; // Số giờ tính theo
 
 	private String freeTime;
 

@@ -14,7 +14,7 @@ public class UpdateLessonDto {
 	
 	private String id;
 	
-	private int lessonNumber; // Số buổi
-
-	private AmoutPerTime lessonNumberPerTime; // Số buổi tính theo
+	private String  lessonNumber; // Số buổi
+	
+	private String lessonPeriodOfTime;
 }

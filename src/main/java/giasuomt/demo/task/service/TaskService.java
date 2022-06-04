@@ -3,6 +3,7 @@ package giasuomt.demo.task.service;
 import java.lang.reflect.Method;
 
 
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +40,6 @@ import giasuomt.demo.task.dto.ResponseTaskPlaceAddressDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
 import giasuomt.demo.task.dto.ResponseTaskForWebDto;
 import giasuomt.demo.task.dto.UpdateFreeTimeDto;
-import giasuomt.demo.task.dto.UpdateHourDto;
 import giasuomt.demo.task.dto.UpdateLessonDto;
 import giasuomt.demo.task.dto.UpdateSalaryDto;
 import giasuomt.demo.task.dto.UpdateSubjectDto;
@@ -331,8 +331,8 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		try {
 			Task task = iTaskRepository.getOne(dto.getId());
 
+			task.setLessonPeriodOfTime(dto.getLessonPeriodOfTime());
 			task.setLessonNumber(dto.getLessonNumber());
-			task.setLessonNumberPerTime(dto.getLessonNumberPerTime());
 
 			return iTaskRepository.save(task);
 		} catch (Exception e) {
@@ -343,22 +343,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		return null;
 	}
 
-	@Override
-	public Task updateHour(UpdateHourDto dto) {
 
-		try {
-			Task task = iTaskRepository.getOne(dto.getId());
-
-			task.setHour(dto.getHour());
-			task.setHourPerTime(dto.getLessonNumberPerTime());
-
-			return iTaskRepository.save(task);
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	@Override
 	public Task updateFreeTime(UpdateFreeTimeDto dto) {
@@ -496,9 +481,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		dto.setTaskPlaceAddresses(findAllTaskPlaceAddress(task.getTaskPlaceAddresses()));
 		dto.setTaskPlaceType(task.getTaskPlaceType());
 		dto.setLessonNumber(task.getLessonNumber());
-		dto.setLessonNumberPerTime(task.getLessonNumberPerTime());
-		dto.setHour(task.getHour());
-		dto.setHourPerTime(task.getHourPerTime());
+		dto.setLessonPeriodOfTime(task.getLessonPeriodOfTime());
 		dto.setFreeTime(task.getFreeTime());
 		dto.setSalary(task.getSalary());
 		dto.setUnitOfSalary(task.getUnitOfSalary());
