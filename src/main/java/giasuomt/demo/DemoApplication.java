@@ -70,18 +70,7 @@ public class DemoApplication extends SpringBootServletInitializer {
 
 		SpringApplication.run(DemoApplication.class, args);
 		
-		List<String> test=new LinkedList<>();
-		
-		test.add("http://meomeo/22210501Private2");
-		test.add("https://hn.ss.bfcplatform.vn/privateimgs/22210501Private2");
-		test.add("http://meomeo/22210501Private1"); 
-		test.add("https://hn.ss.bfcplatform.vn/privateimgs/22210501Private1");
-		
-		
-		
-		System.out.println(test.toString());
-		Collections.sort(test);
-		System.out.println("sau khi sort: "+test.toString());
+	
 
 		
       

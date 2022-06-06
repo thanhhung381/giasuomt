@@ -14,17 +14,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SaveUserDto {
-	
+
 	private Long id;
-	
+
 	private String username;
 
 	private String password;
 
-	private String email;
-
-	private String phones;
-	
 	private String confirmPassword;
-	
+
 }

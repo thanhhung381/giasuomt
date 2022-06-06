@@ -6,6 +6,7 @@ import java.util.Optional;
 import giasuomt.demo.commondata.generic.IGenericService;
 import giasuomt.demo.user.dto.SaveUserDto;
 import giasuomt.demo.user.dto.UpdateRegisterAndLearnerForUser;
+import giasuomt.demo.user.dto.UpdateStaffForUserDto;
 import giasuomt.demo.user.dto.UpdateAndDeleteRoleForUser;
 
 import giasuomt.demo.user.dto.UpdatePasswordDto;
@@ -16,6 +17,8 @@ public interface IUserService extends IGenericService<SaveUserDto, User, Long> {
 	public User updateTutorForUser(UpdateTutorForUser dto);
 
 	public User updateRegisterAndLearnerForUser(UpdateRegisterAndLearnerForUser dto);
+	
+	public User updateStaff(UpdateStaffForUserDto dto);
 
 	public User updateRoleForUser(UpdateAndDeleteRoleForUser dto);
 

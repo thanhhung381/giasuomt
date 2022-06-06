@@ -29,9 +29,7 @@ public class TaskPlaceAddress extends AbstractEntity {
 
 	private String exactAddNumber;
 	
-	private String exactAddStreet;
-	
-	private String exactAddNote;
+
 	
 	private String exactXCoo;
 	
@@ -40,21 +38,23 @@ public class TaskPlaceAddress extends AbstractEntity {
 	
 	private String relAddNumber;
 	
-	private String relAddStreet;	
-	
-	private String relAddNote;
+
 	
 	private String relXCoo;
 	
 	private String relYCoo;
+	
+	private String addStreet;
+	
+	private String addStreetNote;
 	 
 	
 	
 	@Override
 	public String toString() {
-		return  exactAddNumber +","+ exactAddStreet+ ","+area.commune+","+area.district+
-				","+area.provincialLevel +"("+exactAddNote +")"+"-"
-				+  relAddNumber + "," + relAddStreet + ","+area.commune+","+area.district+","+area.provincialLevel +"("+relAddNote+")";
+		return  exactAddNumber + ","+area.commune+","+area.district+
+				","+area.provincialLevel +"-"
+				+  relAddNumber  + ","+area.commune+","+area.district+","+area.provincialLevel ;
 	}
 	
 	

@@ -47,6 +47,8 @@ public class AuthController {
 
 		String username=iUserService.findByParameters(dto.getUsernameAndPhonesAndEmail());
 		
+		System.out.println(username);
+		
 		try {
 			
 			if(username==null)

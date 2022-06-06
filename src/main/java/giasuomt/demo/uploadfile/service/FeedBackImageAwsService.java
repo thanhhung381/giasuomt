@@ -42,10 +42,10 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class FeedBackImageAwsService extends AwsClientS3 implements IFeedBackImageAwsService {
 
-	@Value("${amazon.billImageURL}")
+	@Value("${amazon.feedbackImageURL}")
 	private String urlFeedBackImage;
 
-	@Value("${amazon.bucketnamebillImage}")
+	@Value("${amazon.bucketnamefeedbackImage}")
 	private String bucketNameFeedBackImage;
 
 	@Autowired

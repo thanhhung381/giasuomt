@@ -28,6 +28,7 @@ import giasuomt.demo.user.dto.ResponseUser;
 import giasuomt.demo.user.dto.ResponseUserWithBasicInfor;
 import giasuomt.demo.user.dto.SaveUserDto;
 import giasuomt.demo.user.dto.UpdateRegisterAndLearnerForUser;
+import giasuomt.demo.user.dto.UpdateStaffForUserDto;
 import giasuomt.demo.user.dto.UpdateAndDeleteRoleForUser;
 
 import giasuomt.demo.user.dto.UpdatePasswordDto;
@@ -61,6 +62,19 @@ public class UserController extends GenericController<SaveUserDto, User, Long> {
 		}
 
 		return ResponseHandler.getResponse(tutorUpdateForUser, HttpStatus.OK);
+
+	}
+	
+	@PutMapping("/updateStaffForUser")
+	public ResponseEntity<Object> updateStaffForUser(@RequestBody UpdateStaffForUserDto dto, BindingResult errors) {
+
+		User updateStaffForUser = iUserService.updateStaff(dto);
+
+		if (errors.hasErrors()) {
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		}
+
+		return ResponseHandler.getResponse(updateStaffForUser, HttpStatus.OK);
 
 	}
 
@@ -117,11 +131,9 @@ public class UserController extends GenericController<SaveUserDto, User, Long> {
 				return ResponseHandler.getResponse("Invalid username", HttpStatus.BAD_REQUEST);
 			} else {
 				ResponseUser responseUser = new ResponseUser();
-				responseUser.setEmail(user.get().getEmail());
-				responseUser.setPhones(user.get().getPhones());
 				responseUser.setRegisterAndLearner(user.get().getRegisterAndLearner());
 				responseUser.setUsername(user.get().getUsername());
-				responseUser.setAvatar(user.get().getAvatar());
+				
 
 				return ResponseHandler.getResponse(responseUser, HttpStatus.OK);
 			}
@@ -141,10 +153,8 @@ public class UserController extends GenericController<SaveUserDto, User, Long> {
 			return ResponseHandler.getResponse("Invalid username", HttpStatus.BAD_REQUEST);
 		} else {
 			ResponseUserWithBasicInfor responseUser = new ResponseUserWithBasicInfor();
-			responseUser.setEmail(user.get().getEmail());
-			responseUser.setPhones(user.get().getPhones());
 			responseUser.setUsername(user.get().getUsername());
-			responseUser.setAvatar(user.get().getAvatar());
+	
 			responseUser.setId(user.get().getId());
 
 			return ResponseHandler.getResponse(responseUser, HttpStatus.OK);

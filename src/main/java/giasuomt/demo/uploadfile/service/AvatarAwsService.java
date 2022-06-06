@@ -27,7 +27,8 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 
-
+import giasuomt.demo.staff.model.Staff;
+import giasuomt.demo.staff.repository.IStaffRepository;
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.uploadfile.ultils.FileUltils;
 import giasuomt.demo.user.model.User;
@@ -41,7 +42,7 @@ public class AvatarAwsService extends AwsClientS3 implements IAvatarAwsService {
 	
 
 	@Autowired
-	private IUserRepository iUserRepository;
+	private IStaffRepository iStaffRepository;
 
 	@Value("${amazon.avatarURL}")
 	private String urlAvatar;
@@ -78,17 +79,17 @@ public class AvatarAwsService extends AwsClientS3 implements IAvatarAwsService {
 	}
 
 	@Override
-	public String uploadImageToAmazon(MultipartFile multipartFile, String username) {
+	public String uploadImageToAmazon(MultipartFile multipartFile, String id) {
 
 		try {
 
-			String url = uploadMultipartFile(multipartFile, username + "Avatar");
+			String url = uploadMultipartFile(multipartFile, id);
 
-			User user = iUserRepository.findByUsername(username).get();
+			Staff staff=iStaffRepository.getOne(Long.parseLong(id));
 
-			user.setAvatar(url);
+			staff.setAvatar(url);
  
-			iUserRepository.save(user);
+			iStaffRepository.save(staff);
 
 			return "Insert Or Update Avatar successfully";
 
@@ -104,11 +105,13 @@ public class AvatarAwsService extends AwsClientS3 implements IAvatarAwsService {
 
 			client.deleteObject(bucketName, urlFile.substring(urlFile.lastIndexOf('/') + 1));
 			
-			User user = iUserRepository.findByUsername(urlFile.substring(urlFile.lastIndexOf('/') + 1)).get();
+		
+			
+			Staff staff=iStaffRepository.getOne(Long.parseLong(urlFile.substring(urlFile.lastIndexOf('/') + 1)));
 
-			user.setAvatar(null);
- 
-			iUserRepository.save(user);
+			staff.setAvatar(null);
+			 
+			iStaffRepository.save(staff);
 
 		} catch (AmazonServiceException e) {
 
