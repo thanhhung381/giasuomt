@@ -9,48 +9,50 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Sets;
 
+import giasuomt.demo.staff.model.Staff;
+import giasuomt.demo.staff.repository.IStaffRepository;
 import giasuomt.demo.uploadfile.service.IAvatarAwsService;
 import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
 import giasuomt.demo.user.service.IUserService;
 
 @Service
-public class UserAvatarSynchronizeService implements IUserAvatarSynchronizeService {
+public class StaffAvatarSynchronizeService implements IStaffAvatarSynchronizeService {
 
 	@Autowired
 	private IAvatarAwsService iAvatarAwsService;
 	
 	@Autowired
-	private IUserRepository iUserRepository;
+	private IStaffRepository iStaffRepository;
 	
 	@Override
-	public Set<User> findAllUserSynchronized() {
+	public Set<Staff> findAllStaffSynchronized() {
 		
 		try {
 			Set<String> avatarUserURL=Sets.newHashSet(iAvatarAwsService.findAll()); // list all url
 			
-			Set<User> users=Sets.newHashSet(iUserRepository.findAllUserSynchronized());
+			Set<Staff> staffs=Sets.newHashSet(iStaffRepository.findAllStaffSynchronized());
 			
-			for (User user : users) {
+			for (Staff staff : staffs) {
 				for(String url : avatarUserURL )
 				{
 					boolean check=true;
 					
-					if(!user.getUsername().equals(url.substring(url.lastIndexOf("/")+1, url.lastIndexOf("Avatar"))))
+					if(!String.valueOf(staff.getId()).equals(url.substring(url.lastIndexOf("/")+1)))
 					{
 						check=false; // khac
 					}
 					
 					if(check)
 					{
-						user.setAvatar(url);
+						staff.setAvatar(url);
 						
-						iUserRepository.save(user);
+						iStaffRepository.save(staff);
 					}
 				}
 			}
 			
-			return Sets.newHashSet(iUserRepository.findAll());
+			return Sets.newHashSet(iStaffRepository.findAll());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

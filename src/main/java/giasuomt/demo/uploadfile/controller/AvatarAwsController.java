@@ -55,15 +55,15 @@ public class AvatarAwsController {
 	}
 	
 	
-	@PostMapping("/createOrUpdate/{username}")
-	public ResponseEntity<Object> uploadOrUpdate(@RequestParam("file") MultipartFile file,@PathVariable("username") String username)  {
+	@PostMapping("/createOrUpdate/{id}")
+	public ResponseEntity<Object> uploadOrUpdate(@RequestParam("file") MultipartFile file,@PathVariable("id") String id)  {
 
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
 		
 		if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
 
-			String awsAvatarURL=iAvatarAwsService.uploadImageToAmazon(file,username);
+			String awsAvatarURL=iAvatarAwsService.uploadImageToAmazon(file,id);
 
 			return ResponseHandler.getResponse(awsAvatarURL, HttpStatus.CREATED);
 		}

@@ -23,6 +23,7 @@ import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.role.model.Role;
 import giasuomt.demo.role.repository.IRoleRepository;
 import giasuomt.demo.staff.model.Staff;
+import giasuomt.demo.staff.repository.IStaffRepository;
 import giasuomt.demo.token.service.ITokenService;
 import giasuomt.demo.token.service.TokenService;
 
@@ -30,6 +31,7 @@ import giasuomt.demo.uploadfile.service.IAvatarAwsService;
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.user.dto.SaveUserDto;
 import giasuomt.demo.user.dto.UpdateRegisterAndLearnerForUser;
+import giasuomt.demo.user.dto.UpdateStaffForUserDto;
 import giasuomt.demo.user.dto.UpdateAndDeleteRoleForUser;
 
 import giasuomt.demo.user.dto.UpdatePasswordDto;
@@ -59,7 +61,8 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 
 	private IAvatarAwsService iAvatarAwsService;
 
-
+	private IStaffRepository iStaffRepository;
+	
 	private ITokenService iTokenService;
 
 	public User create(SaveUserDto dto) {
@@ -276,13 +279,48 @@ public class UserService extends GenericService<SaveUserDto, User, Long> impleme
 	@Override
 	public User findByEmail(String email) {
 		
-		return iUserRepository.findByEmail(email);
+		return iUserRepository.findByEmails(email);
 	}
 
 	@Override
 	public String findByParameters(String parameter) {
 	
 		return iUserRepository.findUsernameByParameter(parameter);
+	} 
+
+	@Override
+	public User updateStaff(UpdateStaffForUserDto dto) {
+		User user = iUserRepository.getOne(dto.getId());
+		
+		Role role = iRoleRepository.findByRoleNameBy("staff-role");
+		
+		try { 
+			Set<Role> roleList = user.getRoles();
+			if (dto.getIdStaff() != 0 && dto.getIdStaff() > 0) // id=0 delete all Role
+			{
+
+				user.setStaff(iStaffRepository.getOne(dto.getIdStaff()));
+				roleList.add(role);
+				user.setRoles(roleList);
+			} else {
+
+				for (Role roleli : roleList) {
+
+					if (roleli.getName().contains("staff-role")) {
+						user.removeRole(role);
+						
+					}
+				}
+
+				user.setTutor(null);
+			}
+
+			return iUserRepository.save(user);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

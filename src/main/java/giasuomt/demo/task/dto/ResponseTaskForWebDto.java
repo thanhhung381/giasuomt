@@ -26,7 +26,7 @@ public class ResponseTaskForWebDto {
 	
 	private String id;
 	
-	private String requireApperance;
+	private String learnerNote;
 
 	private String requireNote;
 	
@@ -63,5 +63,5 @@ public class ResponseTaskForWebDto {
 	// Số học viên
 		private String learnerNumber;
 	//Ghi Chú cho gia sư
-		private String taskNote;
+	
 }

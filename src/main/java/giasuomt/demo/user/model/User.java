@@ -65,23 +65,20 @@ import lombok.Setter;
 
 public class User extends AbstractEntity {
 
-	private String avatar;
 
 	private String username;
 
 	private String password;
 
-	private String email;
+	
 
-	private String phones;
-
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private Tutor tutor;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private RegisterAndLearner registerAndLearner;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private Staff staff;
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)

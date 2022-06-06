@@ -18,18 +18,25 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 	@EntityGraph(value = "user-load")
 	Optional<User> findByUsername(String us);
 	
-	public User findByEmail(String email);
+//	OR (u.staff IS NOT NULL AND ((u.staff.emails=:parameter) OR (u.staff.phones LIKE CONCAT('%',:parameter,'%'))) ) public User findByEmail(String email);  OR (u.registerAndLearner IS NOT NULL AND ( u.registerAndLearner.emails=:parameter OR u.registerAndLearner.phones LIKE CONCAT('%',:parameter,'%') ) )
 	
-	
+	@Query("SELECT u FROM User u WHERE  (u.tutor IS NOT NULL AND  (u.tutor.emails=:parameter)) OR "
+			+ "(u.registerAndLearner IS NOT NULL AND (u.registerAndLearner.emails=:parameter)) OR"
+			+ "(u.staff IS NOT NULL AND (u.staff.emails=:parameter)) " )
+	User findByEmails(@Param("parameter") String parameter);
 	
 
 	
-	@Query("SELECT u.username FROM User u WHERE u.username=:parameter OR u.email=:parameter OR u.phones LIKE CONCAT('%',:parameter,'%')")
+	@Query("SELECT u.username FROM User u WHERE ( (u.tutor IS NOT NULL AND ( (u.tutor.emails=:parameter) OR (u.tutor.phones LIKE CONCAT('%',:parameter,'%')) ))"
+		
+			+ " OR (u.registerAndLearner IS NOT NULL AND ((u.registerAndLearner.emails=:parameter) OR (u.registerAndLearner.phones LIKE CONCAT('%',:parameter,'%'))) )"
+			+ " OR (u.staff IS NOT NULL AND ((u.staff.emails=:parameter) OR (u.staff.phones LIKE CONCAT('%',:parameter,'%'))) ) )"
+			+ "OR u.username=:parameter  "
+			+ "  ")
 	public String findUsernameByParameter(@Param("parameter") String parameter);
-
 	
-	@Query("SELECT u FROM User u  WHERE u.avatar IS NOT NULL")
-	Set<User> findAllUserSynchronized();
+	
+	
 	
 
 }

@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface IAvatarAwsService {
 
-	public String uploadImageToAmazon(MultipartFile multipartFile,String username);
+	public String uploadImageToAmazon(MultipartFile multipartFile,String id);
 	
 	public List<String> findAll();
 	

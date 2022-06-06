@@ -26,19 +26,15 @@ import lombok.Setter;
 @Table(name = "Staff")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class Staff extends Person {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
-	private String avatar;
-	
 
-	
+	private String avatar;
+
 	@OneToOne(mappedBy = "staff")
 	@JsonIgnore
-	private User user ;
-	
-	
-	
+	private User user;
+
 }

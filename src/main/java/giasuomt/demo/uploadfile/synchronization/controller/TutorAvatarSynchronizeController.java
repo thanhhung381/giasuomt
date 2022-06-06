@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.uploadfile.synchronization.service.ITutorAvatarSynchronizeService;
-import giasuomt.demo.uploadfile.synchronization.service.IUserAvatarSynchronizeService;
+import giasuomt.demo.uploadfile.synchronization.service.IStaffAvatarSynchronizeService;
 import giasuomt.demo.user.model.User;
 import lombok.AllArgsConstructor;
 

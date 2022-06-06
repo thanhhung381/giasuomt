@@ -32,7 +32,7 @@ public class BillImageOfJobFinanceController {
 	@Value("${amazon.billImageURL}")
 	private String BillImageURL;
 
-	@GetMapping("/findall")
+	@GetMapping("/findallBillImage")
 	public ResponseEntity<Object> findAll() {
 
 		List<String> fileEntities = iBillImageAwsService.findAll();
@@ -44,7 +44,7 @@ public class BillImageOfJobFinanceController {
 
 	}
 
-	@PostMapping("/createOrUpdate/{id}")
+	@PostMapping("/createOrUpdateBillImage/{id}")
 	public ResponseEntity<Object> uploadOrUpdate(@RequestParam("file") MultipartFile file, @PathVariable("id") Long id)
 			throws IOException {
 
@@ -63,7 +63,7 @@ public class BillImageOfJobFinanceController {
 
 	}
 
-	@DeleteMapping("/delete/{nameFile}/")
+	@DeleteMapping("/deleteBillImage/{nameFile}/")
 	public ResponseEntity<Object> delete(@PathVariable("nameFile") String nameFile) {
 
 		if (!iBillImageAwsService.checkExistObjectinS3(nameFile))

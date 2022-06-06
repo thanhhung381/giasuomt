@@ -474,8 +474,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private void mapTasktoTaskForWeb(ResponseTaskForWebDto dto, Task task) {
 		dto.setId(task.getId());
-		dto.setRequireApperance(task.getRequireApperance());
-		dto.setRequireNote(task.getRequireNote());
 		dto.setSubjectApperance(task.getSubjectApperance());
 		dto.setSubjectNote(task.getSubjectNote());
 		dto.setTaskPlaceAddresses(findAllTaskPlaceAddress(task.getTaskPlaceAddresses()));
@@ -487,9 +485,10 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		dto.setUnitOfSalary(task.getUnitOfSalary());
 		dto.setSalaryPerTime(task.getSalaryPerTime());
 		dto.setLearnerNumber(task.getLearnerNumber());
-		dto.setTaskNote(task.getTaskNote());
+		dto.setLearnerNote(dto.getLearnerNote());
 		dto.setGenderRequired(task.getGenderRequired());
 		dto.setHienDangLaRequired(task.getHienDangLaRequired());
+		dto.setRequireNote(task.getRequireNote());
 		dto.setSubjectGroups(task.getSubjectGroups());
 
 	}
@@ -512,9 +511,9 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private void mapTaskAdderessToTaskAddressDto(ResponseTaskPlaceAddressDto dto, TaskPlaceAddress taskPlaceAddress) {
 		dto.setArea(taskPlaceAddress.getArea());
-		dto.setRelAddNote(taskPlaceAddress.getRelAddNote());
+		
 		dto.setRelAddNumber(taskPlaceAddress.getRelAddNumber());
-		dto.setRelAddStreet(taskPlaceAddress.getRelAddStreet());
+		
 	}
 
 	private Set<ResponseTaskPlaceAddressDto> mapTaskAdderessToTaskAddressDtoList(
