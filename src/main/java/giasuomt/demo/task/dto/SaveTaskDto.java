@@ -31,7 +31,8 @@ import giasuomt.demo.finance.util.TypeOfFee;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.location.model.SaveTaskPlaceAddressDto;
 import giasuomt.demo.location.model.TaskPlaceAddress;
-
+import giasuomt.demo.task.util.TaskSign;
+import giasuomt.demo.task.util.TaskStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,10 +47,14 @@ public class SaveTaskDto {
 	private String taskPlaceType;
 
 	private Set<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = new HashSet<>();// không có trước đó
+	
+	private TaskStatus status; 
+	
 	// MÔN HỌC
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
 
+	
 
 
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
@@ -68,7 +73,6 @@ public class SaveTaskDto {
 	
 	private Set<String> idSubjectGroup=new HashSet<>();
 
-	private String requireApperance;
 
 	private String requireNote;
 
@@ -111,6 +115,7 @@ public class SaveTaskDto {
 	// Ghi Chú cho gia sư
 	private String taskNote;
 	
+
 
 	private Set<Gender> genderRequired=new HashSet<>();
 	
