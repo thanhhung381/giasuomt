@@ -58,7 +58,7 @@ public class JobController extends GenericController<SaveJobDto,Job, Long> {
 	}
 
 
-	@GetMapping("/findallRetainedImgsIdentificationimg")
+	@GetMapping("/findAllJobRetainedImgsIdentificationImgs")
 	public ResponseEntity<Object> findAll() {
 
 		List<String> fileEntities = iRetainedImgsIdentificationService.findAll();
@@ -70,7 +70,7 @@ public class JobController extends GenericController<SaveJobDto,Job, Long> {
 
 	}
 
-	@PostMapping("/createRetainedImgsIdentificationimg{id}")
+	@PostMapping("/createJobRetainedImgsIdentificationImg{id}")
 	public ResponseEntity<Object> uploadPublicImg(@RequestParam("file") MultipartFile file,
 			@PathVariable("id") String id) throws IOException {
 
@@ -129,7 +129,7 @@ public class JobController extends GenericController<SaveJobDto,Job, Long> {
 
 	}
 
-	@PostMapping("/createRetainedImgsIdentificationimgs")
+	@PostMapping("/createJobRetainedImgsIdentificationImgs")
 	public ResponseEntity<Object> uploadPublicImgs(@RequestParam("files") MultipartFile[] files,
 			@RequestParam("id") String id) throws IOException {
 
@@ -163,7 +163,7 @@ public class JobController extends GenericController<SaveJobDto,Job, Long> {
 
 	}
 
-	@DeleteMapping("/deleteRetainedImgsIdentificationimg/{nameFile}")
+	@DeleteMapping("/deleteJobRetainedImgsIdentificationImg/{nameFile}")
 	public ResponseEntity<Object> deleteTutorPublicImg(@PathVariable("nameFile") String nameFile) {
 
 		if (!iRetainedImgsIdentificationService.checkExistObjectinS3(nameFile))
@@ -174,7 +174,7 @@ public class JobController extends GenericController<SaveJobDto,Job, Long> {
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 
-	@PutMapping("/UpdateRetainedImgsIdentificationimg/{nameFile}")
+	@PutMapping("/updateJobRetainedImgsIdentificationImg/{nameFile}")
 	public ResponseEntity<Object> UpdatePrivateRetainImg(@RequestParam("file") MultipartFile file,
 			@PathVariable("nameFile") String nameFile) throws IOException {
 

@@ -311,7 +311,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 			 * } task.setSubjects(subjects);
 			 */
 
-			task.setSubjectApperance(dto.getSubjectApperance());
 
 			task.setSubjectNote(dto.getSubjectNote());
 
@@ -474,7 +473,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private void mapTasktoTaskForWeb(ResponseTaskForWebDto dto, Task task) {
 		dto.setId(task.getId());
-		dto.setSubjectApperance(task.getSubjectApperance());
 		dto.setSubjectNote(task.getSubjectNote());
 		dto.setTaskPlaceAddresses(findAllTaskPlaceAddress(task.getTaskPlaceAddresses()));
 		dto.setTaskPlaceType(task.getTaskPlaceType());
@@ -490,6 +488,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		dto.setHienDangLaRequired(task.getHienDangLaRequired());
 		dto.setRequireNote(task.getRequireNote());
 		dto.setSubjectGroups(task.getSubjectGroups());
+		
 
 	}
 

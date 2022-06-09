@@ -53,7 +53,7 @@ public class StaffController extends GenericController<SaveStaffDto, Staff, Long
 	
 	
 	
-	@GetMapping("/findallStaff")
+	@GetMapping("/findAllStaffAvatars")
 	public ResponseEntity<Object> findAll() {
 
 		List<String> fileEntities = iAvatarAwsService.findAll();
@@ -66,7 +66,7 @@ public class StaffController extends GenericController<SaveStaffDto, Staff, Long
 	}
 	
 	
-	@PostMapping("/createOrUpdateStaff/{id}")
+	@PostMapping("/createOrUpdateStaffAvatar/{id}")
 	public ResponseEntity<Object> uploadOrUpdate(@RequestParam("file") MultipartFile file,@PathVariable("id") String id)  {
 
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
@@ -85,7 +85,7 @@ public class StaffController extends GenericController<SaveStaffDto, Staff, Long
 
 	}
 	
-	@DeleteMapping("/deleteStaff/{nameFile}/")
+	@DeleteMapping("/deleteStaffImg/{nameFile}/")
 	public ResponseEntity<Object> delete(@PathVariable("nameFile") String nameFile) {
 		
 		
@@ -99,7 +99,7 @@ public class StaffController extends GenericController<SaveStaffDto, Staff, Long
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 	
-	@PostMapping("/createOrUpdatefilesStaff")
+	@PostMapping("/createOrUpdateStaffImgs")
 	public ResponseEntity<Object> uploadOrUpdate(@RequestParam("files") MultipartFile[] files) throws IOException {
 
 		

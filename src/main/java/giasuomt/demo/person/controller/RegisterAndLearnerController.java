@@ -171,7 +171,7 @@ public class RegisterAndLearnerController
 	
 
 	
-	@GetMapping("/findallRegisterAndLearner")
+	@GetMapping("/findAllRegisterAndLearnerAvatars")
 	public ResponseEntity<Object> findAll() {
 
 		List<String> fileEntities = iAvatarAndPublicAndPrivateRegisterAndLearnerAwsService.findAll();
@@ -183,7 +183,7 @@ public class RegisterAndLearnerController
 
 	}
 
-	@PostMapping("/createOrUpdateAvatarRegisterAndLearner/{id}")
+	@PostMapping("/createOrUpdateAvatarRegisterAndLearnerAvatar/{id}")
 	public ResponseEntity<Object> uploadOrUpdateAvatar(@RequestParam("file") MultipartFile file,
 			@PathVariable("id") Long id) throws IOException {
 
@@ -202,7 +202,7 @@ public class RegisterAndLearnerController
 
 	}
 	
-	@PutMapping("/UpdatePrivateImgRegisterAndLearner/{nameFile}")
+	@PutMapping("/updateRegisterAndLearnerPrivateImg/{nameFile}")
 	public ResponseEntity<Object> UpdatePrivateImg(@RequestParam("file") MultipartFile file,
 			@PathVariable("nameFile") String nameFile) throws IOException {
 
@@ -221,7 +221,7 @@ public class RegisterAndLearnerController
 
 	}
 	
-	@PutMapping("/UpdatePublicImgRegisterAndLearner/{nameFile}")
+	@PutMapping("/updateRegisterAndLearnerPublicImg/{nameFile}")
 	public ResponseEntity<Object> UpdatePublicImg(@RequestParam("file") MultipartFile file,
 			@PathVariable("nameFile") String nameFile) throws IOException {
 
@@ -240,7 +240,7 @@ public class RegisterAndLearnerController
 
 	}
 
-	@PostMapping("/createPublicImgRegisterAndLearner/{id}")
+	@PostMapping("/createRegisterAndLearnerPublicImg/{id}")
 	public ResponseEntity<Object> uploadPublicImg(@RequestParam("file") MultipartFile file,
 			@PathVariable("id") String id) throws IOException {
 
@@ -303,7 +303,7 @@ public class RegisterAndLearnerController
 
 	}
 
-	@PostMapping("/createPrvateImgRegisterAndLearner/{id}")
+	@PostMapping("/createRegisterAndLearnerPrivateImg/{id}")
 	public ResponseEntity<Object> uploadOrUpdatePrivateImg(@RequestParam("file") MultipartFile file,
 			@PathVariable("id") String id) throws IOException {
 
@@ -364,7 +364,7 @@ public class RegisterAndLearnerController
 
 	}
 
-	@PostMapping("/createPrivateImgsForRegisterAndLearner")
+	@PostMapping("/createForRegisterAndLearnerPrivateImgs")
 	public ResponseEntity<Object> uploadPrivateImgs(@RequestParam("files") MultipartFile[] files,
 			@RequestParam("id") String id) throws IOException {
 
@@ -399,7 +399,7 @@ public class RegisterAndLearnerController
 
 	}
 
-	@PostMapping("/createPublicImgsForRegisterAndLearner")
+	@PostMapping("/createForRegisterAndLearnerPublicImgs")
 	public ResponseEntity<Object> uploadPublicImgs(@RequestParam("files") MultipartFile[] files,
 			@RequestParam("id") String id) throws IOException {
 
@@ -444,7 +444,7 @@ public class RegisterAndLearnerController
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletePrivateImgRegisterAndLearner/{nameFile}")
+	@DeleteMapping("/deleteRegisterAndLearnerPrivateImg/{nameFile}")
 	public ResponseEntity<Object> deleteTutorPrivateImg(@PathVariable("nameFile") String nameFile) {
 
 		if (!iAvatarAndPublicAndPrivateRegisterAndLearnerAwsService.checkExistObjectPrivateInS3(nameFile))
@@ -455,7 +455,7 @@ public class RegisterAndLearnerController
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletePublicImgRegisterAndLearner/{nameFile}")
+	@DeleteMapping("/deleteRegisterAndLearnerPublicImg/{nameFile}")
 	public ResponseEntity<Object> deleteTutorPublicImg(@PathVariable("nameFile") String nameFile) {
 
 		if (!iAvatarAndPublicAndPrivateRegisterAndLearnerAwsService.checkExistObjectPublicInS3(nameFile))

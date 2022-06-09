@@ -36,7 +36,7 @@ public class JobFinanceController extends GenericController<SaveJobFinanceDto, J
 	@Value("${amazon.billImageURL}")
 	private String BillImageURL;
 
-	@GetMapping("/findallImgs")
+	@GetMapping("/findAllBillImgs")
 	public ResponseEntity<Object> findAll() {
 
 		List<String> fileEntities = iBillImageAwsService.findAll();
@@ -48,7 +48,7 @@ public class JobFinanceController extends GenericController<SaveJobFinanceDto, J
 
 	}
 
-	@PostMapping("/createOrUpdateImgs/{id}")
+	@PostMapping("/createOrUpdateBillImg/{id}")
 	public ResponseEntity<Object> uploadOrUpdate(@RequestParam("file") MultipartFile file, @PathVariable("id") Long id)
 			throws IOException {
 
@@ -67,7 +67,7 @@ public class JobFinanceController extends GenericController<SaveJobFinanceDto, J
 
 	}
 
-	@DeleteMapping("/deleteImgs/{nameFile}/")
+	@DeleteMapping("/deleteBillImg/{nameFile}/")
 	public ResponseEntity<Object> delete(@PathVariable("nameFile") String nameFile) {
 
 		if (!iBillImageAwsService.checkExistObjectinS3(nameFile))
