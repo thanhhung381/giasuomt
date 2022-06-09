@@ -56,7 +56,7 @@ public class SaveTaskDto {
 	// bảng subjects)
 	// Đây cũng là trường để lưu lại lịch sử nếu sau này nếu có chỉnh sửa database
 	// của bảng Subject
-	private String subjectApperance;
+
 
 	private String subjectNote;
 

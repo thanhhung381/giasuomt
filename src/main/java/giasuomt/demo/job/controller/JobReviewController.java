@@ -35,7 +35,7 @@ public class JobReviewController extends GenericController<SaveJobReviewDto, Job
 	@Value("${amazon.feedbackImageURL}")
 	private String urlFeedBackImage;
 
-	@GetMapping("/findallFeedbackImage")
+	@GetMapping("/findAllFeedbackImgs")
 	public ResponseEntity<Object> findAll() {
 
 		List<String> fileEntities = iFeedBackImageService.findAll();
@@ -139,7 +139,7 @@ public class JobReviewController extends GenericController<SaveJobReviewDto, Job
 
 	}
 
-	@DeleteMapping("/deleteFeedbackImage/{nameFile}")
+	@DeleteMapping("/deleteFeedbackImg/{nameFile}")
 	public ResponseEntity<Object> deleteTutorPublicImg(@PathVariable("nameFile") String nameFile) {
 
 		if (!iFeedBackImageService.checkExistObjectinS3(nameFile))
@@ -150,7 +150,7 @@ public class JobReviewController extends GenericController<SaveJobReviewDto, Job
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 	
-	@PutMapping("/UpdateFeedbackImage/{id}")
+	@PutMapping("/updateFeedbackImg/{id}")
 	public ResponseEntity<Object> UpdateFeedbackImage(@RequestParam("file") MultipartFile file,
 			@PathVariable("id") String id) throws IOException {
 

@@ -30,8 +30,6 @@ public class ResponseTaskForWebDto {
 
 	private String requireNote;
 	
-	private String subjectApperance;
-
 	private String subjectNote;
 	
 	private Set<ResponseTaskPlaceAddressDto> taskPlaceAddresses = new HashSet<>();

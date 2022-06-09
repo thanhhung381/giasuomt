@@ -194,7 +194,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 	
 
 
-	@GetMapping("/findallTutorImg")
+	@GetMapping("/findAllTutorAvatars")
 	public ResponseEntity<Object> findAll() {
 
 		List<String> fileEntities = iAvatarTutorAwsService.findAll();
@@ -206,7 +206,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 
 	}
 
-	@PostMapping("/createOrUpdateTutorImg/{tutorCode}")
+	@PostMapping("/createOrUpdateTutorAvatar/{tutorCode}")
 	public ResponseEntity<Object> uploadOrUpdate(@RequestParam("file") MultipartFile file,
 			@PathVariable("tutorCode") String tutorCode) throws IOException {
 
@@ -225,7 +225,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 
 	}
 
-	@PostMapping("/createOrUpdatePublicImgTutorImg/{tutorCode}")
+	@PostMapping("/createOrUpdatePublicImg/{tutorCode}")
 	public ResponseEntity<Object> uploadOrUpdatePublicImg(@RequestParam("file") MultipartFile file,
 			@PathVariable("tutorCode") String tutorCode) throws IOException {
 
@@ -283,7 +283,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 
 	}
 
-	@PostMapping("/createOrUpdatePrvateImgTutorImg/{tutorCode}")
+	@PostMapping("/createOrUpdateTutorPrivateImg/{tutorCode}")
 	public ResponseEntity<Object> uploadOrUpdatePrivateImg(@RequestParam("file") MultipartFile file,
 			@PathVariable("tutorCode") String tutorCode) throws IOException {
 
@@ -341,7 +341,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 
 	}
 
-	@PostMapping("/createOrUpdatePrivateImgsForTutor")
+	@PostMapping("/createOrUpdateForTutorPrivateImgs")
 	public ResponseEntity<Object> uploadPrivateImgs(@RequestParam("files") MultipartFile[] files,
 			@RequestParam("tutorCode") String tutorCode) throws IOException {
 
@@ -376,7 +376,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 
 	}
 
-	@PostMapping("s/createOrUpdatePublicImgsForTutor")
+	@PostMapping("/createOrUpdateForTutorPublicImgs")
 	public ResponseEntity<Object> uploadPublicImgs(@RequestParam("files") MultipartFile[] files,
 			@RequestParam("tutorCode") String tutorCode) throws IOException {
 
@@ -421,7 +421,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletePrivateImg/{nameFile}")
+	@DeleteMapping("/deleteTutorPrivateImg/{nameFile}")
 	public ResponseEntity<Object> deleteTutorPrivateImg(@PathVariable("nameFile") String nameFile) {
 
 		if (!iAvatarTutorAwsService.checkExistObjectPrivateInS3(nameFile))
@@ -432,7 +432,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletePublicImg/{nameFile}")
+	@DeleteMapping("/deleteTutorPublicImg/{nameFile}")
 	public ResponseEntity<Object> deleteTutorPublicImg(@PathVariable("nameFile") String nameFile) {
 
 		if (!iAvatarTutorAwsService.checkExistObjectPublicInS3(nameFile))
@@ -443,7 +443,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 
-	@PutMapping("/updatePrivateImg/{nameFile}")
+	@PutMapping("/updateTutorPrivateImg/{nameFile}")
 	public ResponseEntity<Object> UpdatePrivateImg(@RequestParam("file") MultipartFile file,
 			@PathVariable("nameFile") String nameFile) throws IOException {
 
@@ -462,7 +462,7 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 
 	}
 
-	@PutMapping("/updatePublicImg/{nameFile}")
+	@PutMapping("/updateTutorPublicImg/{nameFile}")
 	public ResponseEntity<Object> UpdatePublicImg(@RequestParam("file") MultipartFile file,
 			@PathVariable("nameFile") String nameFile) throws IOException {
 
