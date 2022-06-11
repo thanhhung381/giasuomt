@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import giasuomt.demo.commondata.dto.SavePersonDto;
-import giasuomt.demo.location.model.SaveRegisterAndLearnerAddressDto;
+import giasuomt.demo.location.dto.SaveRegisterAndLearnerAddressDto;
 import lombok.Getter;
 import lombok.Setter;
 

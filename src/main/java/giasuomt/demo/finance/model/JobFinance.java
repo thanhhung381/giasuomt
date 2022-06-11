@@ -39,7 +39,7 @@ public class JobFinance extends AbstractEntity {
 	
 	private String billImg ;
 	
-	private int amountOfMoney;
+	private Integer  amountOfMoney;
 	
 	private UnitOfMoney unitOfMoney;
 	

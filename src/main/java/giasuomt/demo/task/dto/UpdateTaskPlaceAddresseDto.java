@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import giasuomt.demo.location.model.SaveTaskPlaceAddressDto;
+import giasuomt.demo.location.dto.SaveTaskPlaceAddressDto;
 import lombok.Getter;
 import lombok.Setter;
 

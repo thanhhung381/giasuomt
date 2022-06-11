@@ -122,7 +122,7 @@ public class Tutor extends Person {
 	@Enumerated(EnumType.STRING)
 	private Set<HienDangLa>  hienDangLa=new HashSet<>();
 	
-	private int nowLevel;
+	private Integer  nowLevel;
 	
 	@LastModifiedDate
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_TIME_FORMAT) //Quy định date format khi nó add đối tượng thành Json để trả về Clients
