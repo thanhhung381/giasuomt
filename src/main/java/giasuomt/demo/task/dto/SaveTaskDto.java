@@ -29,7 +29,7 @@ import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;
 import giasuomt.demo.finance.util.UnitOfMoney;
-import giasuomt.demo.location.model.SaveTaskPlaceAddressDto;
+import giasuomt.demo.location.dto.SaveTaskPlaceAddressDto;
 import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.task.util.TaskSign;
 import giasuomt.demo.task.util.TaskStatus;
@@ -86,7 +86,7 @@ public class SaveTaskDto {
 	private LocalDateTime startDate;
 
 	// HỌC PHÍ
-	private int salary;
+	private Integer salary;
 
 	private UnitOfMoney unitOfSalary;
 
@@ -95,7 +95,7 @@ public class SaveTaskDto {
 	// PHÍ THU
 	private TypeOfFee typeOfTaskFee;
 
-	private int taskFee;
+	private Integer taskFee;
 
 	private UnitOfMoney unitOfTaskFee;
 
@@ -104,7 +104,7 @@ public class SaveTaskDto {
 	// PHÍ LIÊN KẾT (NẾU CÓ)
 	private TypeOfFee typeOfAffiliateFee;
 
-	private int affiliateFee;
+	private Integer affiliateFee;
 
 	private UnitOfMoney unitOfAffiliateFee;
 
@@ -112,8 +112,9 @@ public class SaveTaskDto {
 
 	// Số học viên
 	private String learnerNumber;
-	// Ghi Chú cho gia sư
-	private String taskNote;
+	
+	private String learnerNote;
+	
 	
 
 

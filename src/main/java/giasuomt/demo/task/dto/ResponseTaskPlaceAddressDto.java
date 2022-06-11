@@ -8,11 +8,14 @@ import lombok.Setter;
 @Setter
 public class ResponseTaskPlaceAddressDto {
 	
+
+
+
 	private String relAddNumber;
-	
-	private String relAddStreet;
-	
+
 	private Area area;
-	
-	private String relAddNote;
+
+	private String addStreet;
+
+	private String addStreetNote;
 }

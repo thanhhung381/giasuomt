@@ -12,6 +12,7 @@ import javax.persistence.Enumerated;
 
 import giasuomt.demo.commondata.util.Gender;
 import giasuomt.demo.commondata.util.HienDangLa;
+import giasuomt.demo.commondata.util.Voice;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.UnitOfMoney;
@@ -57,6 +58,8 @@ public class ResponseTaskForWebDto {
 	private Set<SubjectGroup> subjectGroups=new HashSet<>();
 	
 	private Set<HienDangLa> hienDangLaRequired=new HashSet<>();
+	
+	private Set<Voice> voiceRequired=new HashSet<>();
 	
 	// Số học viên
 		private String learnerNumber;

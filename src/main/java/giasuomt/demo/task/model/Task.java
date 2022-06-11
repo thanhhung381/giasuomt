@@ -142,7 +142,7 @@ public class Task extends AbstractEntityNotId {
 	private LocalDateTime startDate;
 
 //HỌC PHÍ
-	private int salary;
+	private Integer  salary;
 
 	@Enumerated(EnumType.STRING)
 	private UnitOfMoney unitOfSalary;
@@ -153,7 +153,7 @@ public class Task extends AbstractEntityNotId {
 	@Enumerated(EnumType.STRING)
 	private TypeOfFee typeOfTaskFee;
 
-	private int taskFee;
+	private Integer  taskFee;
 
 	@Enumerated(EnumType.STRING)
 	private UnitOfMoney unitOfTaskFee;
@@ -165,7 +165,7 @@ public class Task extends AbstractEntityNotId {
 	@Enumerated(EnumType.STRING)
 	private TypeOfFee typeOfAffiliateFee;
 
-	private int affiliateFee;
+	private Integer  affiliateFee;
 
 	@Enumerated(EnumType.STRING)
 	private UnitOfMoney unitOfAffiliateFee;
@@ -195,8 +195,9 @@ public class Task extends AbstractEntityNotId {
 	private Set<Job> jobs=new HashSet<>();
 // Số học viên
 	private String learnerNumber;
-//Ghi Chú cho gia sư
-	private String taskNote;
+	
+	private String learnerNote;
+
 
 	@ElementCollection(targetClass  = Gender.class)
     @Enumerated(EnumType.STRING)

@@ -30,7 +30,7 @@ public class SaveJobFinanceDto {
 	private WayOfPaying wayOfPaying;
 	
 	
-	private int amountOfMoney;
+	private Integer  amountOfMoney;
 	
 	private UnitOfMoney unitOfMoney;
 	

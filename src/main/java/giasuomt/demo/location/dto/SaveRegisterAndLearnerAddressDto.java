@@ -1,4 +1,4 @@
-package giasuomt.demo.location.model;
+package giasuomt.demo.location.dto;
 import lombok.Getter;
 import lombok.Setter;
 
