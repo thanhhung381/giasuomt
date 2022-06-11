@@ -64,7 +64,7 @@ public class SaveTutorDto extends SavePersonDto implements Serializable {
 
 	// HIỆN ĐANG LÀ
 	
-	private Set<HienDangLa>  hienDangLas=new HashSet<>();
+	private Set<HienDangLa>  hienDangLa=new HashSet<>();
 	
 	
 	private String studyingInsitution;
@@ -75,6 +75,8 @@ public class SaveTutorDto extends SavePersonDto implements Serializable {
 
 	// TAGS
 	private Set<String> tutorTagIds = new HashSet<>();
+	
+	private Integer  nowLevel;
 
 	// Registered Subjects
 

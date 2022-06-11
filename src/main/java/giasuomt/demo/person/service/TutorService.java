@@ -239,7 +239,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		tutor.setVoices(voices);
 		// Hien dang la
 		Set<HienDangLa> hienDangLas = new HashSet<>();
-		for (HienDangLa hienDangLa : dto.getHienDangLas()) {
+		for (HienDangLa hienDangLa : dto.getHienDangLa()) {
 			hienDangLas.add(hienDangLa);
 		}
 

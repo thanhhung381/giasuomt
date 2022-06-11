@@ -463,7 +463,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		dto.setUnitOfSalary(task.getUnitOfSalary());
 		dto.setSalaryPerTime(task.getSalaryPerTime());
 		dto.setLearnerNumber(task.getLearnerNumber());
-		dto.setLearnerNote(dto.getLearnerNote());
+		dto.setLearnerNote(task.getLearnerNote());
 		dto.setGenderRequired(task.getGenderRequired());
 		dto.setHienDangLaRequired(task.getHienDangLaRequired());
 		dto.setRequireNote(task.getRequireNote());
