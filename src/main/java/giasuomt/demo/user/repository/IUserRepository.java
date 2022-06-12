@@ -27,12 +27,7 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 	
 
 	
-	@Query("SELECT u.username FROM User u WHERE ( (u.tutor IS NOT NULL AND ( (u.tutor.emails=:parameter) OR (u.tutor.phones LIKE CONCAT('%',:parameter,'%')) ))"
-		
-			+ " OR (u.registerAndLearner IS NOT NULL AND ((u.registerAndLearner.emails=:parameter) OR (u.registerAndLearner.phones LIKE CONCAT('%',:parameter,'%'))) )"
-			+ " OR (u.staff IS NOT NULL AND ((u.staff.emails=:parameter) OR (u.staff.phones LIKE CONCAT('%',:parameter,'%'))) ) )"
-			+ "OR u.username=:parameter  "
-			+ "  ")
+	@Query("SELECT u.username FROM User u WHERE u.username=:parameter  ")
 	public String findUsernameByParameter(@Param("parameter") String parameter);
 	
 	

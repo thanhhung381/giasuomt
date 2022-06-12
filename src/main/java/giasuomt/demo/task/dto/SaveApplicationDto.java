@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class SaveApplicationDto {
 	
-	private Long id;
+	private String id;
 	
 	private String taskId;
 

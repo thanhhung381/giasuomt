@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedAttributeNode;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.comment.model.ApplicationComment;
 import giasuomt.demo.commondata.model.AbstractEntity;
+import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.task.util.ApplicationSign;
 import giasuomt.demo.task.util.TaskSign;
@@ -42,9 +44,8 @@ subgraphs = {
 					
 					
 						@NamedAttributeNode("tutorTags"),
-						@NamedAttributeNode("tempArea"),
 						@NamedAttributeNode("relArea"),
-						@NamedAttributeNode("perArea"),
+						@NamedAttributeNode("tutorAddressArea"),
 						@NamedAttributeNode("subjectGroupMaybes"),
 						@NamedAttributeNode("subjectGroupSures"),
 						@NamedAttributeNode("voices")	
@@ -52,8 +53,13 @@ subgraphs = {
 }
 
 		)
-public class Application extends AbstractEntity {
+public class Application extends AbstractEntityNotId {
 
+	
+	@Id
+	private String id;
+	
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "task_id")
 	@JsonIgnore

@@ -21,6 +21,6 @@ public class SaveTutorReviewDto {
 
 	private Long tutorId;
 
-	private Long jobId;
+	private String jobId;
 
 }

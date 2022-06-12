@@ -2,6 +2,7 @@ package giasuomt.demo.uploadfile.service;
 
 import java.io.File;
 
+
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.google.common.collect.Sets;
 
 import giasuomt.demo.job.model.Job;
-import giasuomt.demo.job.model.JobReview;
 import giasuomt.demo.job.repository.IJobRepository;
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.uploadfile.ultils.FileUltils;
@@ -84,8 +84,7 @@ public class RetainedImgsIdentificationAwsService extends AwsClientS3 implements
 
 			System.out.println(url);
 			
-			Job job = iJobRepository.getOne(Long
-					.parseLong(url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("RetainedImgsIdentification"))));
+			Job job = iJobRepository.getOne(url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("RetainedImgsIdentification")));
 
 			Set<String> urlRetainedImgsIdentifications = job.getRetainedImgsIdentification();
 
@@ -127,8 +126,7 @@ public class RetainedImgsIdentificationAwsService extends AwsClientS3 implements
 
 			client.deleteObject(bucketNameRetainedImgsIdentification, urlFile.substring(urlFile.lastIndexOf('/') + 1));
 
-			Job job = iJobRepository.getOne(
-					Long.parseLong(urlFile.substring(urlFile.lastIndexOf('/') + 1, urlFile.lastIndexOf("RetainedImgsIdentification"))));
+			Job job = iJobRepository.getOne(urlFile.substring(urlFile.lastIndexOf('/') + 1, urlFile.lastIndexOf("RetainedImgsIdentification")));
 
 			Set<String> retainedImgsIdentificationImgs = job.getRetainedImgsIdentification();
 

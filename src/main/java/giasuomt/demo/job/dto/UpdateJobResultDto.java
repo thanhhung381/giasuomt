@@ -8,7 +8,7 @@ import lombok.Setter;
 public class UpdateJobResultDto {
 	
 	
-	private Long id;
+	private String id;
 	
 	private String jobResult;
 	

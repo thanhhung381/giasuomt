@@ -5,8 +5,8 @@ import giasuomt.demo.task.dto.SaveTutorCreateDto;
 import giasuomt.demo.task.dto.UpdateApplicationSignDto;
 import giasuomt.demo.task.model.Application;
 
-public interface IApplicationService extends IGenericService<SaveApplicationDto, Application, Long>{
-	void deleteByIdAppliction(Long id);
+public interface IApplicationService extends IGenericService<SaveApplicationDto, Application, String>{
+	void deleteByIdAppliction(String id);
 	
 	Application updateApplicationSign(UpdateApplicationSignDto dto);
 

@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApplicationResponse {
-	private Long id;
+	private String id;
 	
 
 	private Long idPerson;

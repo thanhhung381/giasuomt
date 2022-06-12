@@ -31,7 +31,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 @Transactional
-public class ApplicationService extends GenericService<SaveApplicationDto, Application, Long>
+public class ApplicationService extends GenericService<SaveApplicationDto, Application, String>
 		implements IApplicationService {
 
 	private MapDtoToModel mapDtoToModel;
@@ -53,10 +53,16 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 			application = (Application) mapDtoToModel.map(dto, application);
 
 			Task task = iTaskRepository.getOne(dto.getTaskId());
+			
+			Tutor tutor=iTutorRepository.getOne(dto.getTutorId());
 
 			application.setTask(task);
+			
+			
 
-			application.setTutor(iTutorRepository.getOne(dto.getTutorId()));
+			application.setTutor(tutor);
+			
+			application.setId(task.getId().concat("-").concat(String.valueOf(tutor.getId())));
 
 			return save(dto, application);
 		}
@@ -106,7 +112,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 	}
 
 	@Override
-	public void deleteByIdAppliction(Long id) {
+	public void deleteByIdAppliction(String id) {
 		iApplicationCommentRepository.deleteAll(iApplicationRepository.getOne(id).getComments());// xóa application là
 																									// xóa hết
 		iApplicationRepository.deleteById(id);

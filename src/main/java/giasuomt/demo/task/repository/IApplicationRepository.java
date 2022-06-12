@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import giasuomt.demo.task.model.Application;
 
 @Repository
-public interface IApplicationRepository extends JpaRepository<Application, Long> {
+public interface IApplicationRepository extends JpaRepository<Application, String> {
 	
 	@EntityGraph(value = "application")
 	List<Application> findAll();

@@ -26,21 +26,14 @@ public class SaveTutorDto extends SavePersonDto implements Serializable {
 
 
 	// THÔNG TIN CÁ NHÂN
-	private String tempAddNo;
 
-	private String tempAddSt;
 
-	private String tempAddNote;
+	private String tutorAddressAreaId;
+	
+	private  String tutorAddress;
 
-	private String tempAreaId;
 
-	private String perAddNo;
 
-	private String perAddSt;
-
-	private String perAddNote;
-
-	private String perAreaId;
 
 
 

@@ -178,11 +178,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		tutor.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toUpperCase());
 
-		if (iAreaRepository.findById(dto.getTempAreaId()).isPresent())
-			tutor.setTempArea(iAreaRepository.getOne(dto.getTempAreaId()));
-
-		if (iAreaRepository.findById(dto.getPerAreaId()).isPresent())
-			tutor.setPerArea(iAreaRepository.getOne(dto.getPerAreaId()));
+		if (iAreaRepository.findById(dto.getTutorAddress()).isPresent())
+			tutor.setTutorAddressArea(iAreaRepository.getOne(dto.getTutorAddress()));
 
 		if (iAreaRepository.findById(dto.getRelAreaId()).isPresent())
 			tutor.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
