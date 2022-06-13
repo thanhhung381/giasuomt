@@ -70,7 +70,9 @@ public class User extends AbstractEntity {
 
 	private String password;
 
+	private String email;
 	
+	private String phone;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	private Tutor tutor;
