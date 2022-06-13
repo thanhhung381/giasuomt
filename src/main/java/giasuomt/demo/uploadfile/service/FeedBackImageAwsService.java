@@ -3,6 +3,7 @@ package giasuomt.demo.uploadfile.service;
 import java.io.File;
 
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -29,11 +30,11 @@ import com.google.common.collect.Sets;
 
 import giasuomt.demo.finance.model.JobFinance;
 import giasuomt.demo.finance.repository.IJobFinanceRepository;
-import giasuomt.demo.job.model.JobReview;
-import giasuomt.demo.job.repository.IJobReviewRepository;
+
 import giasuomt.demo.person.model.RegisterAndLearner;
-
-
+import giasuomt.demo.person.model.Tutor;
+import giasuomt.demo.tutorReview.model.TutorReview;
+import giasuomt.demo.tutorReview.repository.ITutorReviewRepository;
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.uploadfile.ultils.FileUltils;
 import lombok.AllArgsConstructor;
@@ -42,63 +43,44 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class FeedBackImageAwsService extends AwsClientS3 implements IFeedBackImageAwsService {
 
-	@Value("${amazon.feedbackImageURL}")
-	private String urlFeedBackImage;
-
-	@Value("${amazon.bucketnamefeedbackImage}")
-	private String bucketNameFeedBackImage;
-
-	@Autowired
-	private IJobReviewRepository iJobReviewRepository;
-
-	private void uploadPulicFile(String filename, File file, String bucketName) {
-		this.client.putObject(
+	@Autowired 
+	private ITutorReviewRepository iTutorReviewRepository;
+	
+	@Value("${amazon.bucketnamePrivateFeedBackTutorReview}")
+	private String bucketNamePrivate;
+	
+	@Value("${amazon.privateFeedBackTutorReviewURL}")
+	private String urlPrivate;
+	
+	
+	@Value("${amazon.bucketnamePublicFeedBackTutorReview}")
+	private String bucketNamePublic;
+	
+	@Value("${amazon.publicFeedBackTutorReviewURL}")
+	private String urlPublic;
+	
+	
+	private void upploadPublicFile(String filename, File file, String bucketName) {
+		client.putObject(
 				new PutObjectRequest(bucketName, filename, file).withCannedAcl(CannedAccessControlList.PublicRead));
+		
 	}
 
-	private String uploadMutipartFile(MultipartFile multipartFile, String nameFile, String bucketName, String url) {
-		String feedBackImageUrl = null;
+	private String uploadMultipartFile(MultipartFile multipartFile, String nameFile, String bucketName, String url) {
+		String imageURL = null;
+
 		try {
 
 			File file = FileUltils.convertMultiPathToFile(multipartFile);
 
-			uploadPulicFile(nameFile, file, bucketName);
+			upploadPublicFile(nameFile, file, bucketName);
 
 			file.delete();
 
-			feedBackImageUrl = url.concat(nameFile);
+			// urlAvatar "http://meomeo/"tutorAvatarURL
+			imageURL = url.concat(nameFile);
 
-			return feedBackImageUrl;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
-	@Override
-	public String uploadImageToAmazon(MultipartFile multipartFile, String fileName) {
-		try {
-
-			String url = uploadMutipartFile(multipartFile, fileName, bucketNameFeedBackImage, urlFeedBackImage);
-
-			JobReview jobReview = iJobReviewRepository
-					.getOne(Long.parseLong(url.substring(url.lastIndexOf("/") + 1, url.lastIndexOf("Review"))));
-
-			Set<String> feedBackImgs = jobReview.getFeedbackImgs();
-
-			feedBackImgs.add(url);
-
-			List<String> converter = new LinkedList<>(feedBackImgs);
-
-			converter = removeDuplicateElemet(converter);
-
-			jobReview.setFeedbackImgs(Sets.newHashSet(converter));
-
-			iJobReviewRepository.save(jobReview);
-
-			return "Insert feedback  img successfully";
+			return imageURL;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,53 +88,105 @@ public class FeedBackImageAwsService extends AwsClientS3 implements IFeedBackIma
 
 		return null;
 	}
+	
+	@Override
+	public String uploadImageToAmazon(MultipartFile multipartFile, String filename) {
+		
+		return null;
+	}
 
 	@Override
-	public List<String> findAll() {
+	public List<String> findAllPrivateImgs() {
 		List<String> listObject = new LinkedList<>();
 
-		ObjectListing iterables = client.listObjects(bucketNameFeedBackImage);
+		ObjectListing iterables = client.listObjects(bucketNamePrivate);
 		for (S3ObjectSummary os : iterables.getObjectSummaries()) {
-			listObject.add(urlFeedBackImage + os.getKey());
+			listObject.add(urlPrivate + os.getKey());
+		}
+
+		return listObject;
+	}
+	
+	
+
+	@Override
+	public List<String> findAllPublicImgs() {
+		List<String> listObject = new LinkedList<>();
+
+		ObjectListing iterables = client.listObjects(bucketNamePublic);
+		for (S3ObjectSummary os : iterables.getObjectSummaries()) {
+			listObject.add(urlPublic + os.getKey());
 		}
 
 		return listObject;
 	}
 
 	@Override
-	public void deleteByFileNameAndID(String urlFile) {
+	public String uploadImageToAmazonPrivateImgs(MultipartFile multipartFile, String filename) {
 		try {
+			String url = uploadMultipartFile(multipartFile, filename, bucketNamePrivate, urlPrivate);
 
-			client.deleteObject(bucketNameFeedBackImage, urlFile.substring(urlFile.lastIndexOf('/') + 1));
+			System.out.println(url);
 
-			JobReview jobReview = iJobReviewRepository.getOne(
-					Long.parseLong(urlFile.substring(urlFile.lastIndexOf('/') + 1, urlFile.lastIndexOf("Review"))));
+			TutorReview tutorReview = iTutorReviewRepository.getOne(
+					Long.parseLong(filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf("Private"))));
 
-			Set<String> feedBackImgs = jobReview.getFeedbackImgs();
+			Set<String> urlPrivateImgs = tutorReview .getPrivateFeedbackImgs();
 
-			feedBackImgs.remove(urlFile);
+			urlPrivateImgs.add(url);
 
-			jobReview.setFeedbackImgs(feedBackImgs);
+			List<String> converter = new LinkedList<>(urlPrivateImgs);
 
-			iJobReviewRepository.save(jobReview);
+			converter = removeDuplicateElemet(converter);
 
-		} catch (AmazonServiceException e) {
+			tutorReview.setPrivateFeedbackImgs(Sets.newHashSet(converter));
 
+			iTutorReviewRepository.save(tutorReview);
+
+			return "Insert private img successfully";
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+		return null;
 	}
 
 	@Override
-	public boolean checkExistIdOfT(Long id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean checkExistObjectinS3(String name) {
+	public String uploadImageToAmazonPubclicImgs(MultipartFile multipartFile, String filename) {
 		try {
-			boolean flag = this.client.doesObjectExist(bucketNameFeedBackImage, name);
+			String url = uploadMultipartFile(multipartFile, filename, bucketNamePublic, urlPublic);
+
+			System.out.println(url);
+
+			TutorReview tutorReview = iTutorReviewRepository.getOne(
+					Long.parseLong(filename.substring(filename.lastIndexOf("/") + 1, filename.lastIndexOf("Public"))));
+
+			Set<String> urlPrivateImgs = tutorReview.getPublicFeedbackImgs();
+
+			urlPrivateImgs.add(url);
+
+			List<String> converter = new LinkedList<>(urlPrivateImgs);
+
+			converter = removeDuplicateElemet(converter);
+
+			tutorReview.setPublicFeedbackImgs(Sets.newHashSet(converter));
+
+			iTutorReviewRepository.save(tutorReview);
+
+			return "Insert public img successfully";
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public boolean checkExistObjectPrivateInS3(String name) {
+		try {
+			boolean flag = this.client.doesObjectExist(bucketNamePrivate, name);
 			if (flag)
 				return true;
 
@@ -163,6 +197,115 @@ public class FeedBackImageAwsService extends AwsClientS3 implements IFeedBackIma
 		return false;
 	}
 
+	@Override
+	public boolean checkExistObjectPublicInS3(String name) {
+		try {
+			boolean flag = this.client.doesObjectExist(bucketNamePublic, name);
+			if (flag)
+				return true;
+
+		} catch (SdkClientException e) {
+
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	@Override
+	public String findAllByNameContainer(String name, List<String> containURLs) {
+		List<String> findAllListContain = new LinkedList<>();
+		for (String object : containURLs) {
+			if (object.contains(name))
+				findAllListContain.add(object);
+		}
+
+		Collections.sort(findAllListContain);
+
+		if (findAllListContain.isEmpty())
+			return null;
+
+		return findAllListContain.get(findAllListContain.size() - 1);
+	}
+
+	@Override
+	public void deleteByFileNameAndIDPrivateImgs(String urlFile) {
+		try {
+
+			client.deleteObject(bucketNamePublic, urlFile.substring(urlFile.lastIndexOf('/') + 1));
+
+			TutorReview tutorReview = iTutorReviewRepository.getOne(
+					Long.parseLong(urlFile.substring(urlFile.lastIndexOf("/") + 1, urlFile.lastIndexOf("Private"))));
+
+			Set<String> publicImgs = tutorReview.getPrivateFeedbackImgs();
+
+			publicImgs.remove(urlFile);
+
+			tutorReview.setPrivateFeedbackImgs(publicImgs);
+
+			iTutorReviewRepository.save(tutorReview);
+
+		} catch (AmazonServiceException e) {
+
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void deleteByFileNameAndIDPublicImgs(String urlFile) {
+		try {
+
+			client.deleteObject(bucketNamePublic, urlFile.substring(urlFile.lastIndexOf('/') + 1));
+
+			TutorReview tutorReview = iTutorReviewRepository.getOne(
+					Long.parseLong(urlFile.substring(urlFile.lastIndexOf("/") + 1, urlFile.lastIndexOf("Public"))));
+
+			Set<String> publicImgs = tutorReview.getPublicFeedbackImgs();
+
+			publicImgs.remove(urlFile);
+
+			tutorReview .setPublicFeedbackImgs(publicImgs);
+
+			iTutorReviewRepository.save(tutorReview);
+
+		} catch (AmazonServiceException e) {
+
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public String updatePrivateImageToAmazon(MultipartFile multipartFile, String filename) {
+		try {
+
+			String url = uploadMultipartFile(multipartFile, filename, bucketNamePrivate, urlPrivate);
+
+			return " Update private img successfully";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public String updatePublicImageToAmazon(MultipartFile multipartFile, String filename) {
+		try {
+
+			String url = uploadMultipartFile(multipartFile, filename, bucketNamePublic, urlPublic);
+
+			return " Update public img successfully";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+		
+	
 	private List<String> removeDuplicateElemet(List<String> string) {
 		List<String> temp = new LinkedList<>();
 
@@ -191,36 +334,5 @@ public class FeedBackImageAwsService extends AwsClientS3 implements IFeedBackIma
 
 		return temp;
 	}
-
-	@Override
-	public String findAllByNameContainer(String name, List<String> containURLs) {
-		List<String> findAllListContain = new LinkedList<>();
-		for (String object : containURLs) {
-			if (object.contains(name))
-				findAllListContain.add(object);
-		}
-
-		Collections.sort(findAllListContain);
-
-		if (findAllListContain.isEmpty())
-			return null;
-
-		return findAllListContain.get(findAllListContain.size() - 1);
-	}
-
-	@Override
-	public String updateFeedBackToAmazon(MultipartFile file, String nameFile) {
-		try {
-
-			String url = uploadMutipartFile(file, nameFile, bucketNameFeedBackImage, urlFeedBackImage);
-
-			return " Update feedback img successfully";
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
+	
 }

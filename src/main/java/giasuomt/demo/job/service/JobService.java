@@ -29,6 +29,7 @@ import giasuomt.demo.person.model.Tutor;
 
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.tags.model.TutorTag;
+import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
 
@@ -36,7 +37,7 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class JobService extends GenericService<SaveJobDto, Job, Long> implements IJobService {
+public class JobService extends GenericService<SaveJobDto, Job, String> implements IJobService {
 
 	private IJobRepository iJobRepository;
 
@@ -57,7 +58,11 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 
 		Job job = new Job();
 
-		job.setApplication(iApplicationRepository.getOne(dto.getApplicationId()));
+		Application application=iApplicationRepository.getOne(dto.getApplicationId());
+		
+		job.setApplication(application);
+		
+		
 
 		job.setTutor(iTutorRepository.getOne(dto.getTutorId()));
 
@@ -103,7 +108,7 @@ public class JobService extends GenericService<SaveJobDto, Job, Long> implements
 		}
 		tutorByTheTimeCreatingJob.setTutorTags(tutorTags);
 		
-		
+		job.setId(dto.getApplicationId().concat("-job"));
 
 
 		job.setTutorByTheTimeCreatingJob(tutorByTheTimeCreatingJob);

@@ -19,6 +19,6 @@ public class SaveJobReviewDto {
 	
 	private String feedback;
 	
-	private Long jobId;
+	private String jobId;
 	
 }

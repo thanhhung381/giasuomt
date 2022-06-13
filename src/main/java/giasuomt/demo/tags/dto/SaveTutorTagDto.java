@@ -14,5 +14,5 @@ public class SaveTutorTagDto {
 	
 	private String tagName;
 	
-	private String description;
+	
 }

@@ -61,9 +61,8 @@ import lombok.Setter;
 		@NamedAttributeNode("calendars"),
 		@NamedAttributeNode("hienDangLa"),
 		@NamedAttributeNode("tutorTags"),
-		@NamedAttributeNode("tempArea"),
 		@NamedAttributeNode("relArea"),
-		@NamedAttributeNode("perArea"),
+		@NamedAttributeNode("tutorAddressArea"),
 		@NamedAttributeNode("subjectGroupMaybes"),
 		@NamedAttributeNode("subjectGroupSures"),
 		@NamedAttributeNode("voices")
@@ -75,25 +74,12 @@ public class Tutor extends Person {
 	@Id
 	private Long id; // Cần viết tự generate theo dạng 8 số
 
-	private String tempAddNo;
 
-	private String tempAddSt;
-
-	private String tempAddNote;
+	private  String tutorAddress;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "temp_area_id")
-	private Area tempArea;
-
-	private String perAddNo;
-
-	private String perAddSt;
-
-	private String perAddNote;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "per_area_id")
-	private Area perArea;
+	@JoinColumn(name = "tutor_Address_area_id")
+	private Area tutorAddressArea;
 
 //VỊ TRÍ TƯƠNG ĐỐI CỦA GIA SƯ - vị trí này được xác định theo: vị trí các lớp đã nhận (trọng số theo thời gian và số lớp), các lớp đã đăng ký (trọng số theo thời gian và số lớp), nơi ở hiện tại mà gia sư khai báo (trọng số theo thời gian và nơi ở là tạm trú hay thường trú) 
 	private String xRelCoo;
@@ -202,6 +188,9 @@ public class Tutor extends Person {
 	@OneToMany(mappedBy = "tutor")
 	@JsonIgnore
 	private Set<TutorInterest> tutorInterests=new HashSet<>();
+	
+	
+	private String placeOfBirth;
 
 // FOR API SAVE
 

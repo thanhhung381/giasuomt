@@ -7,7 +7,7 @@ import giasuomt.demo.job.dto.SaveJobDto;
 import giasuomt.demo.job.dto.UpdateJobResultDto;
 import giasuomt.demo.job.model.Job;
 
-public interface IJobService extends IGenericService<SaveJobDto,Job, Long> {
+public interface IJobService extends IGenericService<SaveJobDto,Job, String> {
 	
 	public Job updateJobResult(UpdateJobResultDto dto);
 

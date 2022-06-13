@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateApplicationSignDto {
-	private Long id;
+	private String id;
 	
 	private List<ApplicationSign> applicationSigns=new LinkedList<>();
 }

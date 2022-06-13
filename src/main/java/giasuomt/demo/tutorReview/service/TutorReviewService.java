@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
+import giasuomt.demo.job.model.Job;
 import giasuomt.demo.job.repository.IJobRepository;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
@@ -34,9 +35,14 @@ public class TutorReviewService extends GenericService<SaveTutorReviewDto, Tutor
 		TutorReview tutorReview = new TutorReview();
 		tutorReview.setTutor(iTutorRepository.getOne(dto.getTutorId()));
 
-		if (dto.getJobId() != 0) {
-			tutorReview.setJob(iJobRepository.getOne(dto.getJobId()));
+		if (dto.getJobId() !=null ) {
+			
+			Job job=iJobRepository.getOne(dto.getJobId());
+			tutorReview.setJob(job);
+			tutorReview.setJobCreatedByCreatingTutorReview(job.getId());
 		}
+		
+		
 
 		return save(tutorReview, dto);
 	}
@@ -58,6 +64,9 @@ public class TutorReviewService extends GenericService<SaveTutorReviewDto, Tutor
 			Tutor tutor = iTutorRepository.getOne(dto.getTutorId());
 
 			tutor.setAverageStarNumbers(updateAverageStarNumber(tutor));
+			
+			
+	
 
 			tutor = iTutorRepository.save(tutor);
 

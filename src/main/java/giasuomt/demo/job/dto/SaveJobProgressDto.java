@@ -14,7 +14,7 @@ public class SaveJobProgressDto {
 	
 	private String content;
 	
-	private Long idJob;
+	private String idJob;
 	
 	
 

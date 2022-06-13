@@ -1,8 +1,11 @@
 package giasuomt.demo.tutorReview.model;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -18,7 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "TutorReview")
+@Table(name = "tutor_review")
 @Getter
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
@@ -35,6 +38,14 @@ public class TutorReview extends AbstractEntity {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Job job;
+	
+	private String jobCreatedByCreatingTutorReview;
+	
+	@ElementCollection
+	private Set<String>  publicFeedbackImgs=new HashSet<>();
+	
+	@ElementCollection
+	private Set<String>  privateFeedbackImgs=new HashSet<>();
 	
 	
 }	

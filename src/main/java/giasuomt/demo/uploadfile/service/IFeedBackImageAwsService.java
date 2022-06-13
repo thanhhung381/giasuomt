@@ -13,20 +13,34 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public interface IFeedBackImageAwsService {
 	
-   String uploadImageToAmazon(MultipartFile multipartFile,String fileName);
+	String uploadImageToAmazon(MultipartFile multipartFile, String filename);
+
 	
-	public List<String> findAll();
+
+	public List<String> findAllPrivateImgs();
+
+	public List<String> findAllPublicImgs();
+
 	
-	public void deleteByFileNameAndID(String urlFile);
-	
-	boolean checkExistIdOfT(Long id);
-	
-	boolean checkExistObjectinS3(String name);
-	
+
+	public String uploadImageToAmazonPrivateImgs(MultipartFile multipartFile, String filename);
+
+	public String uploadImageToAmazonPubclicImgs(MultipartFile multipartFile, String filename);
+
+
+	boolean checkExistObjectPrivateInS3(String name);
+
+	boolean checkExistObjectPublicInS3(String name);
+
 	public String findAllByNameContainer(String name, List<String> containURLs);
 
-	String updateFeedBackToAmazon(MultipartFile file, String nameFile);
-	
+	public void deleteByFileNameAndIDPrivateImgs(String urlFile);
+
+	public void deleteByFileNameAndIDPublicImgs(String urlFile);
+
+	String updatePrivateImageToAmazon(MultipartFile multipartFile, String filename);
+
+	String updatePublicImageToAmazon(MultipartFile multipartFile, String filename);
 
 	
 }

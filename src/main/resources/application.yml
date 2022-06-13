@@ -18,7 +18,7 @@ spring:
     show-sql: true #để xem câu sql mà nó tự sinh
     generate-ddl: true #để thằng Hibernate tự nhìn Object và tạo database được
     hibernate:
-      ddl-auto: update 
+      ddl-auto: update
       # ddl-auto: create-drop   
   servlet:
     multipart:
@@ -49,10 +49,7 @@ amazon:
   bucketnameAvatar: avatargsomt
 #billimage  
   billImageURL: https://hn.ss.bfcplatform.vn/billimagegsomt/
-  bucketnamebillImage: billimagegsomt
-#feedback
-  feedbackImageURL: https://hn.ss.bfcplatform.vn/feedbackimagegsomt/
-  bucketnamefeedbackImage: feedbackimagegsomt
+  bucketnamebillImage: billimagegsomt 
 #retainedrmgsrdentification  
   retainedimgsidentificationURL: https://hn.ss.bfcplatform.vn/retainedimgsidentificationgsomt/
   bucketnameretainedimgsidentification: retainedimgsidentificationgsomt 
@@ -74,6 +71,12 @@ amazon:
 #publicimgsRegisterandlearner
   registerandlearnerPublicimgsURL: https://hn.ss.bfcplatform.vn/publicimgsregisterandlearner/
   bucketnameRegisterandlearner: publicimgsregisterandlearner    
+ #privateimgsRegisterandlearner
+  privateFeedBackTutorReviewURL: https://hn.ss.bfcplatform.vn/feedbacktutorreview/
+  bucketnamePrivateFeedBackTutorReview: feedbacktutorreview
+#publicimgsRegisterandlearner
+  publicFeedBackTutorReviewURL: https://hn.ss.bfcplatform.vn/feedbacktutorreview/
+  bucketnamePublicFeedBackTutorReview: feedbacktutorreview  
 
 
   

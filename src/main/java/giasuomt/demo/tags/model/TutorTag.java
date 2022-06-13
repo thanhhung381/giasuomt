@@ -32,7 +32,7 @@ public class TutorTag extends Tag {
 
 	@Override
 	public String toString() {
-		return  tagType + "-" + tagGroup + "-" + tagName+ "-" + description;
+		return  tagType + "-" + tagGroup + "-" + tagName;
 	}
 
 	

@@ -66,7 +66,7 @@ public class JobProgressService extends GenericService<SaveJobProgressDto, JobPr
 		
 	JobProgress jobProgress=iJobProgressRepository.getOne(dto.getId());
 		
-		jobProgress.setJob(iJobRepository.getOne(dto.getId()));
+		jobProgress.setJob(iJobRepository.getOne(dto.getIdJob()));
 		
 		return save(dto,jobProgress);
 	}

@@ -179,7 +179,7 @@ public class AvatarAndPublicAndPrivateRegisterAndLearnerAwsService extends AwsCl
 
 			converter = removeDuplicateElemet(converter);
 
-			registerAndLearner.setPrivateImgs(Sets.newHashSet(converter));
+			registerAndLearner.setPrivateImgs(urlPrivateImgs);
 
 			iRegisterAndLearnerRepository.save(registerAndLearner);
 
@@ -212,7 +212,7 @@ public class AvatarAndPublicAndPrivateRegisterAndLearnerAwsService extends AwsCl
 
 			converter = removeDuplicateElemet(converter);
 
-			registerAndLearner.setPublicImgs(Sets.newHashSet(converter));
+			registerAndLearner.setPublicImgs(urlPublicImgs);
 
 			iRegisterAndLearnerRepository.save(registerAndLearner);
 

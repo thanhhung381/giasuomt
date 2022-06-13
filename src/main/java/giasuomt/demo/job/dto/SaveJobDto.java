@@ -12,18 +12,18 @@ import lombok.Setter;
 @Setter
 public class SaveJobDto {
 
-	private Long id;
+	private String id;
 
 	private String taskId;
 
 	private Long tutorId;
 
-	private Long applicationId;
+	private String applicationId;
 
 	private String verifiedTutorInfo;
 
 	private String adviceToTutor;
 
-	private String retainedIdentification;
+	
 
 }

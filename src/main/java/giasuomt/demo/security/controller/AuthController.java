@@ -1,6 +1,7 @@
 package giasuomt.demo.security.controller;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
@@ -45,10 +46,10 @@ public class AuthController {
 	{
 		Authentication authentication=null;
 
-		String username=iUserService.findByParameters(dto.getUsernameAndPhonesAndEmail());
+		String username=iUserService.findByParameters(dto.getUsernameOrPhonesOrEmail());
 		
-		System.out.println(username);
 		
+		 
 		try {
 			
 			if(username==null)

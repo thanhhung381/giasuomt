@@ -168,7 +168,7 @@ public class AvatarAndPublicAndPrivateImgsTutorAwsService extends AwsClientS3
 
 			converter = removeDuplicateElemet(converter);
 
-			tutor.setPrivateImgs(Sets.newHashSet(converter));
+			tutor.setPrivateImgs(urlPrivateImgs);
 
 			iTutorRepository.save(tutor);
 
@@ -210,11 +210,11 @@ public class AvatarAndPublicAndPrivateImgsTutorAwsService extends AwsClientS3
 
 			urlPublicImgs.add(url);
 
-			List<String> converter = new LinkedList<>(urlPublicImgs);
+	//		List<String> converter = new LinkedList<>(urlPublicImgs);
 
-			converter = removeDuplicateElemet(converter);
+	//		converter = removeDuplicateElemet(converter);
 
-			tutor.setPublicImgs(Sets.newHashSet(converter));
+			tutor.setPublicImgs(urlPublicImgs);
 
 			iTutorRepository.save(tutor);
 

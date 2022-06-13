@@ -37,7 +37,7 @@ public class SaveJobFinanceDto {
 	private String note;
 
 
-	private Long  jobId;
+	private String  jobId;
 	
 	//STK (nếu có) - thường dùng cho yêu cầu hoàn phí
 	private String accountNumber;

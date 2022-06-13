@@ -29,7 +29,7 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/application")
 @RestController
 @AllArgsConstructor
-public class ApplicationController extends GenericController<SaveApplicationDto, Application, Long> {
+public class ApplicationController extends GenericController<SaveApplicationDto, Application, String> {
 	
 	private IApplicationService iApplicationService;
 
@@ -44,7 +44,7 @@ public class ApplicationController extends GenericController<SaveApplicationDto,
 	}
 	
 	@DeleteMapping("/deleteApplication/{id}")
-	public ResponseEntity<Object> deleteByApplicationId(@PathVariable("id") Long id) {
+	public ResponseEntity<Object> deleteByApplicationId(@PathVariable("id") String id) {
 		if (!iApplicationService.checkExistIdOfT(id))
 			return ResponseHandler.getResponse("Don't have any Area id", HttpStatus.BAD_REQUEST);
 

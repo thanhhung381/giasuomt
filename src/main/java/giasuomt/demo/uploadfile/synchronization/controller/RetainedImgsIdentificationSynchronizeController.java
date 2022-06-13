@@ -2,6 +2,7 @@ package giasuomt.demo.uploadfile.synchronization.controller;
 
 import java.util.Set;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,7 @@ import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 import giasuomt.demo.finance.model.JobFinance;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.uploadfile.synchronization.service.IBillImageSynchronizeService;
-import giasuomt.demo.uploadfile.synchronization.service.IFeedBackJobReviewSynchronizeService;
+
 import giasuomt.demo.uploadfile.synchronization.service.IRetainedImgsIdentificationSynchronizeService;
 import lombok.AllArgsConstructor;
 

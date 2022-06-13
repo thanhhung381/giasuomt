@@ -6,6 +6,7 @@ import java.util.Set;
 import giasuomt.demo.job.dto.SaveJobReviewDto;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.person.model.Tutor;
+import giasuomt.demo.tutorReview.model.TutorReview;
 
 public class ExperienceForTutor {
 
@@ -22,16 +23,19 @@ public class ExperienceForTutor {
 					|| allJobs.getFailReason().contains("do lỗi GS")) {
 				countExp -= 1;
 			}
-			if (allJobs.getJobReviews() != null) {
+			if (allJobs.getTutorReviews() != null) {
 
-				if (allJobs.getJobReviews().getStarsNumber() >= 4.0
-						&& allJobs.getJobReviews().getStarsNumber() < 5.0) {
-					countExp += 1.0;
-				} else if (allJobs.getJobReviews().getStarsNumber() == 5.0) {
-					countExp += 2.0;
-				} else if (allJobs.getJobReviews().getStarsNumber() <= 2
-						&& allJobs.getJobReviews().getStarsNumber() >= 0) {
-					countExp -= 1;
+				for (TutorReview tutorReview : allJobs.getTutorReviews()) {
+					if (tutorReview.getStarNumber() >= 4.0
+							&& tutorReview.getStarNumber() < 5.0) {
+						countExp += 1.0;
+					} else if (tutorReview.getStarNumber() == 5.0) {
+						countExp += 2.0;
+					} else if (tutorReview.getStarNumber() <= 2
+							&& tutorReview.getStarNumber() >= 0) {
+						countExp -= 1;
+					}
+					
 				}
 			}
 		}

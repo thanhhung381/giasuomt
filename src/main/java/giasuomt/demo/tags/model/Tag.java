@@ -15,5 +15,5 @@ public class Tag extends AbstractEntityNotId {
 	
 	protected String tagName;
 	
-	protected String description;
+	
 }

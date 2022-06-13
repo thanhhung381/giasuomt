@@ -37,13 +37,11 @@ public class Area extends AbstractEntityNotId {
 	
 	protected String yRelCoo;
 
-	@OneToMany(mappedBy = "tempArea", fetch = FetchType.LAZY)
-	@JsonIgnore 
-	private Set<Tutor> tutorsWithTempArea=new HashSet<>();
 
-	@OneToMany(mappedBy = "perArea", fetch = FetchType.LAZY)
+
+	@OneToMany(mappedBy = "tutorAddressArea", fetch = FetchType.LAZY)
 	@JsonIgnore 
-	private Set<Tutor> tutorsWithPerArea=new HashSet<>();
+	private Set<Tutor> tutorsWithAddressArea=new HashSet<>();
 
 	@OneToMany(mappedBy = "relArea", fetch = FetchType.LAZY)
 	@JsonIgnore 
