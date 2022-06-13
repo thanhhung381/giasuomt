@@ -178,8 +178,9 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		tutor.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toUpperCase());
 
-		if (iAreaRepository.findById(dto.getTutorAddress()).isPresent())
-			tutor.setTutorAddressArea(iAreaRepository.getOne(dto.getTutorAddress()));
+		if (iAreaRepository.findById(dto.getTutorAddressAreaId()).isPresent())
+			tutor.setTutorAddressArea(iAreaRepository.getOne(dto.getTutorAddressAreaId()));
+		System.out.println();
 
 		if (iAreaRepository.findById(dto.getRelAreaId()).isPresent())
 			tutor.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
@@ -321,6 +322,10 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 	}
 
+	/**
+	 * @param tutor
+	 * @param tutorForWebDto
+	 */
 	private void mapTutorForResponse(Tutor tutor, TutorForWebDto tutorForWebDto) {
 		tutorForWebDto.setId(tutor.getId());
 		tutorForWebDto.setFullName(tutor.getFullName());
@@ -335,6 +340,10 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		tutorForWebDto.setTutorTags(tutor.getTutorTags());
 		tutorForWebDto.setTutorReviewNumbers(tutor.getTutorReviews().size());
 		tutorForWebDto.setJobNumbers(tutor.getJobs().size());
+		tutorForWebDto.setStudyingInsitution(tutor.getStudyingInsitution());
+		tutorForWebDto.setTeachingInstitution(tutor.getTeachingInstitution());
+		tutorForWebDto.setHienDangLa(tutor.getHienDangLa());
+		tutorForWebDto.setMajor(tutor.getMajor());
 
 	}
 

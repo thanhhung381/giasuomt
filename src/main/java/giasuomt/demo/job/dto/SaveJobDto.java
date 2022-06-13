@@ -14,9 +14,6 @@ public class SaveJobDto {
 
 	private String id;
 
-	private String taskId;
-
-	private Long tutorId;
 
 	private String applicationId;
 

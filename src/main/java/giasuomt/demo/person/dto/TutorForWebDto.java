@@ -11,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import giasuomt.demo.commondata.util.Gender;
+import giasuomt.demo.commondata.util.HienDangLa;
 import giasuomt.demo.commondata.util.Voice;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.location.model.Area;
@@ -35,6 +36,15 @@ public class TutorForWebDto {
 	private int tutorReviewNumbers; // đếm tổng các TutorReview
 	private int jobNumbers; // : đếm tổng các Job
 
+	private Set<HienDangLa> hienDangLa=new HashSet<>();
+	
+	private String studyingInsitution;
+	
+	private String teachingInstitution;
+	
+	private String major;
+	
+	
 	private Set<SubjectGroup> subjectGroupMaybes = new HashSet<>();
 
 	private Set<SubjectGroup> subjectGroupSures = new HashSet<>();

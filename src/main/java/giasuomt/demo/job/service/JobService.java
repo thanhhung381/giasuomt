@@ -2,7 +2,6 @@ package giasuomt.demo.job.service;
 
 import java.util.HashSet;
 
-
 import java.util.LinkedList;
 
 import java.util.List;
@@ -43,7 +42,6 @@ public class JobService extends GenericService<SaveJobDto, Job, String> implemen
 
 	private IApplicationRepository iApplicationRepository;
 
-
 	private ITutorRepository iTutorRepository;
 
 	private ITaskRepository iTaskRepository;
@@ -58,15 +56,9 @@ public class JobService extends GenericService<SaveJobDto, Job, String> implemen
 
 		Job job = new Job();
 
-		Application application=iApplicationRepository.getOne(dto.getApplicationId());
-		
+		Application application = iApplicationRepository.getOne(dto.getApplicationId());
+
 		job.setApplication(application);
-		
-		
-
-		job.setTutor(iTutorRepository.getOne(dto.getTutorId()));
-
-		job.setTask(iTaskRepository.getOne(dto.getTaskId()));
 
 		return save(dto, job);
 	}
@@ -74,19 +66,25 @@ public class JobService extends GenericService<SaveJobDto, Job, String> implemen
 	private void mapDto(SaveJobDto dto, Job job) {
 		job = (Job) mapDtoToModel.map(dto, job);
 
-		
+		Long tutorId = Long.parseLong(dto.getApplicationId().substring(dto.getApplicationId().indexOf("-") + 1) );
+
+		String taskId =dto.getApplicationId().substring(0, dto.getApplicationId().indexOf("-"));
+
+		job.setTutor(iTutorRepository.getOne(tutorId));
+
+		job.setTask(iTaskRepository.getOne(taskId));
 
 		// Subject Group Sure
 
 		// save Task Time Creating Job
 		TaskByTheTimeCreatingJob taskByTheTimeCreatingJob = new TaskByTheTimeCreatingJob();
-		taskByTheTimeCreatingJob = (TaskByTheTimeCreatingJob) mapDtoToModel.map(iTaskRepository.getOne(dto.getTaskId()),
+		taskByTheTimeCreatingJob = (TaskByTheTimeCreatingJob) mapDtoToModel.map(iTaskRepository.getOne(taskId),
 				taskByTheTimeCreatingJob);
-		taskByTheTimeCreatingJob.setId(dto.getTaskId());
+		taskByTheTimeCreatingJob.setId(taskId);
 		// take place address
 		Set<String> taskPlaceAddresss = new HashSet<>();
-		for (TaskPlaceAddress taskPlaceAddress : iTaskRepository.getOne(dto.getTaskId()).getTaskPlaceAddresses()) {
-			String attributeOfTaskPlaceTask = iTaskRepository.getOne(dto.getTaskId()).getTaskPlaceAddresses()
+		for (TaskPlaceAddress taskPlaceAddress : iTaskRepository.getOne(taskId).getTaskPlaceAddresses()) {
+			String attributeOfTaskPlaceTask = iTaskRepository.getOne(taskId).getTaskPlaceAddresses()
 					.toString();
 			System.out.println(attributeOfTaskPlaceTask);
 			taskPlaceAddresss.add(attributeOfTaskPlaceTask);
@@ -98,18 +96,17 @@ public class JobService extends GenericService<SaveJobDto, Job, String> implemen
 		// Tutor By Time Creating Job
 		TutorByTheTimeCreatingJob tutorByTheTimeCreatingJob = new TutorByTheTimeCreatingJob();
 		tutorByTheTimeCreatingJob = (TutorByTheTimeCreatingJob) mapDtoToModel
-				.map(iTutorRepository.getOne(dto.getTutorId()), tutorByTheTimeCreatingJob);
-		tutorByTheTimeCreatingJob.setId(dto.getTutorId());
+				.map(iTutorRepository.getOne(tutorId), tutorByTheTimeCreatingJob);
+		tutorByTheTimeCreatingJob.setId(tutorId);
 		// Tutor Tags
-		Set<String> tutorTags=new HashSet<>();
-		for (TutorTag tutortag : iTutorRepository.getOne(dto.getTutorId()).getTutorTags()) {
+		Set<String> tutorTags = new HashSet<>();
+		for (TutorTag tutortag : iTutorRepository.getOne(tutorId).getTutorTags()) {
 			String attributeOfTutorTags = tutortag.toString();
 			tutorTags.add(attributeOfTutorTags);
 		}
 		tutorByTheTimeCreatingJob.setTutorTags(tutorTags);
-		
-		job.setId(dto.getApplicationId().concat("-job"));
 
+		job.setId(dto.getApplicationId().concat("-job"));
 
 		job.setTutorByTheTimeCreatingJob(tutorByTheTimeCreatingJob);
 		iTutorByTheTimeCreatingJobRepository.save(tutorByTheTimeCreatingJob);
@@ -121,7 +118,7 @@ public class JobService extends GenericService<SaveJobDto, Job, String> implemen
 			mapDto(dto, job);
 
 			job = iJobRepository.save(job);
-			
+
 //			if(job.getJobResult()!=null)
 //			{
 //				Tutor tutor = iTutorRepository.getOne(job.getTutor().getId());
@@ -129,9 +126,7 @@ public class JobService extends GenericService<SaveJobDto, Job, String> implemen
 //				tutor = UpdateSubjectGroupMaybeAndSure.generateSubjectGroupSureInTutor(tutor);
 
 //				iTutorRepository.save(tutor);
-	//		}
-
-			
+			// }
 
 			return job;
 		} catch (Exception e) {
@@ -156,17 +151,17 @@ public class JobService extends GenericService<SaveJobDto, Job, String> implemen
 			Tutor tutor = iTutorRepository.getOne(job.getTutor().getId());
 
 			tutor = ExperienceForTutor.updateExpForTutor(tutor);
-			
+
 			tutor = UpdateSubjectGroupMaybeAndSure.generateSubjectGroupSureInTutor(tutor);
 
 			iTutorRepository.save(tutor);
 
 			return job;
 		} catch (Exception e) {
-			
+
 			e.printStackTrace();
 		}
-			
+
 		return null;
 	}
 
@@ -177,9 +172,7 @@ public class JobService extends GenericService<SaveJobDto, Job, String> implemen
 
 		job.setApplication(iApplicationRepository.getOne(dto.getApplicationId()));
 
-		job.setTutor(iTutorRepository.getOne(dto.getTutorId()));
-
-		job.setTask(iTaskRepository.getOne(dto.getTaskId()));
+		
 
 		return save(dto, job);
 	}

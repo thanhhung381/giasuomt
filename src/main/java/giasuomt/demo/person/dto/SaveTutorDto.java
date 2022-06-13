@@ -34,7 +34,7 @@ public class SaveTutorDto extends SavePersonDto implements Serializable {
 
 
 
-
+	private String placeOfBirth;
 
 
 	// NĂNG LỰC:
