@@ -51,6 +51,8 @@ public class JobService extends GenericService<SaveJobDto, Job, String> implemen
 	private ITutorByTheTimeCreatingJobRepository iTutorByTheTimeCreatingJobRepository;
 
 	private ITaskByTheTimeCreatingJobRepository iTaskByTheTimeCreatingJobRepository;
+	
+
 
 	public Job create(SaveJobDto dto) {
 

@@ -1,10 +1,15 @@
 package giasuomt.demo.educational.service;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Sets;
+
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.educational.dto.SaveSubjectGroupDto;
@@ -43,10 +48,10 @@ public class SubjectGroupService extends GenericService<SaveSubjectGroupDto, Sub
 	}
 
 	@Override
-	public List<SubjectGroup> createAll(List<SaveSubjectGroupDto> dtos) {
+	public Set<SubjectGroup> createAll(Set<SaveSubjectGroupDto> dtos) {
 		try {
 
-			List<SubjectGroup> subjectGroups = new LinkedList<>();
+			Set<SubjectGroup> subjectGroups = new HashSet<>();
 			for (SaveSubjectGroupDto dto : dtos) {
 				SubjectGroup subjectGroup = new SubjectGroup();
 
@@ -54,7 +59,7 @@ public class SubjectGroupService extends GenericService<SaveSubjectGroupDto, Sub
 				subjectGroups.add(subjectGroup);
 			}
 
-			return iSubjectGroupRepository.saveAll(subjectGroups);
+			return Sets.newHashSet(iSubjectGroupRepository.saveAll(subjectGroups)) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

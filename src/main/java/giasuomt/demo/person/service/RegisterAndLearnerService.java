@@ -1,12 +1,18 @@
 package giasuomt.demo.person.service;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.google.common.collect.Sets;
+
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
@@ -130,9 +136,9 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 	}
 
 	@Override
-	public List<RegisterAndLearner> createAll(List<SaveRegisterAndLearnerDto> dtos) {
+	public Set<RegisterAndLearner> createAll(Set<SaveRegisterAndLearnerDto> dtos) {
 		try {
-			List<RegisterAndLearner> registerAndLearners = new LinkedList<>();
+			Set<RegisterAndLearner> registerAndLearners = new HashSet<>();
 
 			for (SaveRegisterAndLearnerDto dto : dtos) {
 				RegisterAndLearner registerAndLearner = new RegisterAndLearner();
@@ -141,7 +147,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 				registerAndLearners.add(registerAndLearner);
 			}
 
-			return iRegisterAndLearnerRepository.saveAll(registerAndLearners);
+			return Sets.newHashSet(iRegisterAndLearnerRepository.saveAll(registerAndLearners)) ;
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -172,24 +178,22 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 		registerAndLearner.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName().toUpperCase()));
 
-		List<SaveRegisterAndLearnerAddressDto> saveRegisterAndLearnerAddressDtos = dto.getRegisterAndLearnerAddresses();
-		for (int i = 0; i < registerAndLearner.getRegisterAndLearnerAddresses().size(); i++) {
+		Set<SaveRegisterAndLearnerAddressDto> saveRegisterAndLearnerAddressDtos = dto.getRegisterAndLearnerAddresses();
+		for (RegisterAndLearnerAddress registerAndLearnerRelationship : registerAndLearner.getRegisterAndLearnerAddresses()) {
 			boolean deleteThis = true;
-			for (int j = 0; j < saveRegisterAndLearnerAddressDtos.size(); j++) {
-				if (registerAndLearner.getRegisterAndLearnerAddresses().get(i)
-						.getId() == saveRegisterAndLearnerAddressDtos.get(j).getId()) {
+			for (SaveRegisterAndLearnerAddressDto registerAndLearnerAddressDto :  saveRegisterAndLearnerAddressDtos) {
+				if (registerAndLearnerRelationship.getId() == registerAndLearnerAddressDto.getId()) {
 					deleteThis = false;
 				}
 			}
 			if (deleteThis) {
 				registerAndLearner
-						.removeRegisterAndLearnerAddress(registerAndLearner.getRegisterAndLearnerAddresses().get(i));
-				i--;
+						.removeRegisterAndLearnerAddress(registerAndLearnerRelationship);
+				
 			}
 		}
-		for (int i = 0; i < saveRegisterAndLearnerAddressDtos.size(); i++) {
-			SaveRegisterAndLearnerAddressDto saveRegisterAndLearnerAddressDto = saveRegisterAndLearnerAddressDtos
-					.get(i);
+		for (SaveRegisterAndLearnerAddressDto registerAndLearnerAddressDto :  saveRegisterAndLearnerAddressDtos) {
+			SaveRegisterAndLearnerAddressDto saveRegisterAndLearnerAddressDto = registerAndLearnerAddressDto;
 			if (saveRegisterAndLearnerAddressDto.getId() != null && saveRegisterAndLearnerAddressDto.getId() > 0) {
 				RegisterAndLearnerAddress registerAndLearnerAddress = iRegisterAndLearnerAddressRepository
 						.getOne(saveRegisterAndLearnerAddressDto.getId());
@@ -211,24 +215,22 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 		
 
 		// Relationship
-		List<SaveRegisterAndLearnerRelationshipDto> saveRegisterAndLearnerRelationshipDtoWiths = dto
+		Set<SaveRegisterAndLearnerRelationshipDto> saveRegisterAndLearnerRelationshipDtoWiths = dto
 				.getRegisterAndLearnerRelationships();
-		for (int i = 0; i < registerAndLearner.getRelationshipWith().size(); i++) {
+		for (RegisterAndLearnerRelationship registerAndLearnerRelationship : registerAndLearner.getRelationshipWith()) {
 			Boolean deleteThis = true;
-			for (int j = 0; j < saveRegisterAndLearnerRelationshipDtoWiths.size(); j++) {
-				if (registerAndLearner.getRelationshipWith().get(i)
-						.getId() == saveRegisterAndLearnerRelationshipDtoWiths.get(j).getId())
+			for (SaveRegisterAndLearnerRelationshipDto saveRegisterAndLearnerRelationshipDto: saveRegisterAndLearnerRelationshipDtoWiths) {
+				if (registerAndLearnerRelationship.getId() == saveRegisterAndLearnerRelationshipDto.getId())
 					deleteThis = false;
 			}
 			if (deleteThis) {
-				registerAndLearner.removeRelationshipWith(registerAndLearner.getRelationshipWith().get(i)); // Delete
-				i--; // Vì nó đã remove 1 element trong array lên phải trừ đi
+				registerAndLearner.removeRelationshipWith(registerAndLearnerRelationship); // Delete
+				
 			}
 		}
 
-		for (int i = 0; i < saveRegisterAndLearnerRelationshipDtoWiths.size(); i++) {
-			SaveRegisterAndLearnerRelationshipDto saveRegisterAndLearnerRelationshipDto = saveRegisterAndLearnerRelationshipDtoWiths
-					.get(i);
+		for (SaveRegisterAndLearnerRelationshipDto saveRegisterAndLearnerRelationshipDtos: saveRegisterAndLearnerRelationshipDtoWiths) {
+			SaveRegisterAndLearnerRelationshipDto saveRegisterAndLearnerRelationshipDto = saveRegisterAndLearnerRelationshipDtos;
 			if (saveRegisterAndLearnerRelationshipDto.getId() != null
 					&& saveRegisterAndLearnerRelationshipDto.getId() > 0) { // Update
 				RegisterAndLearnerRelationship registerAndLearnerRelationship = iRegisterAndLearnerRelationshipRepository
@@ -249,11 +251,11 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 		}
 
 		// Tags
-		List<Long> registerAndLearnerTagIds = dto.getRegisterAndLearnerTagIds();
-		List<RegisterAndLearnerTag> registerAndLearnerTags = new LinkedList<>();
-		for (int i = 0; i < registerAndLearnerTagIds.size(); i++) {
+		Set<Long> registerAndLearnerTagIds = dto.getRegisterAndLearnerTagIds();
+		Set<RegisterAndLearnerTag> registerAndLearnerTags = new HashSet<>();
+		for (Long  registerAndLearnerTagId : registerAndLearnerTagIds) {
 			RegisterAndLearnerTag registerAndLearnerTag = iRegisterAndLearnerTagRepository
-					.getOne(registerAndLearnerTagIds.get(i));
+					.getOne(registerAndLearnerTagId);
 			registerAndLearnerTags.add(registerAndLearnerTag);
 		}
 		registerAndLearner.setRegisterAndLearnerTags(registerAndLearnerTags);

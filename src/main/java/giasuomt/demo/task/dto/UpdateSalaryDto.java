@@ -12,13 +12,14 @@ import lombok.Getter;
 @Getter
 @Setter
 public class UpdateSalaryDto {
-	
-	
+
 	private String id;
-		
-	private int salary;
+
+	private Integer salaryForStudent;
+	private Integer salaryForGraduatedStudent;
+	private Integer salaryForTeacher;
 
 	private AmoutPerTime salaryPerTime;
-	
+
 	private UnitOfMoney unitOfSalary;
 }

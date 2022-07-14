@@ -2,7 +2,6 @@ package giasuomt.demo.task.dto;
 
 import java.time.LocalDateTime;
 
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -23,8 +22,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import giasuomt.demo.commondata.util.DateUtils;
 import giasuomt.demo.commondata.util.Gender;
-import giasuomt.demo.commondata.util.HienDangLa;
-import giasuomt.demo.commondata.util.Voice;
+import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;
@@ -47,21 +45,17 @@ public class SaveTaskDto {
 	private String taskPlaceType;
 
 	private Set<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = new HashSet<>();// không có trước đó
-	
-	private TaskStatus status; 
-	
+
+	private TaskStatus status;
+
 	// MÔN HỌC
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
-
-	
-
 
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
 	// Đây cũng là trường để lưu lại lịch sử nếu sau này nếu có chỉnh sửa database
 	// của bảng Subject
-
 
 	private String subjectNote;
 
@@ -69,24 +63,22 @@ public class SaveTaskDto {
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
 
-
-	
-	private Set<String> idSubjectGroup=new HashSet<>();
-
+	private Set<String> idSubjectGroup = new HashSet<>();
 
 	private String requireNote;
 
-	private String  lessonNumber; // Số buổi
-	
-	private String lessonPeriodOfTime;
+	private String lessonNumber; // Số buổi
 
+	private String lessonPeriodOfTime;
 
 	private String freeTime;
 
 	private LocalDateTime startDate;
 
 	// HỌC PHÍ
-	private Integer salary;
+	private Integer salaryForStudent;
+	private Integer salaryForGraduatedStudent;
+	private Integer salaryForTeacher;
 
 	private UnitOfMoney unitOfSalary;
 
@@ -95,7 +87,9 @@ public class SaveTaskDto {
 	// PHÍ THU
 	private TypeOfFee typeOfTaskFee;
 
-	private Integer taskFee;
+	private Integer taskFeeForStudent;
+	private Integer taskFeeForGraduatedStudent;
+	private Integer taskFeeForTeacher;
 
 	private UnitOfMoney unitOfTaskFee;
 
@@ -112,18 +106,18 @@ public class SaveTaskDto {
 
 	// Số học viên
 	private String learnerNumber;
-	
+
 	private String learnerNote;
-	
-	
 
 
-	private Set<Gender> genderRequired=new HashSet<>();
+	private Set<Gender> genderRequired = new HashSet<>();
 	
+	Set<TaskSign> taskSigns = new HashSet<>();
 
-	private Set<Voice> voiceRequired=new HashSet<>();
-	
-	
-	private Set<HienDangLa> hienDangLaRequired=new HashSet<>();
+	private String voiceRequired;
+
+	private String hienDangLaRequired;
+
+	private Integer nowLevelRequired;
 
 }

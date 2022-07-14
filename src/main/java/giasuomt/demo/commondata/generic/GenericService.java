@@ -1,6 +1,8 @@
 package giasuomt.demo.commondata.generic;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
@@ -64,7 +66,7 @@ public abstract class GenericService<DTO, T , ID> implements IGenericService<DTO
 
 	
 	@Override
-	public List<T> createAll(List<DTO> dtos) {
+	public Set<T> createAll(Set<DTO> dtos) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -17,9 +17,9 @@ public interface ITutorRepository extends JpaRepository<Tutor, Long> {
 	//Area findByTempArea(@Param("nation") String nation, @Param("provincialLevel") String provincialLevel,
 	//		@Param("district") String district, @Param("commune") String commune);
 
-	@Query("SELECT a FROM Tutor a WHERE a.relArea.nation=:nation AND a.relArea.provincialLevel=:provincialLevel  AND a.relArea.commune=:commune AND a.relArea.district=:district")
-	Area findByRelArea(@Param("nation") String nation, @Param("provincialLevel") String provincialLevel,
-			@Param("district") String district, @Param("commune") String commune);
+//	@Query("SELECT a FROM Tutor a WHERE a.relArea.nation=:nation AND a.relArea.provincialLevel=:provincialLevel  AND a.relArea.commune=:commune AND a.relArea.district=:district")
+//	Area findByRelArea(@Param("nation") String nation, @Param("provincialLevel") String provincialLevel,
+//			@Param("district") String district, @Param("commune") String commune);
 
 	//@Query("SELECT a FROM Tutor a WHERE a.perArea.nation=:nation AND a.perArea.provincialLevel=:provincialLevel  AND a.perArea.commune=:commune AND a.perArea.district=:district")
 	//Area findByPerArea(@Param("nation") String nation, @Param("provincialLevel") String provincialLevel,

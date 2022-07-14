@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.aspectj.apache.bcel.classfile.Code;
 import org.joda.time.DateTime;
@@ -21,6 +22,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.StringUtils;
 
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
@@ -31,39 +33,18 @@ import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
 import giasuomt.demo.token.service.TokenService;
 
 @SpringBootApplication
-
+@EnableScheduling
 public class DemoApplication extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(DemoApplication.class);
 	}
-	
 
 	public static void main(String[] args) {
 
 		SpringApplication.run(DemoApplication.class, args);
-		
-		Set<String> a=new HashSet<>();
-		
-		
-		a.add("a");
-		
-		a.add("b");
-		
-		a.add("c");
-		
-		a.add("a");
-		
-		a.add("b");
-		
-		
-		
-		
-		System.out.println(a.toString());
 
-		
-      
 	}
 
 }

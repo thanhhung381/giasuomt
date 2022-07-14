@@ -2,6 +2,7 @@ package giasuomt.demo.person.repository;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -39,6 +40,10 @@ public interface IRegisterAndLearnerRepository extends JpaRepository<RegisterAnd
 	
 	@Query("SELECT r FROM RegisterAndLearner r WHERE r.avatar IS NOT NULL")
 	Set<RegisterAndLearner> findTutorBeforeSynchronize();
+	
+	@EntityGraph(value="registerAndLearner")
+	 List<RegisterAndLearner> findAll() ;
+	
 	
 	
 }

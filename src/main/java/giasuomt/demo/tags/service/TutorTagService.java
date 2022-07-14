@@ -1,9 +1,15 @@
 package giasuomt.demo.tags.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Sets;
+
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.tags.dto.SaveTutorTagDto;
@@ -75,10 +81,10 @@ public class TutorTagService extends GenericService<SaveTutorTagDto, TutorTag, S
 	}
 
 	@Override
-	public List<TutorTag> createAll(List<SaveTutorTagDto> dtos) {
+	public Set<TutorTag> createAll(Set<SaveTutorTagDto> dtos) {
 		try {
 			
-			List<TutorTag> tutorTags = new ArrayList<>();
+			Set<TutorTag> tutorTags = new HashSet<>();
 			
 			for (SaveTutorTagDto dto : dtos) {
 				
@@ -91,7 +97,7 @@ public class TutorTagService extends GenericService<SaveTutorTagDto, TutorTag, S
 				tutorTags.add(tutorTag);
 			}
 
-			return iTutorTagRepository.saveAll(tutorTags);
+			return Sets.newHashSet(iTutorTagRepository.saveAll(tutorTags));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

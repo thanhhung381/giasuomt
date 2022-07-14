@@ -63,8 +63,7 @@ public class AuthController {
 				
 				//Phải add Authentication của User vô Security Context thì khi nó check nó mới biết user này đã đăng nhập hay chưa
 				SecurityContextHolder.getContext().setAuthentication(authentication);
-				
-				
+ 				
 				//return lại JWT cho người dùng
 				String jwt=jwtUltils.generateJwtToken(authentication);
 				

@@ -4,6 +4,7 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -43,7 +44,7 @@ public class Area extends AbstractEntityNotId {
 	@JsonIgnore 
 	private Set<Tutor> tutorsWithAddressArea=new HashSet<>();
 
-	@OneToMany(mappedBy = "relArea", fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy = "relArea", fetch = FetchType.LAZY)
 	@JsonIgnore 
 	private Set<Tutor> tutorsWithRelArea=new HashSet<>();	
 

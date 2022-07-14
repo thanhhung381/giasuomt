@@ -38,8 +38,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.Person;
 import giasuomt.demo.commondata.util.Calendar;
 import giasuomt.demo.commondata.util.DateTimeUtils;
-import giasuomt.demo.commondata.util.HienDangLa;
-import giasuomt.demo.commondata.util.Voice;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
@@ -65,6 +63,8 @@ import lombok.Setter;
 		@NamedAttributeNode("tutorAddressArea"),
 		@NamedAttributeNode("subjectGroupMaybes"),
 		@NamedAttributeNode("subjectGroupSures"),
+		@NamedAttributeNode("publicImgs"),
+		@NamedAttributeNode("privateImgs"),
 		@NamedAttributeNode("voices")
 		
 })
@@ -86,9 +86,10 @@ public class Tutor extends Person {
 
 	private String yRelCoo;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "rel_area_id")
-	private Area relArea;
+	
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "tutor_area_rel", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "tutor_area_id"))
+	private Set<Area> relArea=new HashSet<>();
 
 //MEDIA	
 	private String avatar;
@@ -104,9 +105,8 @@ public class Tutor extends Person {
 
 //HIỆN ĐANG LÀ
 	
-	@ElementCollection(targetClass = HienDangLa.class)
-	@Enumerated(EnumType.STRING)
-	private Set<HienDangLa>  hienDangLa=new HashSet<>();
+	
+	private String  hienDangLa;
 	
 	private Integer  nowLevel;
 	
@@ -132,9 +132,9 @@ public class Tutor extends Person {
 //	private List<Relationship> relationshipBy = new LinkedList<>();
 
 //TUTOR:
-	@ElementCollection(targetClass = Voice.class)
-	@Enumerated(EnumType.STRING)
-	private Set<Voice> voices=new HashSet<>();
+	
+
+	private String voices;
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "tutor_tutor_tag", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "tutor_tag_id"))
@@ -168,6 +168,9 @@ public class Tutor extends Person {
 	@JoinTable(name = "task_subjectGroupSure", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subjectGroup_id"))
 	private Set<SubjectGroup> subjectGroupSures=new HashSet<>();
 
+	private String subject;
+	
+	private String subjectName;
 	
 	//tutor
 	@OneToMany(mappedBy = "tutor")

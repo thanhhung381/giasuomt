@@ -39,7 +39,7 @@ public class RetainedImgsIdentificationSynchronizeService implements IRetainedIm
 					for (String url : urlRetainedImgsIdentificationOfJob) {
 						boolean check = true;
 						
-						if (!url.contains(String.valueOf(job.getId())+"RetainedImgsIdentification")) {
+						if (!url.contains(job.getId()+"RetainedImgsIdentification")) {
 							check = false;
 						}
 

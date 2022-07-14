@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.support.WebApplicationObjectSupport;
 
 import com.amazonaws.services.logs.model.transform.ExportTaskExecutionInfoMarshaller;
+import com.google.common.collect.Sets;
 
 import giasuomt.demo.comment.repository.IApplicationCommentRepository;
 import giasuomt.demo.commondata.generic.GenericService;
@@ -87,10 +88,10 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 	}
 
 	@Override
-	public List<Application> createAll(List<SaveApplicationDto> dtos) {
+	public Set<Application> createAll(Set<SaveApplicationDto> dtos) {
 		try {
 
-			List<Application> applications = new LinkedList<>();
+			Set<Application> applications = new HashSet<>();
 			for (SaveApplicationDto dto : dtos) {
 				Application application = new Application();
 
@@ -103,7 +104,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 				applications.add(application);
 
 			}
-			return iApplicationRepository.saveAll(applications);
+			return Sets.newHashSet(iApplicationRepository.saveAll(applications));
 
 		} catch (Exception e) {
 			e.printStackTrace();

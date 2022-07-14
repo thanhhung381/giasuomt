@@ -1,4 +1,5 @@
 package giasuomt.demo.task.model;
+
 import java.time.LocalDateTime;
 
 import java.util.ArrayList;
@@ -41,8 +42,6 @@ import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.util.DateUtils;
 import giasuomt.demo.commondata.util.Gender;
-import giasuomt.demo.commondata.util.HienDangLa;
-import giasuomt.demo.commondata.util.Voice;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
@@ -61,35 +60,23 @@ import lombok.Setter;
 @Entity
 @Table(name = "task")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
-@NamedEntityGraphs({
-	@NamedEntityGraph(name = "task" ,attributeNodes = {
-			@NamedAttributeNode("taskPlaceAddresses"),
-			@NamedAttributeNode("subjectGroups"),
-			@NamedAttributeNode("taskSign"),
-			@NamedAttributeNode("registrations"),
-			@NamedAttributeNode("jobs"),
-			@NamedAttributeNode("genderRequired"),
-			@NamedAttributeNode("voiceRequired"),
-			@NamedAttributeNode("hienDangLaRequired"),
-			@NamedAttributeNode("taskSign"),
-			@NamedAttributeNode("comments")
-			
-	})
-})
+@NamedEntityGraphs({ @NamedEntityGraph(name = "task", attributeNodes = { @NamedAttributeNode("taskPlaceAddresses"),
+		@NamedAttributeNode("subjectGroups"), @NamedAttributeNode("taskSign"), @NamedAttributeNode("registrations"),
+		@NamedAttributeNode("jobs"), @NamedAttributeNode("genderRequired"), @NamedAttributeNode("voiceRequired"),
+		@NamedAttributeNode("hienDangLaRequired"), @NamedAttributeNode("taskSign"), @NamedAttributeNode("comments")
+
+}) })
 public class Task extends AbstractEntityNotId {
 	// @Unique
 	// @NotBlank
 	@Id
-	//@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	//@Column(nullable = false)
-	private String id; // Cần viết tự generae theo dạng MB1991 
-	
-	
-
+	// @GeneratedValue(strategy = GenerationType.SEQUENCE)
+	// @Column(nullable = false)
+	private String id; // Cần viết tự generae theo dạng MB1991
 
 //TÌNH TRẠNG LỚP
-	@Enumerated(EnumType.STRING)   //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
-	private TaskStatus status; 
+	@Enumerated(EnumType.STRING) // kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
+	private TaskStatus status;
 
 //NƠI HỌC
 	private String taskPlaceType;
@@ -103,13 +90,12 @@ public class Task extends AbstractEntityNotId {
 
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_subjectGroup", joinColumns = @JoinColumn(name = "task_id"), inverseJoinColumns = @JoinColumn(name = "subjectGroup_id"))
-	private Set<SubjectGroup> subjectGroups=new HashSet<>();
-	
+	private Set<SubjectGroup> subjectGroups = new HashSet<>();
+
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
 	// Đây cũng là trường để lưu lại lịch sử nếu sau này nếu có chỉnh sửa database
 	// của bảng Subject
-	
 
 	private String subjectNote;
 
@@ -117,21 +103,17 @@ public class Task extends AbstractEntityNotId {
 	// Trường nảy chỉ dùng cho API chỉnh sửa thông tin lớp, và API suggest (ko dùng
 	// cho API hiển thị thông tin lớp)
 
-
 	// Trường này dùng cho API hiển thị thông tin lớp (để ko cần phải query thêm
 	// bảng subjects)
 	// Đây cũng là trường để lưu lại lịch sử nếu sau này nếu có chỉnh sửa database
 	// của bảng Subject
 
-
 	private String requireNote;
 
 //THỜI GIAN
-	private String  lessonNumber; // Số buổi
-	
+	private String lessonNumber; // Số buổi
+
 	private String lessonPeriodOfTime;
-
-
 
 	private String freeTime;
 
@@ -142,7 +124,9 @@ public class Task extends AbstractEntityNotId {
 	private LocalDateTime startDate;
 
 //HỌC PHÍ
-	private Integer  salary;
+	private Integer salaryForStudent;
+	private Integer salaryForGraduatedStudent;
+	private Integer salaryForTeacher;
 
 	@Enumerated(EnumType.STRING)
 	private UnitOfMoney unitOfSalary;
@@ -153,7 +137,9 @@ public class Task extends AbstractEntityNotId {
 	@Enumerated(EnumType.STRING)
 	private TypeOfFee typeOfTaskFee;
 
-	private Integer  taskFee;
+	private Integer taskFeeForStudent;
+	private Integer taskFeeForGraduatedStudent;
+	private Integer taskFeeForTeacher;
 
 	@Enumerated(EnumType.STRING)
 	private UnitOfMoney unitOfTaskFee;
@@ -165,7 +151,7 @@ public class Task extends AbstractEntityNotId {
 	@Enumerated(EnumType.STRING)
 	private TypeOfFee typeOfAffiliateFee;
 
-	private Integer  affiliateFee;
+	private Integer affiliateFee;
 
 	@Enumerated(EnumType.STRING)
 	private UnitOfMoney unitOfAffiliateFee;
@@ -173,56 +159,53 @@ public class Task extends AbstractEntityNotId {
 	@Enumerated(EnumType.STRING)
 	private PercentageOfMoney percentageOfAffiliateFeeInTaskFee;
 //COMMENTS (Nếu có)
-    @OneToMany(mappedBy = "task")
-	private Set<TaskComment> comments=new HashSet<>();
+	@OneToMany(mappedBy = "task")
+	private Set<TaskComment> comments = new HashSet<>();
 
 //ĐÁNH DẤU (Nếu có)
 //
-    @ElementCollection(targetClass  = TaskSign.class)
-    @Enumerated(EnumType.STRING)
-    private Set<TaskSign> taskSign =new HashSet<>();
+	@ElementCollection(targetClass = TaskSign.class)
+	@Enumerated(EnumType.STRING)
+	private Set<TaskSign> taskSign = new HashSet<>();
 
 //NGƯỜI ĐĂNG KÝ/HỌC VIÊN	
 	@OneToMany(mappedBy = "task")
-	private Set<Registration> registrations = new HashSet<>();	
+	private Set<Registration> registrations = new HashSet<>();
 
 //ỨNG VIÊN ĐĂNG KÝ
 	@OneToMany(mappedBy = "task")
-	private Set<Application> applications = new HashSet<>();	
+	private Set<Application> applications = new HashSet<>();
 
 //GIAO JOB
 	@OneToMany(mappedBy = "task")
-	private Set<Job> jobs=new HashSet<>();
+	private Set<Job> jobs = new HashSet<>();
 // Số học viên
 	private String learnerNumber;
-	
+
 	private String learnerNote;
 
+	@ElementCollection(targetClass = Gender.class)
+	@Enumerated(EnumType.STRING)
+	private Set<Gender> genderRequired = new HashSet<>();
 
-	@ElementCollection(targetClass  = Gender.class)
-    @Enumerated(EnumType.STRING)
-	private Set<Gender> genderRequired=new HashSet<>();
+
+	private String voiceRequired ;
+
 	
-	@ElementCollection(targetClass = Voice.class)
-	@Enumerated(EnumType.STRING)
-	private Set<Voice> voiceRequired=new HashSet<>();
+	private String hienDangLaRequired ;
 	
-	@ElementCollection(targetClass = HienDangLa.class)
-	@Enumerated(EnumType.STRING)
-	private Set<HienDangLa> hienDangLaRequired=new HashSet<>();
-	
-	
-	public void removeApplication(Application application){
+	private Integer nowLevelRequired;
+
+
+	public void removeApplication(Application application) {
 		this.applications.remove(application);
 	};
-	
-	public void addApplication(Application application){
+
+	public void addApplication(Application application) {
 		application.setTask(this);
 		this.applications.add(application);
 	};
-	
-	
-	
+
 	public void addTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress) {
 		taskPlaceAddress.setTask(this);
 		this.taskPlaceAddresses.add(taskPlaceAddress);
@@ -231,8 +214,5 @@ public class Task extends AbstractEntityNotId {
 	public void removeTaskPlaceAddress(TaskPlaceAddress taskPlaceAddress) {
 		this.taskPlaceAddresses.remove(taskPlaceAddress);
 	};
-
-
-
 
 }

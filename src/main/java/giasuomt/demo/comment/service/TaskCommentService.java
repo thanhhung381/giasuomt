@@ -87,10 +87,6 @@ public class TaskCommentService extends GenericService<SaveTaskCommentDto, TaskC
 		iTaskCommentRepository.deleteById(id);
 	}
 
-	@Override
-	public List<TaskComment> createAll(List<SaveTaskCommentDto> dtos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }

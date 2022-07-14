@@ -1,6 +1,7 @@
 package giasuomt.demo.person.model;
 
 import java.time.LocalDateTime;
+
 import java.util.List;
 import java.util.Set;
 
@@ -16,8 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import giasuomt.demo.commondata.model.AbstractEntity;
 import giasuomt.demo.commondata.util.Calendar;
 import giasuomt.demo.commondata.util.DateTimeUtils;
-import giasuomt.demo.commondata.util.HienDangLa;
-import giasuomt.demo.commondata.util.Voice;
+
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;

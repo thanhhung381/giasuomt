@@ -1,6 +1,8 @@
 package giasuomt.demo.tags.model;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,5 +33,5 @@ public class RegisterAndLearnerTag extends Tag {
 	
 	@ManyToMany(mappedBy = "registerAndLearnerTags", fetch = FetchType.LAZY)
 	@JsonIgnore 
-	private List<RegisterAndLearner> registerAndLearner = new LinkedList<>();
+	private Set<RegisterAndLearner> registerAndLearner = new HashSet<>();
 }

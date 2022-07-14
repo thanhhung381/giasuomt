@@ -1,9 +1,13 @@
 package giasuomt.demo.tags.service;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Sets;
 
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
@@ -72,16 +76,16 @@ public class RegisterAndLearnerTagService
 	}
 
 	@Override
-	public List<RegisterAndLearnerTag> createAll(List<SaveRegisterAndLearnerTagDto> dtos) {
+	public Set<RegisterAndLearnerTag> createAll(Set<SaveRegisterAndLearnerTagDto> dtos) {
 		try {
-			List<RegisterAndLearnerTag> registerAndLearnerTags = new LinkedList<>();
+			Set<RegisterAndLearnerTag> registerAndLearnerTags = new HashSet<>();
 			for (SaveRegisterAndLearnerTagDto dto : dtos) {
 				RegisterAndLearnerTag registerAndLearnerTag = new RegisterAndLearnerTag();
 				registerAndLearnerTag = (RegisterAndLearnerTag) mapDtoToModel.map(dto, registerAndLearnerTag);
 				registerAndLearnerTags.add(registerAndLearnerTag);
 			}
 
-			return iRegisterAndLearnerTagRepository.saveAll(registerAndLearnerTags);
+			return Sets.newHashSet(iRegisterAndLearnerTagRepository.saveAll(registerAndLearnerTags)) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,8 +1,11 @@
 package giasuomt.demo.person.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+
 import giasuomt.demo.commondata.dto.SavePersonDto;
 import giasuomt.demo.location.dto.SaveRegisterAndLearnerAddressDto;
 import lombok.Getter;
@@ -11,11 +14,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SaveRegisterAndLearnerDto extends SavePersonDto implements Serializable {
+	
 	private String vocative;
 	
 
 	
-	private List<SaveRegisterAndLearnerAddressDto> registerAndLearnerAddresses = new ArrayList<>();// không có trước đó
+	private Set<SaveRegisterAndLearnerAddressDto> registerAndLearnerAddresses = new HashSet<>();// không có trước đó
 
 	// HIỆN ĐANG LÀ
 	// Lưu Student
@@ -29,7 +33,7 @@ public class SaveRegisterAndLearnerDto extends SavePersonDto implements Serializ
 	
 	
 	// TAGS
-	private List<Long> registerAndLearnerTagIds = new LinkedList<>();
+	private Set<Long> registerAndLearnerTagIds = new HashSet<>();
 	
 
 	private String note;
@@ -37,6 +41,6 @@ public class SaveRegisterAndLearnerDto extends SavePersonDto implements Serializ
 	
 	
 	//RELATIONSHIP
-	private List<SaveRegisterAndLearnerRelationshipDto> registerAndLearnerRelationships = new LinkedList<>();
+	private Set<SaveRegisterAndLearnerRelationshipDto> registerAndLearnerRelationships = new HashSet<>();
 	
 }
