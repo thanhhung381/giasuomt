@@ -1,8 +1,12 @@
 package giasuomt.demo.task.service;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Sets;
 
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
@@ -56,10 +60,10 @@ public class RegistrationService extends GenericService<SaveRegistrationDto, Reg
 	}
 
 	@Override
-	public List<Registration> createAll(List<SaveRegistrationDto> dtos) {
+	public Set<Registration> createAll(Set<SaveRegistrationDto> dtos) {
 		try {
 
-			List<Registration> registrations = new LinkedList<>();
+			Set<Registration> registrations = new HashSet<>();
 			for (SaveRegistrationDto dto : dtos) {
 				Registration registration = new Registration();
 
@@ -73,7 +77,7 @@ public class RegistrationService extends GenericService<SaveRegistrationDto, Reg
 
 
 			}
-			return iRegistrationRepository.saveAll(registrations);
+			return Sets.newHashSet(iRegistrationRepository.saveAll(registrations));
 
 		} catch (Exception e) {
 			e.printStackTrace();

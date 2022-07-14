@@ -2,6 +2,7 @@ package giasuomt.demo.person.service;
 
 import java.util.ArrayList;
 
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,14 +15,13 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
+import com.google.common.collect.Sets;
 
 import giasuomt.demo.commondata.generator.TutorCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.util.Calendar;
-import giasuomt.demo.commondata.util.HienDangLa;
-import giasuomt.demo.commondata.util.Voice;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.educational.repository.ISubjectGroupRepository;
 import giasuomt.demo.job.model.Job;
@@ -127,10 +127,10 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	}
 
 	@Override
-	public List<Tutor> createAll(List<SaveTutorDto> dtos) {
+	public Set<Tutor> createAll(Set<SaveTutorDto> dtos) {
 		try {
 
-			List<Tutor> tutors = new LinkedList<>();
+			Set<Tutor> tutors = new HashSet<>();
 
 			for (SaveTutorDto dto : dtos) {
 				Tutor tutor = new Tutor();
@@ -138,8 +138,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 				tutors.add(tutor);
 			}
-
-			return iTutorRepository.saveAll(tutors);
+			
+			return Sets.newHashSet(iTutorRepository.saveAll(tutors)) ;
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -180,10 +180,20 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 		if (iAreaRepository.findById(dto.getTutorAddressAreaId()).isPresent())
 			tutor.setTutorAddressArea(iAreaRepository.getOne(dto.getTutorAddressAreaId()));
-		System.out.println();
+		
+		
+		Set<String> relAreaIds = dto.getRelAreaIds();
+		Set<Area> tutorRelAreas = new HashSet<>();
 
-		if (iAreaRepository.findById(dto.getRelAreaId()).isPresent())
-			tutor.setRelArea(iAreaRepository.getOne(dto.getRelAreaId()));
+		for (String id : relAreaIds) {
+			if (iAreaRepository.findById(id).isPresent())
+			{
+					Area areaRel = iAreaRepository.getOne(id);
+					tutorRelAreas.add(areaRel);
+			}
+		}
+
+		tutor.setRelArea(tutorRelAreas);
 
 		tutor.setExp(0.0);
 
@@ -229,19 +239,9 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		tutor.setTutorTags(tutorTags);
 
 		// voice
-		Set<Voice> voices = new HashSet<>();
-		for (Voice voice : dto.getVoices()) {
-			voices.add(voice);
-		}
-
-		tutor.setVoices(voices);
+	
 		// Hien dang la
-		Set<HienDangLa> hienDangLas = new HashSet<>();
-		for (HienDangLa hienDangLa : dto.getHienDangLa()) {
-			hienDangLas.add(hienDangLa);
-		}
 
-		tutor.setHienDangLa(hienDangLas);
 		// User
 
 	}

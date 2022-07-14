@@ -2,10 +2,14 @@ package giasuomt.demo.commondata.generic;
 import java.util.List;
 
 import java.util.Optional;
+import java.util.Set;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
+
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.commondata.responseHandler.ResponseHandler;
 
@@ -47,11 +51,11 @@ public abstract class GenericController<DTO, T , ID> {
 	}
 	
 	@PostMapping("/createAll")
-	public ResponseEntity<Object> create(@Valid @RequestBody List<DTO> dto, BindingResult errors) {
+	public ResponseEntity<Object> create(@Valid @RequestBody Set<DTO> dto, BindingResult errors) {
 		if ( errors.hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
 		
-		List<T> createdT = iGenericService.createAll(dto);
+               Set<T> createdT = iGenericService.createAll(dto);
 		
 		return ResponseHandler.getResponse(createdT, HttpStatus.OK);
 	}

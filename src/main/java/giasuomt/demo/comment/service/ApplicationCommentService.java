@@ -62,10 +62,6 @@ public class ApplicationCommentService extends GenericService<SaveApplicationCom
 		
 	}
 
-	@Override
-	public List<ApplicationComment> createAll(List<SaveApplicationCommentDto> dtos) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 }

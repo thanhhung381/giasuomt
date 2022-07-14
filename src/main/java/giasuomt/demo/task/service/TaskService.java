@@ -2,6 +2,7 @@ package giasuomt.demo.task.service;
 
 import java.lang.reflect.Method;
 
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,13 +17,13 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Sets;
+
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.util.DateTimeUtils;
 import giasuomt.demo.commondata.util.Gender;
-import giasuomt.demo.commondata.util.HienDangLa;
-import giasuomt.demo.commondata.util.Voice;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.educational.repository.ISubjectGroupRepository;
 import giasuomt.demo.location.dto.SaveTaskPlaceAddressDto;
@@ -119,18 +120,15 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 			genders.add(gender);
 		}
 		task.setGenderRequired(genders);
+		
+		Set<TaskSign> taskSigns = new HashSet<>();
+		for (TaskSign taskSign : dto.getTaskSigns()) {
 
-		Set<Voice> voices = new HashSet<>();
-		for (Voice voice : dto.getVoiceRequired()) {
-			voices.add(voice);
+			taskSigns.add(taskSign);
 		}
-		task.setVoiceRequired(voices);
+		task.setTaskSign(taskSigns);
 
-		Set<HienDangLa> hienDangLas = new HashSet<>();
-		for (HienDangLa hienDangLa : dto.getHienDangLaRequired()) {
-			hienDangLas.add(hienDangLa);
-		}
-		task.setHienDangLaRequired(hienDangLas);
+
 
 		Set<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getSaveTaskPlaceAddressDtos();
 		for (TaskPlaceAddress taskPlaceAddress : task.getTaskPlaceAddresses()) {
@@ -154,7 +152,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 				if (iAreaRepository.findById(placeAddressDto.getIdArea()).isPresent())
 					taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
-
+			
 				task.addTaskPlaceAddress(taskPlaceAddress);
 			} else {
 				TaskPlaceAddress taskPlaceAddress = new TaskPlaceAddress();
@@ -162,6 +160,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 				if (iAreaRepository.findById(placeAddressDto.getIdArea()).isPresent())
 					taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
+				
 				task.addTaskPlaceAddress(taskPlaceAddress);
 			}
 		}
@@ -220,9 +219,9 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 	}
 
 	@Override
-	public List<Task> createAll(List<SaveTaskDto> dtos) {
+	public Set<Task> createAll(Set<SaveTaskDto> dtos) {
 		try {
-			List<Task> tasks = new LinkedList<>();
+			Set<Task> tasks = new HashSet<>();
 			for (SaveTaskDto dto : dtos) {
 				Task task = new Task();
 				// String responsCharactor = generateTaskCode();
@@ -235,7 +234,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 				tasks.add(task);
 			}
 
-			return iTaskRepository.saveAll(tasks);
+			return Sets.newHashSet(iTaskRepository.saveAll(tasks));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -344,7 +343,11 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		try {
 			Task task = iTaskRepository.getOne(dto.getId());
 
-			task.setSalary(dto.getSalary());
+			task.setSalaryForStudent(dto.getSalaryForStudent());
+			
+			task.setSalaryForGraduatedStudent(dto.getSalaryForGraduatedStudent());
+			
+			task.setSalaryForStudent(dto.getSalaryForStudent());
 
 			task.setSalaryPerTime(dto.getSalaryPerTime());
 
@@ -459,7 +462,13 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		dto.setLessonNumber(task.getLessonNumber());
 		dto.setLessonPeriodOfTime(task.getLessonPeriodOfTime());
 		dto.setFreeTime(task.getFreeTime());
-		dto.setSalary(task.getSalary());
+		
+		dto.setSalaryForGraduatedStudent(task.getSalaryForGraduatedStudent());
+		
+		dto.setSalaryForStudent(task.getSalaryForStudent());
+		
+		dto.setSalaryForTeacher(task.getSalaryForTeacher());
+		
 		dto.setUnitOfSalary(task.getUnitOfSalary());
 		dto.setSalaryPerTime(task.getSalaryPerTime());
 		dto.setLearnerNumber(task.getLearnerNumber());
@@ -469,7 +478,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		dto.setRequireNote(task.getRequireNote());
 		dto.setSubjectGroups(task.getSubjectGroups());
 		dto.setVoiceRequired(task.getVoiceRequired());
-
+	
 	}
 
 	private Set<ResponseTaskForWebDto> mapTasktoTaskForWebList(Set<Task> tasks) {

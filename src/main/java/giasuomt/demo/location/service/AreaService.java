@@ -1,5 +1,6 @@
 package giasuomt.demo.location.service;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.validation.Valid;
@@ -9,6 +10,9 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Sets;
+
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
@@ -110,9 +114,9 @@ public class AreaService extends GenericService<SaveAreaDto, Area, String> imple
 
 
 	@Override
-	public List<Area> createAll(List<SaveAreaDto> dtos) {
+	public Set<Area> createAll(Set<SaveAreaDto> dtos) {
 		try {
-			List<Area> areas=new ArrayList<>();
+			Set<Area> areas=new HashSet<>();
 			for ( SaveAreaDto areaDto : dtos) {
 				Area area=new Area();
 				area = (Area)mapper.map(areaDto, area);
@@ -121,7 +125,7 @@ public class AreaService extends GenericService<SaveAreaDto, Area, String> imple
 				
 			}
 			
-			return iAreaRepository.saveAll(areas);
+			return Sets.newHashSet(iAreaRepository.saveAll(areas)) ;
 			
 		} catch (Exception e) {
 			e.printStackTrace();

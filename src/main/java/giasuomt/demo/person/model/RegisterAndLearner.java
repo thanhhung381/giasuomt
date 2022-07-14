@@ -1,4 +1,5 @@
 package giasuomt.demo.person.model;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -38,72 +41,69 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
+@NamedEntityGraph(name = "registerAndLearner", attributeNodes = {
+
+		@NamedAttributeNode("publicImgs"), @NamedAttributeNode("privateImgs"),
+		@NamedAttributeNode("registerAndLearnerAddresses"), @NamedAttributeNode("registerAndLearnerTags"),
+		@NamedAttributeNode("relationshipWith"),
+
+})
 public class RegisterAndLearner extends Person {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String vocative;
-	
+
 	@OneToMany(mappedBy = "registerAndLearner", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<RegisterAndLearnerAddress> registerAndLearnerAddresses = new LinkedList<>();// không có trước đó
+	private Set<RegisterAndLearnerAddress> registerAndLearnerAddresses = new HashSet<>();// không có trước đó
 
 	// MEDIA
 	private String avatar;
 
 	@ElementCollection
-	private Set<String> publicImgs=new HashSet<>();
+	private Set<String> publicImgs = new HashSet<>();
 
-	
 	@ElementCollection
-	private Set<String> privateImgs=new HashSet<>();
+	private Set<String> privateImgs = new HashSet<>();
 
-	
-	
 	// HIỆN ĐANG LÀ
 	@OneToMany(mappedBy = "registerAndLearner", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Schooler> schoolers = new LinkedList<>();
-	
-	
-	
-	//TAGS
+
+	// TAGS
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "register_and_learner_register_and_learner_tag", joinColumns = @JoinColumn(name = "register_and_learner_id"), inverseJoinColumns = @JoinColumn(name = "register_and_learner_tag_id"))
-	private List<RegisterAndLearnerTag> registerAndLearnerTags = new LinkedList<>();
-	
-	//RegisterAndLearner RELATIONSHIP:
+	private Set<RegisterAndLearnerTag> registerAndLearnerTags = new HashSet<>();
+
+	// RegisterAndLearner RELATIONSHIP:
 	@OneToMany(mappedBy = "personA", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<RegisterAndLearnerRelationship> relationshipWith = new LinkedList<>();
+	private Set<RegisterAndLearnerRelationship> relationshipWith = new HashSet<>();
 
 	@OneToMany(mappedBy = "personB", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
-	private List<RegisterAndLearnerRelationship> relationshipBy = new LinkedList<>();  
-	
+	private Set<RegisterAndLearnerRelationship> relationshipBy = new HashSet<>();
 
 	private String note;
-	
+
 	@OneToOne(mappedBy = "registerAndLearner")
 	@JsonIgnore
 	private User user;
-	
-	
+
 //LEARNER/REGISTER	
 	@OneToMany(mappedBy = "registerAndLearner")
 	@JsonIgnore
-	private Set<Registration> registrations = new HashSet<>();	
-	
-	
+	private Set<Registration> registrations = new HashSet<>();
+
 	@OneToMany(mappedBy = "registerAndLearner")
 	@JsonIgnore
-	private Set<TutorInvitation> tutorInvitations=new HashSet<>();
-	
+	private Set<TutorInvitation> tutorInvitations = new HashSet<>();
+
 	@OneToMany(mappedBy = "registerAndLearner")
 	@JsonIgnore
-	private Set<TutorInterest> tutorInterests=new HashSet<>();
-	
-	
-	
+	private Set<TutorInterest> tutorInterests = new HashSet<>();
+
 	public void addRegisterAndLearnerAddress(RegisterAndLearnerAddress registerAndLearnerAddress) {
 		registerAndLearnerAddress.setRegisterAndLearner(this);
 		this.registerAndLearnerAddresses.add(registerAndLearnerAddress);
@@ -121,11 +121,7 @@ public class RegisterAndLearner extends Person {
 	public void removeSchooler(Schooler schooler) {
 		this.schoolers.remove(schooler);
 	}
-	
 
-	
-
-	
 	public void removeRelationshipWith(RegisterAndLearnerRelationship relationship) {
 		this.relationshipWith.remove(relationship);
 	}

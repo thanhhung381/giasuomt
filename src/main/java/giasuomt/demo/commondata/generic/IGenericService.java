@@ -1,6 +1,8 @@
 package giasuomt.demo.commondata.generic;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 
 public interface IGenericService<DTO, T , ID> {
@@ -20,7 +22,7 @@ public interface IGenericService<DTO, T , ID> {
 
 	T update(DTO dto);
 
-	List<T> createAll(List<DTO> dtos);
+	Set<T> createAll(Set<DTO> dtos);
 
 	boolean checkExistIdOfT(ID id);
 

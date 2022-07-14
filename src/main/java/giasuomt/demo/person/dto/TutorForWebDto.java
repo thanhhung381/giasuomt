@@ -1,6 +1,7 @@
 package giasuomt.demo.person.dto;
 
 import java.util.HashSet;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -11,8 +12,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import giasuomt.demo.commondata.util.Gender;
-import giasuomt.demo.commondata.util.HienDangLa;
-import giasuomt.demo.commondata.util.Voice;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.tags.model.TutorTag;
@@ -26,8 +25,8 @@ public class TutorForWebDto {
 	private String fullName;
 	private String avatar;
 	private Gender gender;
-	private Set<Voice> voices = new HashSet<>();
-	private Area relArea;
+	private String voices ;
+	private Set<Area> relArea=new HashSet<>();
 
 	
 	private String advantageNote;
@@ -36,13 +35,14 @@ public class TutorForWebDto {
 	private int tutorReviewNumbers; // đếm tổng các TutorReview
 	private int jobNumbers; // : đếm tổng các Job
 
-	private Set<HienDangLa> hienDangLa=new HashSet<>();
+	private String hienDangLa;
 	
 	private String studyingInsitution;
 	
 	private String teachingInstitution;
 	
 	private String major;
+	
 	
 	
 	private Set<SubjectGroup> subjectGroupMaybes = new HashSet<>();
