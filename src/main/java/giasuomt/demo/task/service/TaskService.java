@@ -92,6 +92,11 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private void mapDto(Task task, SaveTaskDto dto) {
 
+		
+
+
+	
+		
 		// String taskCode = dto.getId();
 
 		// Subject vì sau khi nhập subject thì đã có tồn tại subjectgroup rồi
@@ -224,12 +229,71 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 			Set<Task> tasks = new HashSet<>();
 			for (SaveTaskDto dto : dtos) {
 				Task task = new Task();
-				// String responsCharactor = generateTaskCode();
+				
+				task = (Task) mapDtoToModel.map(dto, task);
+				
+				task.setId(dto.getId());
 
-//				task.setId(TaskCodeGenerator.generatorCode().concat(responsCharactor));
+				Set<String> idSubjectGroups = dto.getIdSubjectGroup();
+				Set<SubjectGroup> subjectGroups = new HashSet<>();
 
-				// mã có sẵn
-				mapDto(task, dto);
+				for (String id : idSubjectGroups) { 
+					SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
+					subjectGroups.add(subjectGroup);
+				}
+				task.setSubjectGroups(subjectGroups);
+
+				Set<Gender> genders = new HashSet<>();
+				for (Gender gender : dto.getGenderRequired()) {
+
+					genders.add(gender);
+				}
+				task.setGenderRequired(genders);
+				
+				Set<TaskSign> taskSigns = new HashSet<>();
+				for (TaskSign taskSign : dto.getTaskSigns()) {
+
+					taskSigns.add(taskSign);
+				}
+				task.setTaskSign(taskSigns);
+
+
+
+				Set<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getSaveTaskPlaceAddressDtos();
+				for (TaskPlaceAddress taskPlaceAddress : task.getTaskPlaceAddresses()) {
+					boolean deleteThis = true;
+					for (SaveTaskPlaceAddressDto saveTaskPlaceAddressDto : saveTaskPlaceAddressDtos) {
+						if (taskPlaceAddress.getId() == saveTaskPlaceAddressDto.getId()) {
+							deleteThis = false;
+						}
+					}
+					if (deleteThis) {
+						task.removeTaskPlaceAddress(taskPlaceAddress);
+
+					}
+				}
+				for (SaveTaskPlaceAddressDto saveTaskPlaceAddressDto : saveTaskPlaceAddressDtos) {
+					SaveTaskPlaceAddressDto placeAddressDto = saveTaskPlaceAddressDto;
+					if (placeAddressDto.getId() != null && placeAddressDto.getId() > 0) {
+						TaskPlaceAddress taskPlaceAddress = iTaskPlaceAddressRepository.getOne(placeAddressDto.getId());
+
+						taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
+
+						if (iAreaRepository.findById(placeAddressDto.getIdArea()).isPresent())
+							taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
+						
+					
+						task.addTaskPlaceAddress(taskPlaceAddress);
+					} else {
+						TaskPlaceAddress taskPlaceAddress = new TaskPlaceAddress();
+						taskPlaceAddress = (TaskPlaceAddress) mapDtoToModel.map(placeAddressDto, taskPlaceAddress);
+
+						if (iAreaRepository.findById(placeAddressDto.getIdArea()).isPresent())
+							taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
+						
+						task.addTaskPlaceAddress(taskPlaceAddress);
+					}
+				}
 
 				tasks.add(task);
 			}
