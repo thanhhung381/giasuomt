@@ -18,10 +18,7 @@ public abstract class GenericService<DTO, T , ID> implements IGenericService<DTO
 												// nó mới inject cái repository này được
 	
 	@Override
-	public List<T> findAll() {
-		
-		
-		
+	public List<T> findAll() {	
 		return repository.findAll();
 	}
 	
@@ -29,15 +26,12 @@ public abstract class GenericService<DTO, T , ID> implements IGenericService<DTO
 	@Override
 	public T save(DTO dto, T entity) {
 		try {
-
 			return repository.save(entity);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return null;
-
 	}
 
 	
@@ -50,9 +44,7 @@ public abstract class GenericService<DTO, T , ID> implements IGenericService<DTO
 	@Override
 	public void deleteById(ID id) {
 		try {
-
 			repository.deleteById(id);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -60,7 +52,6 @@ public abstract class GenericService<DTO, T , ID> implements IGenericService<DTO
 	
 	@Override
 	public boolean checkExistIdOfT(ID id) {
-
 		return repository.existsById(id);
 	}
 

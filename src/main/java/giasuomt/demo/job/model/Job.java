@@ -1,12 +1,8 @@
 package giasuomt.demo.job.model;
 
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,21 +16,19 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import giasuomt.demo.commondata.model.AbstractEntity;
+
 import giasuomt.demo.commondata.model.AbstractEntityNotId;
 import giasuomt.demo.finance.model.JobFinance;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.tutorReview.model.TutorReview;
-import lombok.Setter;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "job")
@@ -59,42 +53,32 @@ import lombok.Getter;
 
 })
 public class Job extends AbstractEntityNotId {
-
 	@Id
 	private String id;
-
 	@ManyToOne
 	@JoinColumn(name = "task_id")
 	@JsonIgnore
 	private Task task;
-
 	@ManyToOne
 	@JoinColumn(name = "tutor_id")
 	private Tutor tutor;
-
 	// Lấy application để lấy comment
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "application_id", referencedColumnName = "id")
 	private Application application;
-
 //Thông tin Task và Tutor tại thời điểm giao (để lưu trữ lại)	
 	@OneToOne(fetch = FetchType.LAZY)
 	private TaskByTheTimeCreatingJob taskByTheTimeCreatingJob;
-
 	@OneToOne(fetch = FetchType.LAZY)
 	private TutorByTheTimeCreatingJob tutorByTheTimeCreatingJob;
-
 //Link GGT, Link HĐ, Hình thức giao (hợp đồng đc kí tại)
 //	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 //	@JoinColumn(name = "referral_id")
 //	private Referral referral;
-
 //	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 //	@JoinColumn(name = "contract_id")
 //	private Contract contract;
-
 //	private String contractSignAt; //Online, Offline, hoặc tại địa chỉ chi nhánh nào đó
-
 //Nhân viên giao lớp đã xác minh, và dặn dò Tutor tại thời điểm giao:
 	private String verifiedTutorInfo; // - Đã xác nhận: hình, CMND, thẻ SV, thẻ GV, bằng cấp, chứng chỉ, thành tích,
 										// kinh nghiệm, năng lực
@@ -103,28 +87,21 @@ public class Job extends AbstractEntityNotId {
 									// có vấn đề
 
 //Giấy tờ giữ lại
-
 	@ElementCollection // nếu sử dụng kiểu dữ liệu List vâng vâng
 	private Set<String> retainedImgsIdentification = new HashSet<>();
-
 //TÀI CHÍNH	
 	@OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
 	private Set<JobFinance> jobFinances = new HashSet<>();
-
 //TÌNH HÌNH
 	@OneToMany(mappedBy = "job", fetch = FetchType.LAZY)
 //	@Fetch(FetchMode.SUBSELECT)
 	private Set<JobProgress> jobProgresses = new HashSet<>();
-
 //KẾT QUẢ
 	private String jobResult;
-
 	private String failReason;
-
 //(Tìm thêm gia sư nếu fail?) YES or NO
 	@Type(type = "true_false") // xác định cách biểu diễn boolean khi lưu xuống db
 	private Boolean findAnotherTutorIfFail;
-
 //Tutor Review
 	@OneToMany(mappedBy = "job")
 	@JsonIgnore

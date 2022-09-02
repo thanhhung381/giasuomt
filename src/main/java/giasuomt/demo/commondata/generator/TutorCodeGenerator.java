@@ -11,26 +11,17 @@ public class TutorCodeGenerator {
 	private static String localDateTime = DateTimeUtils.toString(LocalDateTime.now());
 
 	public static String generatorCode() {
-
 		String[] sep = localDateTime.split("-");// tách các chuỗi ra mảng nhỏ
 		// vd:2014-12-12 10:54:32
 		String year = sep[0]; // 2014
-
 		String month = sep[1];// 12
-
 		String dateAndTime = sep[2];// 12 10:54:32
-
 		String dateArrayString[] = dateAndTime.split(" ");// tách 12 10:54:32
-
 		String date = dateArrayString[0];// 12
-
-		String codeTutor = "";
-
+		StringBuilder codeTutor = new StringBuilder();
 		String twoEndNumOfYear = year.substring(2, 4);
-
-		codeTutor = codeTutor.concat(twoEndNumOfYear.concat(date.concat(month)));
-
-		return codeTutor;
+		codeTutor = codeTutor.append(twoEndNumOfYear.concat(date.concat(month)));
+		return codeTutor.toString();
 
 	}
 
@@ -39,49 +30,28 @@ public class TutorCodeGenerator {
 		if (day == null) {
 			return -1;
 		} else {
-
 			String[] sep = localDateTime.split("-");
-
 			String year = sep[0];
-
 			int YearNow = Integer.parseInt(year);
-
 			String twoHeadNoofYear = year.substring(0, 2);
-
 			String month = sep[1];
-
 			int monthNow = Integer.parseInt(month);
-
 			String dateAndTime = sep[2];
-
 			String dateArrayString[] = dateAndTime.split(" ");
-
 			String date = dateArrayString[0];
-
 			int dayNow = Integer.parseInt(date);// thoi gian hien tai
-			
-			
-			
 			/// lấy ngày tháng truyền tham số
 			int yearEnd = Integer.parseInt(twoHeadNoofYear.concat(day.substring(0, 2)));
-
 			int monthEnd = Integer.parseInt(day.substring(4, 6));
-
 			int dayEnd = Integer.parseInt(day.substring(2, 4));// thời gian lấy từ ngày cuối cùng trong DB
-
 			Date now = new Date(YearNow, monthNow, dayNow);
-
 			Date end = new Date(yearEnd, monthEnd, dayEnd);
-
 			if (now.compareTo(end) == 1)
 				return 2;
 			else if (now.compareTo(end) == 0)
 				return 3;
-
 			return 4;
-
 		}
-
 	}
 
 	public static String generateFromMonthReserve(int month) {

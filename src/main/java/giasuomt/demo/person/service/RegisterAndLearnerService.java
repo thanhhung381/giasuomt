@@ -1,51 +1,35 @@
 package giasuomt.demo.person.service;
 
 import java.util.HashSet;
-import java.util.LinkedList;
-
-
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.amazonaws.SdkClientException;
 import com.google.common.collect.Sets;
 
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.location.dto.SaveRegisterAndLearnerAddressDto;
-import giasuomt.demo.location.dto.SaveTaskPlaceAddressDto;
 import giasuomt.demo.location.model.RegisterAndLearnerAddress;
-import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.location.repository.IRegisterAndLearnerAddressRepository;
-import giasuomt.demo.location.repository.ITaskPlaceAddressRepository;
-import giasuomt.demo.person.dto.SaveSchoolerDto;
 import giasuomt.demo.person.dto.SaveRegisterAndLearnerDto;
 import giasuomt.demo.person.dto.SaveRegisterAndLearnerRelationshipDto;
+import giasuomt.demo.person.dto.SaveSchoolerDto;
 import giasuomt.demo.person.dto.UpdateAvatarRegisterAndLearner;
-
-import giasuomt.demo.person.model.Schooler;
-
 import giasuomt.demo.person.model.RegisterAndLearner;
 import giasuomt.demo.person.model.RegisterAndLearnerRelationship;
-
-
+import giasuomt.demo.person.model.Schooler;
 import giasuomt.demo.person.repository.IRegisterAndLearnerRelationshipRepository;
-
-import giasuomt.demo.person.repository.ISchoolerRepository;
-
 import giasuomt.demo.person.repository.IRegisterAndLearnerRepository;
-
-import giasuomt.demo.staff.model.Staff;
+import giasuomt.demo.person.repository.ISchoolerRepository;
 import giasuomt.demo.tags.model.RegisterAndLearnerTag;
 import giasuomt.demo.tags.repository.IRegisterAndLearnerTagRepository;
-
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
-import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
 import lombok.AllArgsConstructor;
 
@@ -54,24 +38,16 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLearnerDto, RegisterAndLearner, Long>
 		implements IRegisterAndLearnerService {
-
 	private MapDtoToModel mapDtoToModel;
-
 	private AwsClientS3 awsClientS3;
-
 	// Repository
-
 	private IRegisterAndLearnerRepository iRegisterAndLearnerRepository;
 
 	private IAreaRepository iAreaRepository;
 
 	private IRegisterAndLearnerAddressRepository iRegisterAndLearnerAddressRepository;
 
-	
-
 	private ISchoolerRepository iSchoolerRepository;
-
-	
 
 	private IRegisterAndLearnerTagRepository iRegisterAndLearnerTagRepository;
 
@@ -97,33 +73,21 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 	@Override
 	public RegisterAndLearner update(SaveRegisterAndLearnerDto dto) {
-
 		RegisterAndLearner registerAndLearner = iRegisterAndLearnerRepository.getOne(dto.getId());
-
 		String avatarURL = registerAndLearner.getAvatar();
-
-
 		awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
-		
-
-
 		return save(dto, registerAndLearner);
 	}
 
 	@Override
 	public RegisterAndLearner save(SaveRegisterAndLearnerDto dto, RegisterAndLearner registerAndLearner) {
 		try {
-
 			mapDto(registerAndLearner, dto);
-
 			return iRegisterAndLearnerRepository.save(registerAndLearner);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return null;
-
 	}
 
 	@Override
@@ -139,14 +103,11 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 	public Set<RegisterAndLearner> createAll(Set<SaveRegisterAndLearnerDto> dtos) {
 		try {
 			Set<RegisterAndLearner> registerAndLearners = new HashSet<>();
-
-			for (SaveRegisterAndLearnerDto dto : dtos) {
+			dtos.parallelStream().forEach(dto->{
 				RegisterAndLearner registerAndLearner = new RegisterAndLearner();
 				mapDto(registerAndLearner, dto);
-
 				registerAndLearners.add(registerAndLearner);
-			}
-
+			});
 			return Sets.newHashSet(iRegisterAndLearnerRepository.saveAll(registerAndLearners)) ;
 		} catch (Exception e) {
 
@@ -173,11 +134,8 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 	private void mapDto(RegisterAndLearner registerAndLearner, SaveRegisterAndLearnerDto dto) {
 		registerAndLearner = (RegisterAndLearner) mapDtoToModel.map(dto, registerAndLearner);
-
 		registerAndLearner.setFullName(dto.getFullName().toUpperCase());
-
 		registerAndLearner.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName().toUpperCase()));
-
 		Set<SaveRegisterAndLearnerAddressDto> saveRegisterAndLearnerAddressDtos = dto.getRegisterAndLearnerAddresses();
 		for (RegisterAndLearnerAddress registerAndLearnerRelationship : registerAndLearner.getRegisterAndLearnerAddresses()) {
 			boolean deleteThis = true;
@@ -209,11 +167,7 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 				registerAndLearner.addRegisterAndLearnerAddress(registerAndLearnerAddress);
 			}
 		}
-
 		// save avatar
-
-		
-
 		// Relationship
 		Set<SaveRegisterAndLearnerRelationshipDto> saveRegisterAndLearnerRelationshipDtoWiths = dto
 				.getRegisterAndLearnerRelationships();
@@ -225,10 +179,8 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 			}
 			if (deleteThis) {
 				registerAndLearner.removeRelationshipWith(registerAndLearnerRelationship); // Delete
-				
 			}
 		}
-
 		for (SaveRegisterAndLearnerRelationshipDto saveRegisterAndLearnerRelationshipDtos: saveRegisterAndLearnerRelationshipDtoWiths) {
 			SaveRegisterAndLearnerRelationshipDto saveRegisterAndLearnerRelationshipDto = saveRegisterAndLearnerRelationshipDtos;
 			if (saveRegisterAndLearnerRelationshipDto.getId() != null
@@ -249,7 +201,6 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 				registerAndLearner.addRelationshipWith(registerAndLearnerRelationship);
 			}
 		}
-
 		// Tags
 		Set<Long> registerAndLearnerTagIds = dto.getRegisterAndLearnerTagIds();
 		Set<RegisterAndLearnerTag> registerAndLearnerTags = new HashSet<>();
@@ -259,7 +210,6 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 			registerAndLearnerTags.add(registerAndLearnerTag);
 		}
 		registerAndLearner.setRegisterAndLearnerTags(registerAndLearnerTags);
-
 		// Hiện đang là
 		List<SaveSchoolerDto> saveSchoolerDtos = dto.getSchoolers();
 		for (int i = 0; i < registerAndLearner.getSchoolers().size(); i++) {
@@ -285,12 +235,6 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 				registerAndLearner.addSchooler(schooler);
 			}
 		}
-
-
-
-	
-		// user
-
 	}
 
 	@Override
@@ -343,13 +287,13 @@ public class RegisterAndLearnerService extends GenericService<SaveRegisterAndLea
 
 	@Override
 	public RegisterAndLearner updateAvatarRegisterAndLearner(UpdateAvatarRegisterAndLearner dto) {
-		RegisterAndLearner registerAndLearner = iRegisterAndLearnerRepository.getOne(dto.getId());
-
-		String avatarURL = registerAndLearner.getAvatar();
-
-		awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
-		
-		
+		try {
+			RegisterAndLearner registerAndLearner = iRegisterAndLearnerRepository.getOne(dto.getId());
+			String avatarURL = registerAndLearner.getAvatar();
+			awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
+		} catch (SdkClientException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

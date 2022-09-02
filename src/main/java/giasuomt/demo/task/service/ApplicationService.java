@@ -46,66 +46,40 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 	private IApplicationCommentRepository iApplicationCommentRepository;
 
 	public Application create(SaveApplicationDto dto) {
-
-		if (checkExistApplicationOfTutorForThisTask(dto.getTutorId(), dto.getTaskId())) {
-			
-			
+		if (checkExistApplicationOfTutorForThisTask(dto.getTutorId(), dto.getTaskId())) {						
 			Application application = new Application();
 			application = (Application) mapDtoToModel.map(dto, application);
-
-			Task task = iTaskRepository.getOne(dto.getTaskId());
-			
+			Task task = iTaskRepository.getOne(dto.getTaskId());			
 			Tutor tutor=iTutorRepository.getOne(dto.getTutorId());
-
-			application.setTask(task);
-			
-			
-
-			application.setTutor(tutor);
-			
+			application.setTask(task);						
+			application.setTutor(tutor);			
 			application.setId(task.getId().concat("-").concat(String.valueOf(tutor.getId())));
-
 			return save(dto, application);
 		}
 		throw new NullPointerException("We can not create because Tutor had existed application for this task ");
-	
-
 	}
 
 	@Override
 	public Application update(SaveApplicationDto dto) {
-
 		Application application = iApplicationRepository.getOne(dto.getId());
-
 		application = (Application) mapDtoToModel.map(dto, application);
-
 		application.setTask(iTaskRepository.getOne(dto.getTaskId()));
-
 		application.setTutor(iTutorRepository.getOne(dto.getTutorId()));
-
 		return save(dto, application);
-
 	}
 
 	@Override
 	public Set<Application> createAll(Set<SaveApplicationDto> dtos) {
 		try {
-
 			Set<Application> applications = new HashSet<>();
 			for (SaveApplicationDto dto : dtos) {
 				Application application = new Application();
-
-				application = (Application) mapDtoToModel.map(dto, application);
-
+			application = (Application) mapDtoToModel.map(dto, application);
 				application.setTask(iTaskRepository.getOne(dto.getTaskId()));
-
 				application.setTutor(iTutorRepository.getOne(dto.getTutorId()));
-
 				applications.add(application);
-
 			}
 			return Sets.newHashSet(iApplicationRepository.saveAll(applications));
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -114,25 +88,19 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 
 	@Override
 	public void deleteByIdAppliction(String id) {
-		iApplicationCommentRepository.deleteAll(iApplicationRepository.getOne(id).getComments());// xóa application là
-																									// xóa hết
+		iApplicationCommentRepository.deleteAll(iApplicationRepository.getOne(id).getComments());// xóa application là																									// xóa hết
 		iApplicationRepository.deleteById(id);
-
 	}
 
 	@Override
 	public Application updateApplicationSign(UpdateApplicationSignDto dto) {
 		try {
-
 			Application application = iApplicationRepository.getOne(dto.getId());
-
 			Set<ApplicationSign> applications = new HashSet<>();
 			for (ApplicationSign applicationSign : dto.getApplicationSigns()) {
 				applications.add(applicationSign);
 			}
-
 			application.setApplicationSigns(applications);
-
 			return iApplicationRepository.save(application);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,26 +111,16 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 	@Override
 	public Application tutorCreate(SaveTutorCreateDto dto) {
 		Application application = new Application();
-
 			application = (Application) mapDtoToModel.map(dto, application);
-
 			application.setTask(iTaskRepository.getOne(dto.getIdTask()));
-
 			application = iApplicationRepository.save(application);
-
 			 // lấy createBy lên và kiếm tra
 			if(!checkExistApplicationForTutorCreate(application.getCreatedBy(), dto.getIdTask()))
 			{
-				throw new NullPointerException("We can not create because Tutor had existed application for this task ");
-				
-			
+				throw new NullPointerException("We can not create because Tutor had existed application for this task ");		
 			}
-			application.setTutor(iTutorRepository.findByCreatedBy(application.getCreatedBy()));
-			
+			application.setTutor(iTutorRepository.findByCreatedBy(application.getCreatedBy()));	
 			return iApplicationRepository.save(application);
-
-	
-	
 	}
 
 	private boolean checkExistApplicationOfTutorForThisTask(Long idTutor, String idTask) {
@@ -171,8 +129,6 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 			Task task = iTaskRepository.getOne(idTask);
 			if (application.getTask() == task)
 				return false;  // trùng
-					 
-
 		}
 		return true;
 	}
@@ -183,9 +139,7 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 		for (Application application : applications) {
 			Task task = iTaskRepository.getOne(idTask);
 			if (application.getTask() == task)
-				return false;  // trùng
-					 
-
+				return false;  // trùng				 
 		}
 		return true;
 	}

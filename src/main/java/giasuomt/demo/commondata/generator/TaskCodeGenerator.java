@@ -1,130 +1,64 @@
 package giasuomt.demo.commondata.generator;
 
 import java.sql.Date;
-
 import java.time.LocalDateTime;
-import java.util.Calendar;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
-import org.springframework.stereotype.Component;
 
 import giasuomt.demo.commondata.util.DateTimeUtils;
-import giasuomt.demo.task.repository.ITaskRepository;
-
-import io.swagger.models.auth.In;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
 public class TaskCodeGenerator {
-
 	private static String localDateTime = DateTimeUtils.toString(LocalDateTime.now());
-
 	public static String generatorCode() {
-
 		String[] sep = localDateTime.split("-");// tách các chuỗi ra mảng nhỏ
 		// vd:2014-12-12 10:54:32
 		String year = sep[0]; // 2014
-
-		
 		String month = sep[1];// 12
-
 		String dateAndTime = sep[2];// 12 10:54:32
-
 		String dateArrayString[] = dateAndTime.split(" ");// tách 12 10:54:32
-
 		String date = dateArrayString[0];// 12
-
 		int yearReal = Integer.valueOf(year);
-		
 		int yearOrigin = LocalDateTime.now().getYear();// lấy năm trực tiếp trong hệ thống
-	
-
 		int standardFirstLetter = 67;// mã ancii nếu muốn lấy in thường mình trừ cho 32 là
-
-		String codeYear = "";
-
+		StringBuilder codeYear = new StringBuilder();
 		int delta = yearReal - 2021;// độ lệch ngày
-
-		codeYear = String.valueOf((char) (standardFirstLetter + delta));
-
+		codeYear = codeYear.append(String.valueOf((char) (standardFirstLetter + delta)));
 		String codeMonth = String.valueOf(generateFromMonth(month));
-
-		codeYear = codeYear.concat(codeMonth.concat(date));
-
-		return codeYear;
+		codeYear = codeYear.append(codeMonth.concat(date));
+		return codeYear.toString();
 	}
 
 	public static int AutoGennerate(String day) {
-
 		if (day == null) {
 			return -1;
 		} else {
-
 			String[] sep = localDateTime.split("-");
-
 			String year = sep[0];
-
 			int yearSepNow = Integer.parseInt(year);
-
 			String month = sep[1];
-
 			int monthSepNow = Integer.parseInt(month);
-
 			String dateAndTime = sep[2];
-
 			String dateArrayString[] = dateAndTime.split(" ");
-
 			String date = dateArrayString[0];
-
 			int daySepNow = Integer.parseInt(date);// thoi gian hien tai
-			System.out.println("yearSepNow "+yearSepNow+"monthSepNow "+monthSepNow+"daySepNow "+daySepNow);
-			////
-			System.out.println("day "+day);
-
 			String sepDay = day.substring(2, 4);
-
 			int daySepEnd = Integer.parseInt(sepDay);
-
 			String sepMonth = day.substring(1, 2);
-			
-			int monthSepEndString=(int) sepMonth.charAt(0);
-			
-			int monthSepEnd=Integer.parseInt(generateFromMonthReserve(monthSepEndString));
-			
-			
-			
-			String sepYear = day.substring(0, 1);//D
-		
-			char yearSep = sepYear.charAt(0);// lấy kí tự ANSSI 
-	
-		//	int yearOrigin = Calendar.getInstance().get(Calendar.YEAR);// lấy ngày làm chuẩn
-
+			int monthSepEndString = (int) sepMonth.charAt(0);
+			int monthSepEnd = Integer.parseInt(generateFromMonthReserve(monthSepEndString));
+			String sepYear = day.substring(0, 1);// D
+			char yearSep = sepYear.charAt(0);// lấy kí tự ANSSI
+			// int yearOrigin = Calendar.getInstance().get(Calendar.YEAR);// lấy ngày làm
+			// chuẩn
 			int standardFirstLetter = 67;// mã ancii nếu muốn lấy in thường mình trừ cho 32 là
-
 			int yearSepEnd = yearSep - standardFirstLetter + 2021;
-
-			System.out.println(daySepEnd +" "+monthSepEnd  +" "+yearSepEnd);
-			
-			Date now=new Date(yearSepNow, monthSepNow, daySepNow);
-			
-			Date end=new Date(yearSepEnd, monthSepEnd, daySepEnd);
-			
-		
-			
-			
-			if (now.compareTo(end)==1)
+			Date now = new Date(yearSepNow, monthSepNow, daySepNow);
+			Date end = new Date(yearSepEnd, monthSepEnd, daySepEnd);
+			if (now.compareTo(end) == 1)
 				return 2;
-			else if (now.compareTo(end)==0)
+			else if (now.compareTo(end) == 0)
 				return 3;
-
 			return 4;
-
 		}
-
 	}
-
 
 	public static char generateFromMonth(String month) {
 		char ma;

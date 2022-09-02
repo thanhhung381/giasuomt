@@ -14,18 +14,11 @@ import lombok.Setter;
 @CheckDuplicateArea
 public class SaveAreaDto {
 	protected String id;
-	
 	protected String nation;
-	
 	protected String state;
-	
 	protected String provincialLevel;
-	
 	protected String district;
-	
 	protected String commune;
-	
 	protected String xRelCoo;	
-	
 	protected String yRelCoo;
 }

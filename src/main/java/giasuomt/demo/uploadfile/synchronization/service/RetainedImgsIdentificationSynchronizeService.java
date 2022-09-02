@@ -28,36 +28,23 @@ public class RetainedImgsIdentificationSynchronizeService implements IRetainedIm
 	public Set<Job> findAllJobRetainedImgsIdentificationSynchronized() {
 		// Avatar
 				Set<String> urlRetainedImgsIdentificationOfJob = Sets.newHashSet(iRetainedImgsIdentificationAwsService.findAll());
-
 				Set<Job> jobs = Sets.newHashSet(iJobRepository.findAll());
-
 				for (Job job : jobs) {
-			
 					// privateImgs
 					Set<String> synchronizeRetainedImgsIdentifications = job.getRetainedImgsIdentification();
 					synchronizeRetainedImgsIdentifications.clear();
 					for (String url : urlRetainedImgsIdentificationOfJob) {
 						boolean check = true;
-						
 						if (!url.contains(job.getId()+"RetainedImgsIdentification")) {
 							check = false;
 						}
-
 						if (check) {
-
 							synchronizeRetainedImgsIdentifications.add(url);
-
 							job.setRetainedImgsIdentification(synchronizeRetainedImgsIdentifications);
-
 						}
 					}
-
-			
-
 					iJobRepository.save(job);
-
 				}
-
 				return Sets.newHashSet(iJobRepository.findAll());
 	}
 

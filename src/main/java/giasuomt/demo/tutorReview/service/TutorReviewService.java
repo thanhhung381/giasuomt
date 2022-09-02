@@ -1,7 +1,6 @@
 package giasuomt.demo.tutorReview.service;
 
 import java.text.DecimalFormat;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -31,50 +30,33 @@ public class TutorReviewService extends GenericService<SaveTutorReviewDto, Tutor
 	private MapDtoToModel mapDtoToModel;
 
 	public TutorReview create(SaveTutorReviewDto dto) {
-
 		TutorReview tutorReview = new TutorReview();
 		tutorReview.setTutor(iTutorRepository.getOne(dto.getTutorId()));
-
 		if (dto.getJobId() !=null ) {
-			
 			Job job=iJobRepository.getOne(dto.getJobId());
 			tutorReview.setJob(job);
 			tutorReview.setJobCreatedByCreatingTutorReview(job.getId());
 		}
-		
-		
-
 		return save(tutorReview, dto);
 	}
 
 	@Override
 	public TutorReview update(SaveTutorReviewDto dto) {
-
 		TutorReview tutorReview = iTutorReviewRepository.getOne(dto.getId());
-
 		return save(tutorReview, dto);
 	}
 
 	private TutorReview save(TutorReview tutorReview, SaveTutorReviewDto dto) {
 		try {
 			mapDto(tutorReview, dto);
-
 			tutorReview = iTutorReviewRepository.save(tutorReview);// sau khi tạo or update
-
 			Tutor tutor = iTutorRepository.getOne(dto.getTutorId());
-
-			tutor.setAverageStarNumbers(updateAverageStarNumber(tutor));
-			
-			
-	
-
+			tutor.setAverageStarNumbers(updateAverageStarNumber(tutor));				
 			tutor = iTutorRepository.save(tutor);
-
 			return tutorReview;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 
@@ -86,23 +68,18 @@ public class TutorReviewService extends GenericService<SaveTutorReviewDto, Tutor
 		// Update
 
 			// tính toán
-
 		Double sum = 0.0;
 
 		for (TutorReview review: starNumbersList) {
 			sum += review.getStarNumber();
 		}
-
 		Double resultAvarage = (sum / starNumbersList.size());
-
 		DecimalFormat decimalFormat = new DecimalFormat("#.#");
-		
 		return Double.parseDouble(decimalFormat.format(resultAvarage));
 	}
 
 	private void mapDto(TutorReview tutorReview, SaveTutorReviewDto dto) {
 		mapDtoToModel.map(dto, tutorReview);
-
 	}
 
 }

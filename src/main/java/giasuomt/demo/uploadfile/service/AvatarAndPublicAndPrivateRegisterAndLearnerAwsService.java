@@ -246,9 +246,7 @@ public class AvatarAndPublicAndPrivateRegisterAndLearnerAwsService extends AwsCl
 			if (object.contains(name))
 				findAllListContain.add(object);
 		}
-
 		Collections.sort(findAllListContain);
-
 		if (findAllListContain.isEmpty())
 			return null;
 
@@ -258,54 +256,35 @@ public class AvatarAndPublicAndPrivateRegisterAndLearnerAwsService extends AwsCl
 	@Override
 	public void deleteByFileNameAndIDPrivateImgs(String urlFile) {
 		try {
-
 			client.deleteObject(bucketnamePrivateimgs, urlFile.substring(urlFile.lastIndexOf('/') + 1));
-
 			RegisterAndLearner registerAndLearner = iRegisterAndLearnerRepository.getOne(
 					Long.parseLong(urlFile.substring(urlFile.lastIndexOf("/") + 1, urlFile.lastIndexOf("Private"))));
-
 			Set<String> privateImgs = registerAndLearner.getPrivateImgs();
-
 			privateImgs.remove(urlFile);
-
 			registerAndLearner.setPrivateImgs(privateImgs);
-
 			iRegisterAndLearnerRepository.save(registerAndLearner);
-
 		} catch (AmazonServiceException e) {
-
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
 	public void deleteByFileNameAndIDPublicImgs(String urlFile) {
 		try {
-
 			client.deleteObject(bucketnamePublicimgs, urlFile.substring(urlFile.lastIndexOf('/') + 1));
-
 			RegisterAndLearner registerAndLearner = iRegisterAndLearnerRepository.getOne(
 					Long.parseLong(urlFile.substring(urlFile.lastIndexOf("/") + 1, urlFile.lastIndexOf("Public"))));
-
 			Set<String> publicImgs = registerAndLearner.getPublicImgs();
-
 			publicImgs.remove(urlFile);
-
 			registerAndLearner.setPublicImgs(publicImgs);
-
 			iRegisterAndLearnerRepository.save(registerAndLearner);
-
 		} catch (AmazonServiceException e) {
-
 			e.printStackTrace();
 		}
-
 	}
 
 	private List<String> removeDuplicateElemet(List<String> string) {
 		List<String> temp = new LinkedList<>();
-
 		for (int i = 0; i < string.size(); i++) {
 			boolean check = false;
 			for (int j = 0; j < i; j++) {
@@ -314,21 +293,16 @@ public class AvatarAndPublicAndPrivateRegisterAndLearnerAwsService extends AwsCl
 					break;
 				}
 			}
-
 			if (check == false) {
-
 				for (int j = i + 1; j < string.size(); j++) {
 					if (string.get(i).contains(string.get(j))) {
-
 						string.remove(j);
 						j--;
 					}
 				}
 				temp.add(string.get(i));
 			}
-
 		}
-
 		return temp;
 	}
 
@@ -338,9 +312,7 @@ public class AvatarAndPublicAndPrivateRegisterAndLearnerAwsService extends AwsCl
 			boolean flag = this.client.doesObjectExist(bucketnamePrivateimgs, name);
 			if (flag)
 				return true;
-
 		} catch (SdkClientException e) {
-
 			e.printStackTrace();
 		}
 		return false;
@@ -352,9 +324,7 @@ public class AvatarAndPublicAndPrivateRegisterAndLearnerAwsService extends AwsCl
 			boolean flag = this.client.doesObjectExist(bucketnamePublicimgs, name);
 			if (flag)
 				return true;
-
 		} catch (SdkClientException e) {
-
 			e.printStackTrace();
 		}
 		return false;
@@ -363,32 +333,24 @@ public class AvatarAndPublicAndPrivateRegisterAndLearnerAwsService extends AwsCl
 	@Override
 	public String updatePrivateImageToAmazon(MultipartFile multipartFile, String filename) {
 		try {
-
 			String url = uploadMultipartFile(multipartFile, filename, bucketnamePrivateimgs,
 					registerAndLearnerPrivateimgsURL);
-
 			return " Update private img successfully";
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 
 	@Override
 	public String updatePublicImageToAmazon(MultipartFile multipartFile, String filename) {
 		try {
-
 			String url = uploadMultipartFile(multipartFile, filename, bucketnamePublicimgs,
 					registerAndLearnerPublicimgsURL);
-
 			return " Update public img successfully";
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 

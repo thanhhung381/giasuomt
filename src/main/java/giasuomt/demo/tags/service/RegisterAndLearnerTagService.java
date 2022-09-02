@@ -28,30 +28,24 @@ public class RegisterAndLearnerTagService
 
 	@Override
 	public List<RegisterAndLearnerTag> findAll() {
-
 		return iRegisterAndLearnerTagRepository.findAll();
 	}
 
 	public RegisterAndLearnerTag create(SaveRegisterAndLearnerTagDto dto) {
 		RegisterAndLearnerTag registerAndLearnerTag = new RegisterAndLearnerTag();
-
 		return save(dto, registerAndLearnerTag);
 	}
 
 	public RegisterAndLearnerTag update(SaveRegisterAndLearnerTagDto dto) {
 		RegisterAndLearnerTag registerAndLearnerTag = iRegisterAndLearnerTagRepository.getOne(dto.getId());
-
 		return save(dto, registerAndLearnerTag);
 	}
 
 	public RegisterAndLearnerTag save(SaveRegisterAndLearnerTagDto dto, RegisterAndLearnerTag registerAndLearnerTag) {
 		try {
 			registerAndLearnerTag = (RegisterAndLearnerTag) mapDtoToModel.map(dto, registerAndLearnerTag);
-
 			return iRegisterAndLearnerTagRepository.save(registerAndLearnerTag);
-
 		} catch (Exception e) {
-
 			e.printStackTrace();
 		}
 		return null;
@@ -60,10 +54,7 @@ public class RegisterAndLearnerTagService
 
 	public void deleteById(Long id) {
 		try {
-
 			iRegisterAndLearnerTagRepository.deleteById(id);
-			;
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -84,7 +75,6 @@ public class RegisterAndLearnerTagService
 				registerAndLearnerTag = (RegisterAndLearnerTag) mapDtoToModel.map(dto, registerAndLearnerTag);
 				registerAndLearnerTags.add(registerAndLearnerTag);
 			}
-
 			return Sets.newHashSet(iRegisterAndLearnerTagRepository.saveAll(registerAndLearnerTags)) ;
 		} catch (Exception e) {
 			e.printStackTrace();

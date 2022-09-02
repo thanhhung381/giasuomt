@@ -28,8 +28,6 @@ public class StaffService extends GenericService<SaveStaffDto, Staff, Long> impl
 
 	private MapDtoToModel mapDtoToModel;
 
-
-
 	private AwsClientS3 awsClientS3;
 
 	@Override
@@ -42,63 +40,40 @@ public class StaffService extends GenericService<SaveStaffDto, Staff, Long> impl
 
 	@Override
 	public Staff update(SaveStaffDto dto) {
-
 		Staff staff = iStaffRepository.getOne(dto.getId());
-
 		String avatarURL = staff.getAvatar();
-
 		awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
-
-	
-
 		return save(dto, staff);
 	}
 
 	public Staff save(SaveStaffDto dto, Staff staff) {
 		try {
-
-
-
 			mapDto(dto, staff);
-
 			return iStaffRepository.save(staff);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 
 	private void mapDto(SaveStaffDto dto, Staff staff) {
 		staff = (Staff) mapDtoToModel.map(dto, staff);
-
 		staff.setFullName(dto.getFullName().toUpperCase());
-
 		staff.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toUpperCase());
 	}
 
 	@Override
 	public Staff updateAvatarStaff(UpdateAvatarStaff dto) {
-
 		try {
 			Staff staff = iStaffRepository.getOne(dto.getId());
-
 			String avatarURL = staff.getAvatar();
-
 			awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
-
-		
-
 			return iStaffRepository.save(staff);
 		} catch (AmazonServiceException e) {
-
 			e.printStackTrace();
 		} catch (SdkClientException e) {
-
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 

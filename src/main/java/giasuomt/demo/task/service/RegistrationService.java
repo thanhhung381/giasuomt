@@ -1,7 +1,5 @@
 package giasuomt.demo.task.service;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -30,55 +28,35 @@ public class RegistrationService extends GenericService<SaveRegistrationDto, Reg
 	private IRegisterAndLearnerRepository iRegisterAndLearnerRepository;
 
 	public Registration create(SaveRegistrationDto dto) {
-
 		Registration registration = new Registration();
-
 		registration = (Registration) mapDtoToModel.map(dto, registration);
-
 		Task task = iTaskRepository.findByIdString(dto.getTaskId());
-
 		registration.setTask(task);
-
 		registration.setRegisterAndLearner(iRegisterAndLearnerRepository.getOne(dto.getRegisterAndLearnerId()));
-
 		return save(dto, registration);
 	}
 
 	@Override
 	public Registration update(SaveRegistrationDto dto) {
-
 		Registration registration = iRegistrationRepository.getOne(dto.getId());
-
 		registration = (Registration) mapDtoToModel.map(dto, registration);
-
 		registration.setTask(iTaskRepository.getOne(dto.getTaskId()));
-
 		registration.setRegisterAndLearner(iRegisterAndLearnerRepository.getOne(dto.getRegisterAndLearnerId()));
-
 		return save(dto, registration);
-
 	}
 
 	@Override
 	public Set<Registration> createAll(Set<SaveRegistrationDto> dtos) {
 		try {
-
 			Set<Registration> registrations = new HashSet<>();
 			for (SaveRegistrationDto dto : dtos) {
 				Registration registration = new Registration();
-
 				registration = (Registration) mapDtoToModel.map(dto, registration);
-
 				registration.setTask(iTaskRepository.getOne(dto.getTaskId()));
-
 				registration.setRegisterAndLearner(iRegisterAndLearnerRepository.getOne(dto.getRegisterAndLearnerId()));
-
 				registrations.add(registration); 
-
-
 			}
 			return Sets.newHashSet(iRegistrationRepository.saveAll(registrations));
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

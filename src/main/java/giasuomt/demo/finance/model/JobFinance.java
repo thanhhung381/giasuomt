@@ -1,10 +1,5 @@
 package giasuomt.demo.finance.model;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,35 +24,20 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class JobFinance extends AbstractEntity {
-	
 	@Enumerated(EnumType.STRING)
 	private JobFinanceType type;
-	
 	@Enumerated(EnumType.STRING)
 	private WayOfPaying wayOfPaying;
-	
-	
 	private String billImg ;
-	
 	private Integer  amountOfMoney;
-	
 	private UnitOfMoney unitOfMoney;
-	
 	private String note;
-
 	@ManyToOne
 	@JoinColumn(name = "job_id")
 	@JsonIgnore
 	private Job job;
-	
 	//STK (nếu có) - thường dùng cho yêu cầu hoàn phí
 	private String accountNumber;
-	
 	private String accoundBank;
-	
 	private String accountName;
-	
-	
-
-	
 }

@@ -1,11 +1,9 @@
 package giasuomt.demo.job.controller;
 
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import giasuomt.demo.commondata.generic.GenericController;
-import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.job.dto.SaveJobProgressDto;
 import giasuomt.demo.job.model.JobProgress;
 import lombok.AllArgsConstructor;

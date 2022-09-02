@@ -59,7 +59,6 @@ public class UpdateSubjectGroupMaybeAndSure {
 
 	private static List<String> removeDuplicateElemet(List<String> string) {
 		List<String> temp = new LinkedList<>();
-
 		for (int i = 0; i < string.size(); i++) {
 			boolean check = false;
 			for (int j = 0; j < i; j++) {
@@ -68,7 +67,6 @@ public class UpdateSubjectGroupMaybeAndSure {
 					break;
 				}
 			}
-
 			if (check == false) {
 
 				for (int j = i + 1; j < string.size(); j++) {
@@ -80,9 +78,7 @@ public class UpdateSubjectGroupMaybeAndSure {
 				}
 				temp.add(string.get(i));
 			}
-
 		}
-
 		return temp;
 	}
 

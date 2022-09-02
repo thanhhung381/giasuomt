@@ -1,20 +1,9 @@
 package giasuomt.demo.task.service;
 
-import java.lang.reflect.Method;
-
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Sets;
@@ -22,7 +11,6 @@ import com.google.common.collect.Sets;
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
-import giasuomt.demo.commondata.util.DateTimeUtils;
 import giasuomt.demo.commondata.util.Gender;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.educational.repository.ISubjectGroupRepository;
@@ -30,12 +18,11 @@ import giasuomt.demo.location.dto.SaveTaskPlaceAddressDto;
 import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.location.repository.ITaskPlaceAddressRepository;
-import giasuomt.demo.person.model.RegisterAndLearner;
 import giasuomt.demo.person.repository.IRegisterAndLearnerRepository;
 import giasuomt.demo.task.dto.AddObjectToTaskDto;
+import giasuomt.demo.task.dto.ResponseTaskForWebDto;
 import giasuomt.demo.task.dto.ResponseTaskPlaceAddressDto;
 import giasuomt.demo.task.dto.SaveTaskDto;
-import giasuomt.demo.task.dto.ResponseTaskForWebDto;
 import giasuomt.demo.task.dto.UpdateFreeTimeDto;
 import giasuomt.demo.task.dto.UpdateLessonDto;
 import giasuomt.demo.task.dto.UpdateSalaryDto;
@@ -43,12 +30,9 @@ import giasuomt.demo.task.dto.UpdateSubjectDto;
 import giasuomt.demo.task.dto.UpdateTaskPlaceAddresseDto;
 import giasuomt.demo.task.dto.UpdateTaskSignDto;
 import giasuomt.demo.task.dto.UpdateTaskStatusDto;
-
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.repository.IApplicationRepository;
-
 import giasuomt.demo.task.repository.ITaskRepository;
-import giasuomt.demo.task.util.TaskAppearanceGenerator;
 import giasuomt.demo.task.util.TaskSign;
 import lombok.AllArgsConstructor;
 
@@ -557,33 +541,24 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	@Override
 	public Set<ResponseTaskForWebDto> findAllAvailableTaskListForWeb() {
-
 		return mapTasktoTaskForWebList(iTaskRepository.findByAvailableTaskList());
 	}
 
 	private void mapTaskAdderessToTaskAddressDto(ResponseTaskPlaceAddressDto dto, TaskPlaceAddress taskPlaceAddress) {
-
 		dto.setRelAddNumber(taskPlaceAddress.getRelAddNumber());
-
 		dto.setArea(taskPlaceAddress.getArea());
-
 		dto.setAddStreet(taskPlaceAddress.getAddStreet());
-
 		dto.setAddStreetNote(taskPlaceAddress.getAddStreetNote());
-
 	}
 
 	private Set<ResponseTaskPlaceAddressDto> mapTaskAdderessToTaskAddressDtoList(
 			Set<TaskPlaceAddress> taskPlaceAddresses) {
 		Set<ResponseTaskPlaceAddressDto> addressDtos = new HashSet<>();
-
 		for (TaskPlaceAddress taskPlaceAddress : taskPlaceAddresses) {
 			ResponseTaskPlaceAddressDto addressDto = new ResponseTaskPlaceAddressDto();
 			mapTaskAdderessToTaskAddressDto(addressDto, taskPlaceAddress);
 			addressDtos.add(addressDto);
-
 		}
-
 		return addressDtos;
 	}
 

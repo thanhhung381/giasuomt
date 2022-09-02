@@ -1,10 +1,7 @@
 package giasuomt.demo.comment.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,16 +23,13 @@ import lombok.Setter;
 @Table(name = "application_comment")
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class ApplicationComment extends Comment {
-
 	@ManyToOne
 	@JoinColumn(name = "application_id")
 	@JsonIgnore
 	private Application application;
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "application_comment_id",nullable = true)
 	private ApplicationComment parentComment;
-
 	@OneToMany(mappedBy = "parentComment")
 	@JsonIgnore
 	private List<ApplicationComment> replies = new LinkedList<>();

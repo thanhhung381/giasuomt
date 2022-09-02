@@ -20,15 +20,11 @@ public class MailService implements IMailService {
 
 	@Override
 	public void sendEmail(String email, User user,String urlUpdatePassword,String token) throws UnsupportedEncodingException, MessagingException {
-
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
-
 		helper.setFrom("khangle1904041@gmail.com", "khang le supporter");
 		helper.setTo(email);
-
 		String subject = "Here's token to reset your password"; // title cu link
-
 		String content = "<p>Dear," + user.getUsername() + "</p>" + "<p>You have requested to reset your password.</p>"
 				+ "<p>Here is token and  the link below to authenticate your token: </p>" + "<p> <b>"
 				+ token + " </p>" + "<br>" + "<p><a href=\"" + urlUpdatePassword.concat("/swagger-ui.html".concat("#!/user45controller/updatePasswordUsingPUT"))
@@ -38,9 +34,7 @@ public class MailService implements IMailService {
 				+ "<br>" + "<p>Best Regards</p>";
 
 		helper.setSubject(subject);
-
 		helper.setText(content, true);
-
 		mailSender.send(message);
 
 	}

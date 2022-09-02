@@ -1,11 +1,8 @@
 package giasuomt.demo.educational.service;
 
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
-import javax.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Sets;
@@ -28,37 +25,27 @@ public class SubjectGroupService extends GenericService<SaveSubjectGroupDto, Sub
 
 	@Override
 	public SubjectGroup create(SaveSubjectGroupDto dto) {
-		SubjectGroup subjectGroup = new SubjectGroup();
-		
-		subjectGroup = (SubjectGroup) mapper.map(dto, subjectGroup);
-		
+		SubjectGroup subjectGroup = new SubjectGroup();		
+		subjectGroup = (SubjectGroup) mapper.map(dto, subjectGroup);		
 		subjectGroup.setId(subjectGroup.getShortName());
-
 		return save(dto, subjectGroup);
 	}
 
 	@Override
 	public SubjectGroup update(SaveSubjectGroupDto dto) {
 		SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(dto.getId());
-
 		subjectGroup = (SubjectGroup) mapper.map(dto, subjectGroup);
 		subjectGroup.setId(dto.getShortName());
-
 		return save(dto, subjectGroup);
 	}
 
 	@Override
 	public Set<SubjectGroup> createAll(Set<SaveSubjectGroupDto> dtos) {
 		try {
-
 			Set<SubjectGroup> subjectGroups = new HashSet<>();
-			for (SaveSubjectGroupDto dto : dtos) {
-				SubjectGroup subjectGroup = new SubjectGroup();
-
+			dtos.parallelStream().forEach(dto-> {SubjectGroup subjectGroup = new SubjectGroup();
 				subjectGroup = (SubjectGroup) mapper.map(dto, subjectGroup);
-				subjectGroups.add(subjectGroup);
-			}
-
+				subjectGroups.add(subjectGroup); });
 			return Sets.newHashSet(iSubjectGroupRepository.saveAll(subjectGroups)) ;
 		} catch (Exception e) {
 			e.printStackTrace();

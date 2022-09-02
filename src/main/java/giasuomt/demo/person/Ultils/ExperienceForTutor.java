@@ -1,9 +1,7 @@
 package giasuomt.demo.person.Ultils;
 
-import java.util.List;
 import java.util.Set;
 
-import giasuomt.demo.job.dto.SaveJobReviewDto;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.tutorReview.model.TutorReview;
@@ -11,9 +9,7 @@ import giasuomt.demo.tutorReview.model.TutorReview;
 public class ExperienceForTutor {
 
 	public static Tutor updateExpForTutor(Tutor tutor) {
-
 		Double countExp = 0.0;
-
 		Set<Job> allJobss = tutor.getJobs();
 		for (Job allJobs : allJobss) {
 			if (allJobs.getJobResult().contains("success")) {
@@ -34,14 +30,11 @@ public class ExperienceForTutor {
 					} else if (tutorReview.getStarNumber() <= 2
 							&& tutorReview.getStarNumber() >= 0) {
 						countExp -= 1;
-					}
-					
+					}					
 				}
 			}
 		}
-
 		tutor.setExp(countExp);
-		
 		return tutor;
 	}
 }

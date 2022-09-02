@@ -1,8 +1,6 @@
 package giasuomt.demo.security.service;
 
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,48 +16,32 @@ import giasuomt.demo.security.dto.UserDetailsDto;
 import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
 import lombok.AllArgsConstructor;
+
 @Service
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private IUserRepository iUserRepository;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
-		//load lên username
-		Optional<User> user=iUserRepository.findByUsername(username);
-		//load lấy len danh sách quyền 
-		
-		if(!user.isPresent())
-		{
-			throw  new UsernameNotFoundException("Username is invalid");
+		// load lên username
+		Optional<User> user = iUserRepository.findByUsername(username);
+		// load lấy len danh sách quyền
+		if (!user.isPresent()) {
+			throw new UsernameNotFoundException("Username is invalid");
 		}
-		
-		
-		Set<GrantedAuthority> authorities=getAuthorities(user.get().getRoles());
-		
-		
+		Set<GrantedAuthority> authorities = getAuthorities(user.get().getRoles());
 		return new UserDetailsDto(user.get().getUsername(), user.get().getPassword(), authorities);
-	}
+	} 
 
 	private Set<GrantedAuthority> getAuthorities(Set<Role> roles) {
-		
-		Set<GrantedAuthority> authorities=new HashSet<>();
-		
-		for(Role role:roles)
-		{
-			SimpleGrantedAuthority simpleGrantedAuthority=new SimpleGrantedAuthority(role.getName());
+		Set<GrantedAuthority> authorities = new HashSet<>();
+		for (Role role : roles) {
+			SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(role.getName());
 			authorities.add(simpleGrantedAuthority);
 		}
-		
-		
 		return authorities;
 	}
-	
-	
 
-	
-	
-	
 }

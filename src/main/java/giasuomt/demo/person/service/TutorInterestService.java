@@ -29,44 +29,29 @@ public class TutorInterestService extends GenericService<SaveTutorInterestDto, T
 		
 		try {
 			TutorInterest tutorInterest=new TutorInterest();
-			
 			tutorInterest=(TutorInterest) mapDtoToModel.map(dto, tutorInterest);
-			
 			if(iRegisterAndLearnerRepository.findById(dto.getRegisterAndLearnerId()).isPresent())
-				tutorInterest.setRegisterAndLearner(iRegisterAndLearnerRepository.getOne(dto.getRegisterAndLearnerId()));
-			
+				tutorInterest.setRegisterAndLearner(iRegisterAndLearnerRepository.getOne(dto.getRegisterAndLearnerId()));		
 			if(iTutorRepository.findById(dto.getTutorId()).isPresent())
-				tutorInterest.setTutor(iTutorRepository.getOne(dto.getTutorId()));
-			
-			return iTutorInterestRepository.save(tutorInterest);
-			
-			
+				tutorInterest.setTutor(iTutorRepository.getOne(dto.getTutorId()));		
+			return iTutorInterestRepository.save(tutorInterest);						
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return null;
 	}
 
 	@Override
 	public TutorInterest update(SaveTutorInterestDto dto) {
-		try {
-			
-			
-			TutorInterest tutorInterest=iTutorInterestRepository.getOne(dto.getId());
-			
-			tutorInterest=(TutorInterest) mapDtoToModel.map(dto, tutorInterest);
-			
+		try {		
+			TutorInterest tutorInterest=iTutorInterestRepository.getOne(dto.getId());			
+			tutorInterest=(TutorInterest) mapDtoToModel.map(dto, tutorInterest);			
 			if(iRegisterAndLearnerRepository.findById(dto.getRegisterAndLearnerId()).isPresent())
-				tutorInterest.setRegisterAndLearner(iRegisterAndLearnerRepository.getOne(dto.getRegisterAndLearnerId()));
-			
+				tutorInterest.setRegisterAndLearner(iRegisterAndLearnerRepository.getOne(dto.getRegisterAndLearnerId()));		
 			if(iTutorRepository.findById(dto.getTutorId()).isPresent())
-				tutorInterest.setTutor(iTutorRepository.getOne(dto.getTutorId()));
-			
-			return iTutorInterestRepository.save(tutorInterest);
-			
-			
+				tutorInterest.setTutor(iTutorRepository.getOne(dto.getTutorId()));			
+			return iTutorInterestRepository.save(tutorInterest);						
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
