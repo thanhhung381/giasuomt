@@ -19,7 +19,6 @@ public class MapDtoToModel<E extends Object, T extends Object> {  //map từ th�
 			if(!dtoMethodName.equals("getClass") && dtoMethodName.startsWith("get")) //Nếu method bắt đầu là "get" nhưng ko phải là getClass -> thì sẽ là getter
 				dtoGetterNames.add(dtoMethodName);
 		}
-		
 		//Map dto property value to the same name of model property
 		for(String dtoGetterName: dtoGetterNames) {
 			 try { //Try catch là để nếu nó ko map đc (có lỗi) thì bỏ qua làm tiếp chứ ko báo lỗi. (Để phòng TH dto có những property ko cùng name với model thì generic này bỏ qua, để mình tự map manually sau).

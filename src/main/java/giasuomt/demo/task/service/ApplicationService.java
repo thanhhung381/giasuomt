@@ -1,22 +1,18 @@
 package giasuomt.demo.task.service;
 
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.support.WebApplicationObjectSupport;
 
-import com.amazonaws.services.logs.model.transform.ExportTaskExecutionInfoMarshaller;
 import com.google.common.collect.Sets;
 
 import giasuomt.demo.comment.repository.IApplicationCommentRepository;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
-import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.dto.SaveApplicationDto;

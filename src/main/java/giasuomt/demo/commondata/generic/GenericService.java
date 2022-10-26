@@ -1,27 +1,21 @@
 package giasuomt.demo.commondata.generic;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import giasuomt.demo.commondata.model.AbstractEntityNotId;
-
-
-public abstract class GenericService<DTO, T , ID> implements IGenericService<DTO, T , ID> {
-	
+public abstract class GenericService<DTO, T, ID> implements IGenericService<DTO, T, ID> {
 	@Autowired
 	private JpaRepository<T, ID> repository; // Cần phải viết @Component GenericRepository (viết ở trong JpaConfig.java)
 												// nó mới inject cái repository này được
-	
+
 	@Override
-	public List<T> findAll() {	
+	public List<T> findAll() {
 		return repository.findAll();
 	}
-	
 
 	@Override
 	public T save(DTO dto, T entity) {
@@ -34,8 +28,6 @@ public abstract class GenericService<DTO, T , ID> implements IGenericService<DTO
 		return null;
 	}
 
-	
-	
 	@Override
 	public Optional<T> findById(ID id) {
 		return repository.findById(id);
@@ -49,18 +41,16 @@ public abstract class GenericService<DTO, T , ID> implements IGenericService<DTO
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public boolean checkExistIdOfT(ID id) {
 		return repository.existsById(id);
 	}
 
-	
 	@Override
 	public Set<T> createAll(Set<DTO> dtos) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
+
 }
