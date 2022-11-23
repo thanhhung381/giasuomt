@@ -8,6 +8,5 @@ import lombok.Setter;
 @Setter
 public class Payload {
 	private SaveTutorDto dto;
-	
 	private MultipartFile file;
 }

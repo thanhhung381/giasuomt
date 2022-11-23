@@ -18,10 +18,6 @@ import giasuomt.demo.person.model.Tutor;
 @EnableJpaAuditing(auditorAwareRef = "auditorAware") 
 public class JpaConfig {
 
-	 
-
-
-
 	// Auditor Aware là cấu hình để dùng được các annotation @CreatedBy, @ModifiedBy
 	// ở bên các model (AbstractEntity)
 	@Bean
@@ -29,14 +25,10 @@ public class JpaConfig {
 		return new AuditorAwareImpl(); // AuditorAwareImpl() viết ở AuditorAwareImpl.java -> để lấy thông tin user
 										// trong Security Context
 	}
-
 	@Component
 	public interface IGenericRepository<T , ID> extends JpaRepository<T, ID> { // viết cái này để bên GenericService nó
 																			// có thể inject cái @Autowired private
-
-
 													// JpaRepository<T, ID> repository;
-
 	}
 }
 //@EnableJpaAuditing để sử dụng được

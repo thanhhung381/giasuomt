@@ -17,7 +17,6 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import lombok.extern.apachecommons.CommonsLog;
 
 @Component
 public class JwtUltils {

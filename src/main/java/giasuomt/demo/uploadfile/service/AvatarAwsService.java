@@ -57,24 +57,16 @@ public class AvatarAwsService extends AwsClientS3 implements IAvatarAwsService {
 
 	private String uploadMultipartFile(MultipartFile multipartFile, String nameFile) {
 		String imageURL = null;
-
 		try {
-
 			File file = FileUltils.convertMultiPathToFile(multipartFile);
-
 			upploadPublicFile(nameFile, file);
-
 			file.delete();
-
 			//urlAvatar "http://meomeo/"
 			imageURL = urlAvatar.concat(nameFile);
-
 			return imageURL;
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 
@@ -82,17 +74,11 @@ public class AvatarAwsService extends AwsClientS3 implements IAvatarAwsService {
 	public String uploadImageToAmazon(MultipartFile multipartFile, String id) {
 
 		try {
-
 			String url = uploadMultipartFile(multipartFile, id);
-
 			Staff staff=iStaffRepository.getOne(Long.parseLong(id));
-
 			staff.setAvatar(url);
- 
 			iStaffRepository.save(staff);
-
 			return "Insert Or Update Avatar successfully";
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -102,19 +88,11 @@ public class AvatarAwsService extends AwsClientS3 implements IAvatarAwsService {
 
 	public void deleteByFileNameAndID(String urlFile) {
 		try {
-
 			client.deleteObject(bucketName, urlFile.substring(urlFile.lastIndexOf('/') + 1));
-			
-		
-			
 			Staff staff=iStaffRepository.getOne(Long.parseLong(urlFile.substring(urlFile.lastIndexOf('/') + 1)));
-
 			staff.setAvatar(null);
-			 
 			iStaffRepository.save(staff);
-
 		} catch (AmazonServiceException e) {
-
 			e.printStackTrace();
 		}
 	}
@@ -122,14 +100,11 @@ public class AvatarAwsService extends AwsClientS3 implements IAvatarAwsService {
 //	
 	@Override
 	public List<String> findAll() {
-
 		List<String> listObject = new LinkedList<>();
-
 		ObjectListing iterables = client.listObjects(bucketName);
 		for (S3ObjectSummary os : iterables.getObjectSummaries()) {
 			listObject.add(urlAvatar+os.getKey());
 		}
-
 		return listObject;
 	}
 
@@ -137,14 +112,11 @@ public class AvatarAwsService extends AwsClientS3 implements IAvatarAwsService {
 
 	@Override
 	public boolean checkExistObjectinS3(String name) {
-
 		try {
 			boolean flag = this.client.doesObjectExist(bucketName, name);
 			if (flag)
 				return true;
-
 		} catch (SdkClientException e) {
-
 			e.printStackTrace();
 		}
 		return false;

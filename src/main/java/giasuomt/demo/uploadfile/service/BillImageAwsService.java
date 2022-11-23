@@ -59,65 +59,39 @@ public class BillImageAwsService extends AwsClientS3 implements IBillImageAwsSer
 		String imageURL = null;
 
 		try {
-
 			File file = FileUltils.convertMultiPathToFile(multipartFile);
-
 			upploadPublicFile(nameFile, file);
-
 			file.delete();
-
 			//urlAvatar "http://meomeo/"
 			imageURL = urlBillImage.concat(nameFile);
-
 			return imageURL;
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 
 	@Override
 	public String uploadImageToAmazon(MultipartFile multipartFile, Long id) {
-
 		try {
-
-			String url = uploadMultipartFile(multipartFile, String.valueOf(id));
-
-			System.out.println(url);
-		
-			JobFinance jobFinance=iJobFinanceRepository.getOne(id);
-			
-			jobFinance.setBillImg(url);
-			
-			iJobFinanceRepository.save(jobFinance);
-			
-
+			String url = uploadMultipartFile(multipartFile, String.valueOf(id));	
+			JobFinance jobFinance=iJobFinanceRepository.getOne(id);		
+			jobFinance.setBillImg(url);			
+			iJobFinanceRepository.save(jobFinance);		
 			return "Insert Or Update Avatar successfully";
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 
 	public void deleteByFileNameAndID(String urlFile) {
 		try {
-
-			client.deleteObject(bucketNameBillImage, urlFile.substring(urlFile.lastIndexOf('/') + 1));
-			
-
-			JobFinance jobFinance=iJobFinanceRepository.getOne(Long.parseLong(urlFile.substring(urlFile.lastIndexOf('/') + 1)));
-			
-			jobFinance.setBillImg(null);
-			
-			iJobFinanceRepository.save(jobFinance);
-			
-
+			client.deleteObject(bucketNameBillImage, urlFile.substring(urlFile.lastIndexOf('/') + 1));			
+			JobFinance jobFinance=iJobFinanceRepository.getOne(Long.parseLong(urlFile.substring(urlFile.lastIndexOf('/') + 1)));			
+			jobFinance.setBillImg(null);			
+			iJobFinanceRepository.save(jobFinance);			
 		} catch (AmazonServiceException e) {
-
 			e.printStackTrace();
 		}
 	}
@@ -125,29 +99,20 @@ public class BillImageAwsService extends AwsClientS3 implements IBillImageAwsSer
 //	
 	@Override
 	public List<String> findAll() {
-
 		List<String> listObject = new LinkedList<>();
-
 		ObjectListing iterables = client.listObjects(bucketNameBillImage);
 		for (S3ObjectSummary os : iterables.getObjectSummaries()) {
 			listObject.add(urlBillImage+os.getKey());
 		}
-
 		return listObject;
 	}
-
-
-
 	@Override
 	public boolean checkExistObjectinS3(String name) {
-
 		try {
 			boolean flag = this.client.doesObjectExist(bucketNameBillImage, name);
 			if (flag)
 				return true;
-
 		} catch (SdkClientException e) {
-
 			e.printStackTrace();
 		}
 		return false;

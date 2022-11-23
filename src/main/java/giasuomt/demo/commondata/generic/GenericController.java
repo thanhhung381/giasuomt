@@ -35,8 +35,6 @@ public abstract class GenericController<DTO, T , ID> {
 		List<T> ts = iGenericService.findAll();
 		if (ts==null)
 			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
-		
-		
 		return ResponseHandler.getResponse(ts, HttpStatus.OK);
 	}
 
@@ -44,9 +42,7 @@ public abstract class GenericController<DTO, T , ID> {
 	public ResponseEntity<Object> create(@Valid @RequestBody DTO dto, BindingResult errors) {
 		if ( errors.hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-		
 		T createdT = iGenericService.create(dto);
-		
 		return ResponseHandler.getResponse(createdT, HttpStatus.OK);
 	}
 	
@@ -54,9 +50,7 @@ public abstract class GenericController<DTO, T , ID> {
 	public ResponseEntity<Object> create(@Valid @RequestBody Set<DTO> dto, BindingResult errors) {
 		if ( errors.hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-		
                Set<T> createdT = iGenericService.createAll(dto);
-		
 		return ResponseHandler.getResponse(createdT, HttpStatus.OK);
 	}
 	
@@ -65,9 +59,7 @@ public abstract class GenericController<DTO, T , ID> {
 	public ResponseEntity<Object> update(@Valid @RequestBody DTO dto, BindingResult errors) {
 		if (((Errors) errors).hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-		
 		T updatedT = iGenericService.update(dto);
-		
 		return ResponseHandler.getResponse(updatedT, HttpStatus.OK);
 	}
 
@@ -75,24 +67,16 @@ public abstract class GenericController<DTO, T , ID> {
 	public ResponseEntity<Object> delete(@PathVariable("id") ID id) {
 		if (!iGenericService.checkExistIdOfT(id))
 			return ResponseHandler.getResponse("Don't have any Area id", HttpStatus.BAD_REQUEST);
-		
 		iGenericService.deleteById(id);
-		
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 	
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<Object> findById(@PathVariable("id") ID id) {
 		Optional<T> t = iGenericService.findById(id);
-
 //		if (t.isEmpty())
 		if (t.isEmpty() )
-
-			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
-			
+			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);		
 		return ResponseHandler.getResponse(t, HttpStatus.OK);
 	}
-	
-	
-
 }

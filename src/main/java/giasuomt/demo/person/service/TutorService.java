@@ -1,20 +1,13 @@
 package giasuomt.demo.person.service;
 
-import java.util.ArrayList;
-
-
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.SdkClientException;
 import com.google.common.collect.Sets;
 
 import giasuomt.demo.commondata.generator.TutorCodeGenerator;
@@ -24,27 +17,19 @@ import giasuomt.demo.commondata.generic.StringUltilsForAreaID;
 import giasuomt.demo.commondata.util.Calendar;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.educational.repository.ISubjectGroupRepository;
-import giasuomt.demo.job.model.Job;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
-import giasuomt.demo.person.Ultils.UpdateSubjectGroupMaybeAndSure;
+import giasuomt.demo.person.dto.SaveTutorDto;
 import giasuomt.demo.person.dto.TutorForWebDto;
 import giasuomt.demo.person.dto.UpdateCalendarDto;
 import giasuomt.demo.person.dto.UpdateNowLevelAndNowUpdateAtDto;
-import giasuomt.demo.person.dto.SaveTutorDto;
-
 import giasuomt.demo.person.model.Tutor;
-
 import giasuomt.demo.person.repository.ITutorRepository;
-
-import giasuomt.demo.staff.dto.UpdateAvatarStaff;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.tags.repository.ITutorTagRepository;
 import giasuomt.demo.task.dto.UpdateSubjectGroupForSureDto;
 import giasuomt.demo.task.dto.UpdateSubjectGroupMaybeDto;
-
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
-import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
 import lombok.AllArgsConstructor;
 
@@ -79,42 +64,29 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	@Override
 	public Tutor create(SaveTutorDto dto) {
 		Tutor tutor = new Tutor();
-
 		tutor.setId(Long.parseLong(generateTutorCode()));
-		;
-
 		return save(dto, tutor);
 	}
 
 	@Override
 	public Tutor update(SaveTutorDto dto) {
-
 		Tutor tutor = iTutorRepository.getOne(dto.getId());
-
 		// dto.setTutorCode(tutor.getId()); //Để đảm bảo là tutorCode ko được phép
 		// update khi save
-
 		String avatarURL = tutor.getAvatar();
-
 		awsClientS3.getClient().deleteObject("avatargsomt", avatarURL.substring(avatarURL.lastIndexOf('/') + 1));
-
 		return save(dto, tutor);
 	}
 
 	@Override
 	public Tutor save(SaveTutorDto dto, Tutor tutor) {
 		try {
-
 			mapDto(tutor, dto);
-
 			return iTutorRepository.save(tutor);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return null;
-
 	}
 
 	@Override
@@ -129,19 +101,14 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	@Override
 	public Set<Tutor> createAll(Set<SaveTutorDto> dtos) {
 		try {
-
 			Set<Tutor> tutors = new HashSet<>();
-
-			for (SaveTutorDto dto : dtos) {
+			dtos.parallelStream().forEach(dto -> {
 				Tutor tutor = new Tutor();
 				mapDto(tutor, dto);
-
 				tutors.add(tutor);
-			}
-			
-			return Sets.newHashSet(iTutorRepository.saveAll(tutors)) ;
+			});
+			return Sets.newHashSet(iTutorRepository.saveAll(tutors));
 		} catch (Exception e) {
-
 			e.printStackTrace();
 		}
 		return null;
@@ -149,54 +116,40 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 	@Override
 	public Tutor findByTutorCode(Long tutorCode) {
-
 		return iTutorRepository.findByIdOrTutorCode(tutorCode);
 	}
 
 	@Override
 	public List<Tutor> findByPhoneNumber(String phoneNumber) {
-
 		return iTutorRepository.findByPhonesContaining(phoneNumber);
 	}
 
 	@Override
 	public List<Tutor> findByEndPhoneNumber(String endPhoneNumber) {
-
 		return iTutorRepository.findByPhonesContaining(endPhoneNumber.concat("#"));
 	}
 
 	@Override
 	public List<Tutor> findByFullNameContain(String fullName) {
-
 		return iTutorRepository.findByFullNameContaining(fullName);
 	}
 
 	private void mapDto(Tutor tutor, SaveTutorDto dto) {
 		tutor = (Tutor) mapDtoToModel.map(dto, tutor);
-
 		tutor.setFullName(dto.getFullName().toUpperCase());
-
 		tutor.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toUpperCase());
-
 		if (iAreaRepository.findById(dto.getTutorAddressAreaId()).isPresent())
 			tutor.setTutorAddressArea(iAreaRepository.getOne(dto.getTutorAddressAreaId()));
-		
-		
 		Set<String> relAreaIds = dto.getRelAreaIds();
 		Set<Area> tutorRelAreas = new HashSet<>();
-
 		for (String id : relAreaIds) {
-			if (iAreaRepository.findById(id).isPresent())
-			{
-					Area areaRel = iAreaRepository.getOne(id);
-					tutorRelAreas.add(areaRel);
+			if (iAreaRepository.findById(id).isPresent()) {
+				Area areaRel = iAreaRepository.getOne(id);
+				tutorRelAreas.add(areaRel);
 			}
 		}
-
 		tutor.setRelArea(tutorRelAreas);
-
 		tutor.setExp(0.0);
-
 		// save avatar
 		// Relationship
 //		List<SaveRelationshipDto> saveRelationshipDtoWiths = dto.getSaveRelationshipDtosWith();
@@ -226,7 +179,6 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 //				tutor.addRelationshipWith(relationship);
 //			}
 //		}
-
 		// Tags
 		Set<String> tutorTagIds = dto.getTutorTagIds();
 		Set<TutorTag> tutorTags = new HashSet<>();
@@ -235,11 +187,10 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			TutorTag tutorTag = iTutorTagRepository.getOne(id);
 			tutorTags.add(tutorTag);
 		}
-
 		tutor.setTutorTags(tutorTags);
 
 		// voice
-	
+
 		// Hien dang la
 
 		// User
@@ -248,35 +199,24 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 	private String generateTutorCode() {
 		String ResponseTutorCode = null;
-
 		// lấy những người có tutorcode à ko null
 		Tutor personHasTutorCode = iTutorRepository.getPersonTutorCodeNotNULL();
-
 		if (personHasTutorCode != null) {
-
-			System.out.println(personHasTutorCode.getId());
 			if (personHasTutorCode != null) {
-
-				String tutorCodeWithIdMaxorPreviousId = String.valueOf(personHasTutorCode.getId());// lấy mã đó ra từ
+				String tutorCodeWithIdMaxorPreviousId = String.valueOf(personHasTutorCode.getId());// lấy mã đó ra từ //
 																									// Person
 				// trước đó cuối
-
 				int count = TutorCodeGenerator
 						.generateResponsiveReserve(tutorCodeWithIdMaxorPreviousId.substring(6, 8));
-
 				if (tutorCodeWithIdMaxorPreviousId == null
 						|| TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == -1
 						|| TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == 2) {
 					count = 1;
-
 				} else if (TutorCodeGenerator.AutoGennerate(tutorCodeWithIdMaxorPreviousId) == 3) {
 					count += 1;
-
 				}
-
 				ResponseTutorCode = TutorCodeGenerator.generateResponsive((int) count);
 			}
-
 		} else {
 			ResponseTutorCode = TutorCodeGenerator.generateResponsive((int) 1);
 		}
@@ -285,19 +225,16 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 	@Override
 	public List<Tutor> findByEnglishFullName(String fullname) {
-
 		return iTutorRepository.findByEnglishFullNameContaining(fullname);
 	}
 
 	@Override
 	public List<String> findByEngfullnameAndShowFullName(String fullname) {
-
 		return iTutorRepository.findByEnglishNameAndShowFullName(fullname);
 	}
 
 	@Override
 	public List<String> findByfullnameAndShowFullName(String fullname) {
-
 		return iTutorRepository.showFullname(fullname);
 	}
 
@@ -344,12 +281,10 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		tutorForWebDto.setTeachingInstitution(tutor.getTeachingInstitution());
 		tutorForWebDto.setHienDangLa(tutor.getHienDangLa());
 		tutorForWebDto.setMajor(tutor.getMajor());
-
 	}
 
 	private List<TutorForWebDto> mapTutorForResponseList(List<Tutor> tutors) {
 		List<TutorForWebDto> tutorForWebDtos = new LinkedList<>();
-
 		for (Tutor tutor : tutors) {
 			TutorForWebDto tutorForWebDto = new TutorForWebDto();
 			mapTutorForResponse(tutor, tutorForWebDto);
@@ -361,29 +296,21 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 	@Override
 	public List<TutorForWebDto> findAllTutorForWeb() {
-
 		return mapTutorForResponseList(iTutorRepository.findByAverageStarNumbersGreaterThanEquals());
 	}
 
 	@Override
 	public Tutor updateSubjetGroupMaybe(UpdateSubjectGroupMaybeDto dto) {
 		try {
-
 			Tutor tutor = iTutorRepository.getOne(dto.getId());
-
 			Set<String> idSubjetGroupMaybes = dto.getIdSubjectGroupMaybes();
-
 			Set<SubjectGroup> subjectGroupMaybes = new HashSet<>();
-
 			for (String id : idSubjetGroupMaybes) {
 				SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
 				subjectGroupMaybes.add(subjectGroup);
 			}
-
 			tutor.setSubjectGroupMaybes(subjectGroupMaybes);
-
 			return iTutorRepository.save(tutor);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -393,20 +320,14 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	@Override
 	public Tutor updateSubjectGroupForSure(UpdateSubjectGroupForSureDto dto) {
 		try {
-
 			Tutor tutor = iTutorRepository.getOne(dto.getId());
-
 			Set<String> idSubjetGroupMaybes = dto.getIdSubjectGroupForSures();
-
 			Set<SubjectGroup> subjectGroupForSures = new HashSet<>();
-
 			for (String id : idSubjetGroupMaybes) {
 				SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
 				subjectGroupForSures.add(subjectGroup);
 			}
-
 			tutor.setSubjectGroupSures(subjectGroupForSures);
-
 			return iTutorRepository.save(tutor);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -417,14 +338,9 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	@Override
 	public Tutor updateNowLevelAndNowUpdateAt(UpdateNowLevelAndNowUpdateAtDto dto) {
 		try {
-
 			Tutor tutor = iTutorRepository.getOne(dto.getId());
-
 			tutor.setNowLevel(dto.getNowLevel());
-
-		    
-		    return iTutorRepository.save(tutor);
-
+			return iTutorRepository.save(tutor);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -434,17 +350,13 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	@Override
 	public Tutor updateCalendar(UpdateCalendarDto dto) {
 		try {
-
 			Tutor tutor = iTutorRepository.getOne(dto.getId());
-
 			Set<Calendar> calendars = new HashSet<>();
 			for (Calendar calendar : dto.getCalendars()) {
 				calendars.add(calendar);
 			}
 			tutor.setCalendars(calendars);
-
 			return iTutorRepository.save(tutor);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

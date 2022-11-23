@@ -17,21 +17,14 @@ import lombok.Setter;
 @JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
 public class RegisterAndLearnerAddress extends AbstractEntity {
 	private String addType;
-	
 	private String addNumber;
-	
 	private String addStreet;
-	
 	private String addNote;
-	
 	private String xCoo;
-	
 	private String yCoo;
-	
 	@ManyToOne
 	@JoinColumn(name = "area_id")
 	private Area area;
-	
 	@ManyToOne
 	@JoinColumn(name = "register_and_learner_id")
 	@JsonIgnore

@@ -1,8 +1,6 @@
 package giasuomt.demo.comment.model;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -19,10 +17,5 @@ import lombok.Setter;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class CommentEmotion extends AbstractEntity {
 	private Emotion emotion;
-	
-//	@ManyToOne
-//	@JoinColumn(name = "comment_id")
-//	private Comment comment;
-
 
 }

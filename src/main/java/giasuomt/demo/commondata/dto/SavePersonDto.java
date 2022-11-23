@@ -19,30 +19,18 @@ import lombok.Setter;
 @MappedSuperclass
 public class SavePersonDto {
 	private Long id;
-	
 	// THÔNG TIN CÁ NHÂN
 	// @NotBlank
 	private String fullName;
-
 	// @NotNull //kiểu Enum mình ko nên để @NotBlank mà nên để @NotNull
 	private Gender gender;
-
 	private String birthYear;
-
-
-
-	//@NotNull
+	// @NotNull
 	private String phones;
-
-	//@Email
+	// @Email
 	private String emails;
-
 	private String zaloes;
-
 	private String fbs;
-
 	private String idCardNumber;
-
-
 	private LocalDateTime idCardIssuedOn;
 }

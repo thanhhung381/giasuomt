@@ -13,12 +13,9 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 
 
 public class AuditorAwareImpl implements AuditorAware<String>{
-
 	@Override
 	public Optional<String> getCurrentAuditor() {
-			
 		String currentUsername=SecurityContextHolder.getContext().getAuthentication().getName();
-		
 		return Optional.ofNullable(currentUsername);
 	}
 

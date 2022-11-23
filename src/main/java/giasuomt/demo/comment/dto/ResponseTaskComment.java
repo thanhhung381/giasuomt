@@ -7,12 +7,8 @@ import lombok.Setter;
 @Setter
 public class ResponseTaskComment {
 	private Long id;
-
 	private String idTask;
-
 	private Long parrentCommentId;
-	
 	private String content;
-	
 	private String avatar;
 }

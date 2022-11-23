@@ -27,19 +27,13 @@ import giasuomt.demo.job.dto.SaveJobDto;
 import giasuomt.demo.job.dto.UpdateJobResultDto;
 import giasuomt.demo.job.model.Job;
 import giasuomt.demo.job.service.IJobService;
-import giasuomt.demo.task.dto.UpdateLessonDto;
-import giasuomt.demo.task.model.Task;
 import giasuomt.demo.uploadfile.service.IRetainedImgsIdentificationAwsService;
-import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping(value = "/api/job")
 public class JobController extends GenericController<SaveJobDto,Job, String> {
-	
 	@Autowired
 	private IJobService iJobService;
-	
-	
 	@Autowired
 	private IRetainedImgsIdentificationAwsService iRetainedImgsIdentificationService;
 
@@ -51,41 +45,30 @@ public class JobController extends GenericController<SaveJobDto,Job, String> {
 	{
 		if (((Errors) errors).hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
-		
 		Job updatedJob = iJobService.updateJobResult(dto);
-		
 		return ResponseHandler.getResponse(updatedJob, HttpStatus.OK);
 	}
 
 
 	@GetMapping("/findAllJobRetainedImgsIdentificationImgs")
 	public ResponseEntity<Object> findAll() {
-
 		List<String> fileEntities = iRetainedImgsIdentificationService.findAll();
-
 		if (fileEntities.isEmpty())
 			return ResponseHandler.getResponse("There is no data", HttpStatus.BAD_REQUEST);
-
 		return ResponseHandler.getResponse(fileEntities, HttpStatus.OK);
-
 	}
 
 	@PostMapping("/createJobRetainedImgsIdentificationImg{id}")
 	public ResponseEntity<Object> uploadPublicImg(@RequestParam("file") MultipartFile file,
 			@PathVariable("id") String id) throws IOException {
-
 		List<String> listOject = iRetainedImgsIdentificationService.findAll();
 		if (listOject.isEmpty()) {
 			String filename = StringUtils.cleanPath(file.getOriginalFilename());
-
 			if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
-
 				String awsAvatarURL = iRetainedImgsIdentificationService.uploadImageToAmazon(file,
 						id + "RetainedImgsIdentification" + String.valueOf(1));
-
 				return ResponseHandler.getResponse(awsAvatarURL, HttpStatus.CREATED);
 			}
-
 			else
 				return ResponseHandler.getResponse("You have to upload files which have type of .jpg, .png, .jpeg ",
 						HttpStatus.BAD_REQUEST);
@@ -95,103 +78,73 @@ public class JobController extends GenericController<SaveJobDto,Job, String> {
 					.findAllByNameContainer(id + "RetainedImgsIdentification", listOject);
 			if (lastURL == null) {
 				String filename = StringUtils.cleanPath(file.getOriginalFilename());
-
 				if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
-
 					String awsAvatarURL = iRetainedImgsIdentificationService.uploadImageToAmazon(file,
 							id + "RetainedImgsIdentification" + String.valueOf(1));
-
 					return ResponseHandler.getResponse(awsAvatarURL, HttpStatus.CREATED);
 				}
-
 				else
 					return ResponseHandler.getResponse("You have to upload files which have type of .jpg, .png, .jpeg ",
 							HttpStatus.BAD_REQUEST);
 			} else {
 				String filename = StringUtils.cleanPath(file.getOriginalFilename());
-
 				if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
-
 					int i = Integer.parseInt(lastURL.substring(lastURL.lastIndexOf("n") + 1));
-
 					String awsAvatarURL = iRetainedImgsIdentificationService.uploadImageToAmazon(file,
 							id + "RetainedImgsIdentification" + String.valueOf(i + 1));
-
 					return ResponseHandler.getResponse(awsAvatarURL, HttpStatus.CREATED);
 				}
-
 				else
 					return ResponseHandler.getResponse("You have to upload files which have type of .jpg, .png, .jpeg ",
 							HttpStatus.BAD_REQUEST);
 			}
-
 		}
-
 	}
 
 	@PostMapping("/createJobRetainedImgsIdentificationImgs")
 	public ResponseEntity<Object> uploadPublicImgs(@RequestParam("files") MultipartFile[] files,
 			@RequestParam("id") String id) throws IOException {
-
 		try {
-
 			int count = 0;
 			for (MultipartFile file : files) {
 				String filename = StringUtils.cleanPath(file.getOriginalFilename());
-
 				if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
-
 					count += 1;
-
 					String awsAvatarURL = iRetainedImgsIdentificationService.uploadImageToAmazon(file,
 							id + "RetainedImgsIdentification" + String.valueOf(count));
-
 				}
-
 				else
 					return ResponseHandler.getResponse("You have to upload files which have type of .jpg, .png, .jpeg ",
 							HttpStatus.BAD_REQUEST);
 			}
-
 			return ResponseHandler.getResponse("Upload files successfully", HttpStatus.CREATED);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return ResponseHandler.getResponse("Cant not upload", HttpStatus.BAD_REQUEST);
 
 	}
 
 	@DeleteMapping("/deleteJobRetainedImgsIdentificationImg/{nameFile}")
 	public ResponseEntity<Object> deleteTutorPublicImg(@PathVariable("nameFile") String nameFile) {
-
 		if (!iRetainedImgsIdentificationService.checkExistObjectinS3(nameFile))
 			return ResponseHandler.getResponse("Don't have any url and id", HttpStatus.BAD_REQUEST);
-
 		iRetainedImgsIdentificationService.deleteByFileNameAndID(retainedImgsIdentificationURL + nameFile);
-
 		return ResponseHandler.getResponse("Delete Successfully", HttpStatus.OK);
 	}
 
 	@PutMapping("/updateJobRetainedImgsIdentificationImg/{nameFile}")
 	public ResponseEntity<Object> UpdatePrivateRetainImg(@RequestParam("file") MultipartFile file,
 			@PathVariable("nameFile") String nameFile) throws IOException {
-
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
-
 		if (filename.contains(".jpeg") || filename.contains(".jpg") || filename.contains(".png")) {
-
 			String awsAvatarURL = iRetainedImgsIdentificationService.updateRetainedImgsIdentificationToAmazon(file,
 					nameFile);
-
 			return ResponseHandler.getResponse(awsAvatarURL, HttpStatus.CREATED);
 		}
-
 		else
 			return ResponseHandler.getResponse("You have to upload files which have type of .jpg, .png, .jpeg ",
 					HttpStatus.BAD_REQUEST);
-
 	}
 	
 }

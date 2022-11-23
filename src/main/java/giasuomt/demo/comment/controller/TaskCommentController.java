@@ -23,14 +23,11 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/taskcomment")
 @AllArgsConstructor
 public class TaskCommentController extends GenericController<SaveTaskCommentDto, TaskComment, Long> {
-
 	private ITaskCommentService iTaskCommentService;
 
 	@DeleteMapping("/deleteByTaskCommnent/{idTask}")
 	public ResponseEntity<Object> deleteTaskComment(@RequestParam("idTask") Long idTask) {
-
 		iTaskCommentService.deleteTaskComment(idTask);
-
 		return ResponseHandler.getResponse("Delete successfully", HttpStatus.OK);
 	}
 

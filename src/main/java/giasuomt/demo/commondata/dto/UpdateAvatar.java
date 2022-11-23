@@ -7,6 +7,5 @@ import lombok.Setter;
 @Setter
 public class UpdateAvatar {
 	protected Long id;
-
 	protected Long idAvatar;
 }

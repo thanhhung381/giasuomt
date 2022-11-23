@@ -21,13 +21,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ApplicationCommentController extends GenericController<SaveApplicationCommentDto, ApplicationComment, Long> {
 	private IApplicationCommentService iApplicationCommentService;
-	
-	
 	@DeleteMapping("/delete/{idApplicationComment}")
 	public ResponseEntity<Object> deleteTaskComment(@RequestParam("idApplicationComment") Long idTaskComment) {
-
 		iApplicationCommentService.deleteApplicationComment(idTaskComment);
-
 		return ResponseHandler.getResponse("Delete successfully", HttpStatus.OK);
 	}
 	

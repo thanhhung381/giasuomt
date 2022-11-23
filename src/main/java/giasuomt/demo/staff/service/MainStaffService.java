@@ -4,12 +4,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
-import giasuomt.demo.commondata.generic.GenericService;
+
 import giasuomt.demo.commondata.generic.MapDtoToModel;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.staff.dto.ApplicationResponse;
 import giasuomt.demo.staff.dto.TaskListResponse;
-import giasuomt.demo.task.dto.SaveApplicationDto;
 import giasuomt.demo.task.model.Application;
 import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.repository.IApplicationRepository;
@@ -28,7 +27,6 @@ public class MainStaffService implements IMainStaffService {
 
 	public List<TaskListResponse> findAllTask() {
 		List<Task> task = iTaskRepository.findAll();
-
 		List<TaskListResponse> listResponses = taskMapToTaskRepsonseByList(task);
 		return listResponses;
 	}
@@ -36,13 +34,10 @@ public class MainStaffService implements IMainStaffService {
 	public List<Tutor> findAllTutorBelongToTask() {
 		List<Task> tasks = iTaskRepository.findAll();
 		List<Tutor> tutorBelongtoTask = new ArrayList<>();
-		
 		for (Task task : tasks) {
-			
 			for(Application app : task.getApplications()) {
 				tutorBelongtoTask.add(app.getTutor());
 			}
-			
 		}
 		
 //		for (int i = 0; i < tasks.size(); i++) {

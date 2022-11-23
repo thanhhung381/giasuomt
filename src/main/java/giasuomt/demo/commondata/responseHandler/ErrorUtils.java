@@ -17,8 +17,6 @@ public class ErrorUtils {
 		}		
 		return messages;
 	}
-	
-	
 	//Phương thức ở bên dưới là để parse từ String Message sang dạng List -> để có thể đưa vô ResponseObject để trả về
 	public static List<String> errorOf(String message){
 		List<String> messages = new LinkedList<String>();

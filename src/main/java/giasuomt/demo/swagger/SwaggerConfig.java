@@ -57,11 +57,8 @@ public class SwaggerConfig {
     private List<SecurityReference> securityReferences()
     {
     	AuthorizationScope authorizationScope=new AuthorizationScope("global", "All application can access"); //
-    	
     	AuthorizationScope[] authorizationScopes=new AuthorizationScope[1];
-    	
     	authorizationScopes[0]=authorizationScope;
-    	
     	return Arrays.asList(new SecurityReference("JWT", authorizationScopes)); //string refference là tham chiếu tới apiKey nào
     }
     
