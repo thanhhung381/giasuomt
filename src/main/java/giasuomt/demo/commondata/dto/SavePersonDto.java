@@ -32,5 +32,5 @@ public class SavePersonDto {
 	private String zaloes;
 	private String fbs;
 	private String idCardNumber;
-	private LocalDateTime idCardIssuedOn;
+	private String idCardIssuedOn;
 }

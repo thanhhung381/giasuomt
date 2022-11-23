@@ -1,6 +1,7 @@
 package giasuomt.demo.person.service;
 
 import java.util.List;
+import java.util.Set;
 
 import giasuomt.demo.commondata.generic.IGenericService;
 import giasuomt.demo.person.dto.TutorForWebDto;
@@ -50,4 +51,7 @@ public interface ITutorService extends IGenericService<SaveTutorDto, Tutor, Long
 
 	public Tutor updateCalendar(UpdateCalendarDto dto);
 
+	public void deleteAll();
+	
+	public boolean validateJWT(String token);
 }

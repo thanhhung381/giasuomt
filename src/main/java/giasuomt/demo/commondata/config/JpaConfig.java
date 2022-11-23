@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Component;
 
-import ch.qos.logback.classic.db.names.TableName;
 import giasuomt.demo.commondata.util.GetTypeName;
 import giasuomt.demo.person.model.Tutor;
 

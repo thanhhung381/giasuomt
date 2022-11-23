@@ -59,6 +59,10 @@ public interface ITaskService extends IGenericService<SaveTaskDto, Task, String>
 	
 	public Set<ResponseTaskForWebDto> findAllAvailableTaskListForWeb();
 
+	public boolean validateJWT(String token);
+
+	public void deleteAll();
+
 
 	
 }

@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Sets;
 
@@ -19,6 +20,8 @@ import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.location.repository.ITaskPlaceAddressRepository;
 import giasuomt.demo.person.repository.IRegisterAndLearnerRepository;
+import giasuomt.demo.role.model.Role;
+import giasuomt.demo.security.jwt.JwtUltils;
 import giasuomt.demo.task.dto.AddObjectToTaskDto;
 import giasuomt.demo.task.dto.ResponseTaskForWebDto;
 import giasuomt.demo.task.dto.ResponseTaskPlaceAddressDto;
@@ -34,6 +37,8 @@ import giasuomt.demo.task.model.Task;
 import giasuomt.demo.task.repository.IApplicationRepository;
 import giasuomt.demo.task.repository.ITaskRepository;
 import giasuomt.demo.task.util.TaskSign;
+import giasuomt.demo.user.model.User;
+import giasuomt.demo.user.repository.IUserRepository;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -53,6 +58,10 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 	private IRegisterAndLearnerRepository iRegisterAndLearnerRepository;
 
 	private IApplicationRepository iApplicationRepository;
+
+	private JwtUltils jwtUltils;
+
+	private IUserRepository iUserRepository;
 
 	public Task create(SaveTaskDto dto) {
 		Task task = new Task();
@@ -76,11 +85,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private void mapDto(Task task, SaveTaskDto dto) {
 
-		
-
-
-	
-		
 		// String taskCode = dto.getId();
 
 		// Subject vì sau khi nhập subject thì đã có tồn tại subjectgroup rồi
@@ -109,15 +113,13 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 			genders.add(gender);
 		}
 		task.setGenderRequired(genders);
-		
+
 		Set<TaskSign> taskSigns = new HashSet<>();
 		for (TaskSign taskSign : dto.getTaskSigns()) {
 
 			taskSigns.add(taskSign);
 		}
 		task.setTaskSign(taskSigns);
-
-
 
 		Set<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getSaveTaskPlaceAddressDtos();
 		for (TaskPlaceAddress taskPlaceAddress : task.getTaskPlaceAddresses()) {
@@ -141,7 +143,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 				if (iAreaRepository.findById(placeAddressDto.getIdArea()).isPresent())
 					taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
-			
+
 				task.addTaskPlaceAddress(taskPlaceAddress);
 			} else {
 				TaskPlaceAddress taskPlaceAddress = new TaskPlaceAddress();
@@ -149,7 +151,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 				if (iAreaRepository.findById(placeAddressDto.getIdArea()).isPresent())
 					taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
-				
+
 				task.addTaskPlaceAddress(taskPlaceAddress);
 			}
 		}
@@ -208,41 +210,33 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 	}
 
 	@Override
+	@Transactional
 	public Set<Task> createAll(Set<SaveTaskDto> dtos) {
 		try {
 			Set<Task> tasks = new HashSet<>();
 			for (SaveTaskDto dto : dtos) {
 				Task task = new Task();
-				
 				task = (Task) mapDtoToModel.map(dto, task);
-				
 				task.setId(dto.getId());
-
 				Set<String> idSubjectGroups = dto.getIdSubjectGroup();
 				Set<SubjectGroup> subjectGroups = new HashSet<>();
-
-				for (String id : idSubjectGroups) { 
+				for (String id : idSubjectGroups) {
 					SubjectGroup subjectGroup = iSubjectGroupRepository.getOne(id);
 					subjectGroups.add(subjectGroup);
 				}
 				task.setSubjectGroups(subjectGroups);
-
 				Set<Gender> genders = new HashSet<>();
 				for (Gender gender : dto.getGenderRequired()) {
-
 					genders.add(gender);
 				}
 				task.setGenderRequired(genders);
-				
+
 				Set<TaskSign> taskSigns = new HashSet<>();
 				for (TaskSign taskSign : dto.getTaskSigns()) {
 
 					taskSigns.add(taskSign);
 				}
 				task.setTaskSign(taskSigns);
-
-
-
 				Set<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getSaveTaskPlaceAddressDtos();
 				for (TaskPlaceAddress taskPlaceAddress : task.getTaskPlaceAddresses()) {
 					boolean deleteThis = true;
@@ -265,8 +259,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 						if (iAreaRepository.findById(placeAddressDto.getIdArea()).isPresent())
 							taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
-						
-					
+
 						task.addTaskPlaceAddress(taskPlaceAddress);
 					} else {
 						TaskPlaceAddress taskPlaceAddress = new TaskPlaceAddress();
@@ -274,14 +267,12 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 						if (iAreaRepository.findById(placeAddressDto.getIdArea()).isPresent())
 							taskPlaceAddress.setArea(iAreaRepository.getOne(placeAddressDto.getIdArea()));
-						
+
 						task.addTaskPlaceAddress(taskPlaceAddress);
 					}
 				}
-
 				tasks.add(task);
 			}
-
 			return Sets.newHashSet(iTaskRepository.saveAll(tasks));
 
 		} catch (Exception e) {
@@ -392,9 +383,9 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 			Task task = iTaskRepository.getOne(dto.getId());
 
 			task.setSalaryForStudent(dto.getSalaryForStudent());
-			
+
 			task.setSalaryForGraduatedStudent(dto.getSalaryForGraduatedStudent());
-			
+
 			task.setSalaryForStudent(dto.getSalaryForStudent());
 
 			task.setSalaryPerTime(dto.getSalaryPerTime());
@@ -414,7 +405,6 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 		try {
 			Task task = iTaskRepository.getOne(dto.getId());
-
 			Set<SaveTaskPlaceAddressDto> saveTaskPlaceAddressDtos = dto.getPlaceAddressDtos();
 			for (TaskPlaceAddress taskPlaceAddress : task.getTaskPlaceAddresses()) {
 				boolean deleteThis = true;
@@ -510,13 +500,13 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		dto.setLessonNumber(task.getLessonNumber());
 		dto.setLessonPeriodOfTime(task.getLessonPeriodOfTime());
 		dto.setFreeTime(task.getFreeTime());
-		
+
 		dto.setSalaryForGraduatedStudent(task.getSalaryForGraduatedStudent());
-		
+
 		dto.setSalaryForStudent(task.getSalaryForStudent());
-		
+
 		dto.setSalaryForTeacher(task.getSalaryForTeacher());
-		
+
 		dto.setUnitOfSalary(task.getUnitOfSalary());
 		dto.setSalaryPerTime(task.getSalaryPerTime());
 		dto.setLearnerNumber(task.getLearnerNumber());
@@ -526,7 +516,7 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		dto.setRequireNote(task.getRequireNote());
 		dto.setSubjectGroups(task.getSubjectGroups());
 		dto.setVoiceRequired(task.getVoiceRequired());
-	
+
 	}
 
 	private Set<ResponseTaskForWebDto> mapTasktoTaskForWebList(Set<Task> tasks) {
@@ -564,6 +554,37 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 
 	private Set<ResponseTaskPlaceAddressDto> findAllTaskPlaceAddress(Set<TaskPlaceAddress> addresses) {
 		return mapTaskAdderessToTaskAddressDtoList(addresses);
+	}
+
+	@Override
+	public boolean validateJWT(String token) {
+		if (jwtUltils.validateJWtToken(token)) {
+			String username = jwtUltils.getUsernameToken(token);
+
+			Optional<User> user = iUserRepository.findByUsername(username);
+
+			boolean check = false;
+
+			for (Role role : user.get().getRoles()) {
+				if (role.getName().equals("admin-role")) {
+					check = true;
+					break;
+				}
+			}
+
+			return check;
+		}
+		return false;
+	}
+
+	@Override
+	public void deleteAll() {
+		try {
+
+			iTaskRepository.deleteAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

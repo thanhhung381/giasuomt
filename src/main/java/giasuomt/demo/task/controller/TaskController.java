@@ -13,6 +13,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -155,6 +156,18 @@ public class TaskController extends GenericController<SaveTaskDto, Task, String>
 			return ResponseHandler.getResponse("No content", HttpStatus.BAD_REQUEST);
 		}
 		return ResponseHandler.getResponse(dtos, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("deleteAll/{JWTtoken}")
+	public ResponseEntity<Object> deleteAllTutor(@PathVariable("JWTtoken") String token) {
+		boolean check = iTaskService.validateJWT(token);
+		if (check) {
+			iTaskService.deleteAll();
+			return ResponseHandler.getResponse("delete all Task ", HttpStatus.BAD_REQUEST);
+		}	
+		
+		return ResponseHandler.getResponse("Invalid Token", HttpStatus.BAD_REQUEST);
+	
 	}
 
 }

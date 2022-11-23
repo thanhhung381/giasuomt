@@ -3,10 +3,16 @@ package giasuomt.demo.person.service;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.google.common.collect.Sets;
 
@@ -25,11 +31,14 @@ import giasuomt.demo.person.dto.UpdateCalendarDto;
 import giasuomt.demo.person.dto.UpdateNowLevelAndNowUpdateAtDto;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
+import giasuomt.demo.role.model.Role;
+import giasuomt.demo.security.jwt.JwtUltils;
 import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.tags.repository.ITutorTagRepository;
 import giasuomt.demo.task.dto.UpdateSubjectGroupForSureDto;
 import giasuomt.demo.task.dto.UpdateSubjectGroupMaybeDto;
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
+import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
 import lombok.AllArgsConstructor;
 
@@ -54,6 +63,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 
 	private IUserRepository iUserRepository;
 
+	private JwtUltils jwtUltils;
+
 	@Override
 	public List<Tutor> findAll() {
 
@@ -62,6 +73,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	}
 
 	@Override
+
 	public Tutor create(SaveTutorDto dto) {
 		Tutor tutor = new Tutor();
 		tutor.setId(Long.parseLong(generateTutorCode()));
@@ -99,15 +111,51 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	}
 
 	@Override
+	@Transactional
 	public Set<Tutor> createAll(Set<SaveTutorDto> dtos) {
 		try {
+
+			Set<Area> areas = Sets.newHashSet(iAreaRepository.findAll());
+			Set<TutorTag> tutorTags = Sets.newHashSet(iTutorTagRepository.findAll());
 			Set<Tutor> tutors = new HashSet<>();
 			dtos.parallelStream().forEach(dto -> {
 				Tutor tutor = new Tutor();
-				mapDto(tutor, dto);
+				tutor = (Tutor) mapDtoToModel.map(dto, tutor);
+				tutor.setFullName(dto.getFullName().toUpperCase());
+				tutor.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toUpperCase());
+//				Area addressArea = iAreaRepository.getOne(dto.getTutorAddressAreaId().equals(""));
+//			    tutor.setTutorAddressArea(addressArea != null? addressArea:null);
+				tutor.setId(dto.getId());
+				Set<String> relAreaIds = dto.getRelAreaIds();
+				Set<Area> tutorRelAreas = new HashSet<>();
+				for (String id : relAreaIds) {
+					for (Area area : areas) {
+						if (area.getId().equals(id)) {
+							tutorRelAreas.add(area);
+						}
+					}
+				}
+
+				tutor.setRelArea(tutorRelAreas);
+				tutor.setExp(0.0);
+
+				// Tags
+				Set<String> tutorTagIds = dto.getTutorTagIds();
+				Set<TutorTag> tutorTagTemps = new HashSet<>();
+
+				for (String id : tutorTagIds) {
+					boolean check = false;
+					for (TutorTag tutorTag : tutorTags) {
+						if (id.equals(tutorTag.getId())) {
+							tutorTagTemps.add(tutorTag);
+						}
+					}
+				}
+				tutor.setTutorTags(tutorTagTemps);
+
 				tutors.add(tutor);
 			});
-			return Sets.newHashSet(iTutorRepository.saveAll(tutors));
+			return tutors != null ? Sets.newHashSet(iTutorRepository.saveAll(tutors)) : null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -138,18 +186,17 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		tutor = (Tutor) mapDtoToModel.map(dto, tutor);
 		tutor.setFullName(dto.getFullName().toUpperCase());
 		tutor.setEnglishFullName(StringUltilsForAreaID.removeAccent(dto.getFullName()).toUpperCase());
-		if (iAreaRepository.findById(dto.getTutorAddressAreaId()).isPresent())
-			tutor.setTutorAddressArea(iAreaRepository.getOne(dto.getTutorAddressAreaId()));
+//		Area addressArea = iAreaRepository.getOne(dto.getTutorAddressAreaId().equals(""));
+//	    tutor.setTutorAddressArea(addressArea != null? addressArea:null);
 		Set<String> relAreaIds = dto.getRelAreaIds();
 		Set<Area> tutorRelAreas = new HashSet<>();
 		for (String id : relAreaIds) {
-			if (iAreaRepository.findById(id).isPresent()) {
-				Area areaRel = iAreaRepository.getOne(id);
-				tutorRelAreas.add(areaRel);
-			}
+			Optional<Area> areaRel = iAreaRepository.findById(id);
+			tutorRelAreas.add(areaRel.get());
 		}
 		tutor.setRelArea(tutorRelAreas);
 		tutor.setExp(0.0);
+
 		// save avatar
 		// Relationship
 //		List<SaveRelationshipDto> saveRelationshipDtoWiths = dto.getSaveRelationshipDtosWith();
@@ -184,8 +231,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		Set<TutorTag> tutorTags = new HashSet<>();
 
 		for (String id : tutorTagIds) {
-			TutorTag tutorTag = iTutorTagRepository.getOne(id);
-			tutorTags.add(tutorTag);
+			Optional<TutorTag> tutorTag = iTutorTagRepository.findById(id);
+			tutorTags.add(tutorTag.get());
 		}
 		tutor.setTutorTags(tutorTags);
 
@@ -361,6 +408,38 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public void deleteAll() {
+		try {
+
+			iTutorRepository.deleteAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public boolean validateJWT(String token) {
+		if (jwtUltils.validateJWtToken(token)) {
+			String username = jwtUltils.getUsernameToken(token);
+
+			Optional<User> user = iUserRepository.findByUsername(username);
+
+			boolean check = false;
+
+			for (Role role : user.get().getRoles()) {
+				if (role.getName().equals("admin-role")) {
+					check = true;
+					break;
+				}
+			}
+
+			return check;
+		}
+		return false;
 	}
 
 }

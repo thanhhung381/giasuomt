@@ -33,6 +33,7 @@ public class TaskPlaceAddress extends AbstractEntity {
 	@ManyToOne
 	@JoinColumn(name = "area_id")
 	private Area area;
+	
 	@ManyToOne
 	@JoinColumn(name = "task_id")
 	@JsonIgnore

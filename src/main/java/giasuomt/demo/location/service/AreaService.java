@@ -6,7 +6,10 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import org.hibernate.PersistentObjectException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Sets;
 
@@ -30,8 +33,7 @@ public class AreaService extends GenericService<SaveAreaDto, Area, String> imple
 	public Area create(@Valid SaveAreaDto dto) {
 		Area area = new Area();
 		area = (Area) mapper.map(dto, area);
-		area.setId(StringUltilsForAreaID.concatIdArea(dto.getNation(), dto.getState(), dto.getCommune(),
-				dto.getProvincialLevel(), dto.getDistrict()));
+		area.setId(parseIdArea(dto));
 		return save(dto, area);
 	}
 
@@ -90,8 +92,8 @@ public class AreaService extends GenericService<SaveAreaDto, Area, String> imple
 			dtos.parallelStream().forEach(dto -> {
 				Area area = new Area();
 				area = (Area) mapper.map(dto, area);
-				area.setId(StringUltilsForAreaID.concatIdArea(dto.getNation(),dto.getState(),
-						dto.getCommune(),dto.getProvincialLevel(),dto.getDistrict()));
+				area.setId(parseIdArea(dto));
+				create(dto);
 				areas.add(area);
 			});
 			return Sets.newHashSet(iAreaRepository.saveAll(areas));
@@ -99,6 +101,12 @@ public class AreaService extends GenericService<SaveAreaDto, Area, String> imple
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	private String parseIdArea(SaveAreaDto dto) {
+		String idArea = StringUltilsForAreaID.concatIdArea(dto.getNation(), dto.getState(), dto.getCommune(),
+				dto.getProvincialLevel(), dto.getDistrict());
+		return idArea.contains("đ") ? idArea.replaceAll("đ", "d") : idArea;
 	}
 
 }
