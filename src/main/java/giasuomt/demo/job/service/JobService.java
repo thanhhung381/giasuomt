@@ -59,6 +59,7 @@ public class JobService extends GenericService<SaveJobDto, Job, String> implemen
 		job = (Job) mapDtoToModel.map(dto, job);
 		Long tutorId = Long.parseLong(dto.getApplicationId().substring(dto.getApplicationId().indexOf("-") + 1) );
 		String taskId =dto.getApplicationId().substring(0, dto.getApplicationId().indexOf("-"));
+		System.out.println(taskId);
 		job.setTutor(iTutorRepository.getOne(tutorId));
 		job.setTask(iTaskRepository.getOne(taskId));
 		// Subject Group Sure
@@ -69,15 +70,15 @@ public class JobService extends GenericService<SaveJobDto, Job, String> implemen
 		taskByTheTimeCreatingJob.setId(taskId);
 		// take place address
 		Set<String> taskPlaceAddresss = new HashSet<>();
-		for (TaskPlaceAddress taskPlaceAddress : iTaskRepository.getOne(taskId).getTaskPlaceAddresses()) {
-			String attributeOfTaskPlaceTask = iTaskRepository.getOne(taskId).getTaskPlaceAddresses()
+		for (TaskPlaceAddress taskPlace : iTaskRepository.getOne(taskId).getTaskPlaceAddresses()) {
+			String attributeOfTaskPlaceTask = taskPlace
 					.toString();
 			taskPlaceAddresss.add(attributeOfTaskPlaceTask);
 		}
 		taskByTheTimeCreatingJob.setTaskPlaceAddresses(taskPlaceAddresss);
 		job.setTaskByTheTimeCreatingJob(taskByTheTimeCreatingJob);
 		iTaskByTheTimeCreatingJobRepository.save(taskByTheTimeCreatingJob);
-		// Tutor By Time Creating Job
+//		// Tutor By Time Creating Job
 		TutorByTheTimeCreatingJob tutorByTheTimeCreatingJob = new TutorByTheTimeCreatingJob();
 		tutorByTheTimeCreatingJob = (TutorByTheTimeCreatingJob) mapDtoToModel
 				.map(iTutorRepository.getOne(tutorId), tutorByTheTimeCreatingJob);

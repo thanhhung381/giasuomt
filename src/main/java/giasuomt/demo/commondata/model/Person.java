@@ -41,7 +41,5 @@ public class Person extends AbstractEntityNotId {
 	private String zaloes;
 	private String fbs;
 	private String idCardNumber;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateUtils.DATE_FORMAT) // Quy định date format khi nó add đối																					// tượng thành Json để trả v																				// Clients
-	@DateTimeFormat(pattern = DateUtils.DATE_FORMAT) // Quy định date format để lưu xuống database
-	private LocalDateTime idCardIssuedOn;
+	private String idCardIssuedOn;
 }

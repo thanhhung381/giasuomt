@@ -16,7 +16,7 @@ public class UpdateNowLevelAndNowUpdateAtDto {
 
 	private Long id;
 
-	private Integer  nowLevel;
+	private String  nowLevel;
 
 
 

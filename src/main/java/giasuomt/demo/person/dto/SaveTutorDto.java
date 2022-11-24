@@ -23,21 +23,16 @@ public class SaveTutorDto extends SavePersonDto implements Serializable {
 
 	// Arvatar
 
-
 	// THÔNG TIN CÁ NHÂN
 
-
 	private String tutorAddressAreaId;
-	
-	private  String tutorAddress;
 
-
+	private String tutorAddress;
 
 	private String placeOfBirth;
 
-
 	// NĂNG LỰC:
-	private String voices ;
+	private String voices;
 
 	private String tutorNotices;
 
@@ -51,28 +46,29 @@ public class SaveTutorDto extends SavePersonDto implements Serializable {
 	private String xRelCoo;
 
 	private String yRelCoo;
-
-	private Set<String>  relAreaIds=new HashSet<>();
+	
+	private Set<String> relAreaIds = new HashSet<>();
 
 	// HIỆN ĐANG LÀ
-	
-	private String  hienDangLa;
-	
-	
+
+	private String hienDangLa;
+
 	private String studyingInsitution;
-	
+
 	private String teachingInstitution;
-	
+
 	private String major;
 
 	// TAGS
 	private Set<String> tutorTagIds = new HashSet<>();
-	
-	private Integer  nowLevel;
-	
+
+	private String nowLevel;
+
 	private String subject;
-	
-	private String subjectName;
+
+	private String subjectClass;
+
+	private String expNotices;
 
 	// Registered Subjects
 

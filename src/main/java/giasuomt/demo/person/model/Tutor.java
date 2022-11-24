@@ -77,7 +77,7 @@ public class Tutor extends Person {
 
 	private  String tutorAddress;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
 	@JoinColumn(name = "tutor_Address_area_id")
 	private Area tutorAddressArea;
 
@@ -85,7 +85,7 @@ public class Tutor extends Person {
 	private String xRelCoo;
 
 	private String yRelCoo;
-
+ 
 	
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "tutor_area_rel", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "tutor_area_id"))
@@ -102,13 +102,13 @@ public class Tutor extends Person {
 	@ElementCollection
 	private Set<String> privateImgs=new HashSet<>();
 
-
+	private String expNotices;
 //HIỆN ĐANG LÀ
 	
 	
 	private String  hienDangLa;
 	
-	private Integer  nowLevel;
+	private String  nowLevel;
 	
 	@LastModifiedDate
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DateTimeUtils.DATE_TIME_FORMAT) //Quy định date format khi nó add đối tượng thành Json để trả về Clients
@@ -170,7 +170,7 @@ public class Tutor extends Person {
 
 	private String subject;
 	
-	private String subjectName;
+	private String subjectClass;
 	
 	//tutor
 	@OneToMany(mappedBy = "tutor")
@@ -194,6 +194,23 @@ public class Tutor extends Person {
 	
 	
 	private String placeOfBirth;
+
+
+	@Override
+	public String toString() {
+		return "Tutor [id=" + id + ", tutorAddress=" + tutorAddress + ", tutorAddressArea=" + tutorAddressArea
+				+ ", xRelCoo=" + xRelCoo + ", yRelCoo=" + yRelCoo + ", relArea=" + relArea + ", avatar=" + avatar
+				+ ", publicImgs=" + publicImgs + ", privateImgs=" + privateImgs + ", expNotices=" + expNotices
+				+ ", hienDangLa=" + hienDangLa + ", nowLevel=" + nowLevel + ", nowLevelUpdatedAt=" + nowLevelUpdatedAt
+				+ ", studyingInsitution=" + studyingInsitution + ", teachingInstitution=" + teachingInstitution
+				+ ", major=" + major + ", voices=" + voices + ", tutorTags=" + tutorTags + ", tutorNotices="
+				+ tutorNotices + ", advantageNote=" + advantageNote + ", applications=" + applications + ", jobs="
+				+ jobs + ", exp=" + exp + ", user=" + user + ", subjectGroupMaybes=" + subjectGroupMaybes
+				+ ", subjectGroupSures=" + subjectGroupSures + ", subject=" + subject + ", subjectClass=" + subjectClass
+				+ ", tutorReviews=" + tutorReviews + ", averageStarNumbers=" + averageStarNumbers + ", calendars="
+				+ calendars + ", tutorInvitations=" + tutorInvitations + ", tutorInterests=" + tutorInterests
+				+ ", placeOfBirth=" + placeOfBirth + "]";
+	}
 
 // FOR API SAVE
 

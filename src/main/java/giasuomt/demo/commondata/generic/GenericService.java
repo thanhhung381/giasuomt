@@ -29,8 +29,8 @@ public abstract class GenericService<DTO, T, ID> implements IGenericService<DTO,
 	}
 
 	@Override
-	public Optional<T> findById(ID id) {
-		return repository.findById(id);
+	public T findById(ID id) {
+		return repository.findById(id).get();
 	}
 
 	@Override

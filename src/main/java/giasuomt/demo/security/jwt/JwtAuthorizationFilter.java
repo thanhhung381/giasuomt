@@ -1,6 +1,7 @@
 package giasuomt.demo.security.jwt;
 
 import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -22,7 +23,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import ch.qos.logback.core.joran.spi.DefaultClass;
 import lombok.AllArgsConstructor;
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {

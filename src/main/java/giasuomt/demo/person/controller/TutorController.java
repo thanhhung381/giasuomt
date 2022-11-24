@@ -480,5 +480,17 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 					HttpStatus.BAD_REQUEST);
 
 	}
+	
+	@DeleteMapping("deleteAll/{JWTtoken}")
+	public ResponseEntity<Object> deleteAllTutor(@PathVariable("JWTtoken") String token) {
+		boolean check = iTutorService.validateJWT(token);
+		if (check) {
+			iTutorService.deleteAll();
+			return ResponseHandler.getResponse("delete all Tutor ", HttpStatus.BAD_REQUEST);
+		}	
+		
+		return ResponseHandler.getResponse("Invalid Token", HttpStatus.BAD_REQUEST);
+	
+	}
 
 }

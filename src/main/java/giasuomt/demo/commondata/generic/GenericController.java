@@ -5,6 +5,9 @@ import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +31,15 @@ public abstract class GenericController<DTO, T , ID> {
 	@Autowired
 	private IGenericService<DTO, T, ID> iGenericService;
 	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 
 	@GetMapping("/findAll")
 //	@PreAuthorize("hasAuthority('tutor-role')")
 	public ResponseEntity<Object> findall() {
 		List<T> ts = iGenericService.findAll();
+		logger.info("find all ");	
+		
 		if (ts==null)
 			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);
 		return ResponseHandler.getResponse(ts, HttpStatus.OK);
@@ -43,6 +50,7 @@ public abstract class GenericController<DTO, T , ID> {
 		if ( errors.hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
 		T createdT = iGenericService.create(dto);
+		logger.info("creating ");	
 		return ResponseHandler.getResponse(createdT, HttpStatus.OK);
 	}
 	
@@ -51,6 +59,7 @@ public abstract class GenericController<DTO, T , ID> {
 		if ( errors.hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
                Set<T> createdT = iGenericService.createAll(dto);
+               logger.info("creating ");
 		return ResponseHandler.getResponse(createdT, HttpStatus.OK);
 	}
 	
@@ -60,6 +69,7 @@ public abstract class GenericController<DTO, T , ID> {
 		if (((Errors) errors).hasErrors())
 			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
 		T updatedT = iGenericService.update(dto);
+		logger.info("updating ");
 		return ResponseHandler.getResponse(updatedT, HttpStatus.OK);
 	}
 
@@ -73,9 +83,9 @@ public abstract class GenericController<DTO, T , ID> {
 	
 	@GetMapping("/findById/{id}")
 	public ResponseEntity<Object> findById(@PathVariable("id") ID id) {
-		Optional<T> t = iGenericService.findById(id);
+		T t = iGenericService.findById(id);
 //		if (t.isEmpty())
-		if (t.isEmpty() )
+		if (t == null )
 			return ResponseHandler.getResponse("There is no data.", HttpStatus.BAD_REQUEST);		
 		return ResponseHandler.getResponse(t, HttpStatus.OK);
 	}
