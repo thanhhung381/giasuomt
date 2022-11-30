@@ -70,14 +70,17 @@ public class JobService extends GenericService<SaveJobDto, Job, String> implemen
 		taskByTheTimeCreatingJob.setId(taskId);
 		// take place address
 		Set<String> taskPlaceAddresss = new HashSet<>();
-		for (TaskPlaceAddress taskPlace : iTaskRepository.getOne(taskId).getTaskPlaceAddresses()) {
-			String attributeOfTaskPlaceTask = taskPlace
-					.toString();
-			taskPlaceAddresss.add(attributeOfTaskPlaceTask);
+		if(iTaskRepository.getOne(taskId).getTaskPlaceAddresses() != null) {
+			for (TaskPlaceAddress taskPlace : iTaskRepository.getOne(taskId).getTaskPlaceAddresses()) {
+				String attributeOfTaskPlaceTask = taskPlace
+						.toString();
+				taskPlaceAddresss.add(attributeOfTaskPlaceTask);
+			}
+			taskByTheTimeCreatingJob.setTaskPlaceAddresses(taskPlaceAddresss);
+			job.setTaskByTheTimeCreatingJob(taskByTheTimeCreatingJob);
+			iTaskByTheTimeCreatingJobRepository.save(taskByTheTimeCreatingJob);
 		}
-		taskByTheTimeCreatingJob.setTaskPlaceAddresses(taskPlaceAddresss);
-		job.setTaskByTheTimeCreatingJob(taskByTheTimeCreatingJob);
-		iTaskByTheTimeCreatingJobRepository.save(taskByTheTimeCreatingJob);
+	
 //		// Tutor By Time Creating Job
 		TutorByTheTimeCreatingJob tutorByTheTimeCreatingJob = new TutorByTheTimeCreatingJob();
 		tutorByTheTimeCreatingJob = (TutorByTheTimeCreatingJob) mapDtoToModel
