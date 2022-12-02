@@ -27,7 +27,7 @@ import giasuomt.demo.person.dto.TutorForWebDto;
 import giasuomt.demo.person.dto.UpdateCalendarDto;
 import giasuomt.demo.person.dto.UpdateNowLevelAndNowUpdateAtDto;
 import giasuomt.demo.person.dto.SaveTutorDto;
-
+import giasuomt.demo.person.dto.TutorForWebByIdDto;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.service.ITutorService;
 import giasuomt.demo.task.dto.UpdateSubjectGroupForSureDto;
@@ -491,6 +491,17 @@ public class TutorController extends GenericController<SaveTutorDto, Tutor, Long
 		
 		return ResponseHandler.getResponse("Invalid Token", HttpStatus.BAD_REQUEST);
 	
+	}
+	
+	@GetMapping("/findTutorForWebById/{id}")
+	public ResponseEntity<Object> findTutorForWeById(@RequestParam("id") Long id) {
+
+		TutorForWebByIdDto tutor = iTutorService.findByIdForWeb(id);
+
+		if (tutor == null)
+			return ResponseHandler.getResponse("cant find any tutors", HttpStatus.BAD_REQUEST);
+
+		return ResponseHandler.getResponse(tutor, HttpStatus.OK);
 	}
 
 }

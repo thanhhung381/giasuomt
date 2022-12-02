@@ -71,11 +71,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// authorization (phân quyền) cho các API.
 		http.antMatcher("/api/**").authorizeRequests()
 		.antMatchers("/swagger-ui.html").authenticated() //permitAll (cho phép) tất cả các truy cập vô trang swagger
-			.antMatchers("/api/**").permitAll() //permitAll (cho phép) tất cả các truy cập vô tất cả các API
-				.antMatchers("/api/user/create").permitAll().antMatchers("/api/tutor/findAllTutorForWeb").permitAll()
+//			.antMatchers("/api/**").permitAll() //permitAll (cho phép) tất cả các truy cập vô tất cả các API
+				.antMatchers("/api/user/create").permitAll()
+				.antMatchers("/api/tutor/findAllTutorForWeb").permitAll()
+				.antMatchers("/api/tutor/findTutorForWebById/{id}").permitAll()
 				.antMatchers("/api/login").permitAll() // anthenticated (bảo mật) cho để user phải đăng nhập mới vô đc
 														// các API role
-				.antMatchers("api/createUser/findByJWT").permitAll()
+				.antMatchers("/api/createUser/findByJWT").permitAll()
 				.antMatchers("/api/task/findAllAvailableTaskListForWeb").permitAll()
 				.antMatchers("/api/user/updatePassword").permitAll()
 				.antMatchers("/api/user/resetPassword/forgotPassword").permitAll().antMatchers("/api/tutorRequest/**")

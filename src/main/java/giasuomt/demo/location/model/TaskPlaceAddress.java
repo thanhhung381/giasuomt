@@ -1,4 +1,5 @@
 package giasuomt.demo.location.model;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,7 +21,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "task_place_address")
-@JsonIgnoreProperties(value={"hibernateLazyInitializer"}) 
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer" })
 public class TaskPlaceAddress extends AbstractEntity {
 	private String exactAddNumber;
 	private String exactXCoo;
@@ -33,15 +34,17 @@ public class TaskPlaceAddress extends AbstractEntity {
 	@ManyToOne
 	@JoinColumn(name = "area_id")
 	private Area area;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "task_id")
 	@JsonIgnore
 	private Task task;
+
 	@Override
 	public String toString() {
-		return  exactAddNumber + ","+area.commune+","+area.district+
-				","+area.provincialLevel +"-"
-				+  relAddNumber  + ","+area.commune+","+area.district+","+area.provincialLevel ;
+		return area != null
+				? exactAddNumber + "," + area.commune + "," + area.district + "," + area.provincialLevel + "-"
+						+ relAddNumber + "," + area.commune + "," + area.district + "," + area.provincialLevel
+				: "";
 	}
 }

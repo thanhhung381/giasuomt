@@ -8,8 +8,7 @@ import giasuomt.demo.person.dto.TutorForWebDto;
 import giasuomt.demo.person.dto.UpdateCalendarDto;
 import giasuomt.demo.person.dto.UpdateNowLevelAndNowUpdateAtDto;
 import giasuomt.demo.person.dto.SaveTutorDto;
-
-
+import giasuomt.demo.person.dto.TutorForWebByIdDto;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.staff.dto.UpdateAvatarStaff;
 import giasuomt.demo.task.dto.UpdateSubjectGroupForSureDto;
@@ -54,4 +53,6 @@ public interface ITutorService extends IGenericService<SaveTutorDto, Tutor, Long
 	public void deleteAll();
 	
 	public boolean validateJWT(String token);
+	
+	public TutorForWebByIdDto findByIdForWeb(Long id);
 }

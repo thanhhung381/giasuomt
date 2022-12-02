@@ -26,6 +26,7 @@ import giasuomt.demo.educational.repository.ISubjectGroupRepository;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.location.repository.IAreaRepository;
 import giasuomt.demo.person.dto.SaveTutorDto;
+import giasuomt.demo.person.dto.TutorForWebByIdDto;
 import giasuomt.demo.person.dto.TutorForWebDto;
 import giasuomt.demo.person.dto.UpdateCalendarDto;
 import giasuomt.demo.person.dto.UpdateNowLevelAndNowUpdateAtDto;
@@ -310,34 +311,59 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	 * @param tutor
 	 * @param tutorForWebDto
 	 */
-	private void mapTutorForResponse(Tutor tutor, TutorForWebDto tutorForWebDto) {
-		tutorForWebDto.setId(tutor.getId());
-		tutorForWebDto.setFullName(tutor.getFullName());
-		tutorForWebDto.setAvatar(tutor.getAvatar());
-		tutorForWebDto.setGender(tutor.getGender());
-		tutorForWebDto.setAverageStarNumbers(tutor.getAverageStarNumbers());
-		tutorForWebDto.setSubjectGroupMaybes(tutor.getSubjectGroupMaybes());
-		tutorForWebDto.setSubjectGroupSures(tutor.getSubjectGroupSures());
-		tutorForWebDto.setRelArea(tutor.getRelArea());
-		tutorForWebDto.setAdvantageNote(tutor.getAdvantageNote());
-		tutorForWebDto.setVoices(tutor.getVoices());
-		tutorForWebDto.setTutorTags(tutor.getTutorTags());
-		tutorForWebDto.setTutorReviewNumbers(tutor.getTutorReviews().size());
-		tutorForWebDto.setJobNumbers(tutor.getJobs().size());
-		tutorForWebDto.setStudyingInsitution(tutor.getStudyingInsitution());
-		tutorForWebDto.setTeachingInstitution(tutor.getTeachingInstitution());
-		tutorForWebDto.setHienDangLa(tutor.getHienDangLa());
-		tutorForWebDto.setMajor(tutor.getMajor());
+	private void mapTutorForResponse(Tutor tutor, TutorForWebDto tutorForWebDto,TutorForWebByIdDto forWebByIdDto) {
+		if(tutorForWebDto != null && forWebByIdDto == null)
+		{
+			tutorForWebDto.setId(tutor.getId());
+			tutorForWebDto.setFullName(tutor.getFullName());
+			tutorForWebDto.setAvatar(tutor.getAvatar());
+			tutorForWebDto.setGender(tutor.getGender());
+			tutorForWebDto.setAverageStarNumbers(tutor.getAverageStarNumbers());
+			tutorForWebDto.setSubjectGroupMaybes(tutor.getSubjectGroupMaybes());
+			tutorForWebDto.setRelArea(tutor.getRelArea());
+			tutorForWebDto.setAdvantageNote(tutor.getAdvantageNote());
+			tutorForWebDto.setVoices(tutor.getVoices());
+			tutorForWebDto.setTutorReviewNumbers(tutor.getTutorReviews().size());
+			tutorForWebDto.setJobNumbers(tutor.getJobs().size());
+			tutorForWebDto.setHienDangLa(tutor.getHienDangLa());
+		} else {
+			forWebByIdDto.setId(tutor.getId());
+			forWebByIdDto.setFullName(tutor.getFullName());
+			forWebByIdDto.setAvatar(tutor.getAvatar());
+			forWebByIdDto.setGender(tutor.getGender());
+			forWebByIdDto.setAverageStarNumbers(tutor.getAverageStarNumbers());
+			forWebByIdDto.setSubjectGroupMaybes(tutor.getSubjectGroupMaybes());
+			forWebByIdDto.setRelArea(tutor.getRelArea());
+			forWebByIdDto.setVoices(tutor.getVoices());
+			forWebByIdDto.setTutorReviewNumbers(tutor.getTutorReviews().size());
+			forWebByIdDto.setJobNumbers(tutor.getJobs().size());
+			forWebByIdDto.setHienDangLa(tutor.getHienDangLa());
+			forWebByIdDto.setAdvantageNote(tutor.getAdvantageNote());
+			forWebByIdDto.setCalendars(tutor.getCalendars());
+			forWebByIdDto.setTeachingInstitution(tutor.getTeachingInstitution());
+			forWebByIdDto.setStudyingInsitution(tutor.getStudyingInsitution());
+			forWebByIdDto.setTutorNotices(tutor.getTutorNotices());
+			forWebByIdDto.setPublicImgs(tutor.getPublicImgs());
+			forWebByIdDto.setTutorReviews(tutor.getTutorReviews());
+		}
+
 	}
 
 	private List<TutorForWebDto> mapTutorForResponseList(List<Tutor> tutors) {
 		List<TutorForWebDto> tutorForWebDtos = new LinkedList<>();
 		for (Tutor tutor : tutors) {
 			TutorForWebDto tutorForWebDto = new TutorForWebDto();
-			mapTutorForResponse(tutor, tutorForWebDto);
+			mapTutorForResponse(tutor, tutorForWebDto,null);
 			tutorForWebDtos.add(tutorForWebDto);
 		}
 		return tutorForWebDtos;
+
+	}
+	
+	private TutorForWebByIdDto mapTutorForResponseListByID(Tutor tutor) {
+			TutorForWebByIdDto tutorForWebDto = new TutorForWebByIdDto();
+			mapTutorForResponse(tutor,null,tutorForWebDto);
+		return tutorForWebDto;
 
 	}
 
@@ -440,6 +466,13 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			return check;
 		}
 		return false;
+	}
+
+	@Override
+	public TutorForWebByIdDto findByIdForWeb(Long id) {
+		Optional<Tutor> tutorOpts = iTutorRepository.findById(id);
+		Tutor tutor = tutorOpts.get();
+		return mapTutorForResponseListByID(tutor);
 	}
 
 }

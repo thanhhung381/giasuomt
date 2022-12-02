@@ -12,7 +12,6 @@ import com.google.common.collect.Sets;
 import giasuomt.demo.commondata.generator.TaskCodeGenerator;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
-import giasuomt.demo.commondata.util.Gender;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.educational.repository.ISubjectGroupRepository;
 import giasuomt.demo.location.dto.SaveTaskPlaceAddressDto;
@@ -107,8 +106,8 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 		}
 		task.setSubjectGroups(subjectGroups);
 
-		Set<Gender> genders = new HashSet<>();
-		for (Gender gender : dto.getGenderRequired()) {
+		Set<String> genders = new HashSet<>();
+		for (String gender : dto.getGenderRequired()) {
 
 			genders.add(gender);
 		}
@@ -225,8 +224,8 @@ public class TaskService extends GenericService<SaveTaskDto, Task, String> imple
 					subjectGroups.add(subjectGroup);
 				}
 				task.setSubjectGroups(subjectGroups);
-				Set<Gender> genders = new HashSet<>();
-				for (Gender gender : dto.getGenderRequired()) {
+				Set<String> genders = new HashSet<>();
+				for (String gender : dto.getGenderRequired()) {
 					genders.add(gender);
 				}
 				task.setGenderRequired(genders);

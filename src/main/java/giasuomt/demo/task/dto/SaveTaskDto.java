@@ -1,34 +1,14 @@
 package giasuomt.demo.task.dto;
 
 import java.time.LocalDateTime;
-
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import org.springframework.format.annotation.DateTimeFormat;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-import giasuomt.demo.commondata.util.DateUtils;
-import giasuomt.demo.commondata.util.Gender;
-import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.PercentageOfMoney;
 import giasuomt.demo.finance.util.TypeOfFee;
 import giasuomt.demo.finance.util.UnitOfMoney;
 import giasuomt.demo.location.dto.SaveTaskPlaceAddressDto;
-import giasuomt.demo.location.model.TaskPlaceAddress;
 import giasuomt.demo.task.util.TaskSign;
 import giasuomt.demo.task.util.TaskStatus;
 import lombok.Getter;
@@ -110,7 +90,7 @@ public class SaveTaskDto {
 	private String learnerNote;
 
 
-	private Set<Gender> genderRequired = new HashSet<>();
+	private Set<String> genderRequired = new HashSet<>();
 	
 	Set<TaskSign> taskSigns = new HashSet<>();
 

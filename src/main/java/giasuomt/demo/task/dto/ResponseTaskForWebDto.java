@@ -1,21 +1,11 @@
 package giasuomt.demo.task.dto;
 
 import java.util.HashSet;
-
-import java.util.LinkedList;
-
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-import giasuomt.demo.commondata.util.Gender;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.finance.util.AmoutPerTime;
 import giasuomt.demo.finance.util.UnitOfMoney;
-import giasuomt.demo.location.model.TaskPlaceAddress;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -49,7 +39,7 @@ public class ResponseTaskForWebDto {
 
 	private String taskPlaceType;
 
-	private Set<Gender> genderRequired = new HashSet<>();
+	private Set<String> genderRequired = new HashSet<>();
 
 	private Set<SubjectGroup> subjectGroups = new HashSet<>();
 
