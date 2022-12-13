@@ -36,6 +36,9 @@ public class SubjectGroup extends AbstractEntityNotId {
 	@ManyToMany(mappedBy = "subjectGroupSures",fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Set<Tutor> tutorSures=new HashSet<>();
+	@ManyToMany(mappedBy = "subjectGroupFails",fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Set<Tutor> tutorFails=new HashSet<>();
 
 	
 }

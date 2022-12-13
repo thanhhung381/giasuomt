@@ -3,6 +3,7 @@ package giasuomt.demo.person.Ultils;
 import java.util.Set;
 
 import giasuomt.demo.job.model.Job;
+import giasuomt.demo.job.model.JobResult;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.tutorReview.model.TutorReview;
 
@@ -12,7 +13,7 @@ public class ExperienceForTutor {
 		Double countExp = 0.0;
 		Set<Job> allJobss = tutor.getJobs();
 		for (Job allJobs : allJobss) {
-			if (allJobs.getJobResult().contains("success")) {
+			if (allJobs.getJobResult().equals(JobResult.SUCCESS)) {
 				countExp += 1.0;
 			}
 			if (allJobs.getFailReason().contains("PH/HV chê")

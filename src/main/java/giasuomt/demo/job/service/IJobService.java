@@ -9,6 +9,6 @@ import giasuomt.demo.job.model.Job;
 
 public interface IJobService extends IGenericService<SaveJobDto,Job, String> {
 	
-	public Job updateJobResult(UpdateJobResultDto dto);
+	public Job updateJobResult(UpdateJobResultDto dto) throws Exception;
 
 }

@@ -1,5 +1,6 @@
 package giasuomt.demo.person.service;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,6 +39,8 @@ import giasuomt.demo.tags.model.TutorTag;
 import giasuomt.demo.tags.repository.ITutorTagRepository;
 import giasuomt.demo.task.dto.UpdateSubjectGroupForSureDto;
 import giasuomt.demo.task.dto.UpdateSubjectGroupMaybeDto;
+import giasuomt.demo.tutorReview.dto.TutorReviewDtoForWeb;
+import giasuomt.demo.tutorReview.model.TutorReview;
 import giasuomt.demo.uploadfile.ultils.AwsClientS3;
 import giasuomt.demo.user.model.User;
 import giasuomt.demo.user.repository.IUserRepository;
@@ -311,9 +314,8 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 	 * @param tutor
 	 * @param tutorForWebDto
 	 */
-	private void mapTutorForResponse(Tutor tutor, TutorForWebDto tutorForWebDto,TutorForWebByIdDto forWebByIdDto) {
-		if(tutorForWebDto != null && forWebByIdDto == null)
-		{
+	private void mapTutorForResponse(Tutor tutor, TutorForWebDto tutorForWebDto, TutorForWebByIdDto forWebByIdDto) {
+		if (tutorForWebDto != null && forWebByIdDto == null) {
 			tutorForWebDto.setId(tutor.getId());
 			tutorForWebDto.setFullName(tutor.getFullName());
 			tutorForWebDto.setAvatar(tutor.getAvatar());
@@ -344,7 +346,7 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 			forWebByIdDto.setStudyingInsitution(tutor.getStudyingInsitution());
 			forWebByIdDto.setTutorNotices(tutor.getTutorNotices());
 			forWebByIdDto.setPublicImgs(tutor.getPublicImgs());
-			forWebByIdDto.setTutorReviews(tutor.getTutorReviews());
+			forWebByIdDto.setTutorReviews(mapTutorReviewForResponseList(tutor.getTutorReviews()));
 		}
 
 	}
@@ -353,16 +355,30 @@ public class TutorService extends GenericService<SaveTutorDto, Tutor, Long> impl
 		List<TutorForWebDto> tutorForWebDtos = new LinkedList<>();
 		for (Tutor tutor : tutors) {
 			TutorForWebDto tutorForWebDto = new TutorForWebDto();
-			mapTutorForResponse(tutor, tutorForWebDto,null);
+			mapTutorForResponse(tutor, tutorForWebDto, null);
 			tutorForWebDtos.add(tutorForWebDto);
 		}
 		return tutorForWebDtos;
 
 	}
-	
+
+	private Set<TutorReviewDtoForWeb> mapTutorReviewForResponseList(Set<TutorReview> set) {
+		Set<TutorReviewDtoForWeb> tutorForWebDtos = new HashSet<>();
+		for (TutorReview tutor : set) {
+			TutorReviewDtoForWeb tutorForWebDto = new TutorReviewDtoForWeb();
+			tutorForWebDto.setStarNumber(tutor.getStarNumber());
+			tutorForWebDto.setJobCreatedByCreatingTutorReview(tutor.getJobCreatedByCreatingTutorReview());
+			tutorForWebDto.setFeedbackContent(tutor.getFeedbackContent());
+			tutorForWebDto.setPrivateFeedbackImgs(tutor.getPrivateFeedbackImgs());
+			tutorForWebDtos.add(tutorForWebDto);
+		}
+		return tutorForWebDtos;
+
+	}
+
 	private TutorForWebByIdDto mapTutorForResponseListByID(Tutor tutor) {
-			TutorForWebByIdDto tutorForWebDto = new TutorForWebByIdDto();
-			mapTutorForResponse(tutor,null,tutorForWebDto);
+		TutorForWebByIdDto tutorForWebDto = new TutorForWebByIdDto();
+		mapTutorForResponse(tutor, null, tutorForWebDto);
 		return tutorForWebDto;
 
 	}

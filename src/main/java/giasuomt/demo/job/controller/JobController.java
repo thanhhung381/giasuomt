@@ -41,11 +41,13 @@ public class JobController extends GenericController<SaveJobDto,Job, String> {
 	private String retainedImgsIdentificationURL;
 	
 	@PutMapping("/updateJobResult")
-	public ResponseEntity<Object> updateJobResult(@RequestBody UpdateJobResultDto dto,BindingResult errors)
+	public ResponseEntity<Object> updateJobResult(@RequestBody UpdateJobResultDto dto,BindingResult errors) throws Exception
 	{
-		if (((Errors) errors).hasErrors())
-			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
 		Job updatedJob = iJobService.updateJobResult(dto);
+		if (((Errors) errors).hasErrors() )
+			return ResponseHandler.getResponse(errors, HttpStatus.BAD_REQUEST);
+		if( updatedJob == null)
+			return ResponseHandler.getResponse("Entity had already updated for few minutes Or Errors appear", HttpStatus.BAD_REQUEST);
 		return ResponseHandler.getResponse(updatedJob, HttpStatus.OK);
 	}
 
