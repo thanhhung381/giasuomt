@@ -3,6 +3,7 @@ package giasuomt.demo.task.service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -13,6 +14,7 @@ import com.google.common.collect.Sets;
 import giasuomt.demo.comment.repository.IApplicationCommentRepository;
 import giasuomt.demo.commondata.generic.GenericService;
 import giasuomt.demo.commondata.generic.MapDtoToModel;
+import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.person.model.Tutor;
 import giasuomt.demo.person.repository.ITutorRepository;
 import giasuomt.demo.task.dto.SaveApplicationDto;
@@ -46,7 +48,21 @@ public class ApplicationService extends GenericService<SaveApplicationDto, Appli
 			Application application = new Application();
 			application = (Application) mapDtoToModel.map(dto, application);
 			Task task = iTaskRepository.getOne(dto.getTaskId());
+			Set<SubjectGroup> subjectGroupOfTask = task.getSubjectGroups();
 			Tutor tutor = iTutorRepository.getOne(dto.getTutorId());
+			Set<SubjectGroup> subjectGroupOfTutor = tutor.getSubjectGroupMaybes();
+			if (!subjectGroupOfTutor.isEmpty() && !subjectGroupOfTask.isEmpty()) {
+				subjectGroupOfTask.stream()
+						.filter(subjectGtask -> subjectGroupOfTutor.stream()
+								.anyMatch(subjectGTutor -> !subjectGTutor.getId().equals(subjectGtask.getId())))
+						.forEach(taskSubjectG -> subjectGroupOfTutor.add(taskSubjectG));
+				tutor.setSubjectGroupMaybes(subjectGroupOfTutor);
+				tutor = iTutorRepository.save(tutor);
+			} else if (subjectGroupOfTutor.isEmpty() && !subjectGroupOfTask.isEmpty()) {
+				subjectGroupOfTutor.addAll(subjectGroupOfTask);
+				tutor.setSubjectGroupMaybes(subjectGroupOfTutor);
+				tutor = iTutorRepository.save(tutor);
+			}
 			application.setTask(task);
 			application.setTutor(tutor);
 			application.setId(task.getId().concat("-").concat(String.valueOf(tutor.getId()).concat("-application")));

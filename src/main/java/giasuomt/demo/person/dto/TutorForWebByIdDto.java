@@ -6,6 +6,7 @@ import java.util.Set;
 import giasuomt.demo.commondata.util.Calendar;
 import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.location.model.Area;
+import giasuomt.demo.tutorReview.dto.TutorReviewDtoForWeb;
 import giasuomt.demo.tutorReview.model.TutorReview;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,5 +31,5 @@ public class TutorForWebByIdDto {
 	private String tutorNotices;
 	private String studyingInsitution;	
 	private String teachingInstitution;
-	private Set<TutorReview> tutorReviews=new HashSet<>();
+	private Set<TutorReviewDtoForWeb> tutorReviews=new HashSet<>();
 }

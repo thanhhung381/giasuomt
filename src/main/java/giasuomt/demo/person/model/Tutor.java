@@ -167,6 +167,10 @@ public class Tutor extends Person {
 	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinTable(name = "task_subjectGroupSure", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subjectGroup_id"))
 	private Set<SubjectGroup> subjectGroupSures=new HashSet<>();
+	
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	@JoinTable(name = "task_subjectGroupFail", joinColumns = @JoinColumn(name = "tutor_id"), inverseJoinColumns = @JoinColumn(name = "subjectGroup_id"))
+	private Set<SubjectGroup> subjectGroupFails=new HashSet<>();
 
 	private String subject;
 	
@@ -175,7 +179,7 @@ public class Tutor extends Person {
 	//tutor
 	@OneToMany(mappedBy = "tutor")
 	@JsonIgnore
-	private Set<TutorReview> tutorReviews=new HashSet<>();
+	private Set<TutorReview> tutorReviews;
 	
 	private Double averageStarNumbers;
 	
@@ -194,6 +198,8 @@ public class Tutor extends Person {
 	
 	
 	private String placeOfBirth;
+	
+	private Integer successJobsNumbers = 0;
 
 
 	@Override

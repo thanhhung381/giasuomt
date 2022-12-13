@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -97,7 +99,8 @@ public class Job extends AbstractEntityNotId {
 //	@Fetch(FetchMode.SUBSELECT)
 	private Set<JobProgress> jobProgresses = new HashSet<>();
 //KẾT QUẢ
-	private String jobResult;
+	@Enumerated(EnumType.STRING)
+	private JobResult jobResult;
 	private String failReason;
 //(Tìm thêm gia sư nếu fail?) YES or NO
 	@Type(type = "true_false") // xác định cách biểu diễn boolean khi lưu xuống db

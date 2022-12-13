@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import giasuomt.demo.educational.model.SubjectGroup;
 import giasuomt.demo.location.model.Area;
 import giasuomt.demo.person.model.Tutor;
 
@@ -67,8 +69,11 @@ public interface ITutorRepository extends JpaRepository<Tutor, Long> {
 	@Query("SELECT t FROM Tutor t WHERE t.avatar IS NOT NULL ")
 	Set<Tutor> findTutorBeforeSynchronize(); 
 	
-	 
+	@Query("SELECT t.subjectGroupSures FROM Tutor t WHERE t.id =:id ") 
+	Set<SubjectGroup> findSubjectGroupForsuresByTutorId(@Param("id") Long id);
 	
+	@Query("SELECT t.subjectGroupFails FROM Tutor t WHERE t.id =:id ") 
+	Set<SubjectGroup> findSubjectGroupForfailsByTutorId(@Param("id") Long id);
 
 	
 }
